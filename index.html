@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Игровой автомат - Математика</title>
+    <title>Игровой автомат</title>
     <style>
-        :root {
-            --github-url: 'https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/';
-        }
-
         body {
             margin: 0;
             padding: 0;
@@ -17,13 +13,13 @@
             align-items: center;
             height: 100vh;
             background-color: #222;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: sans-serif;
         }
 
         #game-container {
             position: relative;
-            width: 800px; /* Базовая ширина, можно изменить */
-            height: 600px; /* Базовая высота */
+            width: 800px; 
+            height: 600px; 
             background-image: url('https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/фон.png');
             background-size: cover;
             background-position: center;
@@ -36,17 +32,63 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            height: 90%; /* Подгоните под размер фона */
+            height: 90%; 
             z-index: 2;
         }
 
-        /* --- Элементы управления --- */
+        /* --- Игрушки (опустили ниже и сжали) --- */
+        #toys-area {
+            position: absolute;
+            top: 40%; /* Опустили ниже */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 260px; /* Сузили по ширине стекла */
+            height: 200px;
+            z-index: 3;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 5px;
+        }
+
+        .toy {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* --- Временный Хвататель (серый блок) --- */
+        #claw {
+            position: absolute;
+            top: 25%; /* Высота над игрушками */
+            left: 50%; /* Начальная позиция по центру */
+            transform: translateX(-50%);
+            width: 40px;
+            height: 60px;
+            background-color: #888; /* Серый цвет для наглядности */
+            border-radius: 5px;
+            z-index: 4;
+            transition: left 0.3s ease-out; /* Плавное движение влево-вправо */
+        }
+
+        /* Трос временного хватателя */
+        #claw::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 200px; 
+            background-color: #333;
+        }
+
+        /* --- Монетка --- */
         #coin {
             position: absolute;
-            width: 50px; /* Размер монетки */
-            /* ВАЖНО: Подгоните координаты под монетоприемник на вашей картинке avtomat.png */
-            top: 60%; 
-            right: 25%;
+            width: 50px; 
+            top: 58%; /* Подняли чуть выше к монетоприемнику */
+            right: 28%; /* Сдвинули правее */
             z-index: 10;
             cursor: pointer;
             transition: opacity 0.3s;
@@ -61,17 +103,17 @@
             50% { filter: brightness(1.5); transform: scale(1.1); box-shadow: 0 0 10px gold; border-radius: 50%; }
         }
 
+        /* --- Кнопки --- */
         #controls {
             position: absolute;
-            /* Подгоните координаты под джойстик */
-            bottom: 15%;
+            bottom: 14%;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 10px;
+            gap: 15px; /* Увеличил расстояние между кнопками */
             z-index: 10;
-            opacity: 0.5; /* Неактивны до монетки */
-            pointer-events: none;
+            opacity: 0.5; 
+            pointer-events: none; /* Не нажимаются до монетки */
         }
 
         #controls.active {
@@ -88,100 +130,22 @@
             font-size: 20px;
             color: white;
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            transition: transform 0.1s;
             display: flex;
             justify-content: center;
             align-items: center;
+            user-select: none;
         }
-
-        .control-btn:active {
-            transform: scale(0.9);
-            box-shadow: 0 2px 3px rgba(0,0,0,0.3);
-        }
-
-        /* --- Игрушки --- */
-        #toys-area {
-            position: absolute;
-            /* Координаты стеклянного купола автомата */
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 300px;
-            height: 200px;
-            z-index: 3;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 5px;
-            padding: 10px;
-        }
-
-        .toy {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            transition: all 0.5s;
-        }
-
-        /* --- Клешня (инструмент) --- */
-        #claw {
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 60px;
-            background-color: #555; /* Пока заглушка, если есть картинка - заменим */
-            border-radius: 5px 5px 0 0;
-            z-index: 4;
-            transition: left 0.3s ease, top 1s ease;
-        }
-        
-        /* Трос клешни */
-        #claw::before {
-            content: '';
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 200px; /* Длина троса вверх */
-            background-color: #333;
-        }
-
-        /* --- Прогресс бар (сожранные игрушки) --- */
-        #progress-area {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 80px;
-            height: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 5;
-        }
-
-        .collected-toy {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 10px;
-            padding: 5px;
-        }
+        .control-btn:active { transform: scale(0.9); }
     </style>
 </head>
 <body>
 
     <div id="game-container">
-        <img id="machine" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/avtomat.png" alt="Игровой автомат">
+        <img id="machine" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/avtomat.png" alt="Автомат">
         
         <div id="claw"></div>
 
-        <div id="toys-area">
-            </div>
+        <div id="toys-area"></div>
 
         <img id="coin" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/монета.png" alt="Монета" class="blinking">
 
@@ -190,24 +154,23 @@
             <div class="control-btn" id="btn-down">▼</div>
             <div class="control-btn" id="btn-right">▶</div>
         </div>
-
-        <div id="progress-area"></div>
     </div>
 
-    <audio id="start-sound" src="https://zvukogram.com/index.php?r=site/download&id=40250"></audio>
+    <audio id="coin-sound" src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3"></audio>
+    <audio id="start-sound" src="https://assets.mixkit.co/active_storage/sfx/1997/1997-preview.mp3"></audio>
 
     <script>
-        // Конфигурация
         const baseUrl = 'https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/';
         const toysArea = document.getElementById('toys-area');
         const coin = document.getElementById('coin');
         const controls = document.getElementById('controls');
-        const startSound = document.getElementById('start-sound');
+        const claw = document.getElementById('claw');
         
-        let gameState = 'waiting_coin'; // Состояния: waiting_coin, playing, task_active
+        let gameState = 'waiting_coin'; 
         let currentToys = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        let clawPos = 50; // Позиция клешни по горизонтали (в процентах)
 
-        // 1. Инициализация игрушек на витрине
+        // 1. Добавляем игрушки
         function initToys() {
             toysArea.innerHTML = '';
             currentToys.forEach(num => {
@@ -223,41 +186,43 @@
         coin.addEventListener('click', () => {
             if (gameState !== 'waiting_coin') return;
             
-            // Звук монетки/старта
-            startSound.play().catch(e => console.log('Звук заблокирован браузером до первого клика', e));
+            // Воспроизводим звук монетки
+            document.getElementById('coin-sound').play();
             
-            // Меняем состояние
+            // Через 0.5 секунды воспроизводим звук старта автомата
+            setTimeout(() => {
+                document.getElementById('start-sound').play();
+            }, 500);
+            
             gameState = 'playing';
-            
-            // Убираем мигание и прячем монетку (или делаем неактивной)
             coin.classList.remove('blinking');
             coin.style.opacity = '0'; 
-            
-            // Включаем джойстик
             controls.classList.add('active');
         });
 
-        // 3. Базовые обработчики для кнопок (логику движения клешни напишем следующим шагом)
+        // 3. Движение хватателя
         document.getElementById('btn-left').addEventListener('click', () => {
-            if (gameState === 'playing') console.log('Клешня едет влево');
-            // Здесь будем менять CSS свойство left у #claw
+            if (gameState === 'playing' && clawPos > 20) {
+                clawPos -= 15; // Шаг влево
+                claw.style.left = clawPos + '%';
+            }
         });
 
         document.getElementById('btn-right').addEventListener('click', () => {
-            if (gameState === 'playing') console.log('Клешня едет вправо');
+            if (gameState === 'playing' && clawPos < 80) {
+                clawPos += 15; // Шаг вправо
+                claw.style.left = clawPos + '%';
+            }
         });
 
         document.getElementById('btn-down').addEventListener('click', () => {
             if (gameState === 'playing') {
-                console.log('Клешня опускается вниз!');
-                gameState = 'claw_moving';
-                // Здесь будет анимация спуска, захвата и поднятия
+                console.log('Клешня поехала вниз за игрушкой!');
+                // Логику спуска пропишем на следующем этапе
             }
         });
 
-        // Запуск
         initToys();
-
     </script>
 </body>
 </html>
