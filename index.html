@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Игровой автомат - Математика</title>
     <style>
-        /* Полный экран */
+        /* Жесткий полный экран */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             overflow: hidden; background-color: #000;
@@ -19,7 +19,7 @@
             background-size: 100% 100%; background-position: center; background-repeat: no-repeat;
         }
 
-        /* АВТОМАТ (z-index: 10) - скрывает трос клешни за своей вывеской */
+        /* АВТОМАТ (z-index: 10) */
         #machine-no-claw {
             position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
             height: 95%; pointer-events: none; z-index: 10;
@@ -27,7 +27,7 @@
 
         .game-element { position: absolute; object-fit: contain; transition: all 1s ease; }
 
-        /* ИГРУШКИ (z-index: 15) - СНОВА ПОВЕРХ ОБОДКОВ АВТОМАТА! */
+        /* ИГРУШКИ (z-index: 15) - Перед стеклом */
         .toy { z-index: 15; filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.5)); cursor: pointer; }
         
         #toy-1 { left: 41.53%; top: 29.86%; width: 3.97%; height: 9.19%; }
@@ -40,17 +40,20 @@
         #toy-2 { left: 53.36%; top: 40.27%; width: 4.37%; height: 9.59%; }
         #toy-7 { left: 53.63%; top: 51.08%; width: 4.50%; height: 10.27%; }
 
-        /* КЛЕШНЯ (z-index: 6) - За автоматом, чтобы скрыть провод */
+        /* ОТДЕЛЬНЫЙ ТРОС (z-index: 5) - Прячется за вывеской автомата */
+        #claw-cord {
+            position: absolute; background-color: #222; width: 3px;
+            top: 15%; /* Берет начало ЗА вывеской, а не с потолка! */
+            z-index: 5; transition: left 0.3s ease, height 1s ease;
+            box-shadow: 1px 0px 2px rgba(0,0,0,0.5);
+        }
+
+        /* КЛЕШНЯ (z-index: 20) - На самом переднем плане */
         #claw-container {
-            left: 43.88%; top: 13.92%; width: 11.76%; height: 29.73%; z-index: 6;
+            width: 11.76%; height: 29.73%; z-index: 20;
             transition: left 0.3s ease, top 1s ease;
         }
         #claw-img { width: 100%; height: 100%; object-fit: contain; }
-        /* Трос клешни */
-        #claw-container::before {
-            content: ''; position: absolute; bottom: 85%; left: 50%; transform: translateX(-50%);
-            width: 3px; height: 1000px; background-color: #222; z-index: -1; box-shadow: 1px 0px 2px rgba(0,0,0,0.5);
-        }
 
         /* МОНЕТКА */
         #coin { left: 51.95%; top: 70.14%; width: 5.58%; height: 11.22%; z-index: 20; cursor: pointer; transition: 0.3s; }
@@ -60,19 +63,19 @@
             50% { filter: brightness(1.4) drop-shadow(0 0 15px gold); transform: scale(1.05); } 
         }
 
-        /* НЕВИДИМЫЕ КНОПКИ */
+        /* ПРОЗРАЧНЫЕ КНОПКИ (подогнаны под ваш новый дизайн со START) */
         .control-btn {
             position: absolute; z-index: 30; pointer-events: none; cursor: pointer;
-            border-radius: 50%; background: transparent; 
+            border-radius: 40%; background: transparent; 
             transition: background 0.1s, transform 0.1s;
         }
         .control-btn.active { pointer-events: auto; }
-        .control-btn.active:hover { background: rgba(255, 255, 255, 0.1); }
-        .control-btn.active:active { background: rgba(255, 255, 255, 0.3); transform: scale(0.95); }
+        .control-btn.active:hover { background: rgba(255, 255, 255, 0.2); }
+        .control-btn.active:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.95); }
         
-        #btn-left { left: 43.08%; top: 63.24%; width: 3.56%; height: 7.16%; }
-        #btn-action { left: 47.85%; top: 62.97%; width: 3.56%; height: 7.16%; }
-        #btn-right { left: 53.56%; top: 63.24%; width: 3.56%; height: 7.16%; }
+        #btn-left { left: 38.5%; top: 66.5%; width: 6%; height: 4.5%; border-radius: 20px;}
+        #btn-action { left: 45.5%; top: 66.5%; width: 9%; height: 4.5%; border-radius: 20px;}
+        #btn-right { left: 55.5%; top: 66.5%; width: 6%; height: 4.5%; border-radius: 20px;}
 
         /* Зоны */
         #drop-area { position: absolute; left: 45.16%; top: 71.76%; width: 5.58%; height: 11.22%; z-index: 10; }
@@ -124,6 +127,8 @@
         <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/2.png" class="game-element toy" id="toy-2" data-col="2">
         <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/7.png" class="game-element toy" id="toy-7" data-col="2">
 
+        <div id="claw-cord"></div>
+
         <div id="claw-container" class="game-element">
             <img id="claw-img" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/клешня.png">
         </div>
@@ -131,7 +136,7 @@
         <img id="coin" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/монета.png" class="blinking" style="position: absolute;">
 
         <div id="btn-left" class="control-btn" title="Влево"></div>
-        <div id="btn-action" class="control-btn" title="Достать"></div>
+        <div id="btn-action" class="control-btn" title="START"></div>
         <div id="btn-right" class="control-btn" title="Вправо"></div>
 
         <div id="drop-area"></div>
@@ -156,6 +161,7 @@
         const coin = document.getElementById('coin');
         const clawContainer = document.getElementById('claw-container');
         const clawImg = document.getElementById('claw-img');
+        const clawCord = document.getElementById('claw-cord');
         const progressArea = document.getElementById('progress-area');
         
         const btnLeft = document.getElementById('btn-left');
@@ -167,10 +173,14 @@
         let collectedToysCount = 0;
         let selectedToyElement = null;
 
-        const clawPositions = ['41.53%', '47.45%', '53.36%']; 
         let currentCol = 1; 
-        const clawStartTop = 13.92; 
+        
+        // Настройки позиций
+        const clawStartTop = 20; // Исходная высота клешни
+        const cordOriginY = 15; // Точка, откуда начинается провод (за вывеской)
+        const clawWidth = 11.76; 
 
+        // Задачи
         const tasks = [
             { q: '5 + 4 = ?', options: ['8', '9', '10'], a: '9' },
             { q: '12 - 5 = ?', options: ['6', '7', '8'], a: '7' },
@@ -190,6 +200,34 @@
             progressArea.appendChild(slot);
         }
 
+        // --- УМНАЯ ФУНКЦИЯ ДВИЖЕНИЯ КЛЕШНИ И ТРОСА ---
+        function updateClawPosition(targetLeft, targetTop) {
+            clawContainer.style.left = targetLeft + '%';
+            clawContainer.style.top = targetTop + '%';
+            
+            // Трос едет за центром клешни
+            clawCord.style.left = (targetLeft + (clawWidth / 2)) + '%';
+            // Длина троса растягивается ровно до клешни
+            let cordHeight = targetTop - cordOriginY + 2;
+            if (cordHeight < 0) cordHeight = 0;
+            clawCord.style.height = cordHeight + '%';
+        }
+
+        // Умный поиск идеального X для колонки (вычисляет по самой игрушке)
+        function getClawLeftForCol(col) {
+            let targetId = col === 0 ? 'toy-5' : (col === 1 ? 'toy-3' : 'toy-2');
+            let t = document.getElementById(targetId);
+            let tLeft = parseFloat(t.style.left);
+            let tWidth = parseFloat(t.style.width);
+            // Центрируем: Левый край игрушки + половина игрушки - половина клешни
+            return tLeft + (tWidth / 2) - (clawWidth / 2);
+        }
+
+        // Старт игры (ставим клешню в центр)
+        setTimeout(() => {
+            updateClawPosition(getClawLeftForCol(1), clawStartTop);
+        }, 100);
+
         coin.addEventListener('click', () => {
             if (gameState !== 'waiting_coin') return;
             document.getElementById('sound-coin').play();
@@ -202,14 +240,14 @@
         btnLeft.addEventListener('click', () => {
             if (gameState === 'playing' && currentCol > 0) {
                 currentCol--;
-                clawContainer.style.left = clawPositions[currentCol];
+                updateClawPosition(getClawLeftForCol(currentCol), clawStartTop);
             }
         });
 
         btnRight.addEventListener('click', () => {
             if (gameState === 'playing' && currentCol < 2) {
                 currentCol++;
-                clawContainer.style.left = clawPositions[currentCol];
+                updateClawPosition(getClawLeftForCol(currentCol), clawStartTop);
             }
         });
 
@@ -229,10 +267,15 @@
             selectedToyElement = toysInCol[randomIndex];
 
             const toyTop = parseFloat(selectedToyElement.style.top);
-            const grabOffset = 13; // Настроено для идеального захвата
+            const toyHeight = parseFloat(selectedToyElement.style.height);
+            const clawHeight = 29.73; 
             
-            // 1. Спуск клешни (игрушка ждет)
-            clawContainer.style.top = (toyTop - grabOffset) + '%';
+            // Умный захват: низ клешни касается центра игрушки
+            const targetY = toyTop + (toyHeight / 2) - (clawHeight * 0.85);
+            const currentLeft = getClawLeftForCol(currentCol);
+
+            // 1. Спуск
+            updateClawPosition(currentLeft, targetY);
 
             setTimeout(() => {
                 // 2. Раскрываем
@@ -241,17 +284,24 @@
                 setTimeout(() => {
                     // 3. Закрываем
                     clawImg.src = baseUrl + 'клешня.png';
+                    selectedToyElement.style.zIndex = '25'; // Игрушка выходит на передний план
                     
-                    // 4. Поднимаем СИНХРОННО (без прикрепления друг к другу)
-                    clawContainer.style.top = clawStartTop + '%';
-                    selectedToyElement.style.top = (clawStartTop + grabOffset) + '%';
-                    selectedToyElement.style.left = clawContainer.style.left; // Центрируем
+                    // 4. Поднимаем СИНХРОННО
+                    updateClawPosition(currentLeft, clawStartTop);
+                    
+                    // Игрушка едет вверх параллельно клешне
+                    const grabPointY = clawStartTop + (clawHeight * 0.85);
+                    selectedToyElement.style.top = (grabPointY - toyHeight / 2) + '%';
+                    
+                    // Центрируем игрушку по оси X
+                    let toyWidth = parseFloat(selectedToyElement.style.width);
+                    selectedToyElement.style.left = (currentLeft + (clawWidth / 2) - (toyWidth / 2)) + '%';
                     
                     setTimeout(() => {
-                        showTask(); // Выдаем задачу
-                    }, 1000); // Ждем пока поднимутся (1 сек)
-                }, 400); // Ждем пока закрывается
-            }, 1000); // Ждем пока опускается (1 сек)
+                        showTask();
+                    }, 1000); 
+                }, 400); 
+            }, 1000); 
         });
 
         document.getElementById('btn-close-error').addEventListener('click', () => {
@@ -298,8 +348,6 @@
             selectedToyElement.style.top = '71.76%'; 
             selectedToyElement.style.width = '5.58%'; 
             selectedToyElement.style.height = '11.22%';
-            
-            // Ставим z-index = 25, чтобы она упала ПЕРЕД лотком
             selectedToyElement.style.zIndex = '25'; 
             selectedToyElement.classList.add('collected');
 
