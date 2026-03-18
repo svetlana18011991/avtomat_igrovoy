@@ -426,35 +426,26 @@ btnAction.addEventListener('click', () => {
     const toyPos = getPercentPositionFromRect(selectedToyElement);
     const clawCenterX = clawPositionsX[currentCol] + clawWidth / 2;
 
-    // Фиксированная точка захвата — так клешня реально спускается
-    const grabPointOffset = 13.5;
+    const grabPointOffset = 18.0;
+    const toyHangOffset = 12.8;
     const targetClawTop = toyPos.top - grabPointOffset;
 
-    // Где игрушка должна висеть после захвата
-    const toyHangOffset = 14.2;
-
-    // 1. Опускаем клешню вниз
     updateClawPosition(clawPositionsX[currentCol], targetClawTop);
 
     setTimeout(() => {
-        // 2. Раскрываем клешню
         clawImg.src = baseUrl + '10.png';
 
         setTimeout(() => {
-            // 3. Смыкаем клешню
             clawImg.src = baseUrl + 'клешня.png';
 
-            // 4. Прицепляем игрушку к клешне
             selectedToyElement.style.left = (clawCenterX - toyPos.width / 2) + '%';
             selectedToyElement.style.top = (targetClawTop + toyHangOffset) + '%';
             selectedToyElement.style.zIndex = '25';
             selectedToyElement.style.pointerEvents = 'none';
 
             setTimeout(() => {
-                // 5. Поднимаем клешню
                 updateClawPosition(clawPositionsX[currentCol], clawStartTop);
 
-                // 6. Поднимаем игрушку вместе с клешней
                 selectedToyElement.style.left = (clawCenterX - toyPos.width / 2) + '%';
                 selectedToyElement.style.top = (clawStartTop + toyHangOffset) + '%';
 
@@ -462,8 +453,8 @@ btnAction.addEventListener('click', () => {
                     showTask();
                 }, 1000);
 
-            }, 250);
-        }, 400);
+            }, 700);
+        }, 900);
     }, 1000);
 });
 
