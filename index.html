@@ -6,46 +6,29 @@
     <title>Игровой автомат - Математика</title>
     <style>
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
+            background-color: #000; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             user-select: none;
         }
 
         #game-container {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
+            position: relative; width: 100vw; height: 100vh;
             background-image: url('https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/фон.png');
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-size: 100% 100%; background-position: center; background-repeat: no-repeat;
         }
 
         #machine-no-claw {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            height: 95%;
-            pointer-events: none;
-            z-index: 10;
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            height: 95%; pointer-events: none; z-index: 10;
         }
 
         .game-element {
-            position: absolute;
-            object-fit: contain;
+            position: absolute; object-fit: contain;
             transition: all 1s ease;
         }
 
         .toy {
-            z-index: 15;
-            filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.5));
-            cursor: pointer;
+            z-index: 15; filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.5)); cursor: pointer;
         }
 
         #toy-1 { left: 41.80%; top: 32.84%; width: 3.76%; height: 9.19%; }
@@ -59,185 +42,83 @@
         #toy-7 { left: 52.96%; top: 52.57%; width: 4.70%; height: 10.68%; }
 
         #claw-cord {
-            position: absolute;
-            background-color: #222;
-            width: 3px;
-            top: 12%;
-            z-index: 5;
-            transition: left 0.3s ease, height 1s ease;
-            box-shadow: 1px 0px 2px rgba(0,0,0,0.5);
+            position: absolute; background-color: #222; width: 3px; top: 12%; z-index: 5;
+            transition: left 0.3s ease, height 1s ease; box-shadow: 1px 0px 2px rgba(0,0,0,0.5);
         }
 
         #claw-container {
-            width: 7.46%;
-            height: 20.27%;
-            z-index: 20;
+            width: 7.46%; height: 20.27%; z-index: 20;
             transition: left 0.3s ease, top 1s ease;
         }
 
         #claw-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            width: 100%; height: 100%; object-fit: contain;
         }
 
         #coin {
-            left: 51.95%;
-            top: 70.14%;
-            width: 5.58%;
-            height: 11.22%;
-            z-index: 20;
-            cursor: pointer;
-            transition: 0.3s;
+            left: 51.95%; top: 70.14%; width: 5.58%; height: 11.22%; z-index: 20;
+            cursor: pointer; transition: 0.3s;
         }
 
-        .blinking {
-            animation: blink 1.5s infinite;
-        }
+        .blinking { animation: blink 1.5s infinite; }
 
         @keyframes blink {
-            0%, 100% {
-                filter: brightness(1) drop-shadow(0 0 0px gold);
-            }
-            50% {
-                filter: brightness(1.4) drop-shadow(0 0 15px gold);
-                transform: scale(1.05);
-            }
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 0px gold); }
+            50% { filter: brightness(1.4) drop-shadow(0 0 15px gold); transform: scale(1.05); }
         }
 
+        /* Кнопки временно видимые (белые), чтобы вы видели куда жать */
         .control-btn {
-            position: absolute;
-            z-index: 30;
-            opacity: 0;
-            pointer-events: none;
-            cursor: pointer;
-            border-radius: 20px;
-            transition: opacity 0.1s, transform 0.1s;
-            background: rgba(255, 255, 255, 0.4);
+            position: absolute; z-index: 30; opacity: 0; pointer-events: none; cursor: pointer;
+            border-radius: 20px; transition: opacity 0.1s, transform 0.1s;
+            background: rgba(255, 255, 255, 0.4); 
         }
 
         .control-btn.active {
             pointer-events: auto;
-            opacity: 0;
+            opacity: 1; /* Оставил их видимыми */
         }
 
-        .control-btn.active:hover {
-            opacity: 0.1;
-        }
-
-        .control-btn.active:active {
-            opacity: 0.5;
-            transform: scale(0.95);
-        }
+        .control-btn.active:hover { background: rgba(255, 255, 255, 0.6); }
+        .control-btn.active:active { background: rgba(255, 255, 255, 0.8); transform: scale(0.95); }
 
         #btn-left { left: 42.54%; top: 65.27%; width: 3.76%; height: 3.78%; }
         #btn-action { left: 46.71%; top: 65.14%; width: 6.25%; height: 3.78%; }
         #btn-right { left: 53.63%; top: 65.41%; width: 3.63%; height: 3.11%; }
 
         #drop-area {
-            position: absolute;
-            left: 45.16%;
-            top: 71.76%;
-            width: 5.58%;
-            height: 11.22%;
-            z-index: 10;
+            position: absolute; left: 45.16%; top: 71.76%; width: 5.58%; height: 11.22%; z-index: 10;
         }
 
         #progress-area {
-            position: absolute;
-            left: 8.87%;
-            top: 3.65%;
-            width: 4.10%;
-            height: 95.68%;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            align-items: center;
+            position: absolute; left: 8.87%; top: 3.65%; width: 4.10%; height: 95.68%; z-index: 10;
+            display: flex; flex-direction: column; justify-content: space-evenly; align-items: center;
         }
 
         .collected-slot {
-            width: 90%;
-            aspect-ratio: 1;
-            background: rgba(255,255,255,0.4);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2px;
+            width: 90%; aspect-ratio: 1; background: rgba(255,255,255,0.4); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; padding: 2px;
             box-shadow: inset 0px 2px 5px rgba(0,0,0,0.3);
         }
 
-        .collected-slot img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 50%;
-        }
+        .collected-slot img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
 
         .modal {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2.5vw;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            z-index: 100;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s ease;
-            text-align: center;
-            border: 4px solid #f9d423;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(255, 255, 255, 0.95); padding: 2.5vw; border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8); z-index: 100; opacity: 0; pointer-events: none;
+            transition: all 0.3s ease; text-align: center; border: 4px solid #f9d423;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        .modal.active {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-            pointer-events: auto;
-        }
+        .modal.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+        .modal h2 { margin: 0 0 20px 0; color: #333; font-size: 2.5vw; }
 
-        .modal h2 {
-            margin: 0 0 20px 0;
-            color: #333;
-            font-size: 2.5vw;
-        }
-
-        #task-options {
-            display: flex;
-            gap: 1vw;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .task-option {
-            padding: 1vw 2vw;
-            background: #3498db;
-            color: white;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 2vw;
-            transition: 0.2s;
-        }
-
-        .task-option:hover {
-            background: #2980b9;
-            transform: scale(1.05);
-        }
-
-        .task-option.correct {
-            background: #2ecc71 !important;
-        }
-
-        .task-option.incorrect {
-            background: #e74c3c !important;
-            animation: shake 0.5s;
-        }
+        #task-options { display: flex; gap: 1vw; justify-content: center; width: 100%; }
+        .task-option { padding: 1vw 2vw; background: #3498db; color: white; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 2vw; transition: 0.2s; }
+        .task-option:hover { background: #2980b9; transform: scale(1.05); }
+        .task-option.correct { background: #2ecc71 !important; }
+        .task-option.incorrect { background: #e74c3c !important; animation: shake 0.5s; }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -245,299 +126,280 @@
             75% { transform: translateX(10px); }
         }
 
-        #error-message {
-            font-size: 1.8vw;
-            color: #e74c3c;
-            font-weight: bold;
-        }
-
-        #btn-close-error {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.5vw;
-        }
-
-        .toy-collected-anim {
-            transform: scale(1.3);
-            opacity: 0;
-            transition: all 0.5s ease;
-        }
+        #error-message { font-size: 1.8vw; color: #e74c3c; font-weight: bold; }
+        #btn-close-error { margin-top: 20px; padding: 10px 20px; background: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.5vw; }
+        .toy-collected-anim { transform: scale(1.3); opacity: 0; transition: all 0.5s ease; }
     </style>
 </head>
 <body>
 
-<div id="game-container">
-    <img id="machine-no-claw" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/avtomat.png">
+    <div id="game-container">
+        <img id="machine-no-claw" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/avtomat.png">
 
-    <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/1.png" class="game-element toy" id="toy-1" data-col="0">
-    <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/5.png" class="game-element toy" id="toy-5" data-col="0">
-    <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/9.png" class="game-element toy" id="toy-9" data-col="0">
-    <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/4.png" class="game-element toy" id="toy-4" data-col="1">
-    <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/3.png" class="game-element toy" id="toy-3" data-col="1">
-    <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/8.png" class="game-element toy" id="toy-8" data-col="1">
-    <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/6.png" class="game-element toy" id="toy-6" data-col="2">
-    <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/2.png" class="game-element toy" id="toy-2" data-col="2">
-    <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/7.png" class="game-element toy" id="toy-7" data-col="2">
+        <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/1.png" class="game-element toy" id="toy-1" data-col="0">
+        <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/5.png" class="game-element toy" id="toy-5" data-col="0">
+        <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/9.png" class="game-element toy" id="toy-9" data-col="0">
+        <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/4.png" class="game-element toy" id="toy-4" data-col="1">
+        <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/3.png" class="game-element toy" id="toy-3" data-col="1">
+        <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/8.png" class="game-element toy" id="toy-8" data-col="1">
+        <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/6.png" class="game-element toy" id="toy-6" data-col="2">
+        <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/2.png" class="game-element toy" id="toy-2" data-col="2">
+        <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/7.png" class="game-element toy" id="toy-7" data-col="2">
 
-    <div id="claw-cord"></div>
-    <div id="claw-container" class="game-element">
-        <img id="claw-img" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/клешня.png">
+        <div id="claw-cord"></div>
+        <div id="claw-container" class="game-element">
+            <img id="claw-img" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/клешня.png">
+        </div>
+
+        <img id="coin" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/монета.png" class="blinking" style="position: absolute;">
+
+        <div id="btn-left" class="control-btn" title="Влево"></div>
+        <div id="btn-action" class="control-btn" title="START"></div>
+        <div id="btn-right" class="control-btn" title="Вправо"></div>
+
+        <div id="drop-area"></div>
+        <div id="progress-area"></div>
+
+        <div id="error-modal" class="modal">
+            <div id="error-message">В этом ряду больше нет игрушек!</div>
+            <button id="btn-close-error">Выбрать другой</button>
+        </div>
+
+        <div id="task-modal" class="modal">
+            <h2 id="task-text">Задача</h2>
+            <div id="task-options"></div>
+        </div>
     </div>
 
-    <img id="coin" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/монета.png" class="blinking" style="position:absolute;">
+    <audio id="sound-coin" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/hover.mp3"></audio>
+    <audio id="sound-success" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/correct_click.mp3"></audio>
+    <audio id="sound-error" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/wrong_click.mp3"></audio>
 
-    <div id="btn-left" class="control-btn" title="Влево"></div>
-    <div id="btn-action" class="control-btn" title="START"></div>
-    <div id="btn-right" class="control-btn" title="Вправо"></div>
+    <script>
+        const baseUrl = 'https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/';
+        const gameContainer = document.getElementById('game-container');
+        const coin = document.getElementById('coin');
+        const clawContainer = document.getElementById('claw-container');
+        const clawImg = document.getElementById('claw-img');
+        const clawCord = document.getElementById('claw-cord');
+        const progressArea = document.getElementById('progress-area');
 
-    <div id="drop-area"></div>
-    <div id="progress-area"></div>
+        const btnLeft = document.getElementById('btn-left');
+        const btnRight = document.getElementById('btn-right');
+        const btnAction = document.getElementById('btn-action');
+        const controls = [btnLeft, btnRight, btnAction];
 
-    <div id="error-modal" class="modal">
-        <div id="error-message">В этом ряду больше нет игрушек!</div>
-        <button id="btn-close-error">Выбрать другой</button>
-    </div>
+        let gameState = 'waiting_coin';
+        let collectedToysCount = 0;
+        let selectedToyElement = null;
+        let grabbedToyOffsetY = 0;
 
-    <div id="task-modal" class="modal">
-        <h2 id="task-text">Задача</h2>
-        <div id="task-options"></div>
-    </div>
-</div>
+        const clawPositionsX = [39.38, 45.90, 52.02];
+        const clawStartTop = 20.14;
+        const clawWidth = 7.46;
+        const clawHeight = 20.27;
+        let currentCol = 1;
 
-<audio id="sound-coin" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/hover.mp3"></audio>
-<audio id="sound-success" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/correct_click.mp3"></audio>
-<audio id="sound-error" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/wrong_click.mp3"></audio>
+        const tasks = [
+            { q: '5 + 4 = ?', options: ['8', '9', '10'], a: '9' },
+            { q: '12 - 5 = ?', options: ['6', '7', '8'], a: '7' },
+            { q: '3 × 3 = ?', options: ['6', '9', '12'], a: '9' },
+            { q: '16 ÷ 4 = ?', options: ['3', '4', '5'], a: '4' },
+            { q: '8 + 7 = ?', options: ['14', '15', '16'], a: '15' },
+            { q: '10 - 8 = ?', options: ['1', '2', '3'], a: '2' },
+            { q: '2 × 6 = ?', options: ['10', '12', '14'], a: '12' },
+            { q: '9 ÷ 3 = ?', options: ['2', '3', '4'], a: '3' },
+            { q: '10 + 10 = ?', options: ['10', '20', '30'], a: '20' }
+        ];
 
-<script>
-const baseUrl = 'https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/';
-const gameContainer = document.getElementById('game-container');
-const coin = document.getElementById('coin');
-const clawContainer = document.getElementById('claw-container');
-const clawImg = document.getElementById('claw-img');
-const clawCord = document.getElementById('claw-cord');
-const progressArea = document.getElementById('progress-area');
+        for (let i = 0; i < tasks.length; i++) {
+            let slot = document.createElement('div');
+            slot.className = 'collected-slot';
+            slot.id = 'slot-' + i;
+            progressArea.appendChild(slot);
+        }
 
-const btnLeft = document.getElementById('btn-left');
-const btnRight = document.getElementById('btn-right');
-const btnAction = document.getElementById('btn-action');
-const controls = [btnLeft, btnRight, btnAction];
+        function updateClawPosition(targetLeft, targetTop) {
+            clawContainer.style.left = targetLeft + '%';
+            clawContainer.style.top = targetTop + '%';
 
-let gameState = 'waiting_coin';
-let collectedToysCount = 0;
-let selectedToyElement = null;
+            clawCord.style.left = (targetLeft + (clawWidth / 2)) + '%';
+            let cordHeight = targetTop - 12 + 2;
+            if (cordHeight < 0) cordHeight = 0;
+            clawCord.style.height = cordHeight + '%';
+        }
 
-const clawPositionsX = [39.38, 45.90, 52.02];
-const clawStartTop = 20.14;
-const clawWidth = 7.46;
-let currentCol = 1;
+        function getPercentPositionFromRect(element) {
+            const containerRect = gameContainer.getBoundingClientRect();
+            const rect = element.getBoundingClientRect();
 
-const tasks = [
-    { q: '5 + 4 = ?', options: ['8', '9', '10'], a: '9' },
-    { q: '12 - 5 = ?', options: ['6', '7', '8'], a: '7' },
-    { q: '3 × 3 = ?', options: ['6', '9', '12'], a: '9' },
-    { q: '16 ÷ 4 = ?', options: ['3', '4', '5'], a: '4' },
-    { q: '8 + 7 = ?', options: ['14', '15', '16'], a: '15' },
-    { q: '10 - 8 = ?', options: ['1', '2', '3'], a: '2' },
-    { q: '2 × 6 = ?', options: ['10', '12', '14'], a: '12' },
-    { q: '9 ÷ 3 = ?', options: ['2', '3', '4'], a: '3' },
-    { q: '10 + 10 = ?', options: ['10', '20', '30'], a: '20' }
-];
-
-for (let i = 0; i < tasks.length; i++) {
-    const slot = document.createElement('div');
-    slot.className = 'collected-slot';
-    slot.id = 'slot-' + i;
-    progressArea.appendChild(slot);
-}
-
-function updateClawPosition(targetLeft, targetTop) {
-    clawContainer.style.left = targetLeft + '%';
-    clawContainer.style.top = targetTop + '%';
-
-    clawCord.style.left = (targetLeft + clawWidth / 2) + '%';
-
-    let cordHeight = targetTop - 12 + 2;
-    if (cordHeight < 0) cordHeight = 0;
-    clawCord.style.height = cordHeight + '%';
-}
-
-function getPercentPositionFromRect(element) {
-    const containerRect = gameContainer.getBoundingClientRect();
-    const rect = element.getBoundingClientRect();
-
-    return {
-        left: ((rect.left - containerRect.left) / containerRect.width) * 100,
-        top: ((rect.top - containerRect.top) / containerRect.height) * 100,
-        width: (rect.width / containerRect.width) * 100,
-        height: (rect.height / containerRect.height) * 100
-    };
-}
-
-setTimeout(() => {
-    updateClawPosition(clawPositionsX[1], clawStartTop);
-}, 100);
-
-coin.addEventListener('click', () => {
-    if (gameState !== 'waiting_coin') return;
-
-    document.getElementById('sound-coin').play();
-    gameState = 'playing';
-    coin.classList.remove('blinking');
-    coin.style.opacity = '0';
-    controls.forEach(c => c.classList.add('active'));
-});
-
-btnLeft.addEventListener('click', () => {
-    if (gameState === 'playing' && currentCol > 0) {
-        currentCol--;
-        updateClawPosition(clawPositionsX[currentCol], clawStartTop);
-    }
-});
-
-btnRight.addEventListener('click', () => {
-    if (gameState === 'playing' && currentCol < 2) {
-        currentCol++;
-        updateClawPosition(clawPositionsX[currentCol], clawStartTop);
-    }
-});
-
-btnAction.addEventListener('click', () => {
-    if (gameState !== 'playing') return;
-    gameState = 'claw_moving';
-
-    const toysInCol = Array.from(document.querySelectorAll(`.toy[data-col="${currentCol}"]`))
-        .filter(toy => !toy.classList.contains('collected'));
-
-    if (toysInCol.length === 0) {
-        document.getElementById('error-modal').classList.add('active');
-        gameState = 'error';
-        return;
-    }
-
-    const randomIndex = Math.floor(Math.random() * toysInCol.length);
-    selectedToyElement = toysInCol[randomIndex];
-
-    const toyPos = getPercentPositionFromRect(selectedToyElement);
-    const clawCenterX = clawPositionsX[currentCol] + clawWidth / 2;
-
-    const grabPointOffset = 18.0;
-    const toyHangOffset = 12.8;
-    const targetClawTop = toyPos.top - grabPointOffset;
-
-    updateClawPosition(clawPositionsX[currentCol], targetClawTop);
-
-    setTimeout(() => {
-        clawImg.src = baseUrl + '10.png';
+            return {
+                left: ((rect.left - containerRect.left) / containerRect.width) * 100,
+                top: ((rect.top - containerRect.top) / containerRect.height) * 100,
+                width: (rect.width / containerRect.width) * 100,
+                height: (rect.height / containerRect.height) * 100
+            };
+        }
 
         setTimeout(() => {
-            clawImg.src = baseUrl + 'клешня.png';
+            updateClawPosition(clawPositionsX[1], clawStartTop);
+        }, 100);
 
-            selectedToyElement.style.left = (clawCenterX - toyPos.width / 2) + '%';
-            selectedToyElement.style.top = (targetClawTop + toyHangOffset) + '%';
-            selectedToyElement.style.zIndex = '25';
-            selectedToyElement.style.pointerEvents = 'none';
+        coin.addEventListener('click', () => {
+            if (gameState !== 'waiting_coin') return;
+
+            document.getElementById('sound-coin').play();
+            gameState = 'playing';
+            coin.classList.remove('blinking');
+            coin.style.opacity = '0';
+            controls.forEach(c => c.classList.add('active'));
+        });
+
+        btnLeft.addEventListener('click', () => {
+            if (gameState === 'playing' && currentCol > 0) {
+                currentCol--;
+                updateClawPosition(clawPositionsX[currentCol], clawStartTop);
+            }
+        });
+
+        btnRight.addEventListener('click', () => {
+            if (gameState === 'playing' && currentCol < 2) {
+                currentCol++;
+                updateClawPosition(clawPositionsX[currentCol], clawStartTop);
+            }
+        });
+
+        btnAction.addEventListener('click', () => {
+            if (gameState !== 'playing') return;
+            gameState = 'claw_moving';
+
+            const toysInCol = Array.from(document.querySelectorAll(`.toy[data-col="${currentCol}"]`))
+                .filter(toy => !toy.classList.contains('collected'));
+
+            if (toysInCol.length === 0) {
+                document.getElementById('error-modal').classList.add('active');
+                gameState = 'playing'; // Исправлено, чтобы игра не зависала
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * toysInCol.length);
+            selectedToyElement = toysInCol[randomIndex];
+
+            const toyPos = getPercentPositionFromRect(selectedToyElement);
+            const clawCenterX = clawPositionsX[currentCol] + clawWidth / 2;
+
+            // 1. ОПУСКАЕМ КЛЕШНЮ ДО САМОЙ ИГРУШКИ!
+            const targetClawTop = toyPos.top - (clawHeight * 0.5);
+            grabbedToyOffsetY = clawHeight * 0.5;
+
+            updateClawPosition(clawPositionsX[currentCol], targetClawTop);
 
             setTimeout(() => {
-                updateClawPosition(clawPositionsX[currentCol], clawStartTop);
-
-                selectedToyElement.style.left = (clawCenterX - toyPos.width / 2) + '%';
-                selectedToyElement.style.top = (clawStartTop + toyHangOffset) + '%';
+                clawImg.src = baseUrl + '10.png';
 
                 setTimeout(() => {
-                    showTask();
-                }, 1000);
+                    clawImg.src = baseUrl + 'клешня.png';
 
-            }, 700);
-        }, 900);
-    }, 1000);
-});
+                    // Игрушка встает по центру клешни, но по высоте остается на своем месте (не подпрыгивает!)
+                    selectedToyElement.style.left = (clawCenterX - toyPos.width / 2) + '%';
+                    selectedToyElement.style.top = (targetClawTop + grabbedToyOffsetY) + '%';
+                    selectedToyElement.style.zIndex = '25';
+                    selectedToyElement.style.pointerEvents = 'none';
 
-document.getElementById('btn-close-error').addEventListener('click', () => {
-    document.getElementById('error-modal').classList.remove('active');
-    gameState = 'playing';
-});
+                    setTimeout(() => {
+                        // 2. Клешня и игрушка едут наверх СИНХРОННО (без прыжков)
+                        updateClawPosition(clawPositionsX[currentCol], clawStartTop);
+                        selectedToyElement.style.top = (clawStartTop + grabbedToyOffsetY) + '%';
 
-function showTask() {
-    gameState = 'task_active';
-    const task = tasks[collectedToysCount];
-    document.getElementById('task-text').textContent = task.q;
+                        setTimeout(() => {
+                            showTask();
+                        }, 1000);
 
-    const optionsDiv = document.getElementById('task-options');
-    optionsDiv.innerHTML = '';
+                    }, 250);
+                }, 400);
+            }, 1000);
+        });
 
-    task.options.forEach(opt => {
-        const btn = document.createElement('div');
-        btn.className = 'task-option';
-        btn.textContent = opt;
-        btn.onclick = () => checkAnswer(opt, task.a, btn);
-        optionsDiv.appendChild(btn);
-    });
+        document.getElementById('btn-close-error').addEventListener('click', () => {
+            document.getElementById('error-modal').classList.remove('active');
+            gameState = 'playing';
+        });
 
-    document.getElementById('task-modal').classList.add('active');
-}
+        function showTask() {
+            gameState = 'task_active';
+            const task = tasks[collectedToysCount];
+            document.getElementById('task-text').textContent = task.q;
 
-function checkAnswer(selected, correct, btnElement) {
-    if (selected === correct) {
-        btnElement.classList.add('correct');
-        document.getElementById('sound-success').play();
+            const optionsDiv = document.getElementById('task-options');
+            optionsDiv.innerHTML = '';
 
-        setTimeout(() => {
-            document.getElementById('task-modal').classList.remove('active');
-            dropToy();
-        }, 1000);
-    } else {
-        btnElement.classList.add('incorrect');
-        document.getElementById('sound-error').play();
+            task.options.forEach(opt => {
+                const btn = document.createElement('div');
+                btn.className = 'task-option';
+                btn.textContent = opt;
+                btn.onclick = () => checkAnswer(opt, task.a, btn);
+                optionsDiv.appendChild(btn);
+            });
 
-        setTimeout(() => btnElement.classList.remove('incorrect'), 500);
-    }
-}
-
-function dropToy() {
-    selectedToyElement.style.left = '45.16%';
-    selectedToyElement.style.top = '71.76%';
-    selectedToyElement.style.width = '5.58%';
-    selectedToyElement.style.height = '11.22%';
-    selectedToyElement.style.zIndex = '25';
-    selectedToyElement.style.pointerEvents = 'auto';
-    selectedToyElement.classList.add('collected');
-
-    setTimeout(() => {
-        selectedToyElement.style.animation = 'blink 2s infinite';
-        selectedToyElement.onclick = () => {
-            moveToProgress(selectedToyElement);
-        };
-    }, 1000);
-}
-
-function moveToProgress(toy) {
-    toy.style.animation = 'none';
-    toy.classList.add('toy-collected-anim');
-    document.getElementById('sound-coin').play();
-
-    setTimeout(() => {
-        toy.style.display = 'none';
-
-        const slot = document.getElementById('slot-' + collectedToysCount);
-        slot.innerHTML = `<img src="${toy.src}">`;
-        collectedToysCount++;
-
-        if (collectedToysCount < tasks.length) {
-            coin.style.opacity = '1';
-            coin.classList.add('blinking');
-            controls.forEach(c => c.classList.remove('active'));
-            gameState = 'waiting_coin';
-        } else {
-            setTimeout(() => alert('Победа! Все игрушки собраны!'), 500);
+            document.getElementById('task-modal').classList.add('active');
         }
-    }, 500);
-}
-</script>
+
+        function checkAnswer(selected, correct, btnElement) {
+            if (selected === correct) {
+                btnElement.classList.add('correct');
+                document.getElementById('sound-success').play();
+
+                setTimeout(() => {
+                    document.getElementById('task-modal').classList.remove('active');
+                    dropToy();
+                }, 1000);
+            } else {
+                btnElement.classList.add('incorrect');
+                document.getElementById('sound-error').play();
+
+                setTimeout(() => btnElement.classList.remove('incorrect'), 500);
+            }
+        }
+
+        function dropToy() {
+            selectedToyElement.style.left = '45.16%';
+            selectedToyElement.style.top = '71.76%';
+            selectedToyElement.style.width = '5.58%';
+            selectedToyElement.style.height = '11.22%';
+            selectedToyElement.style.zIndex = '25';
+            selectedToyElement.style.pointerEvents = 'auto';
+            selectedToyElement.classList.add('collected');
+
+            setTimeout(() => {
+                selectedToyElement.style.animation = 'blink 2s infinite';
+                selectedToyElement.onclick = () => {
+                    moveToProgress(selectedToyElement);
+                };
+            }, 1000);
+        }
+
+        function moveToProgress(toy) {
+            toy.style.animation = 'none';
+            toy.classList.add('toy-collected-anim');
+            document.getElementById('sound-coin').play();
+
+            setTimeout(() => {
+                toy.style.display = 'none';
+
+                const slot = document.getElementById('slot-' + collectedToysCount);
+                slot.innerHTML = `<img src="${toy.src}">`;
+                collectedToysCount++;
+
+                if (collectedToysCount < tasks.length) {
+                    coin.style.opacity = '1';
+                    coin.classList.add('blinking');
+                    controls.forEach(c => c.classList.remove('active'));
+                    gameState = 'waiting_coin';
+                } else {
+                    setTimeout(() => alert('Победа! Все игрушки собраны!'), 500);
+                }
+            }, 500);
+        }
+    </script>
 </body>
 </html>
