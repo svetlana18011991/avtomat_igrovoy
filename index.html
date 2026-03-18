@@ -5,14 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Игровой автомат - Математика</title>
     <style>
-        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #222; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; user-select: none; }
-        
-        #game-container { position: relative; width: 800px; height: 600px; background-image: url('https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/фон.png'); background-size: cover; background-position: center; box-shadow: 0 0 20px rgba(0,0,0,0.8); overflow: hidden; }
-        
-        #machine { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 95%; pointer-events: none; z-index: 10; }
+        /* --- Настройки полного экрана --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
 
-        /* Игрушки (позиции из вашего JSON) */
-        .toy { position: absolute; object-fit: contain; z-index: 2; transition: top 1s ease, left 1s ease, opacity 0.5s, transform 0.5s; cursor: pointer; }
+        /* Контейнер игры держит пропорции 16:9, чтобы координаты не ломались на разных мониторах */
+        #game-container {
+            position: relative;
+            width: 100vw;
+            max-width: 177.78vh; /* 16:9 aspect ratio */
+            height: 56.25vw;
+            max-height: 100vh;
+            background-image: url('https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/фон.png');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 0 30px rgba(0,0,0,0.9);
+            overflow: hidden;
+        }
+
+        /* Автомат на переднем плане (стекло прозрачное, низ плотный) */
+        #machine {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 95%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* --- Игрушки --- */
+        /* Добавлена легкая тень (drop-shadow), чтобы они не казались плоским фоном */
+        .toy {
+            position: absolute;
+            object-fit: contain;
+            z-index: 2; /* Строго под автоматом, чтобы быть за стеклом */
+            transition: top 1s ease, left 1s ease, opacity 0.5s, transform 0.5s;
+            cursor: pointer;
+            filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.4));
+        }
+        
         #toy-1 { left: 54.75%; top: 32.50%; width: 7.50%; height: 10.17%; }
         #toy-2 { left: 45.75%; top: 32.67%; width: 7.00%; height: 9.83%; }
         #toy-3 { left: 37.38%; top: 33.67%; width: 6.38%; height: 8.83%; }
@@ -23,45 +66,102 @@
         #toy-8 { left: 46.13%; top: 54.67%; width: 6.50%; height: 8.83%; }
         #toy-9 { left: 37.63%; top: 54.17%; width: 6.00%; height: 9.33%; }
 
-        /* Клешня и трос */
-        #claw-container { position: absolute; left: 42.38%; top: 19.00%; width: 15.13%; height: 26.67%; z-index: 5; transition: left 0.3s ease, top 1s ease; }
+        /* --- Клешня --- */
+        #claw-container {
+            position: absolute;
+            left: 42.38%;
+            top: 19.00%;
+            width: 15.13%;
+            height: 26.67%;
+            z-index: 5; /* Над игрушками, но под стеклом автомата */
+            transition: left 0.3s ease, top 1s ease;
+        }
         #claw-img { width: 100%; height: 100%; object-fit: contain; }
         #claw-container::before { content: ''; position: absolute; bottom: 85%; left: 50%; transform: translateX(-50%); width: 4px; height: 300px; background-color: #333; z-index: -1; }
 
-        /* Монетка */
-        #coin { position: absolute; left: 52.63%; top: 71.33%; width: 7.88%; height: 10.50%; z-index: 20; cursor: pointer; transition: opacity 0.3s; }
+        /* --- Монетка --- */
+        #coin {
+            position: absolute;
+            left: 52.63%;
+            top: 71.33%;
+            width: 7.88%;
+            height: 10.50%;
+            z-index: 20;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
         .blinking { animation: blink 1.5s infinite; }
-        @keyframes blink { 0%, 100% { filter: brightness(1) drop-shadow(0 0 0px gold); } 50% { filter: brightness(1.3) drop-shadow(0 0 10px gold); transform: scale(1.05); } }
+        @keyframes blink { 
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 0px gold); } 
+            50% { filter: brightness(1.3) drop-shadow(0 0 15px gold); transform: scale(1.05); } 
+        }
 
-        /* Кнопки управления (только лево, право и центр) */
-        .control-btn { position: absolute; z-index: 15; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.1s; cursor: pointer; }
-        .control-btn.active { opacity: 1; pointer-events: auto; }
-        .control-btn:active { transform: scale(0.9); }
+        /* --- Кнопки управления --- */
+        .control-btn {
+            position: absolute;
+            z-index: 30; /* Поверх всего */
+            opacity: 0; /* Невидимы до клика по монете */
+            pointer-events: none; /* Не нажимаются до монеты */
+            transition: opacity 0.3s, transform 0.1s;
+            cursor: pointer;
+            border-radius: 50%; /* Чтобы кликабельная зона была круглой */
+        }
+        /* Этот класс будет добавлен через JS при клике на монету */
+        .control-btn.active { opacity: 1; pointer-events: auto; background: rgba(255, 255, 255, 0.2); /* Легкая подсветка для понимания, что они активны */ }
+        .control-btn:active { transform: scale(0.9); background: rgba(255, 255, 255, 0.5); }
         
         #btn-left { left: 32.63%; top: 61.00%; width: 5.13%; height: 7.67%; }
         #btn-right { left: 61.00%; top: 61.83%; width: 5.50%; height: 7.67%; }
         #btn-action { left: 46.38%; top: 63.33%; width: 5.13%; height: 6.83%; }
 
-        /* Зона падения и прогресс */
-        #drop-area { position: absolute; left: 43.25%; top: 73.17%; width: 7.88%; height: 10.50%; z-index: 1; display: flex; justify-content: center; align-items: center; }
-        #progress-area { position: absolute; left: 4.50%; top: 14.17%; width: 8.88%; height: 75.00%; z-index: 10; display: flex; flex-direction: column; gap: 5px; align-items: center; justify-content: flex-start; padding-top: 10px; background: rgba(255, 255, 255, 0.2); border-radius: 15px; box-shadow: inset 0 0 10px rgba(0,0,0,0.2); overflow-y: auto; }
-        .collected-slot { width: 80%; aspect-ratio: 1; background: rgba(255,255,255,0.5); border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 2px; }
-        .collected-slot img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+        /* --- Прогресс бар (слева) --- */
+        #progress-area {
+            position: absolute;
+            left: 4.50%;
+            top: 7%; /* Подняли выше */
+            width: 6.5%; /* Чуть уже */
+            height: 86%; /* Удлинили, чтобы влезли все 9 без скролла */
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly; /* Равномерно распределяем кружочки */
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+            overflow: hidden; /* Убираем ползунок скролла навсегда */
+        }
+        .collected-slot {
+            width: 80%;
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.6);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+        .collected-slot img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3)); }
 
-        /* Всплывающие окна (Ошибки и Задачи) */
-        .modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: white; padding: 20px 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 100; opacity: 0; pointer-events: none; transition: all 0.3s ease; text-align: center; border: 4px solid #f9d423; display: flex; flex-direction: column; align-items: center; }
+        /* --- Окна задач и ошибок --- */
+        .modal {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
+            background: white; padding: 2.5vw; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            z-index: 100; opacity: 0; pointer-events: none; transition: all 0.3s ease;
+            text-align: center; border: 4px solid #f9d423; display: flex; flex-direction: column; align-items: center;
+        }
         .modal.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
-        .modal h2 { margin: 0 0 15px 0; color: #333; font-size: 22px; }
+        .modal h2 { margin: 0 0 20px 0; color: #333; font-size: 2vw; }
         
-        /* Задачи */
-        #task-options { display: flex; gap: 10px; justify-content: center; width: 100%; }
-        .task-option { padding: 10px 20px; background: #3498db; color: white; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 18px; transition: background 0.2s; }
+        #task-options { display: flex; gap: 1vw; justify-content: center; width: 100%; }
+        .task-option { padding: 1vw 2vw; background: #3498db; color: white; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.5vw; transition: background 0.2s; }
         .task-option:hover { background: #2980b9; }
         .task-option.correct { background: #2ecc71 !important; }
         .task-option.incorrect { background: #e74c3c !important; }
 
-        #error-message { font-size: 18px; color: #e74c3c; font-weight: bold; }
-        #btn-close-error { margin-top: 15px; padding: 8px 20px; background: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        #error-message { font-size: 1.5vw; color: #e74c3c; font-weight: bold; }
+        #btn-close-error { margin-top: 20px; padding: 10px 20px; background: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.2vw; }
         
         .toy-collected-anim { transform: scale(1.2); opacity: 0; }
     </style>
@@ -87,11 +187,10 @@
 
         <img id="coin" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/монета.png" alt="Монета" class="blinking">
 
-        <div id="btn-left" class="control-btn"></div>
-        <div id="btn-action" class="control-btn"></div>
-        <div id="btn-right" class="control-btn"></div>
+        <div id="btn-left" class="control-btn" title="Влево"></div>
+        <div id="btn-action" class="control-btn" title="Схватить!"></div>
+        <div id="btn-right" class="control-btn" title="Вправо"></div>
 
-        <div id="drop-area"></div>
         <div id="progress-area"></div>
 
         <div id="error-modal" class="modal">
@@ -110,7 +209,6 @@
         const coin = document.getElementById('coin');
         const clawContainer = document.getElementById('claw-container');
         const clawImg = document.getElementById('claw-img');
-        const dropArea = document.getElementById('drop-area');
         const progressArea = document.getElementById('progress-area');
         
         // Кнопки
@@ -119,17 +217,15 @@
         const btnAction = document.getElementById('btn-action');
         const controls = [btnLeft, btnRight, btnAction];
 
-        // Состояния
         let gameState = 'waiting_coin'; 
         let collectedToysCount = 0;
         let selectedToyElement = null;
 
-        // Позиции клешни (колонки: 0 - левая, 1 - центр, 2 - правая)
-        // Высчитаны на основе позиций игрушек, чтобы клешня была ровно над ними
+        // Позиции клешни
         const clawPositions = ['33.5%', '42.38%', '51.5%']; 
-        let currentCol = 1; // Начинаем по центру
+        let currentCol = 1; 
 
-        // Массив задач для примера
+        // Задачи
         const tasks = [
             { q: '5 + 4 = ?', options: ['8', '9', '10'], a: '9' },
             { q: '12 - 5 = ?', options: ['6', '7', '8'], a: '7' },
@@ -142,7 +238,7 @@
             { q: '10 + 10 = ?', options: ['10', '20', '30'], a: '20' }
         ];
 
-        // Инициализация прогресс-бара пустыми слотами
+        // Инициализация прогресс-бара 
         for(let i=0; i<9; i++) {
             let slot = document.createElement('div');
             slot.className = 'collected-slot';
@@ -150,18 +246,20 @@
             progressArea.appendChild(slot);
         }
 
-        // --- Взаимодействие ---
-
+        // --- Логика монетки ---
         coin.addEventListener('click', () => {
             if (gameState !== 'waiting_coin') return;
-            // Здесь можно добавить звук монеты
-            
             gameState = 'playing';
             coin.classList.remove('blinking');
             coin.style.opacity = '0'; 
-            controls.forEach(c => c.classList.add('active'));
+            
+            // Включаем кнопки!
+            controls.forEach(c => {
+                c.classList.add('active');
+            });
         });
 
+        // --- Управление ---
         btnLeft.addEventListener('click', () => {
             if (gameState === 'playing' && currentCol > 0) {
                 currentCol--;
@@ -180,56 +278,45 @@
             if (gameState !== 'playing') return;
             gameState = 'claw_moving';
 
-            // Ищем игрушки в текущем ряду (col)
             const toysInCol = Array.from(document.querySelectorAll(`.toy[data-col="${currentCol}"]`))
                                    .filter(toy => !toy.classList.contains('collected'));
 
             if (toysInCol.length === 0) {
-                // Ряд пуст - выводим ошибку
                 document.getElementById('error-modal').classList.add('active');
                 return;
             }
 
-            // Выбираем случайную игрушку из найденных
             const randomIndex = Math.floor(Math.random() * toysInCol.length);
             selectedToyElement = toysInCol[randomIndex];
 
-            // Начинаем анимацию спуска
-            const targetY = parseFloat(selectedToyElement.style.top) - 10 + '%'; // Чуть выше центра игрушки
+            const targetY = parseFloat(selectedToyElement.style.top) - 8 + '%'; 
             clawContainer.style.top = targetY;
 
             setTimeout(() => {
-                // 1. Раскрываем клешню
                 clawImg.src = baseUrl + '10.png';
                 
                 setTimeout(() => {
-                    // 2. Закрываем клешню (хватаем)
                     clawImg.src = baseUrl + 'клешня.png';
-                    
-                    // Привязываем игрушку к клешне визуально
                     selectedToyElement.style.zIndex = '6';
                     
                     setTimeout(() => {
-                        // 3. Поднимаем всё наверх
-                        clawContainer.style.top = '19.00%'; // Исходная позиция
-                        selectedToyElement.style.top = '25.00%'; // Игрушка едет вверх
+                        clawContainer.style.top = '19.00%'; 
+                        selectedToyElement.style.top = '25.00%'; 
                         
                         setTimeout(() => {
-                            // Открываем задачу
                             showTask();
                         }, 1000);
                     }, 200);
-                }, 400); // Время раскрытой клешни
-            }, 1000); // Время спуска
+                }, 400); 
+            }, 1000); 
         });
 
-        // Закрытие окна ошибки
         document.getElementById('btn-close-error').addEventListener('click', () => {
             document.getElementById('error-modal').classList.remove('active');
             gameState = 'playing';
         });
 
-        // --- Логика задач ---
+        // --- Задачи ---
         function showTask() {
             gameState = 'task_active';
             const task = tasks[collectedToysCount];
@@ -262,17 +349,19 @@
             }
         }
 
-        // --- Падение и сбор ---
+        // --- Падение в лоток ---
         function dropToy() {
-            // Перемещаем игрушку в лоток
-            selectedToyElement.style.left = '44%'; 
-            selectedToyElement.style.top = '74%'; 
-            selectedToyElement.style.width = '6%'; 
-            selectedToyElement.style.height = '8%';
+            // ВАЖНО: Делаем z-index: 20, чтобы игрушка упала ПЕРЕД корпусом автомата, а не за ним!
+            selectedToyElement.style.zIndex = '20'; 
+            selectedToyElement.style.left = '46%'; 
+            selectedToyElement.style.top = '82%'; // Упала в нижний лоток
+            selectedToyElement.style.width = '7%'; 
+            selectedToyElement.style.height = '9%';
             selectedToyElement.classList.add('collected');
 
-            // Ждем пока упадет, затем делаем её кликабельной
             setTimeout(() => {
+                // Добавляем пульсацию, чтобы подсказать, что на неё нужно нажать
+                selectedToyElement.style.animation = 'blink 2s infinite';
                 selectedToyElement.onclick = () => {
                     moveToProgress(selectedToyElement);
                 };
@@ -280,20 +369,18 @@
         }
 
         function moveToProgress(toy) {
-            // Анимация исчезновения с лотка
+            toy.style.animation = 'none';
             toy.classList.add('toy-collected-anim');
             
             setTimeout(() => {
                 toy.style.display = 'none';
                 
-                // Добавляем в прогресс-бар слева
                 const slot = document.getElementById('slot-' + collectedToysCount);
                 slot.innerHTML = `<img src="${toy.src}">`;
                 
                 collectedToysCount++;
 
                 if (collectedToysCount < 9) {
-                    // Возвращаем монетку для следующего раунда
                     coin.style.opacity = '1';
                     coin.classList.add('blinking');
                     controls.forEach(c => c.classList.remove('active'));
