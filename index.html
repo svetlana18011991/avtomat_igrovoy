@@ -11,21 +11,18 @@
         #game-container { 
             position: relative; 
             width: 100vw; 
-            max-width: 177.78vh; /* 16:9 aspect ratio */
-            height: 56.25vw;
-            max-height: 100vh;
-            margin: auto; /* Центрирование */
+            height: 100vh;
             background-image: url('https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/фон.png'); 
-            background-size: cover; 
+            background-size: 100% 100%; /* Жестко растягиваем картинку по краям окна */
             background-position: center; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.8); 
+            background-repeat: no-repeat;
             z-index: 0;
         }
 
         /* Автомат на фоне (чтобы видеть куда ставить) */
         #machine { 
             position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); 
-            height: 95%; pointer-events: none; z-index: 1; 
+            height: 100%; pointer-events: none; z-index: 1; 
         }
 
         /* Стиль для всех перетаскиваемых элементов */
@@ -138,21 +135,19 @@
             wrapper.appendChild(el);
         });
 
-        // 2. Логика перетаскивания (не мешая изменения размера)
+        // 2. Логика перетаскивания
         let dragEl = null;
         let offsetX = 0, offsetY = 0;
 
         document.querySelectorAll('.draggable').forEach(el => {
             el.addEventListener('mousedown', (e) => {
                 const rect = el.getBoundingClientRect();
-                // Проверяем, не кликнул ли пользователь в правый нижний угол (зона изменения размера)
                 const isResize = (e.clientX > rect.right - 25) && (e.clientY > rect.bottom - 25);
 
                 if (!isResize) {
                     dragEl = el;
                     offsetX = e.clientX - rect.left;
                     offsetY = e.clientY - rect.top;
-                    // Все, что перетаскивается, становится поверх
                     document.querySelectorAll('.draggable').forEach(d => d.style.zIndex = 10);
                     el.style.zIndex = 100;
                 }
@@ -165,7 +160,6 @@
                 let newLeft = e.clientX - containerRect.left - offsetX;
                 let newTop = e.clientY - containerRect.top - offsetY;
                 
-                // Ограничиваем перетаскивание внутри контейнера
                 newLeft = Math.max(0, Math.min(newLeft, container.offsetWidth - dragEl.offsetWidth));
                 newTop = Math.max(0, Math.min(newTop, container.offsetHeight - dragEl.offsetHeight));
                 
