@@ -3,101 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Конфигуратор Игры (Режим Сборки)</title>
+    <title>Конфигуратор Игры - Полный Экран</title>
     <style>
-        /* Полный экран */
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #222; overflow: hidden; font-family: sans-serif; }
+        /* Никаких отступов, скроллов и черных полос */
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden; 
+            background-color: #000;
+        }
         
+        /* Фон на весь экран */
         #game-container { 
             position: relative; 
             width: 100vw; 
-            height: 100vh;
+            height: 100vh; 
             background-image: url('https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/фон.png'); 
-            background-size: 100% 100%; /* Жестко растягиваем картинку по краям окна */
+            background-size: 100% 100%; /* Жестко заполняет весь экран от края до края */
             background-position: center; 
             background-repeat: no-repeat;
-            z-index: 0;
         }
 
-        /* Автомат на фоне (чтобы видеть куда ставить) */
-        #machine { 
-            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); 
-            height: 100%; pointer-events: none; z-index: 1; 
-        }
-
-        /* Стиль для всех перетаскиваемых элементов */
+        /* Настройки для элементов, которые мы двигаем */
         .draggable {
             position: absolute;
-            resize: both; /* Позволяет менять размер */
+            resize: both; 
             overflow: hidden;
-            border: 2px dashed #00ff00; /* Зеленая рамка для видимости */
+            border: 2px dashed #00ff00; 
             background: rgba(0, 255, 0, 0.1);
             cursor: move;
-            z-index: 10; /* Все поверх */
-            /* Начальные размеры, чтобы не терялись */
-            width: 80px; height: 80px; top: 10px; left: 10px;
+            z-index: 10; 
+            width: 60px; 
+            height: 60px;
         }
 
-        /* Убираем конфликт картинки с перетаскиванием */
         .draggable img {
-            width: 100%; height: 100%; object-fit: contain; pointer-events: none;
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+            pointer-events: none;
         }
 
-        /* Кнопки (визуально, как в игре) */
+        /* Визуализация кнопок */
         .config-btn {
             background: radial-gradient(circle, #ff6b6b, #ee5253);
             border: 2px solid #fff;
             border-radius: 50%;
-            width: 100%;
-            height: 100%;
+            width: 100%; 
+            height: 100%; 
             color: white;
-            display: flex;
-            justify-content: center;
+            display: flex; 
+            justify-content: center; 
             align-items: center;
-            font-size: 24px;
-            font-weight: bold;
-            pointer-events: none;
+            font-size: 24px; 
+            font-weight: bold; 
+            pointer-events: none; 
             user-select: none;
         }
 
-        /* Визуальные заглушки для невидимых зон */
-        #drop-area { border-color: #ff0000; background: rgba(255, 0, 0, 0.2); }
-        #drop-area::after { content: "МЕСТО ПАДЕНИЯ"; position: absolute; color: white; font-size: 10px; text-align: center; top: 50%; width: 100%; transform: translateY(-50%); }
+        /* Заглушки для зон */
+        #drop-area { border-color: #ff0000; background: rgba(255, 0, 0, 0.3); }
+        #drop-area::after { content: "ПАДЕНИЕ"; position: absolute; color: white; font-size: 12px; font-family: sans-serif; text-align: center; top: 50%; width: 100%; transform: translateY(-50%); }
         
-        #progress-area { border-color: #0000ff; background: rgba(0, 0, 255, 0.2); width: 60px; height: 400px;}
-        #progress-area::after { content: "ПАНЕЛЬ ПРОГРЕССА"; position: absolute; color: white; font-size: 10px; text-align: center; top: 50%; width: 100%; transform: translateY(-50%) rotate(-90deg); }
+        #progress-area { border-color: #0000ff; background: rgba(0, 0, 255, 0.3); width: 80px; height: 400px; }
+        #progress-area::after { content: "ПРОГРЕСС"; position: absolute; color: white; font-size: 12px; font-family: sans-serif; text-align: center; top: 50%; width: 100%; transform: translateY(-50%) rotate(-90deg); }
 
-        /* Всплывающее окно с результатами */
+        /* Окно с кодом */
         #output-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.95); z-index: 1000; flex-direction: column; 
-            justify-content: center; align-items: center; color: white;
+            background: rgba(0,0,0,0.9); z-index: 1000; flex-direction: column; 
+            justify-content: center; align-items: center; color: white; font-family: sans-serif;
         }
-        textarea { width: 80%; height: 60%; font-family: monospace; font-size: 14px; padding: 10px; margin-top: 20px; color: #00ff00; background: #111; border: 1px solid #333; }
-        h1 { margin: 0; color: #00ff00; }
-        p { margin: 5px 0 20px 0; }
+        textarea { width: 80%; height: 60%; font-family: monospace; font-size: 16px; padding: 15px; margin-top: 20px; color: #00ff00; background: #111; border: 1px solid #333; }
     </style>
 </head>
 <body>
 
     <div id="game-container">
-        <img id="machine" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/avtomat.png">
-        
-        <div id="elements-wrapper"></div>
-    </div>
+        </div>
 
     <div id="output-overlay">
-        <h1>СУПЕР! Координаты зафиксированы!</h1>
-        <p>Скопируйте весь текст ниже и отправьте его мне (ИИ):</p>
+        <h1 style="color: #00ff00; margin: 0;">Координаты готовы!</h1>
+        <p>Скопируйте текст ниже и пришлите мне:</p>
         <textarea id="config-text" readonly></textarea>
     </div>
 
     <script>
         const baseUrl = 'https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/';
-        const wrapper = document.getElementById('elements-wrapper');
         const container = document.getElementById('game-container');
         
-        // Список того, что нам нужно расставить
+        // Наши элементы
         const itemsToPlace = [
             { id: 'toy-1', type: 'img', src: '1.png' },
             { id: 'toy-2', type: 'img', src: '2.png' },
@@ -108,34 +105,34 @@
             { id: 'toy-7', type: 'img', src: '7.png' },
             { id: 'toy-8', type: 'img', src: '8.png' },
             { id: 'toy-9', type: 'img', src: '9.png' },
-            { id: 'claw', type: 'img', src: 'клешня.png' }, // Ставим стартовую
+            { id: 'claw', type: 'img', src: 'клешня.png' },
             { id: 'coin', type: 'img', src: 'монета.png' },
             { id: 'btn-left', type: 'div', content: '<div class="config-btn">◀</div>' },
             { id: 'btn-right', type: 'div', content: '<div class="config-btn">▶</div>' },
             { id: 'btn-action', type: 'div', content: '<div class="config-btn">🔘</div>' },
-            { id: 'drop-area', type: 'zone' }, // Зона падения
-            { id: 'progress-area', type: 'zone' } // Зона прогресса
+            { id: 'drop-area', type: 'zone' },
+            { id: 'progress-area', type: 'zone' }
         ];
 
-        // 1. Создаем элементы на экране
+        // Создаем элементы
         itemsToPlace.forEach((item, index) => {
             const el = document.createElement('div');
             el.className = 'draggable';
             el.id = item.id;
             
-            // Расставляем их лесенкой, чтобы не терялись
-            el.style.left = (20 + index * 20) + 'px';
-            el.style.top = (20 + index * 20) + 'px';
+            // Раскидываем лесенкой по экрану
+            el.style.left = (20 + index * 25) + 'px';
+            el.style.top = (20 + index * 25) + 'px';
 
             if (item.type === 'img') {
                 el.innerHTML = `<img src="${baseUrl}${item.src}">`;
             } else if (item.type === 'div') {
                 el.innerHTML = item.content;
             }
-            wrapper.appendChild(el);
+            container.appendChild(el);
         });
 
-        // 2. Логика перетаскивания
+        // Перетаскивание
         let dragEl = null;
         let offsetX = 0, offsetY = 0;
 
@@ -160,9 +157,6 @@
                 let newLeft = e.clientX - containerRect.left - offsetX;
                 let newTop = e.clientY - containerRect.top - offsetY;
                 
-                newLeft = Math.max(0, Math.min(newLeft, container.offsetWidth - dragEl.offsetWidth));
-                newTop = Math.max(0, Math.min(newTop, container.offsetHeight - dragEl.offsetHeight));
-                
                 dragEl.style.left = newLeft + 'px';
                 dragEl.style.top = newTop + 'px';
             }
@@ -172,14 +166,14 @@
             if (dragEl) { dragEl = null; }
         });
 
-        // 3. Сохранение координат при нажатии Enter
+        // Сохранение координат по Enter
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 let config = {};
+                const containerWidth = container.offsetWidth;
+                const containerHeight = container.offsetHeight;
+
                 document.querySelectorAll('.draggable').forEach(el => {
-                    const containerWidth = container.offsetWidth;
-                    const containerHeight = container.offsetHeight;
-                    
                     config[el.id] = {
                         left: (el.offsetLeft / containerWidth * 100).toFixed(2) + '%',
                         top: (el.offsetTop / containerHeight * 100).toFixed(2) + '%',
