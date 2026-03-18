@@ -3,369 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Игровой автомат</title>
+    <title>Режим Сборки Игры</title>
     <style>
-        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #222; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; }
-        #game-container { position: relative; width: 800px; height: 600px; background-image: url('https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/фон.png'); background-size: cover; background-position: center; box-shadow: 0 0 20px rgba(0,0,0,0.5); border-radius: 10px; }
+        body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #222; font-family: sans-serif; overflow: hidden; }
         
-        #machine-no-claw { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 90%; z-index: 10; pointer-events: none; }
+        #game-container { 
+            position: relative; 
+            width: 800px; /* Можете изменить размер окна, если нужно */
+            height: 600px; 
+            background-image: url('https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/фон.png'); 
+            background-size: cover; 
+            background-position: center; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.8); 
+        }
+
+        /* Сам автомат (не двигаем, он на фоне) */
+        #machine { 
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); 
+            height: 95%; pointer-events: none; z-index: 1; 
+        }
+
+        /* Стиль для всех перетаскиваемых элементов */
+        .draggable {
+            position: absolute;
+            resize: both; /* Позволяет менять размер */
+            overflow: hidden;
+            border: 2px dashed #00ff00; /* Зеленая рамка для видимости */
+            background: rgba(0, 255, 0, 0.1);
+            cursor: move;
+            z-index: 10;
+            /* Начальные размеры, чтобы не терялись */
+            width: 60px; height: 60px; top: 10px; left: 10px;
+        }
+
+        /* Убираем конфликт картинки с перетаскиванием */
+        .draggable img {
+            width: 100%; height: 100%; object-fit: contain; pointer-events: none;
+        }
+
+        /* Визуальные заглушки для невидимых зон */
+        #drop-area { border-color: #ff0000; background: rgba(255, 0, 0, 0.2); }
+        #drop-area::after { content: "Куда падает игрушка"; position: absolute; color: white; font-size: 10px; text-align: center; top: 50%; width: 100%; }
         
-        #claw { position: absolute; top: 120px; left: 50%; transform: translateX(-50%); width: 60px; height: auto; z-index: 5; transition: top 1s ease, left 0.3s ease; }
-        #claw::before { content: ''; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); width: 6px; height: 200px; background-color: #555; }
+        #progress-area { border-color: #0000ff; background: rgba(0, 0, 255, 0.2); }
+        #progress-area::after { content: "Зона для собранных"; position: absolute; color: white; font-size: 10px; text-align: center; top: 50%; width: 100%; }
 
-        #toys-area { position: absolute; top: 175px; left: 50%; transform: translateX(-50%); width: 330px; height: 250px; z-index: 1; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 10px; padding: 10px; background: rgba(255, 255, 255, 0.3); border-radius: 10px; }
-        .toy-holder { width: 100%; height: 100%; position: relative; }
-        .toy { width: 100%; height: 100%; object-fit: contain; position: absolute; top: 0; left: 0; transition: all 0.5s ease; cursor: pointer; }
-        .toy.collected-animation { transform: scale(1.5); opacity: 0; }
-        
-        #coin { position: absolute; width: 50px; top: 410px; right: 260px; z-index: 20; cursor: pointer; transition: transform 0.2s; }
-        .blinking { animation: blink 1.5s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); filter: brightness(1); } 50% { opacity: 0.5; transform: scale(1.1); filter: brightness(1.5); } }
-
-        #controls { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 20px; z-index: 15; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-        #controls.active { opacity: 1; pointer-events: auto; }
-        .control-btn { background: radial-gradient(circle, #ff6b6b, #ee5253); border: 2px solid #fff; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; color: white; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: transform 0.1s; display: flex; justify-content: center; align-items: center; user-select: none; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
-        .control-btn:active { transform: scale(0.9); }
-        .arrow-btn { position: absolute; }
-        #btn-left { left: -70px; top: 0; }
-        #btn-right { right: -70px; top: 0; }
-        #btn-down { left: 50%; bottom: -50px; transform: translateX(-50%); }
-
-        #drop-area { position: absolute; bottom: 110px; left: 50%; transform: translateX(-50%); width: 100px; height: 100px; z-index: 1; }
-        
-        #progress-area { position: absolute; top: 20px; left: 20px; width: 150px; height: auto; display: flex; flex-direction: column; gap: 10px; z-index: 10; }
-        .collected-toy-holder { width: 40px; height: 40px; background: rgba(255,255,255,0.7); border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 5px; opacity: 0.5; }
-        .collected-toy { width: 100%; height: 100%; object-fit: contain; }
-        .collected-toy-holder.filled { opacity: 1; }
-
-        /* Окно задания */
-        #task-window { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); width: 400px; padding: 20px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 100; opacity: 0; pointer-events: none; transition: all 0.3s ease; text-align: center; }
-        #task-window.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
-        #task-text { font-size: 20px; margin-bottom: 20px; color: #333; }
-        #task-options { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; }
-        .task-option { padding: 10px 20px; background-color: #f1f2f6; border: 1px solid #ccc; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
-        .task-option:hover { background-color: #dfe4ea; }
-        .task-option.correct { background-color: #2ecc71; color: white; border-color: #27ae60; }
-        .task-option.incorrect { background-color: #e74c3c; color: white; border-color: #c0392b; }
-        #task-close { position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 20px; color: #aaa; }
+        /* Всплывающее окно с результатами */
+        #output-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); z-index: 1000; flex-direction: column; 
+            justify-content: center; align-items: center; color: white;
+        }
+        textarea { width: 80%; height: 60%; font-family: monospace; font-size: 14px; padding: 10px; margin-top: 20px; }
+        h1 { margin: 0; color: #00ff00; }
+        p { margin: 5px 0 20px 0; }
     </style>
 </head>
 <body>
 
     <div id="game-container">
-        <img id="machine-no-claw" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/avtomat.png" alt="Игровой автомат">
+        <img id="machine" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/avtomat.png">
         
-        <img id="claw" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/клешня.png" alt="Клешня">
-
-        <div id="toys-area">
-            </div>
-
-        <img id="coin" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/монета.png" alt="Монета" class="blinking">
-
-        <div id="controls">
-            <div class="control-btn arrow-btn" id="btn-left">◀</div>
-            <div id="btn-joystick" class="control-btn">🔘</div>
-            <div class="control-btn arrow-btn" id="btn-right">▶</div>
-            <div class="control-btn arrow-btn" id="btn-down">▼</div>
-        </div>
-
-        <div id="drop-area"></div>
-
-        <div id="progress-area">
-            <div class="collected-toy-holder" id="progress-1"></div>
-            <div class="collected-toy-holder" id="progress-2"></div>
-            <div class="collected-toy-holder" id="progress-3"></div>
-            <div class="collected-toy-holder" id="progress-4"></div>
-            <div class="collected-toy-holder" id="progress-5"></div>
-            <div class="collected-toy-holder" id="progress-6"></div>
-            <div class="collected-toy-holder" id="progress-7"></div>
-            <div class="collected-toy-holder" id="progress-8"></div>
-            <div class="collected-toy-holder" id="progress-9"></div>
-        </div>
+        <div id="elements-wrapper"></div>
     </div>
 
-    <div id="task-window">
-        <div id="task-close">&times;</div>
-        <p id="task-text">Сколько будет 2 + 2?</p>
-        <div id="task-options">
-            <div class="task-option" data-answer="3">3</div>
-            <div class="task-option" data-answer="4">4</div>
-            <div class="task-option" data-answer="5">5</div>
-        </div>
+    <div id="output-overlay">
+        <h1>СУПЕР! Координаты зафиксированы!</h1>
+        <p>Скопируйте весь текст ниже и отправьте его мне (ИИ):</p>
+        <textarea id="config-text"></textarea>
     </div>
-
-    <audio id="coin-sound" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/hover.mp3"></audio>
-    <audio id="start-sound" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/start_standard.mp3"></audio>
-    <audio id="claw-sound" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/start_standard.mp3"></audio>
-    <audio id="success-sound" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/correct_click.mp3"></audio>
-    <audio id="error-sound" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/wrong_click.mp3"></audio>
 
     <script>
         const baseUrl = 'https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/';
-        const toysArea = document.getElementById('toys-area');
-        const coin = document.getElementById('coin');
-        const controls = document.getElementById('controls');
-        const claw = document.getElementById('claw');
-        const dropArea = document.getElementById('drop-area');
-        const taskWindow = document.getElementById('task-window');
-        const taskClose = document.getElementById('task-close');
+        const wrapper = document.getElementById('elements-wrapper');
         
-        // Звуки
-        const coinSound = document.getElementById('coin-sound');
-        const startSound = document.getElementById('start-sound');
-        const clawSound = document.getElementById('claw-sound');
-        const successSound = document.getElementById('success-sound');
-        const errorSound = document.getElementById('error-sound');
-
-        let gameState = 'waiting_coin'; // Состояния: waiting_coin, playing, task_active
-        let currentToys = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        let collectedToysCount = 0;
-        let selectedToyNum = null;
-        let selectedToyElement = null;
-
-        // Позиции клешни по горизонтали (в процентах)
-        const clawLeftPositions = [20, 50, 80]; 
-        let currentClawPosIndex = 1; // Центр
-
-        // Данные заданий
-        const tasks = [
-            { text: 'Сколько будет 1 + 1?', options: ['1', '2', '3'], correct: '2' },
-            { text: 'Сколько будет 5 - 2?', options: ['2', '3', '4'], correct: '3' },
-            { text: 'Сколько будет 2 * 3?', options: ['5', '6', '7'], correct: '6' },
-            { text: 'Сколько будет 10 / 2?', options: ['4', '5', '6'], correct: '5' },
-            { text: 'Сколько будет 3 + 4?', options: ['6', '7', '8'], correct: '7' },
-            { text: 'Сколько будет 9 - 5?', options: ['3', '4', '5'], correct: '4' },
-            { text: 'Сколько будет 4 * 2?', options: ['7', '8', '9'], correct: '8' },
-            { text: 'Сколько будет 12 / 3?', options: ['3', '4', '5'], correct: '4' },
-            { text: 'Сколько будет 6 + 6?', options: ['10', '11', '12'], correct: '12' }
+        // Список того, что нам нужно расставить
+        const itemsToPlace = [
+            { id: 'toy-1', type: 'img', src: '1.png' },
+            { id: 'toy-2', type: 'img', src: '2.png' },
+            { id: 'toy-3', type: 'img', src: '3.png' },
+            { id: 'toy-4', type: 'img', src: '4.png' },
+            { id: 'toy-5', type: 'img', src: '5.png' },
+            { id: 'toy-6', type: 'img', src: '6.png' },
+            { id: 'toy-7', type: 'img', src: '7.png' },
+            { id: 'toy-8', type: 'img', src: '8.png' },
+            { id: 'toy-9', type: 'img', src: '9.png' },
+            { id: 'claw', type: 'img', src: 'клешня.png' },
+            { id: 'coin', type: 'img', src: 'монета.png' },
+            { id: 'btn-left', type: 'div', content: '<div style="background:radial-gradient(circle, #ff6b6b, #ee5253);border-radius:50%;width:100%;height:100%;border:2px solid white;color:white;display:flex;justify-content:center;align-items:center;font-size:24px;">◀</div>' },
+            { id: 'btn-right', type: 'div', content: '<div style="background:radial-gradient(circle, #ff6b6b, #ee5253);border-radius:50%;width:100%;height:100%;border:2px solid white;color:white;display:flex;justify-content:center;align-items:center;font-size:24px;">▶</div>' },
+            { id: 'btn-down', type: 'div', content: '<div style="background:radial-gradient(circle, #ff6b6b, #ee5253);border-radius:50%;width:100%;height:100%;border:2px solid white;color:white;display:flex;justify-content:center;align-items:center;font-size:24px;">▼</div>' },
+            { id: 'btn-action', type: 'div', content: '<div style="background:radial-gradient(circle, #ff6b6b, #ee5253);border-radius:50%;width:100%;height:100%;border:2px solid white;color:white;display:flex;justify-content:center;align-items:center;font-size:24px;">🔘</div>' },
+            { id: 'drop-area', type: 'zone' }, // Зона падения
+            { id: 'progress-area', type: 'zone' } // Зона прогресса
         ];
 
-        // 1. Инициализация игрушек на витрине
-        function initToys() {
-            toysArea.innerHTML = '';
-            currentToys.forEach((num, index) => {
-                const holder = document.createElement('div');
-                holder.className = 'toy-holder';
-                const img = document.createElement('img');
-                img.src = `${baseUrl}${num}.png`;
-                img.className = 'toy';
-                img.id = `toy-${num}`;
-                img.dataset.toyNum = num;
-                img.style.left = `${(index % 3) * 33.33}%`;
-                img.style.top = `${Math.floor(index / 3) * 33.33}%`;
-                holder.appendChild(img);
-                toysArea.appendChild(holder);
-            });
-        }
+        // 1. Создаем элементы на экране
+        itemsToPlace.forEach((item, index) => {
+            const el = document.createElement('div');
+            el.className = 'draggable';
+            el.id = item.id;
+            
+            // Чтобы они не накладывались друг на друга на старте, сдвигаем их лесенкой
+            el.style.left = (index * 15) + 'px';
+            el.style.top = (index * 15) + 'px';
 
-        // 2. Обработка клика по монетке
-        coin.addEventListener('click', () => {
-            if (gameState !== 'waiting_coin') return;
-            
-            coinSound.play();
-            
-            // Заглушаем жжужание через 2 секунды
-            setTimeout(() => {
-                startSound.play();
-                setTimeout(() => {
-                    startSound.pause();
-                    startSound.currentTime = 0;
-                }, 2000);
-            }, 500);
-            
-            gameState = 'playing';
-            coin.classList.remove('blinking');
-            coin.style.opacity = '0'; 
-            controls.classList.add('active');
-            claw.style.opacity = '1';
+            if (item.type === 'img') {
+                el.innerHTML = `<img src="${baseUrl}${item.src}">`;
+            } else if (item.type === 'div') {
+                el.innerHTML = item.content;
+            }
+            wrapper.appendChild(el);
         });
 
-        // 3. Управление клешнёй (влево/вправо)
-        document.getElementById('btn-left').addEventListener('click', () => {
-            if (gameState === 'playing' && currentClawPosIndex > 0) {
-                currentClawPosIndex--;
-                claw.style.left = clawLeftPositions[currentClawPosIndex] + '%';
+        // 2. Логика перетаскивания (не мешая изменению размера)
+        let dragEl = null;
+        let offsetX = 0, offsetY = 0;
+        const container = document.getElementById('game-container');
+
+        document.querySelectorAll('.draggable').forEach(el => {
+            el.addEventListener('mousedown', (e) => {
+                const rect = el.getBoundingClientRect();
+                // Проверяем, не кликнул ли пользователь в правый нижний угол (зона изменения размера)
+                const isResize = (e.clientX > rect.right - 25) && (e.clientY > rect.bottom - 25);
+
+                if (!isResize) {
+                    dragEl = el;
+                    offsetX = e.clientX - rect.left;
+                    offsetY = e.clientY - rect.top;
+                    el.style.zIndex = 100; // Выводим на передний план при перетаскивании
+                }
+            });
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (dragEl) {
+                const containerRect = container.getBoundingClientRect();
+                let newLeft = e.clientX - containerRect.left - offsetX;
+                let newTop = e.clientY - containerRect.top - offsetY;
+                
+                dragEl.style.left = newLeft + 'px';
+                dragEl.style.top = newTop + 'px';
             }
         });
 
-        document.getElementById('btn-right').addEventListener('click', () => {
-            if (gameState === 'playing' && currentClawPosIndex < 2) {
-                currentClawPosIndex++;
-                claw.style.left = clawLeftPositions[currentClawPosIndex] + '%';
+        document.addEventListener('mouseup', () => {
+            if (dragEl) {
+                dragEl.style.zIndex = 10; // Возвращаем обычный слой
+                dragEl = null;
             }
         });
 
-        // 4. Опускание клешни
-        document.getElementById('btn-down').addEventListener('click', () => {
-            if (gameState !== 'playing') return;
-            
-            clawSound.play();
-            gameState = 'claw_moving';
-            
-            // Находим игрушку под клешнёй
-            const col = currentClawPosIndex;
-            const toysAtCol = [];
-            document.querySelectorAll('.toy').forEach(toy => {
-                const toyLeftPerc = parseFloat(toy.style.left);
-                if (Math.abs(toyLeftPerc - (col * 33.33)) < 5) {
-                    toysAtCol.push(toy);
-                }
-            });
-
-            // Выбираем самую верхнюю игрушку в колонке
-            if (toysAtCol.length > 0) {
-                toysAtCol.sort((a, b) => parseFloat(a.style.top) - parseFloat(b.style.top));
-                selectedToyElement = toysAtCol[0];
-                selectedToyNum = selectedToyElement.dataset.toyNum;
-            } else {
-                selectedToyElement = null;
-                selectedToyNum = null;
-            }
-
-            // Анимация опускания
-            claw.style.top = '250px'; // Ниже
-            
-            setTimeout(() => {
-                // Если игрушка схвачена, поднимаем её
-                if (selectedToyElement) {
-                    selectedToyElement.style.transition = 'none';
-                    selectedToyElement.style.position = 'fixed';
-                    selectedToyElement.style.left = '50%';
-                    selectedToyElement.style.transform = 'translateX(-50%)';
-                    selectedToyElement.style.top = '30px'; 
-                    claw.appendChild(selectedToyElement);
-                }
-                
-                // Поднимаем клешню
-                claw.style.top = '120px'; // Исходная
-                
-                setTimeout(() => {
-                    // Открываем окно с задачей
-                    openTaskWindow();
-                }, 1000); // Время подъема
-            }, 1000); // Время спуска
-        });
-
-        // 5. Окно задания
-        function openTaskWindow() {
-            gameState = 'task_active';
-            const task = tasks[collectedToysCount]; // Выбираем задание по счетчику
-            document.getElementById('task-text').textContent = task.text;
-            
-            const optionsDiv = document.getElementById('task-options');
-            optionsDiv.innerHTML = '';
-            task.options.forEach(option => {
-                const optElement = document.createElement('div');
-                optElement.className = 'task-option';
-                optElement.textContent = option;
-                optElement.dataset.answer = option;
-                optElement.addEventListener('click', checkAnswer);
-                optionsDiv.appendChild(optElement);
-            });
-
-            taskWindow.classList.add('active');
-        }
-
-        function checkAnswer(e) {
-            const selectedOpt = e.target;
-            const answer = selectedOpt.dataset.answer;
-            const correctAnswer = tasks[collectedToysCount].correct;
-            
-            if (answer === correctAnswer) {
-                // Верно!
-                selectedOpt.classList.add('correct');
-                successSound.play();
-                
-                // Игрушка падает
-                if (selectedToyElement) {
-                    dropToy(selectedToyNum);
-                }
-                
-                setTimeout(() => {
-                    closeTaskWindow();
-                    gameState = 'playing';
+        // 3. Сохранение координат при нажатии Enter
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                let config = {};
+                document.querySelectorAll('.draggable').forEach(el => {
+                    // Высчитываем координаты в процентах для лучшей адаптивности
+                    const containerWidth = container.offsetWidth;
+                    const containerHeight = container.offsetHeight;
                     
-                    // Показываем собранную игрушку
-                    showCollectedToy(selectedToyNum);
-                    collectedToysCount++;
+                    config[el.id] = {
+                        left: (el.offsetLeft / containerWidth * 100).toFixed(2) + '%',
+                        top: (el.offsetTop / containerHeight * 100).toFixed(2) + '%',
+                        width: (el.offsetWidth / containerWidth * 100).toFixed(2) + '%',
+                        height: (el.offsetHeight / containerHeight * 100).toFixed(2) + '%'
+                    };
+                });
 
-                    // Генерация новой монетки (если игрушки еще есть)
-                    if (collectedToysCount < 9) {
-                        spawnCoin();
-                    } else {
-                        // Конец игры!
-                        setTimeout(() => {
-                            alert('Поздравляю! Ты собрал все игрушки!');
-                        }, 1000);
-                    }
-                }, 1000);
-                
-            } else {
-                // Неверно!
-                selectedOpt.classList.add('incorrect');
-                errorSound.play();
-                
-                setTimeout(() => {
-                    selectedOpt.classList.remove('incorrect');
-                }, 500);
+                document.getElementById('config-text').value = JSON.stringify(config, null, 4);
+                document.getElementById('output-overlay').style.display = 'flex';
             }
-        }
-
-        function closeTaskWindow() {
-            taskWindow.classList.remove('active');
-        }
-
-        taskClose.addEventListener('click', closeTaskWindow);
-
-        // 6. Сбор игрушки
-        function dropToy(toyNum) {
-            // Игрушка перемещается из клешни в область падения
-            if (selectedToyElement) {
-                dropArea.appendChild(selectedToyElement);
-                selectedToyElement.style.position = 'absolute';
-                selectedToyElement.style.top = '0px';
-                selectedToyElement.style.left = '0px';
-                selectedToyElement.style.transform = 'none';
-                
-                // Анимация падения
-                setTimeout(() => {
-                    selectedToyElement.style.top = '50px';
-                }, 100);
-
-                // Ребенок кликает на игрушку
-                selectedToyElement.addEventListener('click', collectToy);
-            }
-        }
-
-        function collectToy(e) {
-            const toy = e.target;
-            const toyNum = toy.dataset.toyNum;
-            
-            // Анимация перемещения в прогресс
-            toy.classList.add('collected-animation');
-            
-            setTimeout(() => {
-                toy.remove();
-            }, 500);
-        }
-
-        function showCollectedToy(toyNum) {
-            const progressHolder = document.getElementById(`progress-${collectedToysCount + 1}`);
-            progressHolder.innerHTML = `<img src="${baseUrl}${toyNum}.png" class="collected-toy" alt="Игрушка">`;
-            progressHolder.classList.add('filled');
-        }
-
-        // 7. Новая монетка
-        function spawnCoin() {
-            coin.style.opacity = '1';
-            coin.classList.add('blinking');
-            gameState = 'waiting_coin';
-            controls.classList.remove('active');
-            claw.style.opacity = '0';
-        }
-
-        initToys();
-
+        });
     </script>
 </body>
 </html>
