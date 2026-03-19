@@ -8,24 +8,12 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Neucha&display=swap');
     /* ЖЕСТКАЯ ФИКСАЦИЯ РАЗМЕРОВ ДЛЯ ЗАЩИТЫ ОТ БАГОВ GENIALLY */
-    html, body {
-      height: 100%;
-      margin: 0;
-      overflow: hidden; /* Запрещаем внешний скролл */
-      position: relative;
-    }
+    html, body { height: 100%; margin: 0; overflow: hidden; position: relative; }
 
     :root{
-      --text:#eaf0ff;
-      --muted:#a9b6e6;
-      --border: rgba(255,255,255,.10);
-      --shadow2: 0 12px 34px rgba(0,0,0,.40);
-      --radius: 18px;
-      --radius2: 22px;
-      --neon:#d6b14a;
-      --neon2:#f2d37a;
-      --danger:#ff4d4d;
-      --ok:#2dd27d;
+      --text:#eaf0ff; --muted:#a9b6e6; --border: rgba(255,255,255,.10);
+      --shadow2: 0 12px 34px rgba(0,0,0,.40); --radius: 18px; --radius2: 22px;
+      --neon:#d6b14a; --neon2:#f2d37a; --danger:#ff4d4d; --ok:#2dd27d;
     }
 
     *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
@@ -40,45 +28,19 @@
     }
     body.gameOnly{background:transparent}
 
-    .app{
-      display:grid;
-      grid-template-columns: 460px 1fr;
-      gap:14px;
-      padding:14px;
-      max-width: 1540px;
-      margin: 0 auto;
-      height: 100%;
-    }
+    .app{ display:grid; grid-template-columns: 460px 1fr; gap:14px; padding:14px; max-width: 1540px; margin: 0 auto; height: 100%; }
     
     @media (max-width: 1020px){
       .app { display: flex; flex-direction: column; overflow-y: auto; }
       .settings, .preview { height: auto !important; flex: none; min-height: 600px; }
     }
 
-    .panel{
-      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
-      border:1px solid var(--border);
-      border-radius:var(--radius2);
-      box-shadow:var(--shadow2);
-      backdrop-filter: blur(10px);
-      overflow:hidden;
-      position:relative;
-    }
-
-    .panel-header{
-      padding:12px 14px;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-    }
+    .panel{ background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04)); border:1px solid var(--border); border-radius:var(--radius2); box-shadow:var(--shadow2); backdrop-filter: blur(10px); overflow:hidden; position:relative; }
+    .panel-header{ padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.10); display:flex;align-items:center;justify-content:space-between;gap:10px; }
     .panel-header .h{font-weight:950;letter-spacing:.2px; display:flex; align-items:center; gap:10px;}
 
-    .settings{
-      height: 100%; display:flex; flex-direction:column; min-height: 0;
-    }
-    .settings .panel-body{
-      overflow-y: auto; flex: 1; min-height: 0; padding:14px;
-    }
-
+    .settings{ height: 100%; display:flex; flex-direction:column; min-height: 0; }
+    .settings .panel-body{ overflow-y: auto; flex: 1; min-height: 0; padding:14px; }
     .settings .panel-body::-webkit-scrollbar { width: 8px; }
     .settings .panel-body::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 4px; }
     .settings .panel-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
@@ -86,146 +48,75 @@
 
     [data-hide="blocks"]{display:none !important}
 
-    .section{
-      padding:12px 12px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(0,0,0,.16);
-      margin-bottom:12px;
-    }
-    .section .title{
-      font-weight:950; font-size:13.5px; margin-bottom:10px;
-      color:rgba(255,255,255,.92); display:flex;align-items:center;justify-content:space-between;gap:8px;
-    }
+    .section{ padding:12px 12px; border-radius:16px; border:1px solid rgba(255,255,255,.10); background:rgba(0,0,0,.16); margin-bottom:12px; }
+    .section .title{ font-weight:950; font-size:13.5px; margin-bottom:10px; color:rgba(255,255,255,.92); display:flex;align-items:center;justify-content:space-between;gap:8px; }
 
     .muted{color:var(--muted); font-size:12.5px; line-height:1.35}
-
     label{ display:block; font-size:12.5px; color:rgba(255,255,255,.86); margin:10px 0 6px }
 
-    input[type="text"], input[type="number"], textarea, select{
-      width:100%; border-radius:14px; padding:10px 11px;
-      border:1px solid rgba(255,255,255,.14); background:rgba(0,0,0,.25);
-      color:var(--text); outline:none;
-    }
+    input[type="text"], input[type="number"], textarea, select{ width:100%; border-radius:14px; padding:10px 11px; border:1px solid rgba(255,255,255,.14); background:rgba(0,0,0,.25); color:var(--text); outline:none; }
     textarea{min-height:84px; resize:vertical}
-
-    input[type="color"] {
-      width:100%; height:40px; border-radius:14px; padding:2px;
-      border:1px solid rgba(255,255,255,.14); background:rgba(0,0,0,.25); cursor:pointer;
-    }
+    input[type="color"] { width:100%; height:40px; border-radius:14px; padding:2px; border:1px solid rgba(255,255,255,.14); background:rgba(0,0,0,.25); cursor:pointer; }
     input[type="color"]::-webkit-color-swatch-wrapper { padding:2px; }
     input[type="color"]::-webkit-color-swatch { border-radius:10px; border:none; }
 
     .row{display:flex; gap:10px; flex-wrap:wrap}
     .row > *{flex:1; min-width:170px}
 
-    .toggle{
-      display:flex; align-items:center; gap:10px; padding:10px 10px;
-      border-radius:14px; border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.04); margin-top:8px;
-    }
+    .toggle{ display:flex; align-items:center; gap:10px; padding:10px 10px; border-radius:14px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); margin-top:8px; }
     .toggle input{width:18px; height:18px}
 
-    .btn{
-      padding:11px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06); color:var(--text); cursor:pointer;
-      font-weight:950; font-size:14px;
-      transition:transform .08s ease, background .15s ease, border-color .15s ease, box-shadow .2s ease;
-      display:inline-flex; align-items:center; justify-content:center; gap:8px;
-      user-select:none; white-space:nowrap;
-    }
+    .btn{ padding:11px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.06); color:var(--text); cursor:pointer; font-weight:950; font-size:14px; transition:transform .08s ease, background .15s ease, border-color .15s ease, box-shadow .2s ease; display:inline-flex; align-items:center; justify-content:center; gap:8px; user-select:none; white-space:nowrap; }
     .btn:hover{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.24)}
     .btn:active{transform:translateY(1px)}
     .btn:disabled{opacity:.45; cursor:not-allowed}
-
-    .btn.primary{
-      background:linear-gradient(90deg, rgba(214,177,74,.35), rgba(242,211,122,.22));
-      border-color:rgba(214,177,74,.40); box-shadow: 0 10px 26px rgba(214,177,74,.18);
-    }
+    .btn.primary{ background:linear-gradient(90deg, rgba(214,177,74,.35), rgba(242,211,122,.22)); border-color:rgba(214,177,74,.40); box-shadow: 0 10px 26px rgba(214,177,74,.18); }
     .btn.danger{border-color:rgba(255,77,77,.35); background:rgba(255,77,77,.08)}
     .btn.small{padding:8px 10px; font-size:12.5px; border-radius:12px}
 
     .q-list{display:flex; flex-direction:column; gap:10px;}
-    .q-item{
-      padding:10px 10px; border-radius:14px; border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.04); display:flex; gap:10px; align-items:center;
-      justify-content:space-between; transition: border-color 0.2s, transform 0.2s;
-    }
+    .q-item{ padding:10px 10px; border-radius:14px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); display:flex; gap:10px; align-items:center; justify-content:space-between; transition: border-color 0.2s, transform 0.2s; }
     .q-item.drag-over { border-color: var(--neon); background: rgba(214, 177, 74, 0.15); transform: scale(1.02); }
     .cursor-grab { cursor: grab; }
     .cursor-grab:active { cursor: grabbing; }
-
     .q-item .meta{ display:flex; flex-direction:column; gap:4px; min-width:0; padding-top:3px; }
     .q-item .meta .t{ font-weight:900; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
     .q-item .meta .s{ color:var(--muted); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
 
-    .pill{
-      display:inline-flex; align-items:center; gap:6px; padding:6px 8px; border-radius:999px;
-      font-size:12px; font-weight:900; border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.18); color:rgba(255,255,255,.92);
-    }
+    .pill{ display:inline-flex; align-items:center; gap:6px; padding:6px 8px; border-radius:999px; font-size:12px; font-weight:900; border:1px solid rgba(255,255,255,.14); background:rgba(0,0,0,.18); color:rgba(255,255,255,.92); }
 
     .preview{ height: 100%; display:flex; flex-direction:column; gap:12px; padding:0; overflow:hidden; min-height: 0; }
-    .preview-top{
-      display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 14px;
-      border-bottom:1px solid rgba(255,255,255,.10); background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
-    }
+    .preview-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.10); background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04)); }
     .preview-top .name{font-weight:950; letter-spacing:.2px}
     .preview-top .hint{color:var(--muted); font-size:12.5px}
-
     .preview .panel-body { flex: 1; display: flex; flex-direction: column; min-height: 0; padding-bottom: 0; }
+    .preview-stage{ flex: 1; position:relative; border-radius:var(--radius2); border:1px solid rgba(255,255,255,.10); overflow:hidden; background:rgba(0,0,0,.18); box-shadow: var(--shadow2); }
 
-    .preview-stage{
-      flex: 1; position:relative; border-radius:var(--radius2); border:1px solid rgba(255,255,255,.10);
-      overflow:hidden; background:rgba(0,0,0,.18); box-shadow: var(--shadow2);
-    }
-
-    .toast{
-      position:fixed; left:50%; bottom:16px; transform:translateX(-50%);
-      background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.14); color:var(--text);
-      padding:10px 12px; border-radius:14px; backdrop-filter: blur(10px);
-      box-shadow: var(--shadow2); opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease; z-index:999999;
-    }
+    .toast{ position:fixed; left:50%; bottom:16px; transform:translateX(-50%); background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.14); color:var(--text); padding:10px 12px; border-radius:14px; backdrop-filter: blur(10px); box-shadow: var(--shadow2); opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease; z-index:999999; }
     .toast.show{ opacity:1; transform:translateX(-50%) translateY(-4px) }
 
     .modal-backdrop{ position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.65); backdrop-filter: blur(8px); display: none; z-index: 999998; }
-
-    .modal{
-      position: absolute; top: 15px; bottom: 15px; left: 15px; right: 15px; margin: auto;
-      max-width: 820px; width: auto; display: flex; flex-direction: column; border-radius: 20px;
-      border: 1px solid var(--neon-orange-base) !important; background: #16110c !important;
-      box-shadow: var(--neon-box-shadow), 0 30px 80px rgba(0,0,0,.7) !important; overflow: hidden;
-    }
-    
+    .modal{ position: absolute; top: 15px; bottom: 15px; left: 15px; right: 15px; margin: auto; max-width: 820px; width: auto; display: flex; flex-direction: column; border-radius: 20px; border: 1px solid var(--neon-orange-base) !important; background: #16110c !important; box-shadow: var(--neon-box-shadow), 0 30px 80px rgba(0,0,0,.7) !important; overflow: hidden; }
     .modal-head{ padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-bottom: 1px solid rgba(255,255,255,.10); flex-shrink: 0; }
     .modal-head .h{font-weight:950}
-    
     .modal-body{ padding: 14px; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; flex: 1 1 auto; min-height: 0; }
     .modal-body::-webkit-scrollbar { width: 8px; }
     .modal-body::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 4px; }
     .modal-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
     .modal-body::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
-
     .modal-foot{ padding: 12px 14px; border-top: 1px solid rgba(255,255,255,.10); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; flex-shrink: 0; }
 
     .choiceBlock{ border:1px solid rgba(255,255,255,.10); background:rgba(0,0,0,.14); border-radius:14px; padding:10px; margin-top:10px; }
-
     .answerRow{ display:flex; gap:8px; align-items:center; margin-top:8px; }
     .answerRow input[type="text"]{flex:1; min-width:0}
-
     .radio{ width:18px; height:18px; accent-color: var(--neon); flex:0 0 auto; }
-
     .errbar{ display:none; margin:12px 14px 0; padding:10px 12px; border-radius:14px; border:1px solid rgba(255,77,77,.35); background:rgba(255,77,77,.10); color:#ffd6d6; font-size:13px; line-height:1.35; white-space:pre-wrap; }
     .errbar.show{display:block}
 
-    .gameHost{ width:100%; height:100%; min-height:0; }
-    
     :root{
-      --neon-orange-base: #ffae00;
-      --neon-orange-glow: rgba(255, 136, 0, 0.6);
+      --neon-orange-base: #ffae00; --neon-orange-glow: rgba(255, 136, 0, 0.6);
       --neon-box-shadow: 0 0 5px var(--neon-orange-glow), 0 0 15px var(--neon-orange-glow), inset 0 0 5px rgba(255, 136, 0, 0.2);
     }
-
     .panel { border-color: var(--neon-orange-base) !important; box-shadow: var(--neon-box-shadow), var(--shadow2) !important; }
     .section { border-color: rgba(255, 174, 0, 0.5) !important; box-shadow: 0 0 8px rgba(255, 136, 0, 0.3) !important; background: rgba(20, 10, 0, 0.3) !important; }
     .btn { border-color: var(--neon-orange-base) !important; }
@@ -233,11 +124,7 @@
     .btn.primary { background: linear-gradient(90deg, rgba(255, 174, 0, 0.4), rgba(255, 136, 0, 0.3)) !important; }
     input:focus, textarea:focus, select:focus { border-color: var(--neon-orange-base) !important; box-shadow: 0 0 8px var(--neon-orange-glow), inset 0 0 4px rgba(255, 136, 0, 0.2) !important; }
 
-    @keyframes pulse-logo {
-      0% { transform: scale(1); box-shadow: 0 0 5px rgba(255, 174, 0, 0.4); }
-      50% { transform: scale(1.08); box-shadow: 0 0 15px rgba(255, 174, 0, 0.8); }
-      100% { transform: scale(1); box-shadow: 0 0 5px rgba(255, 174, 0, 0.4); }
-    }
+    @keyframes pulse-logo { 0% { transform: scale(1); box-shadow: 0 0 5px rgba(255, 174, 0, 0.4); } 50% { transform: scale(1.08); box-shadow: 0 0 15px rgba(255, 174, 0, 0.8); } 100% { transform: scale(1); box-shadow: 0 0 5px rgba(255, 174, 0, 0.4); } }
     .anim-pulse { animation: pulse-logo 2.5s infinite ease-in-out; }
 </style>
 </head>
@@ -274,7 +161,6 @@
       <div class="errbar" id="errbar"></div>
 
       <div class="panel-body">
-
         <div class="section">
           <div class="title" data-i18n="langTitle">Язык интерфейса</div>
           <select id="selLang" style="margin-top:6px;">
@@ -296,7 +182,6 @@
             <input id="inpBgUrl" type="text" placeholder="Оставьте пустым для стандарта" data-i18n="phBgUrl" />
             <button id="btnResetBg" type="button" class="btn small" data-i18n="btnResetBg">↩ Сбросить</button>
           </div>
-          
           <div class="toggle">
             <input id="chkUseLatex" type="checkbox" />
             <div>
@@ -484,11 +369,9 @@
             </select>
           </div>
         </div>
-
         <div style="font-size:12px; color:rgba(255,255,255,0.7); margin-bottom:10px; line-height:1.4;">
           <b>Подсказка:</b> Если в конце скопированного блока есть строка <code>Ответ: 2</code>, умный алгоритм сам найдет правильный вариант!
         </div>
-        
         <textarea id="importText" style="height:250px; font-family:'Courier New', monospace; font-size:14px;" placeholder="Вставьте скопированный текст сюда..."></textarea>
       </div>
       <div class="modal-foot">
@@ -525,7 +408,7 @@
       noQs: "Пока нет вопросов. Заполните все 9.", rightAns: "✅ Верный ответ", optionN: "Вариант ",
       rightOptionN: "Верный ", toastCopied: "Скопировано ✅", toastError: "Ошибка", toastBgLoaded: "Фон загружен",
       toast9Q: "Уже 9 вопросов 🙂", toastCleared: "Очищено", toastQAdded: "Вопрос добавлен", toastQUpdated: "Вопрос обновлён",
-      toastDraft: "В превью показан черновик", toastEmptyQ: "Пустой вопрос", toastNoText: "Введите вопрос",
+      toastDraft: "В превью показан черновик", toastEmptyQ: "Пустой вопрос", toastNoText: "Введите текст",
       toastMin2: "Минимум 2 варианта", toastAtLeast1: "Отметьте верный ответ", typeChoice: "Выбор", typeText: "Ввод",
       withMedia: " (+ медиа)", lblFontTitle: "Оформление текста", lblFont: "Шрифт",
       optFontDefault: "Стандартный", optFontHW1: "Caveat (Рукописный 1)", optFontHW2: "Neucha (Рукописный 2)", lblFontSize: "Размер шрифта (px)",
@@ -623,62 +506,69 @@
         #coin { left: 51.95%; top: 70.14%; width: 5.58%; height: 11.22%; z-index: 20; cursor: pointer; transition: 0.3s; }
         .blinking { animation: blink 1.5s infinite; }
         @keyframes blink { 0%, 100% { filter: brightness(1) drop-shadow(0 0 0px gold); } 50% { filter: brightness(1.4) drop-shadow(0 0 15px gold); transform: scale(1.05); } }
+        
+        /* КНОПКИ: Сделаны чуть больше для удобства нажатия на мобильных/в превью */
         .control-btn { position: absolute; z-index: 30; opacity: 0; pointer-events: none; cursor: pointer; border-radius: 20px; transition: opacity 0.1s, transform 0.1s; background: rgba(255, 255, 255, 0.4); }
         .control-btn.active { pointer-events: auto; opacity: 0; }
         .control-btn.active:hover { opacity: 0.1; }
         .control-btn.active:active { opacity: 0.5; transform: scale(0.95); }
-        #btn-left { left: 42.54%; top: 65.27%; width: 3.76%; height: 3.78%; }
-        #btn-action { left: 46.71%; top: 65.14%; width: 6.25%; height: 3.78%; }
-        #btn-right { left: 53.63%; top: 65.41%; width: 3.63%; height: 3.11%; }
+        #btn-left { left: 41.5%; top: 64%; width: 5%; height: 6%; }
+        #btn-action { left: 46.5%; top: 64%; width: 7%; height: 6%; }
+        #btn-right { left: 53.5%; top: 64%; width: 5%; height: 6%; }
+        
         #drop-area { position: absolute; left: 45.16%; top: 71.76%; width: 5.58%; height: 11.22%; z-index: 10; }
-        #progress-area { position: absolute; left: 8.87%; top: 3.65%; width: 4.10%; height: 95.68%; z-index: 10; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; }
-        .collected-slot { width: 90%; aspect-ratio: 1; background: rgba(255,255,255,0.4); border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 2px; box-shadow: inset 0px 2px 5px rgba(0,0,0,0.3); }
+        
+        /* ПРОГРЕСС ПАНЕЛЬ: Вынесена на передний план (z-index 25) */
+        #progress-area { position: absolute; left: 8.87%; top: 3.65%; width: 4.10%; height: 95.68%; z-index: 25; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; }
+        .collected-slot { width: 90%; aspect-ratio: 1; background: rgba(255,255,255,0.6); border: 2px solid #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 2px; box-shadow: inset 0px 3px 6px rgba(0,0,0,0.2); }
         .collected-slot img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
         .toy-collected-anim { transform: scale(1.3); opacity: 0; transition: all 0.5s ease; }
 
-        /* Окна и модалки */
-        .modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: rgba(20, 22, 30, 0.98); padding: 20px 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); z-index: 100; opacity: 0; pointer-events: none; transition: all 0.3s ease; text-align: center; border: 2px solid #f9d423; display: flex; flex-direction: column; align-items: center; color: white; width: min(85%, 600px); max-height: 90vh; overflow-y: auto; }
+        /* СВЕТЛЫЙ, ПОЗИТИВНЫЙ ДИЗАЙН ОКОН И МОДАЛОК */
+        .modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: #ffffff; padding: 25px 35px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.4), inset 0 0 0 5px #fff, inset 0 0 0 8px #48dbfb; z-index: 100; opacity: 0; pointer-events: none; transition: all 0.3s ease; text-align: center; border: 6px solid #0abde3; display: flex; flex-direction: column; align-items: center; color: #333; width: min(85%, 600px); max-height: 90vh; overflow-y: auto; }
         .modal.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
-        .modal h2 { margin: 0 0 20px 0; color: #fff; font-size: 26px; line-height: 1.3; }
+        .modal h2 { margin: 0 0 20px 0; color: #ff6b6b; font-size: 32px; line-height: 1.3; font-weight: 900; text-shadow: 1px 1px 0px #feca57; }
+        
         #task-options { display: flex; gap: 15px; justify-content: center; width: 100%; flex-wrap: wrap; margin-bottom:10px; }
-        .task-option { padding: 12px 20px; background: #3498db; color: white; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 20px; transition: 0.2s; min-width: 80px; }
-        .task-option:hover { background: #2980b9; transform: scale(1.05); }
-        .task-option.correct { background: #2ecc71 !important; }
-        .task-option.incorrect { background: #e74c3c !important; animation: shake 0.5s; }
+        .task-option { padding: 12px 25px; background: #0abde3; color: white; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 22px; transition: 0.2s; min-width: 80px; border: 3px solid #01a3a4; box-shadow: 0 6px 0 #01a3a4; }
+        .task-option:hover { background: #48dbfb; transform: translateY(3px); box-shadow: 0 3px 0 #01a3a4; }
+        .task-option.correct { background: #1dd1a1 !important; border-color: #10ac84 !important; box-shadow: 0 6px 0 #10ac84 !important; color: white; }
+        .task-option.incorrect { background: #ff6b6b !important; border-color: #ee5253 !important; box-shadow: 0 6px 0 #ee5253 !important; color: white; animation: shake 0.5s; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
         
         #inputRow { display: none; gap: 10px; align-items: center; width: 100%; justify-content: center; margin-bottom:10px; flex-wrap: wrap; }
-        #ansInput { flex: 1; min-width: 200px; max-width: 300px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 12px; color: white; font-size: 18px; outline: none; }
-        #submitBtn { padding: 12px 20px; background: #3498db; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 18px; }
-        #submitBtn:hover { background: #2980b9; }
+        #ansInput { flex: 1; min-width: 200px; max-width: 300px; background: #f1f2f6; border: 3px solid #ced6e0; border-radius: 15px; padding: 12px 16px; color: #2f3542; font-size: 20px; font-weight: bold; outline: none; transition: 0.2s; }
+        #ansInput:focus { border-color: #4facfe; box-shadow: 0 0 10px rgba(79, 172, 254, 0.3); }
+        #submitBtn { padding: 12px 25px; background: #ff9f43; color: white; border: 3px solid #f368e0; box-shadow: 0 6px 0 #f368e0; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 20px; transition: 0.2s; }
+        #submitBtn:hover { background: #feca57; transform: translateY(3px); box-shadow: 0 3px 0 #f368e0; }
 
-        #start, #finish { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 200; }
+        #start, #finish { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 200; }
         #finish { display: none; }
-        .screen-card { width: min(600px, 90%); background: rgba(20, 22, 30, 0.9); border: 2px solid rgba(255,255,255,0.2); border-radius: 20px; box-shadow: 0 18px 60px rgba(0,0,0,0.5); padding: 30px; text-align: center; color: white; }
-        .screen-card h1 { margin: 0 0 15px 0; font-size: 32px; color: #f9d423; }
-        .screen-card p { font-size: 18px; line-height: 1.5; margin-bottom: 25px; color: #eee; }
-        .play-btn { background: linear-gradient(90deg, #f9d423, #f83600); border: none; padding: 15px 30px; border-radius: 15px; color: white; font-size: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 5px 15px rgba(248, 54, 0, 0.4); }
-        .play-btn:hover { transform: scale(1.05); }
+        .screen-card { width: min(600px, 90%); background: #ffffff; border: 6px solid #ff9f43; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 0 5px #fff, inset 0 0 0 8px #f368e0; padding: 35px; text-align: center; color: #333; }
+        .screen-card h1 { margin: 0 0 15px 0; font-size: 38px; color: #ff6b6b; font-weight: 900; text-shadow: 2px 2px 0px #feca57; }
+        .screen-card p { font-size: 20px; line-height: 1.5; margin-bottom: 25px; color: #2f3542; font-weight: 600; }
+        .play-btn { background: #ff9f43; border: 3px solid #ee5253; box-shadow: 0 6px 0 #ee5253; padding: 15px 35px; border-radius: 25px; color: white; font-size: 22px; font-weight: bold; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+        .play-btn:hover { background: #ff6b6b; transform: translateY(3px); box-shadow: 0 3px 0 #ee5253; }
 
         /* Таймер в модалке */
-        .qTimer { position: absolute; top: -35px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 8px 20px; border-radius: 20px; background: rgba(0,0,0,0.85); border: 2px solid #f9d423; color: white; font-weight: bold; font-size: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        .qPulse { animation: pulse 1s infinite; color: #ff4d4d; border-color: #ff4d4d; }
+        .qTimer { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 10px 25px; border-radius: 20px; background: #fff; border: 4px solid #ff6b6b; color: #ff4757; font-weight: 900; font-size: 22px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        .qPulse { animation: pulse 1s infinite; color: #ff4d4d; border-color: #ff4d4d; background: #ffeaa7; }
         @keyframes pulse { 0% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1); } 100% { transform: translateX(-50%) scale(1); } }
 
         /* Черновик */
-        #gDrawToggle { position: absolute; right: 15px; top: 15px; font-size: 18px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        #gDrawToggle:hover { background: rgba(255,255,255,0.2); }
-        #gDrawArea { display: none; width: 100%; height: 25vh; min-height: 180px; margin-top: 15px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.9); position: relative; overflow: hidden; flex-shrink: 0; }
+        #gDrawToggle { position: absolute; right: 15px; top: 15px; font-size: 22px; background: #f1f2f6; border: 2px solid #ced6e0; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; color: #333; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        #gDrawToggle:hover { background: #dfe4ea; transform: scale(1.1); }
+        .draw-mode #gDrawToggle { background: #f9d423; border-color: #f39c12; color: black; }
+        #gDrawArea { display: none; width: 100%; height: 25vh; min-height: 180px; margin-top: 15px; border-radius: 15px; border: 3px solid #ced6e0; background: rgba(255,255,255,0.9); position: relative; overflow: hidden; flex-shrink: 0; }
         .draw-mode #gDrawArea { display: block; }
-        .draw-mode #gDrawToggle { background: #f9d423; color: black; }
         #gCanvas { width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
-        #gDrawTools { position: absolute; top: 5px; left: 5px; right: 5px; display: flex; flex-wrap: wrap; gap: 10px; background: rgba(0,0,0,0.1); padding: 5px; border-radius: 5px; }
-        #gDrawColor { width: 30px; height: 30px; border: none; cursor: pointer; border-radius:4px; }
+        #gDrawTools { position: absolute; top: 5px; left: 5px; right: 5px; display: flex; flex-wrap: wrap; gap: 10px; background: rgba(241, 242, 246, 0.9); padding: 8px; border-radius: 10px; border: 2px solid #ced6e0; }
+        #gDrawColor { width: 35px; height: 35px; border: none; cursor: pointer; border-radius:8px; }
         #gDrawSize { flex: 1; min-width:60px; }
-        #gDrawEraser, #gCanvasClear { background: white; border: 1px solid #ccc; padding: 4px 8px; border-radius: 5px; cursor: pointer; font-size: 12px; font-weight:bold; color: #333; }
-        #gDrawEraser.active { background: #d6b14a; color: black; border-color: #d6b14a; }
-        #gCanvasClear { color: #d90000; }
-        #gCanvasClear:hover { background: #ffe6e6; }
+        #gDrawEraser, #gCanvasClear { background: white; border: 2px solid #ced6e0; padding: 6px 12px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight:bold; color: #2f3542; transition: 0.2s;}
+        #gDrawEraser.active { background: #f9d423; color: black; border-color: #f39c12; }
+        #gCanvasClear { color: #ff4757; border-color: #ff4757; }
+        #gCanvasClear:hover { background: #ff6b6b; color: white; }
         
         .anim-pulse-game { animation: pulse-logo-game 2.5s infinite ease-in-out; }
         @keyframes pulse-logo-game { 0% { transform: scale(1); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); } 50% { transform: scale(1.15); filter: drop-shadow(0 4px 8px rgba(0,0,0,0.9)); } 100% { transform: scale(1); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); } }
@@ -712,8 +602,8 @@
         <div id="progress-area"></div>
 
         <div id="error-modal" class="modal">
-            <h2 style="color: #e74c3c;">В этом ряду пусто!</h2>
-            <button class="play-btn" style="font-size: 16px; padding: 10px 20px; margin-top:10px;" onclick="document.getElementById('error-modal').classList.remove('active'); gameState='playing';">Выбрать другой</button>
+            <h2 style="color: #ff4757; text-shadow: none;">В этом ряду пусто!</h2>
+            <button class="play-btn" style="font-size: 18px; padding: 12px 25px; margin-top:10px;" onclick="document.getElementById('error-modal').classList.remove('active'); gameState='playing';">Выбрать другой</button>
         </div>
 
         <div id="task-modal" class="modal">
@@ -722,8 +612,8 @@
             <h2 id="task-text">Задача</h2>
             
             <div id="qMedia" style="display:none; margin-bottom:15px;">
-                <img id="qImg" src="" style="max-width:100%; max-height:150px; border-radius:10px; display:none; margin:0 auto; border:1px solid rgba(255,255,255,0.2);" />
-                <audio id="qAudio" controls style="width:100%; display:none; margin-top:10px; border-radius:10px;"></audio>
+                <img id="qImg" src="" style="max-width:100%; max-height:150px; border-radius:15px; display:none; margin:0 auto; border:3px solid #48dbfb;" />
+                <audio id="qAudio" controls style="width:100%; display:none; margin-top:10px; border-radius:15px;"></audio>
             </div>
             
             <div id="task-options"></div>
@@ -735,8 +625,8 @@
             
             <div id="gDrawArea">
                 <div id="gDrawTools">
-                    <input type="color" id="gDrawColor" value="#0f4c81" title="Цвет">
-                    <input type="range" id="gDrawSize" min="1" max="30" value="4" title="Толщина">
+                    <input type="color" id="gDrawColor" value="#0abde3" title="Цвет">
+                    <input type="range" id="gDrawSize" min="1" max="30" value="5" title="Толщина">
                     <button id="gDrawEraser">🧽 Ластик</button>
                     <button id="gCanvasClear">🗑 Очистить</button>
                 </div>
@@ -755,11 +645,11 @@
         <div id="finish">
             <div class="screen-card" id="finishCard">
                 <h1>Игра окончена!</h1>
-                <p id="finishText">Собрано игрушек: <b id="finishScore" style="color:#f9d423; font-size:26px;">0</b> из 9</p>
-                <p id="finishCustomText" style="display:none; color: #fff;"></p>
-                <div style="display:flex; justify-content:center; gap:20px; margin-bottom:20px; font-size: 18px;">
-                    <div style="background: rgba(46, 204, 113, 0.2); padding: 10px 15px; border-radius: 10px; border: 1px solid rgba(46, 204, 113, 0.4);">Верно: <b id="stCorrect" style="color:#2ecc71;">0</b></div>
-                    <div style="background: rgba(231, 76, 60, 0.2); padding: 10px 15px; border-radius: 10px; border: 1px solid rgba(231, 76, 60, 0.4);">Ошибок: <b id="stWrong" style="color:#e74c3c;">0</b></div>
+                <p id="finishText">Собрано игрушек: <b id="finishScore" style="color:#ff4757; font-size:28px;">0</b> из 9</p>
+                <p id="finishCustomText" style="display:none; color: #2f3542;"></p>
+                <div style="display:flex; justify-content:center; gap:20px; margin-bottom:25px; font-size: 20px; font-weight:bold;">
+                    <div style="background: #e8f8f5; padding: 12px 20px; border-radius: 15px; border: 3px solid #1dd1a1; color:#10ac84;">Верно: <b id="stCorrect">0</b></div>
+                    <div style="background: #ffefef; padding: 12px 20px; border-radius: 15px; border: 3px solid #ff6b6b; color:#ee5253;">Ошибок: <b id="stWrong">0</b></div>
                 </div>
                 <button class="play-btn" id="restartBtn">↻ Сыграть ещё раз</button>
             </div>
@@ -811,12 +701,10 @@
         function initGameData() {
             const rawCfg = window.__CFG || {};
             
-            // Background
             if(rawCfg.bgDataUrl) {
                 gameContainer.style.backgroundImage = 'url(' + rawCfg.bgDataUrl + ')';
             }
             
-            // Screens
             document.getElementById('startTitle').textContent = rawCfg.title || "Игровой автомат";
             const instText = rawCfg.instruction?.text || "Вставь монетку и управляй клешней.\\nПоймал игрушку — реши задачу.\\nВерно → игрушка твоя.\\nНеверно → игрушка упадет обратно.\\nУ тебя ровно 9 попыток!";
             document.getElementById('startText').innerHTML = String(instText).replace(/\\n/g, "<br/>");
@@ -829,7 +717,6 @@
             
             globalTimer = rawCfg.timer?.enabled ? Number(rawCfg.timer.seconds) : null;
 
-            // Tasks mapping
             const rawQs = rawCfg.questions || [];
             tasks = rawQs.map(q => {
                 if (q.type === "text" || q.type === "input") {
@@ -846,7 +733,6 @@
                 tasks.push({ type: "choice", prompt: "Пример вопроса", options: ["1", "2"], answers: ["1"] });
             }
 
-            // Progress bar
             progressArea.innerHTML = '';
             for (let i = 0; i < tasks.length; i++) {
                 let slot = document.createElement('div');
@@ -855,7 +741,6 @@
                 progressArea.appendChild(slot);
             }
             
-            // MathJax
             if (rawCfg.useLatex && !document.getElementById('mathjax-script')) {
                 window.MathJax = { tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }, startup: { typeset: false } };
                 const script = document.createElement('script'); 
@@ -865,7 +750,6 @@
             }
         }
 
-        // Сохранение исходных координат игрушек
         const initialToyPositions = {};
         document.querySelectorAll('.toy').forEach(t => {
             initialToyPositions[t.id] = { left: t.style.left, top: t.style.top, width: t.style.width, height: t.style.height };
@@ -893,6 +777,14 @@
         
         function normalizeAnswer(s){ return String(s||"").trim().toLowerCase(); }
 
+        // --- ИСПОЛЬЗУЕМ POINTERDOWN ДЛЯ ИДЕАЛЬНОЙ ЧУВСТВИТЕЛЬНОСТИ В ПРЕВЬЮ/GENIALLY ---
+        const addTap = (el, fn) => {
+            el.addEventListener('pointerdown', (e) => {
+                e.preventDefault(); // Предотвращает глюки со скроллом и двойные нажатия
+                fn(e);
+            });
+        };
+
         document.getElementById('playBtn').addEventListener('click', () => {
             document.getElementById('start').style.display = 'none';
             setTimeout(() => { updateClawPosition(clawPositionsX[1], clawStartTop); }, 100);
@@ -903,7 +795,7 @@
             location.reload();
         });
 
-        coin.addEventListener('click', () => {
+        addTap(coin, () => {
             if (gameState !== 'waiting_coin') return;
             document.getElementById('sound-coin').play();
             gameState = 'playing';
@@ -912,21 +804,21 @@
             controls.forEach(c => c.classList.add('active'));
         });
 
-        btnLeft.addEventListener('click', () => {
+        addTap(btnLeft, () => {
             if (gameState === 'playing' && currentCol > 0) {
                 currentCol--;
                 updateClawPosition(clawPositionsX[currentCol], clawStartTop);
             }
         });
 
-        btnRight.addEventListener('click', () => {
+        addTap(btnRight, () => {
             if (gameState === 'playing' && currentCol < 2) {
                 currentCol++;
                 updateClawPosition(clawPositionsX[currentCol], clawStartTop);
             }
         });
 
-        btnAction.addEventListener('click', () => {
+        addTap(btnAction, () => {
             if (gameState !== 'playing') return;
             gameState = 'claw_moving';
 
@@ -975,7 +867,6 @@
             gameState = 'task_active';
             const q = tasks[currentQuestionIndex];
             
-            // Черновик
             document.getElementById('task-modal').classList.remove('draw-mode');
             if(window.ctxScratch) {
                 window.ctxScratch.save(); window.ctxScratch.setTransform(1,0,0,1,0,0);
@@ -1034,7 +925,6 @@
             
             document.getElementById('task-modal').classList.add('active');
 
-            // Timer
             startTimer(q);
 
             if (window.__CFG?.useLatex && window.MathJax && window.MathJax.typesetPromise) {
@@ -1097,7 +987,7 @@
                 }
             }
 
-            currentQuestionIndex++; // Тратим 1 попытку
+            currentQuestionIndex++; 
 
             if (isCorrect) {
                 if (btnElement) btnElement.classList.add('correct');
@@ -1190,7 +1080,6 @@
             }
         }
 
-        // Логика Черновика
         const drawArea = document.getElementById('gDrawArea');
         const canvasScratch = document.getElementById('gCanvas');
         const ctxScratch = canvasScratch ? canvasScratch.getContext('2d', {desynchronized: true}) : null;
@@ -1238,7 +1127,6 @@
                 isScratchDrawing = true; cachedRect = canvasScratch.getBoundingClientRect();
                 applyCtxStyle(); const pos = getScratchMousePos(e); lastX = pos.x; lastY = pos.y;
                 ctxScratch.beginPath(); ctxScratch.moveTo(lastX, lastY); ctxScratch.lineTo(lastX + 0.01, lastY); ctxScratch.stroke();
-                if(e.cancelable) e.preventDefault();
             };
 
             const doScratchDraw = (e) => {
@@ -1246,7 +1134,7 @@
                 const pos = getScratchMousePos(e);
                 ctxScratch.beginPath(); ctxScratch.moveTo(lastX, lastY); ctxScratch.lineTo(pos.x, pos.y);
                 lastX = pos.x; lastY = pos.y; ctxScratch.stroke();
-                if(e.cancelable) e.preventDefault();
+                if(e.cancelable && e.type.startsWith('touch')) e.preventDefault();
             };
 
             const stopScratchDraw = () => { isScratchDrawing = false; };
