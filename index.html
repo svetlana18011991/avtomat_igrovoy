@@ -287,8 +287,8 @@
             <div>
               <label data-i18n="lblFont">Шрифт (вопрос и ответы)</label>
               <select id="inpQFont">
-                <option value="'Neucha', cursive" data-i18n="optFontHW2" style="font-family: 'Neucha', cursive;">Neucha (Рукописный)</option>
-                <option value="'Caveat', cursive" data-i18n="optFontHW1" style="font-family: 'Caveat', cursive;">Caveat (Рукописный 2)</option>
+                <option value="'Neucha', cursive, sans-serif" data-i18n="optFontHW2" style="font-family: 'Neucha', cursive;">Neucha (Рукописный)</option>
+                <option value="'Caveat', cursive, sans-serif" data-i18n="optFontHW1" style="font-family: 'Caveat', cursive;">Caveat (Рукописный 2)</option>
                 <option value="Arial, sans-serif" style="font-family: Arial, sans-serif;">Arial</option>
                 <option value="Verdana, sans-serif" style="font-family: Verdana, sans-serif;">Verdana</option>
                 <option value="Tahoma, sans-serif" style="font-family: Tahoma, sans-serif;">Tahoma</option>
@@ -300,7 +300,7 @@
             </div>
             <div>
               <label data-i18n="lblFontSize">Размер шрифта (px)</label>
-              <input id="inpQFontSize" type="number" min="12" max="60" step="1" value="26" />
+              <input id="inpQFontSize" type="number" min="12" max="60" step="1" value="32" />
             </div>
           </div>
         </div>
@@ -524,43 +524,48 @@
         .collected-slot img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
         .toy-collected-anim { transform: scale(1.3); opacity: 0; transition: all 0.5s ease; }
 
-        /* ИГРОВЫЕ ОКНА (ОТВЯЗАНЫ ОТ РЕДАКТОРА) */
-        .game-modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: #ffffff; padding: 30px 40px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 0 10px #fff inset; z-index: 100; opacity: 0; pointer-events: none; transition: all 0.3s ease; text-align: center; border: 8px dotted #0abde3; display: flex; flex-direction: column; align-items: center; color: #333; width: min(85%, 600px); max-height: 90vh; overflow-y: auto; }
+        /* ИГРОВЫЕ ОКНА (ОТВЯЗАНЫ ОТ РЕДАКТОРА, БЕЗ ВЫЛЕЗАЮЩИХ ЭЛЕМЕНТОВ!) */
+        .game-modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: #ffffff; padding: 40px 30px; border-radius: 30px; border: 4px solid #48dbfb; box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 0 6px #ffffff, inset 0 0 0 10px #feca57; z-index: 100; opacity: 0; pointer-events: none; transition: all 0.3s ease; text-align: center; display: flex; flex-direction: column; align-items: center; color: #2c3e50; width: min(90%, 650px); max-height: 85vh; overflow-y: auto; overflow-x: hidden; }
+        .game-modal::-webkit-scrollbar { width: 6px; }
+        .game-modal::-webkit-scrollbar-track { background: transparent; }
+        .game-modal::-webkit-scrollbar-thumb { background: #feca57; border-radius: 10px; }
         .game-modal.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
-        .game-modal h2 { margin: 0 0 20px 0; color: #ff6b6b; font-size: 38px; line-height: 1.3; font-weight: 900; text-shadow: 2px 2px 0px #feca57; }
+        .game-modal h2 { margin: 0 0 25px 0; color: #2c3e50; font-size: 32px; line-height: 1.3; font-weight: 900; }
         
-        .balloons-decor { position: absolute; top: -35px; right: -25px; font-size: 60px; pointer-events: none; z-index: 105; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3)); }
+        /* Управление внутри карточки (Таймер слева, Черновик справа) */
+        .modal-top-bar { width: 100%; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        
+        .qTimer { display: flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 15px; background: #fff; border: 3px solid #ff4757; color: #ff4757; font-weight: 900; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .qPulse { animation: pulse 1s infinite; color: #ff4d4d; border-color: #ff4d4d; background: #ffeaa7; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        
+        #gDrawToggle { font-size: 22px; background: #f1f2f6; border: 2px solid #ced6e0; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; color: #333; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        #gDrawToggle:hover { background: #dfe4ea; transform: scale(1.1); }
+        .draw-mode #gDrawToggle { background: #f9d423; border-color: #f39c12; color: black; }
 
         #task-options { display: flex; gap: 15px; justify-content: center; width: 100%; flex-wrap: wrap; margin-bottom:10px; }
         
-        /* БЕЛЫЕ КНОПКИ С ОРАНЖЕВЫМИ ШАРИКАМИ И ТЕМНЫМ ТЕКСТОМ */
-        .task-option { padding: 12px 25px; background: #ffffff; color: #2f3542; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 26px; transition: 0.2s; min-width: 80px; border: 5px dotted #ff9f43; box-shadow: 0 6px 0 #ff9f43; }
+        /* БЕЛЫЕ КНОПКИ ОТВЕТОВ С ЦВЕТНЫМИ ШАРИКАМИ-ТОЧКАМИ И ТЕМНЫМ ТЕКСТОМ */
+        .task-option { padding: 12px 25px; background: #ffffff; color: #2c3e50; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 26px; transition: 0.2s; min-width: 80px; border: 5px dotted #ff9f43; box-shadow: 0 6px 0 #ff9f43; }
         .task-option:hover { background: #fffcf2; transform: translateY(3px); box-shadow: 0 3px 0 #ff9f43; }
         .task-option.correct { background: #1dd1a1 !important; border-color: #10ac84 !important; box-shadow: 0 6px 0 #10ac84 !important; color: white; }
         .task-option.incorrect { background: #ff6b6b !important; border-color: #ee5253 !important; box-shadow: 0 6px 0 #ee5253 !important; color: white; animation: shake 0.5s; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
         
         #inputRow { display: none; gap: 10px; align-items: center; width: 100%; justify-content: center; margin-bottom:10px; flex-wrap: wrap; }
-        #ansInput { flex: 1; min-width: 200px; max-width: 300px; background: #ffffff; border: 5px dotted #0abde3; border-radius: 20px; padding: 12px 16px; color: #2f3542; font-size: 26px; font-weight: bold; outline: none; transition: 0.2s; }
+        #ansInput { flex: 1; min-width: 200px; max-width: 300px; background: #ffffff; border: 5px dotted #0abde3; border-radius: 20px; padding: 12px 16px; color: #2c3e50; font-size: 26px; font-weight: bold; outline: none; transition: 0.2s; }
         #ansInput:focus { border-color: #ff9f43; box-shadow: 0 0 10px rgba(255, 159, 67, 0.3); }
-        #submitBtn { padding: 12px 25px; background: #ff9f43; color: white; border: 3px solid #f368e0; box-shadow: 0 6px 0 #f368e0; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 24px; transition: 0.2s; }
-        #submitBtn:hover { background: #feca57; transform: translateY(3px); box-shadow: 0 3px 0 #f368e0; }
+        #submitBtn { padding: 12px 25px; background: #ff9f43; color: white; border: 3px solid #e17055; box-shadow: 0 6px 0 #e17055; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 24px; transition: 0.2s; }
+        #submitBtn:hover { background: #feca57; transform: translateY(3px); box-shadow: 0 3px 0 #e17055; }
 
         #start, #finish { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 200; }
         #finish { display: none; }
-        .screen-card { width: min(600px, 90%); background: #ffffff; border: 8px dotted #0abde3; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 0 10px #fff; padding: 35px; text-align: center; color: #333; position: relative; }
+        .screen-card { width: min(650px, 90%); background: #ffffff; border-radius: 30px; border: 4px solid #48dbfb; box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 0 6px #ffffff, inset 0 0 0 10px #feca57; padding: 40px; text-align: center; color: #2c3e50; position: relative; }
         .screen-card h1 { margin: 0 0 15px 0; font-size: 42px; color: #ff6b6b; font-weight: 900; text-shadow: 2px 2px 0px #feca57; }
         .screen-card p { font-size: 22px; line-height: 1.5; margin-bottom: 25px; color: #2f3542; font-weight: 600; }
         .play-btn { background: #ff9f43; border: 3px solid #ee5253; box-shadow: 0 6px 0 #ee5253; padding: 15px 35px; border-radius: 25px; color: white; font-size: 24px; font-weight: bold; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; }
         .play-btn:hover { background: #ff6b6b; transform: translateY(3px); box-shadow: 0 3px 0 #ee5253; }
 
-        .qTimer { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 10px 25px; border-radius: 20px; background: #fff; border: 4px solid #ff6b6b; color: #ff4757; font-weight: 900; font-size: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); z-index: 110; }
-        .qPulse { animation: pulse 1s infinite; color: #ff4d4d; border-color: #ff4d4d; background: #ffeaa7; }
-        @keyframes pulse { 0% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1); } 100% { transform: translateX(-50%) scale(1); } }
-
-        #gDrawToggle { position: absolute; left: -20px; top: -20px; font-size: 26px; background: #ffffff; border: 4px solid #ced6e0; border-radius: 50%; width: 55px; height: 55px; cursor: pointer; color: #333; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 105; }
-        #gDrawToggle:hover { background: #dfe4ea; transform: scale(1.1); }
-        .draw-mode #gDrawToggle { background: #f9d423; border-color: #f39c12; color: black; }
         #gDrawArea { display: none; width: 100%; height: 25vh; min-height: 180px; margin-top: 15px; border-radius: 15px; border: 3px solid #ced6e0; background: rgba(255,255,255,0.9); position: relative; overflow: hidden; flex-shrink: 0; }
         .draw-mode #gDrawArea { display: block; }
         #gCanvas { width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
@@ -609,9 +614,12 @@
         </div>
 
         <div id="task-modal" class="game-modal">
-            <div class="balloons-decor">🎈🎈🎈</div>
-            <div id="qTimerBadge" class="qTimer" style="display:none;">⏳ <span id="qTimerText"></span></div>
-            <button id="gDrawToggle" title="Черновик">✏️</button>
+            <div class="modal-top-bar">
+                <div id="qTimerBadge" class="qTimer" style="display:none;">⏳ <span id="qTimerText"></span></div>
+                <div style="flex:1"></div>
+                <button id="gDrawToggle" title="Черновик">✏️</button>
+            </div>
+            
             <h2 id="task-text">Задача</h2>
             
             <div id="qMedia" style="display:none; margin-bottom:15px;">
@@ -639,7 +647,6 @@
 
         <div id="start">
             <div class="screen-card" id="startCard">
-                <div class="balloons-decor">🎈🎈🎈</div>
                 <h1 id="startTitle">Игровой автомат</h1>
                 <p id="startText">Инструкция</p>
                 <button class="play-btn" id="playBtn">▶ Начать игру</button>
@@ -648,7 +655,6 @@
 
         <div id="finish">
             <div class="screen-card" id="finishCard">
-                <div class="balloons-decor">🎈🎈🎈</div>
                 <h1>Игра окончена!</h1>
                 <p id="finishText">Собрано игрушек: <b id="finishScore" style="color:#ff4757; font-size:32px;">0</b> из 9</p>
                 <p id="finishCustomText" style="display:none; color: #2f3542;"></p>
@@ -737,7 +743,7 @@
                 tasks.push({ type: "choice", prompt: "Пример вопроса", options: ["1", "2"], answers: ["1"] });
             }
 
-            // ПУСТЫЕ СЛОТЫ БОЛЬШЕ НЕ СОЗДАЮТСЯ ЗАРАНЕЕ
+            // ПУСТЫЕ СЛОТЫ БОЛЬШЕ НЕ СОЗДАЮТСЯ ЗАРАНЕЕ! 
             progressArea.innerHTML = '';
             
             if (rawCfg.useLatex && !document.getElementById('mathjax-script')) {
@@ -776,7 +782,7 @@
         
         function normalizeAnswer(s){ return String(s||"").trim().toLowerCase(); }
 
-        // --- ИСПОЛЬЗУЕМ POINTERDOWN ДЛЯ ИДЕАЛЬНОЙ ЧУВСТВИТЕЛЬНОСТИ ---
+        // --- ИСПОЛЬЗУЕМ POINTERDOWN ДЛЯ ИДЕАЛЬНОЙ ЧУВСТВИТЕЛЬНОСТИ В ПРЕВЬЮ И GENIALLY ---
         const addTap = (el, fn) => {
             el.addEventListener('pointerdown', (e) => {
                 e.preventDefault(); e.stopPropagation();
@@ -876,11 +882,11 @@
             const txtEl = document.getElementById('task-text');
             txtEl.innerHTML = q.prompt || "Вопрос";
             
-            // ПРИМЕНЕНИЕ ВЫБРАННОГО ШРИФТА (ИЛИ NEUCHA ПО УМОЛЧАНИЮ)
+            // ПРИМЕНЕНИЕ ВЫБРАННОГО ШРИФТА (ЖЕСТКО, ЧТОБЫ РЕДАКТОР НЕ ПЕРЕБИВАЛ)
             const fontToApply = q.font || "'Neucha', cursive, sans-serif";
             txtEl.style.setProperty('font-family', fontToApply, 'important');
             
-            if(q.fontSize) txtEl.style.fontSize = q.fontSize + "px"; else txtEl.style.fontSize = "38px";
+            if(q.fontSize) txtEl.style.fontSize = q.fontSize + "px"; else txtEl.style.fontSize = "32px";
 
             const qImg = document.getElementById('qImg');
             const qAudio = document.getElementById('qAudio');
@@ -899,8 +905,9 @@
             const ansInput = document.getElementById('ansInput');
             optionsDiv.innerHTML = '';
             
+            // Настройка шрифтов для инпутов
             ansInput.style.setProperty('font-family', fontToApply, 'important');
-            if(q.fontSize) ansInput.style.fontSize = (q.fontSize * 0.9) + "px"; else ansInput.style.fontSize = "30px";
+            if(q.fontSize) ansInput.style.fontSize = (q.fontSize * 0.8) + "px"; else ansInput.style.fontSize = "26px";
 
             if (q.type === "choice") {
                 optionsDiv.style.display = 'flex';
@@ -916,7 +923,7 @@
                     const btn = document.createElement('div');
                     btn.className = 'task-option';
                     btn.style.setProperty('font-family', fontToApply, 'important');
-                    if(q.fontSize) btn.style.fontSize = (q.fontSize * 0.9) + "px"; else btn.style.fontSize = "30px";
+                    if(q.fontSize) btn.style.fontSize = (q.fontSize * 0.8) + "px"; else btn.style.fontSize = "26px";
                     btn.textContent = opt;
                     btn.onclick = () => checkAnswer(opt, btn);
                     optionsDiv.appendChild(btn);
@@ -1033,6 +1040,7 @@
             }, 1000);
         }
 
+        // ДОБАВЛЯЕМ НОВЫЙ КРУЖОК В ПРОГРЕСС СТРОГО ПО ОЧЕРЕДИ
         function moveToProgress(toy) {
             toy.style.animation = 'none';
             toy.classList.add('toy-collected-anim');
@@ -1041,7 +1049,7 @@
             setTimeout(() => {
                 toy.style.display = 'none';
                 
-                // СОЗДАЕМ НОВЫЙ КРУЖОК ТОЛЬКО КОГДА ИГРУШКА ПОЙМАНА
+                // Создаем новый слот (кругляшок) и кладем туда игрушку, они сами выстроятся
                 const slot = document.createElement('div');
                 slot.className = 'collected-slot';
                 slot.innerHTML = \`<img src="\${toy.src}">\`;
@@ -1282,7 +1290,7 @@
           if (q.image) mq.i = q.image;
           if (q.audio) mq.au = q.audio;
           if (q.font) mq.fn = q.font;
-          if (q.fontSize && q.fontSize !== 26) mq.fs = q.fontSize;
+          if (q.fontSize && q.fontSize !== 32) mq.fs = q.fontSize;
           return mq;
       });
       return out;
@@ -1440,7 +1448,7 @@
     if(Editor.questions.length === 0) return;
     const tplIdx = parseInt($("newQTemplate").value);
     if(!confirm("Применить настройки (шрифт, размер, таймер, ТИП вопроса) ко всем вопросам?\\nПри смене типа вопроса ответы будут аккуратно сконвертированы.")) return;
-    let baseQ = { font: "", fontSize: 26, seconds: null, type: "choice" };
+    let baseQ = { font: "", fontSize: 32, seconds: null, type: "choice" };
     if (tplIdx >= 0 && Editor.questions[tplIdx]) {
         const tq = Editor.questions[tplIdx];
         baseQ = { font: tq.font, fontSize: tq.fontSize, seconds: tq.seconds, type: tq.type };
@@ -1514,7 +1522,7 @@
       if(typeof Editor.draft.correctIndex === "number" && !Editor.draft.correctIndices) Editor.draft.correctIndices = [Editor.draft.correctIndex];
       Editor.editingId = existing.id; $("modalTitle").textContent = t("modalTitleEdit");
     } else {
-      Editor.draft = { id: uid(), type: "choice", prompt: "", options: ["",""], correctIndices: [0], seconds: null, image: "", audio: "", font: "", fontSize: 26 };
+      Editor.draft = { id: uid(), type: "choice", prompt: "", options: ["",""], correctIndices: [0], seconds: null, image: "", audio: "", font: "", fontSize: 32 };
       Editor.editingId = null; $("modalTitle").textContent = t("modalTitleAdd");
       const tplIdx = parseInt($("newQTemplate") ? $("newQTemplate").value : "-1");
       if (tplIdx >= 0 && Editor.questions[tplIdx]) {
@@ -1528,7 +1536,7 @@
     $("selType").value = Editor.draft.type || "choice";
     $("inpPrompt").value = Editor.draft.prompt || "";
     if(!("font" in Editor.draft)) Editor.draft.font = ""; if($("inpQFont")) $("inpQFont").value = Editor.draft.font;
-    if(!("fontSize" in Editor.draft)) Editor.draft.fontSize = 26; if($("inpQFontSize")) $("inpQFontSize").value = Editor.draft.fontSize || 26;
+    if(!("fontSize" in Editor.draft)) Editor.draft.fontSize = 32; if($("inpQFontSize")) $("inpQFontSize").value = Editor.draft.fontSize || 32;
     if(!("seconds" in Editor.draft)) Editor.draft.seconds = null; if($("inpQSeconds")) $("inpQSeconds").value = (Editor.draft.seconds ?? "");
     if(!("image" in Editor.draft)) Editor.draft.image = ""; if(!("audio" in Editor.draft)) Editor.draft.audio = "";
     if($("inpQImage")) $("inpQImage").value = Editor.draft.image; if($("inpQAudio")) $("inpQAudio").value = Editor.draft.audio;
@@ -1541,7 +1549,7 @@
   function getDraftFromModal(){
     const q = Editor.draft; if(!q) return null;
     q.type = $("selType").value; q.prompt = $("inpPrompt").value || "";
-    q.font = $("inpQFont") ? $("inpQFont").value : ""; q.fontSize = $("inpQFontSize") ? Number($("inpQFontSize").value) || 26 : 26;
+    q.font = $("inpQFont") ? $("inpQFont").value : ""; q.fontSize = $("inpQFontSize") ? Number($("inpQFontSize").value) || 32 : 32;
     q.seconds = ($("inpQSeconds") && $("inpQSeconds").value !== "") ? Number($("inpQSeconds").value) : null;
     if(q.seconds != null){ const s = Number(q.seconds); if(!Number.isFinite(s) || s < 3 || s > 600) return "Таймер вопроса: 3–600 секунд"; q.seconds = Math.round(s); }
     q.image = $("inpQImage") ? $("inpQImage").value.trim() : ""; q.audio = $("inpQAudio") ? $("inpQAudio").value.trim() : "";
@@ -1651,7 +1659,7 @@
 
       const mode = document.getElementById('importMode').value;
       const tplIdx = parseInt(document.getElementById('newQTemplate').value);
-      let baseQ = { font: "", fontSize: 26, seconds: null, image: "", audio: "" };
+      let baseQ = { font: "", fontSize: 32, seconds: null, image: "", audio: "" };
       if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; baseQ = { font: tq.font, fontSize: tq.fontSize, seconds: tq.seconds }; }
 
       let addedCount = 0;
