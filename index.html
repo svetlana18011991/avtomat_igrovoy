@@ -299,8 +299,8 @@
               </select>
             </div>
             <div>
-              <label data-i18n="lblFontSize">Размер шрифта вопроса (px)</label>
-              <input id="inpQFontSize" type="number" min="12" max="60" step="1" value="20" />
+              <label data-i18n="lblFontSize">Размер шрифта (px)</label>
+              <input id="inpQFontSize" type="number" min="12" max="60" step="1" value="22" />
             </div>
           </div>
         </div>
@@ -507,7 +507,6 @@
         .blinking { animation: blink 1.5s infinite; }
         @keyframes blink { 0%, 100% { filter: brightness(1) drop-shadow(0 0 0px gold); } 50% { filter: brightness(1.4) drop-shadow(0 0 15px gold); transform: scale(1.05); } }
         
-        /* КНОПКИ: Сделаны чуть больше для удобства нажатия на мобильных/в превью */
         .control-btn { position: absolute; z-index: 30; opacity: 0; pointer-events: none; cursor: pointer; border-radius: 20px; transition: opacity 0.1s, transform 0.1s; background: rgba(255, 255, 255, 0.4); }
         .control-btn.active { pointer-events: auto; opacity: 0; }
         .control-btn.active:hover { opacity: 0.1; }
@@ -518,8 +517,8 @@
         
         #drop-area { position: absolute; left: 45.16%; top: 71.76%; width: 5.58%; height: 11.22%; z-index: 10; }
         
-        /* ПРОГРЕСС ПАНЕЛЬ: Вынесена на передний план (z-index 25) */
-        #progress-area { position: absolute; left: 8.87%; top: 3.65%; width: 4.10%; height: 95.68%; z-index: 25; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; }
+        /* ПАНЕЛЬ ПРОГРЕССА (z-index 25) - Игрушки появляются сверху вниз! */
+        #progress-area { position: absolute; left: 8.87%; top: 3.65%; width: 4.10%; height: 95.68%; z-index: 25; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; gap: 2%; padding-top: 3%; }
         .collected-slot { width: 90%; aspect-ratio: 1; background: rgba(255,255,255,0.6); border: 2px solid #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; padding: 2px; box-shadow: inset 0px 3px 6px rgba(0,0,0,0.2); }
         .collected-slot img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
         .toy-collected-anim { transform: scale(1.3); opacity: 0; transition: all 0.5s ease; }
@@ -530,15 +529,17 @@
         .modal h2 { margin: 0 0 20px 0; color: #ff6b6b; font-size: 32px; line-height: 1.3; font-weight: 900; text-shadow: 1px 1px 0px #feca57; }
         
         #task-options { display: flex; gap: 15px; justify-content: center; width: 100%; flex-wrap: wrap; margin-bottom:10px; }
-        .task-option { padding: 12px 25px; background: #0abde3; color: white; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 22px; transition: 0.2s; min-width: 80px; border: 3px solid #01a3a4; box-shadow: 0 6px 0 #01a3a4; }
-        .task-option:hover { background: #48dbfb; transform: translateY(3px); box-shadow: 0 3px 0 #01a3a4; }
+        
+        /* БЕЛЫЕ КНОПКИ С ОРАНЖЕВЫМИ ШАРИКАМИ И ТЕМНЫМ ТЕКСТОМ */
+        .task-option { padding: 12px 25px; background: #ffffff; color: #2f3542; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 22px; transition: 0.2s; min-width: 80px; border: 5px dotted #ff9f43; box-shadow: 0 6px 0 #ff9f43; }
+        .task-option:hover { background: #fffcf2; transform: translateY(3px); box-shadow: 0 3px 0 #ff9f43; }
         .task-option.correct { background: #1dd1a1 !important; border-color: #10ac84 !important; box-shadow: 0 6px 0 #10ac84 !important; color: white; }
         .task-option.incorrect { background: #ff6b6b !important; border-color: #ee5253 !important; box-shadow: 0 6px 0 #ee5253 !important; color: white; animation: shake 0.5s; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
         
         #inputRow { display: none; gap: 10px; align-items: center; width: 100%; justify-content: center; margin-bottom:10px; flex-wrap: wrap; }
-        #ansInput { flex: 1; min-width: 200px; max-width: 300px; background: #f1f2f6; border: 3px solid #ced6e0; border-radius: 15px; padding: 12px 16px; color: #2f3542; font-size: 20px; font-weight: bold; outline: none; transition: 0.2s; }
-        #ansInput:focus { border-color: #4facfe; box-shadow: 0 0 10px rgba(79, 172, 254, 0.3); }
+        #ansInput { flex: 1; min-width: 200px; max-width: 300px; background: #ffffff; border: 5px dotted #0abde3; border-radius: 20px; padding: 12px 16px; color: #2f3542; font-size: 22px; font-weight: bold; outline: none; transition: 0.2s; }
+        #ansInput:focus { border-color: #ff9f43; box-shadow: 0 0 10px rgba(255, 159, 67, 0.3); }
         #submitBtn { padding: 12px 25px; background: #ff9f43; color: white; border: 3px solid #f368e0; box-shadow: 0 6px 0 #f368e0; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 20px; transition: 0.2s; }
         #submitBtn:hover { background: #feca57; transform: translateY(3px); box-shadow: 0 3px 0 #f368e0; }
 
@@ -550,12 +551,10 @@
         .play-btn { background: #ff9f43; border: 3px solid #ee5253; box-shadow: 0 6px 0 #ee5253; padding: 15px 35px; border-radius: 25px; color: white; font-size: 22px; font-weight: bold; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; }
         .play-btn:hover { background: #ff6b6b; transform: translateY(3px); box-shadow: 0 3px 0 #ee5253; }
 
-        /* Таймер в модалке */
         .qTimer { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 10px 25px; border-radius: 20px; background: #fff; border: 4px solid #ff6b6b; color: #ff4757; font-weight: 900; font-size: 22px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
         .qPulse { animation: pulse 1s infinite; color: #ff4d4d; border-color: #ff4d4d; background: #ffeaa7; }
         @keyframes pulse { 0% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1); } 100% { transform: translateX(-50%) scale(1); } }
 
-        /* Черновик */
         #gDrawToggle { position: absolute; right: 15px; top: 15px; font-size: 22px; background: #f1f2f6; border: 2px solid #ced6e0; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; color: #333; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         #gDrawToggle:hover { background: #dfe4ea; transform: scale(1.1); }
         .draw-mode #gDrawToggle { background: #f9d423; border-color: #f39c12; color: black; }
@@ -694,7 +693,6 @@
         const clawHeight = 20.27;
         let currentCol = 1;
 
-        // Инициализация из конфига
         let tasks = [];
         let globalTimer = null;
         
@@ -733,13 +731,8 @@
                 tasks.push({ type: "choice", prompt: "Пример вопроса", options: ["1", "2"], answers: ["1"] });
             }
 
+            // ПУСТЫЕ СЛОТЫ БОЛЬШЕ НЕ СОЗДАЮТСЯ ЗАРАНЕЕ
             progressArea.innerHTML = '';
-            for (let i = 0; i < tasks.length; i++) {
-                let slot = document.createElement('div');
-                slot.className = 'collected-slot';
-                slot.id = 'slot-' + i;
-                progressArea.appendChild(slot);
-            }
             
             if (rawCfg.useLatex && !document.getElementById('mathjax-script')) {
                 window.MathJax = { tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }, startup: { typeset: false } };
@@ -777,10 +770,10 @@
         
         function normalizeAnswer(s){ return String(s||"").trim().toLowerCase(); }
 
-        // --- ИСПОЛЬЗУЕМ POINTERDOWN ДЛЯ ИДЕАЛЬНОЙ ЧУВСТВИТЕЛЬНОСТИ В ПРЕВЬЮ/GENIALLY ---
+        // --- ИСПОЛЬЗУЕМ POINTERDOWN ДЛЯ ИДЕАЛЬНОЙ ЧУВСТВИТЕЛЬНОСТИ ---
         const addTap = (el, fn) => {
             el.addEventListener('pointerdown', (e) => {
-                e.preventDefault(); // Предотвращает глюки со скроллом и двойные нажатия
+                e.preventDefault();
                 fn(e);
             });
         };
@@ -896,7 +889,9 @@
             const ansInput = document.getElementById('ansInput');
             optionsDiv.innerHTML = '';
             
+            // Настройка шрифтов для инпутов
             if(q.font) ansInput.style.fontFamily = q.font; else ansInput.style.fontFamily = "";
+            if(q.fontSize) ansInput.style.fontSize = (q.fontSize * 0.9) + "px"; else ansInput.style.fontSize = "22px";
 
             if (q.type === "choice") {
                 optionsDiv.style.display = 'flex';
@@ -912,6 +907,7 @@
                     const btn = document.createElement('div');
                     btn.className = 'task-option';
                     if(q.font) btn.style.fontFamily = q.font;
+                    if(q.fontSize) btn.style.fontSize = (q.fontSize * 0.9) + "px"; // Кнопки чуть меньше вопроса
                     btn.textContent = opt;
                     btn.onclick = () => checkAnswer(opt, btn);
                     optionsDiv.appendChild(btn);
@@ -1016,7 +1012,7 @@
             selectedToyElement.style.top = '71.76%';
             selectedToyElement.style.width = '5.58%';
             selectedToyElement.style.height = '11.22%';
-            selectedToyElement.style.zIndex = '25';
+            selectedToyElement.style.zIndex = '30';
             selectedToyElement.style.pointerEvents = 'auto';
             selectedToyElement.classList.add('collected');
 
@@ -1028,6 +1024,7 @@
             }, 1000);
         }
 
+        // ДОБАВЛЯЕМ НОВЫЙ КРУЖОК В ПРОГРЕСС СТРОГО ПО ОЧЕРЕДИ
         function moveToProgress(toy) {
             toy.style.animation = 'none';
             toy.classList.add('toy-collected-anim');
@@ -1035,8 +1032,13 @@
 
             setTimeout(() => {
                 toy.style.display = 'none';
-                const slot = document.getElementById('slot-' + collectedToysCount);
-                if(slot) slot.innerHTML = \`<img src="\${toy.src}">\`;
+                
+                // Создаем новый слот (кругляшок) и кладем туда игрушку
+                const slot = document.createElement('div');
+                slot.className = 'collected-slot';
+                slot.innerHTML = \`<img src="\${toy.src}">\`;
+                progressArea.appendChild(slot);
+                
                 collectedToysCount++;
                 checkGameEnd();
             }, 500);
