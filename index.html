@@ -132,6 +132,15 @@
             <input id="inpBgUrl" type="text" placeholder="Оставьте пустым для стандарта" data-i18n="bg_ph" />
             <button id="btnResetBg" type="button" class="btn small" data-i18n="btn_reset_bg">↩ Сбросить</button>
           </div>
+          
+          <div class="toggle">
+            <input id="chkTransparentBg" type="checkbox" />
+            <div>
+              <div style="font-weight:900" data-i18n="transparent_bg">Прозрачный фон</div>
+              <div class="muted" data-i18n="transparent_hint">Отключает фон игры. Идеально для встраивания поверх вашего фона в Genially.</div>
+            </div>
+          </div>
+
           <div class="toggle">
             <input id="chkUseLatex" type="checkbox" />
             <div>
@@ -233,19 +242,6 @@
               <input id="inpQSeconds" type="number" min="3" max="600" step="1" placeholder="например 20" data-i18n="q_timer_ph" />
           </div>
         </div>
-        <div class="choiceBlock" style="margin-top:10px">
-          <div style="font-weight:900" data-i18n="media">Медиа (ссылки)</div>
-          <div class="answerRow">
-            <span style="font-size:20px; line-height:1; cursor:help;" title="Ссылка на картинку">🖼️</span>
-            <input id="inpQImage" type="text" placeholder="https://.../image.jpg" />
-            <button class="btn small danger" id="btnClearImage" type="button">✖</button>
-          </div>
-          <div class="answerRow">
-            <span style="font-size:20px; line-height:1; cursor:help;" title="Ссылка на аудио">🎵</span>
-            <input id="inpQAudio" type="text" placeholder="https://.../audio.mp3" />
-            <button class="btn small danger" id="btnClearAudio" type="button">✖</button>
-          </div>
-        </div>
         <div id="choiceWrap" class="choiceBlock">
           <div style="font-weight:900" data-i18n="ans_choice">Варианты ответа (отметь верные)</div>
           <div id="choiceList"></div>
@@ -295,6 +291,7 @@
       size_warning: "⚠️ Текста слишком много! Genially может обрезать ссылку. Сократите вопросы или скачайте игру отдельным файлом.",
       title_main: "Название", title_label: "Заголовок в игре", title_ph: "Игровой автомат",
       design_main: "Оформление", bg_label: "Фон игры (ссылка)", btn_reset_bg: "↩ Сбросить", bg_ph: "Оставьте пустым для стандарта",
+      transparent_bg: "Прозрачный фон", transparent_hint: "Отключает фон игры. Идеально для встраивания поверх вашего фона в Genially.",
       use_latex: "Использовать LaTeX", use_latex_hint: "Включает поддержку математических формул (например, $x^2$)",
       timer_main: "Таймер на ответ", timer_toggle: "Включить глобальный таймер", timer_hint: "Если время вышло — ответ считается неверным.",
       timer_label: "Секунд на вопрос (по умолчанию)",
@@ -309,7 +306,6 @@
       q_text: "Вопрос", q_text_ph: "Введите вопрос...",
       text_style: "Оформление текста", font_label: "Шрифт (вопрос и ответы)", font_size_label: "Размер шрифта (px)",
       q_timer: "Таймер для этого вопроса", q_timer_label: "Секунд на этот вопрос (пусто = по умолчанию)", q_timer_ph: "например 20",
-      media: "Медиа (ссылки)",
       ans_choice: "Варианты ответа (отметь верные)", btn_add_ans: "➕ Добавить вариант",
       ans_text: "Верные ответы (ввод)",
       btn_preview: "👁 Показать в превью", btn_save: "💾 Сохранить",
@@ -327,6 +323,7 @@
       size_warning: "⚠️ Too much text! Genially might cut the link. Shorten questions or download separately.",
       title_main: "Title", title_label: "In-game Title", title_ph: "Claw Machine",
       design_main: "Appearance", bg_label: "Game Background (URL)", btn_reset_bg: "↩ Reset", bg_ph: "Leave empty for standard",
+      transparent_bg: "Transparent Background", transparent_hint: "Disables game background. Perfect for embedding over your Genially background.",
       use_latex: "Use LaTeX", use_latex_hint: "Enables math formulas (e.g., $x^2$)",
       timer_main: "Answer Timer", timer_toggle: "Enable Global Timer", timer_hint: "If time runs out, answer is incorrect.",
       timer_label: "Seconds per question (default)",
@@ -341,7 +338,6 @@
       q_text: "Question", q_text_ph: "Enter question...",
       text_style: "Text Styling", font_label: "Font (question & answers)", font_size_label: "Font Size (px)",
       q_timer: "Timer for this question", q_timer_label: "Seconds (empty = default)", q_timer_ph: "e.g. 20",
-      media: "Media (Links)",
       ans_choice: "Answer Options (check correct)", btn_add_ans: "➕ Add Option",
       ans_text: "Correct Answers (input)",
       btn_preview: "👁 Show in Preview", btn_save: "💾 Save",
@@ -359,6 +355,7 @@
       size_warning: "⚠️ Zu viel Text! Genially könnte den Link abschneiden.",
       title_main: "Titel", title_label: "Titel im Spiel", title_ph: "Greifautomat",
       design_main: "Aussehen", bg_label: "Hintergrund (URL)", btn_reset_bg: "↩ Zurücksetzen", bg_ph: "Für Standard leer lassen",
+      transparent_bg: "Transparenter Hintergrund", transparent_hint: "Deaktiviert den Spielhintergrund. Perfekt zum Einbetten in Genially.",
       use_latex: "LaTeX verwenden", use_latex_hint: "Aktiviert Mathe-Formeln (z.B. $x^2$)",
       timer_main: "Timer", timer_toggle: "Globalen Timer aktivieren", timer_hint: "Wenn die Zeit abläuft, ist die Antwort falsch.",
       timer_label: "Sekunden pro Frage",
@@ -373,7 +370,6 @@
       q_text: "Frage", q_text_ph: "Frage eingeben...",
       text_style: "Textformatierung", font_label: "Schriftart", font_size_label: "Schriftgröße (px)",
       q_timer: "Timer für diese Frage", q_timer_label: "Sekunden (leer = Standard)", q_timer_ph: "z.B. 20",
-      media: "Medien (Links)",
       ans_choice: "Antwortoptionen (richtige markieren)", btn_add_ans: "➕ Option hinzufügen",
       ans_text: "Richtige Antworten",
       btn_preview: "👁 In Vorschau zeigen", btn_save: "💾 Speichern",
@@ -391,6 +387,7 @@
       size_warning: "⚠️ 文本过多！Genially 可能会截断链接。请缩短问题或单独下载游戏。",
       title_main: "标题", title_label: "游戏内标题", title_ph: "抓娃娃机",
       design_main: "外观", bg_label: "游戏背景 (URL)", btn_reset_bg: "↩ 重置", bg_ph: "留空使用默认",
+      transparent_bg: "透明背景", transparent_hint: "禁用游戏背景。非常适合嵌入到 Genially 的背景上。",
       use_latex: "使用 LaTeX", use_latex_hint: "启用数学公式 (例如 $x^2$)",
       timer_main: "答题计时器", timer_toggle: "启用全局计时器", timer_hint: "如果超时，答案计为错误。",
       timer_label: "每题秒数 (默认)",
@@ -405,7 +402,6 @@
       q_text: "问题", q_text_ph: "输入问题...",
       text_style: "文本样式", font_label: "字体 (问题和答案)", font_size_label: "字体大小 (px)",
       q_timer: "此问题的计时器", q_timer_label: "秒数 (留空 = 默认)", q_timer_ph: "例如 20",
-      media: "媒体 (链接)",
       ans_choice: "答案选项 (勾选正确项)", btn_add_ans: "➕ 添加选项",
       ans_text: "正确答案 (输入)",
       btn_preview: "👁 在预览中显示", btn_save: "💾 保存",
@@ -436,14 +432,12 @@
       }
     });
 
-    // Обновляем динамические элементы
     if (typeof renderList === 'function') renderList();
     if (document.getElementById("selType")) {
       if (document.getElementById("selType").value === "choice") renderChoiceUI();
       else renderTextUI();
     }
     
-    // Обновляем статус лимита кода
     const barData = document.getElementById("barSize") ? document.getElementById("barSize").style.width : "0%";
     const pct = parseFloat(barData);
     const lblText = document.getElementById("lblSizeText");
@@ -468,7 +462,6 @@
   document.getElementById('langSelect').addEventListener('change', (e) => {
     changeLanguage(e.target.value);
   });
-  // --- END MULTI-LANGUAGE SYSTEM ---
 
   const errbar = document.getElementById("errbar");
   function showErr(msg){ if(errbar){ errbar.classList.add("show"); errbar.textContent = "Ошибка: " + msg; } }
@@ -588,7 +581,16 @@
 
         function initGameData() {
             const rawCfg = window.__CFG || {};
-            if(rawCfg.bgDataUrl) gameContainer.style.backgroundImage = 'url(' + rawCfg.bgDataUrl + ')';
+            
+            if (rawCfg.transparentBg) {
+                document.body.style.backgroundColor = 'transparent';
+                document.documentElement.style.backgroundColor = 'transparent';
+                gameContainer.style.backgroundImage = 'none';
+                gameContainer.style.backgroundColor = 'transparent';
+            } else if(rawCfg.bgDataUrl) {
+                gameContainer.style.backgroundImage = 'url(' + rawCfg.bgDataUrl + ')';
+            }
+
             document.getElementById('startTitle').textContent = rawCfg.title || "Игровой автомат";
             document.getElementById('startText').innerHTML = (rawCfg.instruction?.text || "Вставь монетку и управляй клешней.<br>Поймал игрушку — реши задачу.<br>Верно → игрушка твоя.<br>Неверно → игрушка упадет обратно.<br>У тебя ровно 9 попыток!").replace(/\\\\n/g, "<br/>");
             if((rawCfg.feedback?.text || "").trim()) { document.getElementById('finishCustomText').innerHTML = rawCfg.feedback.text.replace(/\\\\n/g, "<br/>"); document.getElementById('finishCustomText').style.display = 'block'; }
@@ -786,7 +788,7 @@
     root.innerHTML = __GAME_HTML__;
     let st = document.getElementById("__claw_game_style");
     if(!st){ st = document.createElement("style"); st.id="__claw_game_style"; st.textContent = __GAME_CSS__; document.head.appendChild(st); }
-    window.__CFG = { title: cfg.title || "Игровой автомат", questions: cfg.questions || [], useLatex: !!cfg.useLatex, bgDataUrl: cfg.bgDataUrl || "", timer: cfg.timer, instruction: cfg.instruction, feedback: cfg.feedback };
+    window.__CFG = { title: cfg.title || "Игровой автомат", questions: cfg.questions || [], useLatex: !!cfg.useLatex, bgDataUrl: cfg.bgDataUrl || "", transparentBg: !!cfg.transparentBg, timer: cfg.timer, instruction: cfg.instruction, feedback: cfg.feedback };
     
     if(!window.__CLAW_GAME_RAN__){ window.__CLAW_GAME_RAN__ = true; try{ eval(__GAME_JS__); }catch(e){ showErr(e?.stack || e?.message || String(e)); }
     } else { try{ if(typeof initGameData === 'function') initGameData();
@@ -811,7 +813,7 @@
 
   function packPayload(p) {
       const out = {};
-      if (p.title && p.title !== "Игровой автомат") out.ti = p.title; if (p.bgDataUrl) out.bg = p.bgDataUrl; if (p.useLatex) out.ul = 1;
+      if (p.title && p.title !== "Игровой автомат") out.ti = p.title; if (p.bgDataUrl) out.bg = p.bgDataUrl; if (p.useLatex) out.ul = 1; if (p.transparentBg) out.tb = 1;
       if (p.timer && p.timer.enabled) { out.tm = 1; out.ts = p.timer.seconds; }
       if (p.instruction) { out.i = {};
       if (p.instruction.text !== "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!") out.i.t = p.instruction.text;
@@ -824,7 +826,7 @@
   function unpackPayload(out) {
       if (!out || typeof out !== 'object') return normalizeCfg({});
       if (out.questions) return normalizeCfg(out); 
-      const p = { title: out.ti || "Игровой автомат", useLatex: !!out.ul, bgDataUrl: out.bg || "", timer: { enabled: !!out.tm, seconds: out.ts || 30 }, instruction: { text: (out.i && out.i.t !== undefined) ? out.i.t : "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!" }, feedback: { text: out.f || "" }, questions: (out.q || []).map(mq => { const q = {}; q.type = mq.t === 1 ? "text" : "choice"; q.prompt = mq.p || ""; if (q.type === "choice") { q.options = mq.o || ["Да", "Нет"]; q.correctIndices = mq.c || [0]; } else { q.accepts = mq.a || ["Ответ"]; } q.seconds = mq.s || null; q.image = mq.i || ""; q.audio = mq.au || ""; q.font = mq.fn = q.font; q.fontSize = mq.fs || null; return q; }) };
+      const p = { title: out.ti || "Игровой автомат", useLatex: !!out.ul, transparentBg: !!out.tb, bgDataUrl: out.bg || "", timer: { enabled: !!out.tm, seconds: out.ts || 30 }, instruction: { text: (out.i && out.i.t !== undefined) ? out.i.t : "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!" }, feedback: { text: out.f || "" }, questions: (out.q || []).map(mq => { const q = {}; q.type = mq.t === 1 ? "text" : "choice"; q.prompt = mq.p || ""; if (q.type === "choice") { q.options = mq.o || ["Да", "Нет"]; q.correctIndices = mq.c || [0]; } else { q.accepts = mq.a || ["Ответ"]; } q.seconds = mq.s || null; q.image = mq.i || ""; q.audio = mq.au || ""; q.font = mq.fn = q.font; q.fontSize = mq.fs || null; return q; }) };
       return normalizeCfg(p);
   }
 
@@ -835,18 +837,18 @@
 
   function normalizeCfg(raw){
     const cfg = raw && typeof raw === "object" ? raw : {};
-    const title = String(cfg.title || "Игровой автомат"), bgDataUrl = String(cfg.bgDataUrl || ""), useLatex = !!cfg.useLatex;
+    const title = String(cfg.title || "Игровой автомат"), bgDataUrl = String(cfg.bgDataUrl || ""), useLatex = !!cfg.useLatex, transparentBg = !!cfg.transparentBg;
     const timerEnabled = !!cfg.timer?.enabled, timerSeconds = Math.max(5, Math.min(600, Number(cfg.timer?.seconds || 30))); const instruction = { text: cfg.instruction?.text !== undefined ? String(cfg.instruction.text) : "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!" }; const feedback = { text: cfg.feedback?.text !== undefined ? String(cfg.feedback.text) : "" };
     let questions = Array.isArray(cfg.questions) ? cfg.questions.slice(0,9) : [];
     questions = questions.map(q=>{ const rawSecs = (q && ("seconds" in q)) ? q.seconds : null; const nSecs = (rawSecs==null || rawSecs==="") ? null : Number(rawSecs); const seconds = (Number.isFinite(nSecs) && nSecs>0) ? Math.max(1, Math.min(600, Math.round(nSecs))) : null; const image = String(q?.image || "").trim(), audio = String(q?.audio || "").trim(), font = String(q?.font || "").trim(), fontSize = q?.fontSize ? Number(q.fontSize) : null; if(q?.type === "text" || q?.type === "input"){ return { type:"text", prompt:String(q.prompt||""), accepts:(Array.isArray(q.accepts)?q.accepts:[String(q.answer||"")]).map(x=>String(x||"")), seconds, image, audio, font, fontSize }; } return { type:"choice", prompt:String(q?.prompt||""), options:(Array.isArray(q?.options)?q.options:[]).map(x=>String(x||"")), correctIndices: (Array.isArray(q?.correctIndices) ? q.correctIndices : [Number(q?.correctIndex||0)]), seconds, image, audio, font, fontSize }; });
-    return { title, bgDataUrl, timer: { enabled: timerEnabled, seconds: timerSeconds }, useLatex, questions, instruction, feedback };
+    return { title, bgDataUrl, transparentBg, timer: { enabled: timerEnabled, seconds: timerSeconds }, useLatex, questions, instruction, feedback };
   }
 
-  const Editor = { title: "Игровой автомат", bgDataUrl: "", timer: { enabled:false, seconds: 30 }, useLatex: false, instruction: { text: "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!" }, feedback: { text: "" }, questions: [], draft: null, editingId: null };
+  const Editor = { title: "Игровой автомат", bgDataUrl: "", transparentBg: false, timer: { enabled:false, seconds: 30 }, useLatex: false, instruction: { text: "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!" }, feedback: { text: "" }, questions: [], draft: null, editingId: null };
   
   function setCountPill(){ $("pillCount").textContent = Editor.questions.length + " / 9"; $("btnAddQ").disabled = (Editor.questions.length >= 9); if($("btnImportQ")) $("btnImportQ").disabled = (Editor.questions.length >= 9); }
   function escapeHtml(s){ return String(s ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;"); }
-  function qSummary(q){ const p = String(q.prompt || "").trim(); const short = p.length > 50 ? p.slice(0,50)+"…" : p; let type = (q.type==="choice" || q.type==="choice") ? "Выбор" : "Ввод"; if (q.image || q.audio) type += " (+ медиа)"; return { title: short || "(пусто)", sub: type }; }
+  function qSummary(q){ const p = String(q.prompt || "").trim(); const short = p.length > 50 ? p.slice(0,50)+"…" : p; let type = (q.type==="choice" || q.type==="choice") ? "Выбор" : "Ввод"; return { title: short || "(пусто)", sub: type }; }
 
   let draggedQIdx = null; window.dragQ = (e, i) => { draggedQIdx = i; e.dataTransfer.effectAllowed = 'move'; setTimeout(() => e.target.style.opacity = '0.5', 0); }; window.dragEndQ = (e) => { e.target.style.opacity = '1'; }; window.allowDropQ = (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }; 
   window.dragEnterQ = (e) => { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }; window.dragLeaveQ = (e) => { e.currentTarget.classList.remove('drag-over'); };
@@ -911,8 +913,7 @@
     $("selType").value = Editor.draft.type || "choice"; $("inpPrompt").value = Editor.draft.prompt || "";
     if(!("font" in Editor.draft)) Editor.draft.font = ""; if($("inpQFont")) $("inpQFont").value = Editor.draft.font;
     if(!("fontSize" in Editor.draft)) Editor.draft.fontSize = 32; if($("inpQFontSize")) $("inpQFontSize").value = Editor.draft.fontSize || 32; if(!("seconds" in Editor.draft)) Editor.draft.seconds = null;
-    if($("inpQSeconds")) $("inpQSeconds").value = (Editor.draft.seconds ?? ""); if(!("image" in Editor.draft)) Editor.draft.image = ""; if(!("audio" in Editor.draft)) Editor.draft.audio = "";
-    if($("inpQImage")) $("inpQImage").value = Editor.draft.image; if($("inpQAudio")) $("inpQAudio").value = Editor.draft.audio;
+    if($("inpQSeconds")) $("inpQSeconds").value = (Editor.draft.seconds ?? "");
     syncModalType(); if($("selType").value === "choice") renderChoiceUI(); else renderTextUI(); showModal(); setTimeout(()=>$("inpPrompt").focus(), 40);
   }
 
@@ -920,7 +921,7 @@
     const q = Editor.draft; if(!q) return null; q.type = $("selType").value;
     q.prompt = $("inpPrompt").value || ""; q.font = $("inpQFont") ? $("inpQFont").value : ""; q.fontSize = $("inpQFontSize") ? Number($("inpQFontSize").value) || 32 : 32; q.seconds = ($("inpQSeconds") && $("inpQSeconds").value !== "") ? Number($("inpQSeconds").value) : null;
     if(q.seconds != null){ const s = Number(q.seconds); if(!Number.isFinite(s) || s < 3 || s > 600) return "Timer error: 3–600";
-    q.seconds = Math.round(s); } q.image = $("inpQImage") ? $("inpQImage").value.trim() : ""; q.audio = $("inpQAudio") ? $("inpQAudio").value.trim() : "";
+    q.seconds = Math.round(s); } q.image = ""; q.audio = "";
     if(q.type === "choice"){ q.options = (q.options || []).map(x=>String(x||"")); q.correctIndices = Array.isArray(q.correctIndices) && q.correctIndices.length ? q.correctIndices : [0];
     } else { q.accepts = (q.accepts || [""]).map(x=>String(x||"")); } return q;
   }
@@ -940,7 +941,7 @@
     if(d.type === "choice"){ const mapped = { type:"choice", prompt:d.prompt||"", options:(d.options||[]).slice(), correctIndices:(d.correctIndices||[0]).slice(), seconds: (d.seconds==null || d.seconds==="") ? null : Number(d.seconds), image:d.image||"", audio:d.audio||"", font:d.font||"", fontSize:d.fontSize||null }; if(questions.length === 0) questions.push(mapped); else questions[0] = mapped;
     } else { const mapped = { type:"text", prompt:d.prompt||"", accepts:(d.accepts||[]).slice(), seconds: (d.seconds==null || d.seconds==="") ? null : Number(d.seconds), image:d.image||"", audio:d.audio||"", font:d.font||"", fontSize:d.fontSize||null }; if(questions.length === 0) questions.push(mapped); else questions[0] = mapped;
     } }
-    return normalizeCfg({ title: Editor.title || "Игровой автомат", bgDataUrl: Editor.bgDataUrl || "", timer: { enabled: !!Editor.timer.enabled, seconds: Number(Editor.timer.seconds || 30) }, useLatex: !!Editor.useLatex, instruction: Editor.instruction, feedback: Editor.feedback, questions });
+    return normalizeCfg({ title: Editor.title || "Игровой автомат", bgDataUrl: Editor.bgDataUrl || "", transparentBg: !!Editor.transparentBg, timer: { enabled: !!Editor.timer.enabled, seconds: Number(Editor.timer.seconds || 30) }, useLatex: !!Editor.useLatex, instruction: Editor.instruction, feedback: Editor.feedback, questions });
   }
 
   function buildIframeFromUrl(src){ return `<iframe src="${src}" style="width:100%;height:100%;border:0;border-radius:18px;overflow:hidden;background:transparent" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>`; }
@@ -986,7 +987,9 @@
   $("inpInstruction").addEventListener("input", ()=>{ Editor.instruction.text = $("inpInstruction").value; debouncedPreview(); }); $("inpFeedback").addEventListener("input", ()=>{ Editor.feedback.text = $("inpFeedback").value; debouncedPreview(); });
   $("inpTitle").addEventListener("input", ()=>{ Editor.title = $("inpTitle").value || "Игровой автомат"; debouncedPreview(); }); $("inpBgUrl").addEventListener("input", ()=>{ Editor.bgDataUrl = $("inpBgUrl").value.trim(); debouncedPreview(); });
   $("inpSeconds").addEventListener("input", ()=>{ Editor.timer.seconds = Number($("inpSeconds").value || 30); debouncedPreview(); }); $("btnResetBg").addEventListener("click", ()=>{ Editor.bgDataUrl = ""; $("inpBgUrl").value = ""; updatePreview(false); });
-  if($("chkUseLatex")) $("chkUseLatex").addEventListener("change", ()=>{ Editor.useLatex = $("chkUseLatex").checked; updatePreview(false); }); $("chkTimer").addEventListener("change", ()=>{ Editor.timer.enabled = $("chkTimer").checked; updatePreview(false); });
+  if($("chkUseLatex")) $("chkUseLatex").addEventListener("change", ()=>{ Editor.useLatex = $("chkUseLatex").checked; updatePreview(false); }); 
+  if($("chkTransparentBg")) $("chkTransparentBg").addEventListener("change", ()=>{ Editor.transparentBg = $("chkTransparentBg").checked; updatePreview(false); });
+  $("chkTimer").addEventListener("change", ()=>{ Editor.timer.enabled = $("chkTimer").checked; updatePreview(false); });
   $("btnAddQ").addEventListener("click", ()=>{ if(Editor.questions.length >= 9){ toast(i18n[currentLang].toast_limit); return; } openModal(null); });
   $("btnClearQs").addEventListener("click", ()=>{ Editor.questions = []; renderList(); updatePreview(false); toast(i18n[currentLang].toast_cleared); }); $("btnCloseModal").addEventListener("click", ()=>{ Editor.draft=null; Editor.editingId=null; hideModal(); });
   $("modalBackdrop").addEventListener("click", (e)=>{ if(e.target === $("modalBackdrop")){ Editor.draft=null; Editor.editingId=null; hideModal(); } });
@@ -1021,7 +1024,6 @@
   };
   
   $("selType").addEventListener("change", ()=>{ const q = Editor.draft; if(!q) return; q.type = $("selType").value; syncModalType(); if(q.type === "choice"){ q.options = q.options || ["",""]; q.correctIndices = q.correctIndices || [0]; renderChoiceUI(); } else { q.accepts = q.accepts || [""]; renderTextUI(); } });
-  if($("btnClearImage")) $("btnClearImage").addEventListener("click", () => { $("inpQImage").value = ""; }); if($("btnClearAudio")) $("btnClearAudio").addEventListener("click", () => { $("inpQAudio").value = ""; });
   $("btnAddChoice").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.options = q.options || ["",""]; q.options.push(""); renderChoiceUI(); });
   $("btnAddText").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.accepts = q.accepts || [""]; q.accepts.push(""); renderTextUI(); });
   $("btnPreviewDraft").addEventListener("click", ()=>{ getDraftFromModal(); updatePreview(true); toast(i18n[currentLang].toast_preview); });
@@ -1040,10 +1042,11 @@
   try { const saved = localStorage.getItem(AUTOSAVE_KEY);
   if (saved) { const p = JSON.parse(saved); if(p.title) $("inpTitle").value = p.title; if(p.bgDataUrl) $("inpBgUrl").value = p.bgDataUrl; if(p.timer) { $("chkTimer").checked = !!p.timer.enabled;
   if(p.timer.seconds) $("inpSeconds").value = p.timer.seconds; } if(p.useLatex !== undefined && $("chkUseLatex")) $("chkUseLatex").checked = !!p.useLatex;
+  if(p.transparentBg !== undefined && $("chkTransparentBg")) $("chkTransparentBg").checked = !!p.transparentBg;
   if(p.instruction && p.instruction.text !== undefined) $("inpInstruction").value = p.instruction.text; if(p.feedback && p.feedback.text !== undefined) $("inpFeedback").value = p.feedback.text;
   if(Array.isArray(p.questions)) { Editor.questions = p.questions.map(q => ({...q, id: uid()})); } } } catch(e) {}
   
-  Editor.title = $("inpTitle").value || "Игровой автомат"; Editor.timer.enabled = $("chkTimer").checked; Editor.timer.seconds = Number($("inpSeconds").value || 30); if($("chkUseLatex")) Editor.useLatex = $("chkUseLatex").checked; Editor.instruction.text = $("inpInstruction").value; Editor.feedback.text = $("inpFeedback").value;
+  Editor.title = $("inpTitle").value || "Игровой автомат"; Editor.timer.enabled = $("chkTimer").checked; Editor.timer.seconds = Number($("inpSeconds").value || 30); if($("chkUseLatex")) Editor.useLatex = $("chkUseLatex").checked; if($("chkTransparentBg")) Editor.transparentBg = $("chkTransparentBg").checked; Editor.instruction.text = $("inpInstruction").value; Editor.feedback.text = $("inpFeedback").value;
   updatePreview(false);
 })();
 </script>
