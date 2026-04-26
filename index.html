@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Игровой автомат — Редактор</title>
   
-  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=GMx6ACDctIY8B9MqMy9NUJFtCk-giNR3Gsonb5TicI33-gfQ8l44CxEBrwDrpn6nT7vKlp8vvqedWAlG_T3-nDpCHkSgETll0Hvk8jk0IKETQwfcefsP4k5mKKI5EbRTFhlp0L6XDwStJEhHnTF01iAS0qDsvrFJkfK8rdVBxNYXAE33PB2ZlsEaMosyDrjvIZTaOGlZGN3wLlx0Nd47jWIJiK82LoBEajASWDgs0RGvXOdzwPLPlt4EBVQURk661_j4nO5oidJJ2WW2IYUKoQ" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=RakHRQGwoaxPclS0RBIAD2D-HTXb9AumUOF84AjWy6HxFR_ZiAXnhjfA2HfhczJnYj3LuFgIYZzuFbWQAXG9WeyvRKKVU8b8xgLBTXocVVEQwKNG6j-uA7mW2m8K0jMOVCIxFcV-7ZcJyj4gs5NY4jXLl6ZrFy-xwVmD66Wyj6IF1J6bUKXBqxuIHkN8JJl9MyZicalhVGYCt4xeISD_uu0uMGxEhSc-qxvKSX5eg7fCbCYCEg6OWzEjY_1XP_otLN1EiVRXH8S3B9tk1L1dQw" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Neucha&display=swap');
@@ -86,20 +86,20 @@
           <a href="https://t.me/interactiv_matematika" target="_blank" title="Перейти в Telegram-канал" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; transition: opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
             <img src="logo.png" alt="Логотип" class="anim-pulse" style="height: 42px; width: 42px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255, 174, 0, 0.5);" onerror="this.style.display='none'"/>
             <div style="display:flex; flex-direction:column; justify-content:center;">
-              <span data-i18n="brandTitle" style="font-size: 16px; font-weight: 900; line-height: 1.2;">Шкатулка математических интерактивов</span>
-              <span data-i18n="authorName" style="font-size: 11px; color: rgba(255,255,255,0.7); line-height: 1.2;">Светлана Быкова</span>
-              <span data-i18n="editorName" style="font-size: 12px; color: var(--neon-orange-base); font-weight: 700; line-height: 1.2; margin-top: 2px;">Редактор «Игровой автомат»</span>
+              <span style="font-size: 16px; font-weight: 900; line-height: 1.2;">Шкатулка математических интерактивов</span>
+              <span style="font-size: 11px; color: rgba(255,255,255,0.7); line-height: 1.2;">Светлана Быкова</span>
+              <span style="font-size: 12px; color: var(--neon-orange-base); font-weight: 700; line-height: 1.2; margin-top: 2px;">Редактор «Игровой автомат»</span>
             </div>
           </a>
         </div>
         <div style="display:flex; gap:12px; align-items:center; flex-wrap: wrap;">
           <div style="display:flex; flex-direction:column; gap:4px; min-width:150px;">
-             <label for="selLang" data-i18n="uiLanguage" style="margin:0; font-size:11px; font-weight:900; color:rgba(255,255,255,.86);">Язык интерфейса</label>
+             <label for="selLang" id="lblLangSelect" style="margin:0; font-size:11px; font-weight:900; color:rgba(255,255,255,.86);">Язык интерфейса</label>
              <select id="selLang" style="padding:7px 10px; border-radius:12px; font-size:12.5px;">
                 <option value="ru">Русский</option>
-                <option value="en">English</option>
-                <option value="de">Deutsch</option>
-                <option value="zh">中文</option>
+                <option value="en">Английский</option>
+                <option value="de">Немецкий</option>
+                <option value="zh">Китайский</option>
              </select>
           </div>
           <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px; justify-content:center;">
@@ -108,89 +108,89 @@
                 <div id="barSize" style="width:0%; height:100%; background:var(--ok); transition: width 0.3s, background 0.3s;"></div>
              </div>
           </div>
-          <button class="btn" id="btnResetAll" type="button" data-i18n-title="resetAllTitle" title="Сбросить все настройки и начать с чистого листа">🔄 <span data-i18n="resetAll">Сбросить всё</span></button>
-          <button class="btn primary" id="btnCopyCode" type="button">📋 <span data-i18n="copyIframe">Скопировать код (iframe)</span></button>
+          <button class="btn" id="btnResetAll" type="button" title="Сбросить все настройки и начать с чистого листа">🔄 Сбросить всё</button>
+          <button class="btn primary" id="btnCopyCode" type="button">📋 Скопировать код (iframe)</button>
         </div>
       </div>
       <div id="sizeWarning" style="display:none; background:rgba(255,77,77,.15); color:#ffd6d6; padding:8px 14px; font-size:12px; font-weight:700; border-bottom:1px solid rgba(255,77,77,.3);">
-         <span data-i18n="sizeWarningText">⚠️ Текста слишком много! Genially может обрезать ссылку. Сократите вопросы или скачайте игру отдельным файлом.</span>
+         ⚠️ Текста слишком много! Genially может обрезать ссылку. Сократите вопросы или скачайте игру отдельным файлом.
       </div>
       <div class="errbar" id="errbar"></div>
       <div class="panel-body">
         <div class="section">
-          <div class="title" data-i18n="sectionTitle">Название</div>
-          <label data-i18n="gameTitleLabel">Заголовок в игре</label>
+          <div class="title">Название</div>
+          <label>Заголовок в игре</label>
           <input id="inpTitle" type="text" value="Игровой автомат" />
         </div>
         <div class="section">
-          <div class="title" data-i18n="sectionDesign">Оформление</div>
-          <label data-i18n="bgLinkLabel">Фон игры (ссылка)</label>
+          <div class="title">Оформление</div>
+          <label>Фон игры (ссылка)</label>
           <div class="row" style="gap:10px; align-items:center; margin-top:6px">
-            <input id="inpBgUrl" type="text" data-i18n-placeholder="bgPlaceholder" placeholder="Оставьте пустым для стандарта" />
-            <button id="btnResetBg" type="button" class="btn small">↩ <span data-i18n="resetBg">Сбросить</span></button>
+            <input id="inpBgUrl" type="text" placeholder="Оставьте пустым для стандарта" />
+            <button id="btnResetBg" type="button" class="btn small">↩ Сбросить</button>
           </div>
           <div class="toggle">
             <input id="chkTransparentBg" type="checkbox" />
             <div>
-              <div style="font-weight:900" data-i18n="transparentBg">Прозрачный фон</div>
-              <div class="muted" data-i18n="transparentBgHelp">Если включено, фон игры будет прозрачным. Ссылка на фон игнорируется.</div>
+               <div style="font-weight:900" id="lblTransparentBgTitle">Прозрачный фон</div>
+               <div class="muted" id="lblTransparentBgHelp">Если включено, фон игры будет прозрачным. Ссылка на фон игнорируется.</div>
             </div>
           </div>
           <div class="toggle">
             <input id="chkUseLatex" type="checkbox" />
             <div>
-               <div style="font-weight:900" data-i18n="useLatex">Использовать LaTeX</div>
-              <div class="muted" data-i18n="latexHelp">Включает поддержку математических формул (например, $x^2$)</div>
+               <div style="font-weight:900">Использовать LaTeX</div>
+              <div class="muted">Включает поддержку математических формул (например, $x^2$)</div>
             </div>
           </div>
         </div>
         <div class="section">
-          <div class="title" data-i18n="sectionTimer">Таймер на ответ</div>
+          <div class="title">Таймер на ответ</div>
           <div class="toggle">
             <input id="chkTimer" type="checkbox" />
             <div>
-              <div style="font-weight:900" data-i18n="globalTimer">Включить глобальный таймер</div>
-              <div class="muted" data-i18n="globalTimerHelp">Если время вышло — ответ считается неверным.</div>
+              <div style="font-weight:900">Включить глобальный таймер</div>
+              <div class="muted">Если время вышло — ответ считается неверным.</div>
             </div>
           </div>
-          <label data-i18n="secondsDefault">Секунд на вопрос (по умолчанию)</label>
+          <label>Секунд на вопрос (по умолчанию)</label>
           <input id="inpSeconds" type="number" min="5" max="600" step="1" value="30" />
         </div>
         <div class="section">
-          <div class="title" data-i18n="startScreen">Стартовый экран</div>
-          <label data-i18n="instructionText">Текст инструкции</label>
+          <div class="title">Стартовый экран</div>
+          <label>Текст инструкции</label>
           <textarea id="inpInstruction" style="min-height:90px;"></textarea>
         </div>
         <div class="section">
-          <div class="title" data-i18n="finishScreen">Финальный экран</div>
-          <label data-i18n="additionalText">Дополнительный текст</label>
-          <textarea id="inpFeedback" style="min-height:70px;" data-i18n-placeholder="feedbackPlaceholder" placeholder="Например: Отличная работа!"></textarea>
+          <div class="title">Финальный экран</div>
+          <label>Дополнительный текст</label>
+          <textarea id="inpFeedback" style="min-height:70px;" placeholder="Например: Отличная работа!"></textarea>
         </div>
         <div class="section">
-          <div class="title"><span data-i18n="questions">Вопросы</span> <span class="pill" id="pillCount">0 / 9</span></div>
+          <div class="title"><span>Вопросы</span> <span class="pill" id="pillCount">0 / 9</span></div>
           <div class="row" style="margin-bottom:12px; align-items: center;">
-            <button class="btn primary" id="btnAddQ" type="button">➕ <span data-i18n="add">Добавить</span></button>
-            <button class="btn primary" id="btnImportQ" type="button" style="background: linear-gradient(90deg, #33d17a, #28a745); border-color: #28a745;">📥 <span data-i18n="import">Импорт</span></button>
-            <button class="btn" id="btnClearQs" type="button">🧹 <span data-i18n="clear">Очистить</span></button>
+            <button class="btn primary" id="btnAddQ" type="button">➕ Добавить</button>
+            <button class="btn primary" id="btnImportQ" type="button" style="background: linear-gradient(90deg, #33d17a, #28a745); border-color: #28a745;">📥 Импорт</button>
+            <button class="btn" id="btnClearQs" type="button">🧹 Очистить</button>
           </div>
           <div style="background: rgba(214, 177, 74, 0.1); padding: 10px; border-radius: 12px; border: 1px solid rgba(214,177,74,.4); margin-bottom: 12px;">
-            <div style="font-size: 12px; color: var(--neon); font-weight: bold; margin-bottom: 8px;">🎨 <span data-i18n="templatesTitle">Шаблоны оформления:</span></div>
+            <div style="font-size: 12px; color: var(--neon); font-weight: bold; margin-bottom: 8px;">🎨 Шаблоны оформления:</div>
             <div style="display:flex; align-items:center; gap:8px; flex-wrap: wrap;">
               <select id="newQTemplate" style="flex:1; min-width: 160px; border: 1px solid rgba(214,177,74,.4); border-radius: 12px; padding: 6px; font-size: 13px; background: rgba(0,0,0,0.5); color: #fff; outline: none;">
-                <option value="-1" data-i18n="standardDefault">Стандартные (по умолчанию)</option>
+                <option value="-1">Стандартные (по умолчанию)</option>
               </select>
-              <button class="btn small" style="background:var(--neon); color:#000; border:none; font-weight:bold; padding: 8px 12px;" onclick="applyTemplateToAll()" id="btnApplyAll" type="button">🔄 <span data-i18n="applyToAll">Применить ко всем</span></button>
+              <button class="btn small" style="background:var(--neon); color:#000; border:none; font-weight:bold; padding: 8px 12px;" onclick="applyTemplateToAll()" id="btnApplyAll" type="button">🔄 Применить ко всем</button>
             </div>
           </div>
-          <div style="font-size:11px; color:var(--neon); margin-bottom:8px;">💡 <span data-i18n="dragHint">Можно перетаскивать вопросы (за значок ☰), чтобы менять их порядок.</span></div>
+          <div style="font-size:11px; color:var(--neon); margin-bottom:8px;">💡 Можно перетаскивать вопросы (за значок ☰), чтобы менять их порядок.</div>
           <div class="q-list" id="qList"></div>
-          <div class="muted" style="margin-top:10px" data-i18n="strictNine">Строго <b>9 вопросов</b>.</div>
+          <div class="muted" style="margin-top:10px">Строго <b>9 вопросов</b>.</div>
         </div>
       </div>
     </div>
     <div class="panel preview">
       <div class="preview-top">
-        <div><div class="name" data-i18n="preview">Просмотр</div><div class="hint" data-i18n="livePreview">Живое превью игры</div></div>
+        <div><div class="name">Просмотр</div><div class="hint">Живое превью игры</div></div>
       </div>
       <div class="panel-body">
         <div class="preview-stage"><iframe id="livePreview" title="Preview" style="width:100%;height:100%;border:0;background:transparent;overflow:hidden" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
@@ -201,20 +201,20 @@
 
   <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true">
-      <div class="modal-head"><div class="h" id="modalTitle">Добавить вопрос</div><button class="btn small danger" id="btnCloseModal" type="button" data-i18n="close">Закрыть</button></div>
+      <div class="modal-head"><div class="h" id="modalTitle">Добавить вопрос</div><button class="btn small danger" id="btnCloseModal" type="button">Закрыть</button></div>
       <div class="modal-body">
-        <label data-i18n="questionType">Тип вопроса</label>
-        <select id="selType"><option value="choice" selected data-i18n="optChoiceType">С выбором ответа</option><option value="text" data-i18n="optTextType">С вводом ответа</option></select>
-        <label data-i18n="questionLabel">Вопрос</label>
-        <textarea id="inpPrompt" data-i18n-placeholder="questionPlaceholder" placeholder="Введите вопрос..."></textarea>
+        <label>Тип вопроса</label>
+        <select id="selType"><option value="choice" selected>С выбором ответа</option><option value="text">С вводом ответа</option></select>
+        <label>Вопрос</label>
+        <textarea id="inpPrompt" placeholder="Введите вопрос..."></textarea>
         <div class="choiceBlock" style="margin-top:10px">
-          <div style="font-weight:900" data-i18n="textDesign">Оформление текста</div>
+          <div style="font-weight:900">Оформление текста</div>
           <div class="row" style="margin-top:10px; align-items:flex-end">
             <div>
-              <label data-i18n="fontLabel">Шрифт (вопрос и ответы)</label>
+              <label>Шрифт (вопрос и ответы)</label>
               <select id="inpQFont">
-                <option value="'Neucha', cursive, sans-serif" style="font-family: 'Neucha', cursive;" data-i18n="fontNeucha">Neucha (Рукописный)</option>
-                <option value="'Caveat', cursive, sans-serif" style="font-family: 'Caveat', cursive;" data-i18n="fontCaveat">Caveat (Рукописный 2)</option>
+                <option value="'Neucha', cursive, sans-serif" style="font-family: 'Neucha', cursive;">Neucha (Рукописный)</option>
+                <option value="'Caveat', cursive, sans-serif" style="font-family: 'Caveat', cursive;">Caveat (Рукописный 2)</option>
                 <option value="Arial, sans-serif" style="font-family: Arial, sans-serif;">Arial</option>
                 <option value="Verdana, sans-serif" style="font-family: Verdana, sans-serif;">Verdana</option>
                 <option value="Tahoma, sans-serif" style="font-family: Tahoma, sans-serif;">Tahoma</option>
@@ -225,96 +225,95 @@
               </select>
             </div>
             <div>
-              <label data-i18n="qFontSize">Размер шрифта (px)</label>
+              <label>Размер шрифта (px)</label>
               <input id="inpQFontSize" type="number" min="12" max="60" step="1" value="32" />
             </div>
           </div>
         </div>
         <div class="choiceBlock" style="margin-top:10px">
-          <div style="font-weight:900" data-i18n="qTimer">Таймер для этого вопроса</div>
+          <div style="font-weight:900">Таймер для этого вопроса</div>
           <div style="margin-top:10px">
-              <label data-i18n="qSecondsLabel">Секунд на этот вопрос (пусто = по умолчанию)</label>
-              <input id="inpQSeconds" type="number" min="3" max="600" step="1" data-i18n-placeholder="qSecondsPlaceholder" placeholder="например 20" />
+              <label>Секунд на этот вопрос (пусто = по умолчанию)</label>
+              <input id="inpQSeconds" type="number" min="3" max="600" step="1" placeholder="например 20" />
           </div>
         </div>
         <div class="choiceBlock" style="margin-top:10px">
-          <div style="font-weight:900" data-i18n="mediaLinks">Медиа (ссылки)</div>
+          <div style="font-weight:900">Медиа (ссылки)</div>
           <div class="answerRow">
-            <span style="font-size:20px; line-height:1; cursor:help;" data-i18n-title="imageTitle" title="Ссылка на картинку">🖼️</span>
+            <span style="font-size:20px; line-height:1; cursor:help;" title="Ссылка на картинку">🖼️</span>
             <input id="inpQImage" type="text" placeholder="https://.../image.jpg" />
-            <button class="btn small danger" id="btnClearImage" type="button" data-i18n-title="clearField" title="Очистить">✖</button>
+            <button class="btn small danger" id="btnClearImage" type="button">✖</button>
           </div>
           <div class="answerRow">
-            <span style="font-size:20px; line-height:1; cursor:help;" data-i18n-title="audioTitle" title="Ссылка на аудио">🎵</span>
+            <span style="font-size:20px; line-height:1; cursor:help;" title="Ссылка на аудио">🎵</span>
             <input id="inpQAudio" type="text" placeholder="https://.../audio.mp3" />
-            <button class="btn small danger" id="btnClearAudio" type="button" data-i18n-title="clearField" title="Очистить">✖</button>
+            <button class="btn small danger" id="btnClearAudio" type="button">✖</button>
           </div>
         </div>
         <div id="choiceWrap" class="choiceBlock">
-          <div style="font-weight:900" data-i18n="answerOptions">Варианты ответа (отметь верные)</div>
+          <div style="font-weight:900">Варианты ответа (отметь верные)</div>
           <div id="choiceList"></div>
-          <button class="btn small" id="btnAddChoice" type="button" style="margin-top:10px">➕ <span data-i18n="addOption">Добавить вариант</span></button>
+          <button class="btn small" id="btnAddChoice" type="button" style="margin-top:10px">➕ Добавить вариант</button>
         </div>
         <div id="textWrap" class="choiceBlock" style="display:none">
-          <div style="font-weight:900" data-i18n="correctInputAnswers">Верные ответы (ввод)</div>
+          <div style="font-weight:900">Верные ответы (ввод)</div>
           <div id="textList"></div>
-          <button class="btn small" id="btnAddText" type="button" style="margin-top:10px">➕ <span data-i18n="addOption">Добавить вариант</span></button>
+          <button class="btn small" id="btnAddText" type="button" style="margin-top:10px">➕ Добавить вариант</button>
         </div>
       </div>
       <div class="modal-foot">
-        <button class="btn" id="btnPreviewDraft" type="button">👁 <span data-i18n="showPreview">Показать в превью</span></button>
-        <button class="btn primary" id="btnSaveQ" type="button">💾 <span data-i18n="save">Сохранить</span></button>
+        <button class="btn" id="btnPreviewDraft" type="button">👁 Показать в превью</button>
+        <button class="btn primary" id="btnSaveQ" type="button">💾 Сохранить</button>
       </div>
     </div>
   </div>
 
   <div class="modal-backdrop" id="importBackdrop" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true">
-      <div class="modal-head"><div class="h" style="color:#33d17a;">📥 <span data-i18n="importTitle">Умный Импорт</span></div><button class="btn small danger" onclick="closeImport()" type="button" data-i18n="close">Закрыть</button></div>
+      <div class="modal-head"><div class="h" style="color:#33d17a;">📥 Умный Импорт</div><button class="btn small danger" onclick="closeImport()" type="button">Закрыть</button></div>
       <div class="modal-body">
         <div class="row" style="margin-bottom:15px;">
-          <div><label data-i18n="importModeLabel">Режим импорта текста:</label><select id="importMode" style="border-color:#33d17a;"><option value="ege" data-i18n="importModeBlocks">Текст блоками (с вариантами ответов)</option><option value="line" data-i18n="importModeLines">Простой список (каждая строка — новый вопрос)</option></select></div>
+          <div><label>Режим импорта текста:</label><select id="importMode" style="border-color:#33d17a;"><option value="ege">Текст блоками (с вариантами ответов)</option><option value="line">Простой список (каждая строка — новый вопрос)</option></select></div>
         </div>
-        <textarea id="importText" style="height:250px; font-family:'Courier New', monospace; font-size:14px;" data-i18n-placeholder="importPlaceholder" placeholder="Вставьте скопированный текст..."></textarea>
+        <textarea id="importText" style="height:250px; font-family:'Courier New', monospace; font-size:14px;" placeholder="Вставьте скопированный текст..."></textarea>
       </div>
       <div class="modal-foot">
-        <button class="btn" onclick="closeImport()" type="button" data-i18n="cancel">Отмена</button>
-        <button class="btn primary" style="background: linear-gradient(90deg, #33d17a, #28a745); border-color: #28a745;" onclick="processImport()" type="button">✨ <span data-i18n="recognizeAdd">Распознать и добавить</span></button>
+        <button class="btn" onclick="closeImport()" type="button">Отмена</button>
+        <button class="btn primary" style="background: linear-gradient(90deg, #33d17a, #28a745); border-color: #28a745;" onclick="processImport()" type="button">✨ Распознать и добавить</button>
       </div>
     </div>
   </div>
 
-  <div class="toast" id="toast" data-i18n="copied">Скопировано</div>
+  <div class="toast" id="toast">Скопировано</div>
 
 <script>
 (() => {
   "use strict";
   const errbar = document.getElementById("errbar");
-  function showErr(msg){ if(errbar){ errbar.classList.add("show"); errbar.textContent = (typeof tr === "function" ? tr("errorPrefix") : "Ошибка") + ": " + msg; } }
+  function showErr(msg){ if(errbar){ errbar.classList.add("show"); errbar.textContent = ((typeof tr === "function") ? tr("error") : "Ошибка") + ": " + msg; } }
   const $ = (id)=>document.getElementById(id);
 
   const LANG_KEY = "__CLAW_editor_lang__";
-  let editorLang = localStorage.getItem(LANG_KEY) || "ru";
+  function safeLangGet(){ try { return localStorage.getItem(LANG_KEY) || ""; } catch(e) { return ""; } }
+  function safeLangSet(v){ try { localStorage.setItem(LANG_KEY, v); } catch(e) {} }
+  let editorLang = safeLangGet() || "ru";
   const I18N = {
     ru: {
       pageTitle: "Игровой автомат — Редактор",
-      brandTitle: "Шкатулка математических интерактивов",
-      authorName: "Светлана Быкова",
-      editorName: "Редактор «Игровой автомат»",
-      uiLanguage: "Язык интерфейса",
+      langLabel: "Язык интерфейса",
       sizeOk: "🟢 Код в норме",
-      sizeNear: "🟡 Код почти достиг лимита",
-      sizeExceeded: "🔴 ПРЕВЫШЕН ЛИМИТ",
+      sizeAlmost: "🟡 Код почти достиг лимита",
+      sizeLimit: "🔴 ПРЕВЫШЕН ЛИМИТ",
       resetAllTitle: "Сбросить все настройки и начать с чистого листа",
-      resetAll: "Сбросить всё",
-      copyIframe: "Скопировать код (iframe)",
-      sizeWarningText: "⚠️ Текста слишком много! Genially может обрезать ссылку. Сократите вопросы или скачайте игру отдельным файлом.",
+      resetAll: "🔄 Сбросить всё",
+      copyIframe: "📋 Скопировать код (iframe)",
+      sizeWarning: "⚠️ Текста слишком много! Genially может обрезать ссылку. Сократите вопросы или скачайте игру отдельным файлом.",
       sectionTitle: "Название",
-      gameTitleLabel: "Заголовок в игре",
+      titleLabel: "Заголовок в игре",
       sectionDesign: "Оформление",
-      bgLinkLabel: "Фон игры (ссылка)",
+      bgLabel: "Фон игры (ссылка)",
       bgPlaceholder: "Оставьте пустым для стандарта",
-      resetBg: "Сбросить",
+      resetBg: "↩ Сбросить",
       transparentBg: "Прозрачный фон",
       transparentBgHelp: "Если включено, фон игры будет прозрачным. Ссылка на фон игнорируется.",
       useLatex: "Использовать LaTeX",
@@ -324,336 +323,321 @@
       globalTimerHelp: "Если время вышло — ответ считается неверным.",
       secondsDefault: "Секунд на вопрос (по умолчанию)",
       startScreen: "Стартовый экран",
-      instructionText: "Текст инструкции",
+      instructionLabel: "Текст инструкции",
       finishScreen: "Финальный экран",
-      additionalText: "Дополнительный текст",
+      feedbackLabel: "Дополнительный текст",
       feedbackPlaceholder: "Например: Отличная работа!",
       questions: "Вопросы",
-      add: "Добавить",
-      import: "Импорт",
-      clear: "Очистить",
-      templatesTitle: "Шаблоны оформления:",
+      add: "➕ Добавить",
+      import: "📥 Импорт",
+      clear: "🧹 Очистить",
+      templates: "🎨 Шаблоны оформления:",
       standardDefault: "Стандартные (по умолчанию)",
-      applyToAll: "Применить ко всем",
-      dragHint: "Можно перетаскивать вопросы (за значок ☰), чтобы менять их порядок.",
+      likeQuestion: "Как в вопросе #{n}",
+      applyAll: "🔄 Применить ко всем",
+      dragHint: "💡 Можно перетаскивать вопросы (за значок ☰), чтобы менять их порядок.",
       strictNine: "Строго <b>9 вопросов</b>.",
+      noQuestions: "Пока нет вопросов. Заполните все 9.",
       preview: "Просмотр",
       livePreview: "Живое превью игры",
-      noQuestions: "Пока нет вопросов. Заполните все 9.",
-      likeQuestion: "Как в вопросе #{n}",
-      previewTitle: "В превью",
-      duplicateTitle: "Дублировать",
-      editTitle: "Редактировать",
-      deleteTitle: "Удалить",
-      typeChoice: "Выбор",
-      typeInput: "Ввод",
-      withMedia: " (+ медиа)",
-      copied: "Скопировано",
-      copySuccess: "Скопировано ✅",
-      copyError: "Ошибка",
-      errorPrefix: "Ошибка",
-      maxQuestions: "Максимум 9 вопросов!",
-      alreadyNine: "Уже 9 вопросов 🙂",
-      qCopied: "Вопрос скопирован",
-      deleted: "Удалено",
-      shownPreview: "Показано в превью",
-      templateApplied: "Настройки применены!",
-      applyTemplateConfirm: "Применить настройки (шрифт, размер, таймер, ТИП вопроса) ко всем вопросам?",
-      cleaned: "Очищено",
-      importLimit: "Импорт завершен (достигнут лимит 9)",
-      importCount: "Импортировано: {n}",
-      importFailed: "Не удалось распознать текст",
-      resetConfirm: "Вы уверены, что хотите удалить все вопросы и настройки, чтобы начать заново?",
-      close: "Закрыть",
       modalAdd: "Добавить вопрос",
       modalEdit: "Редактировать вопрос",
-      questionAdded: "Вопрос добавлен",
-      questionUpdated: "Вопрос обновлён",
+      close: "Закрыть",
       questionType: "Тип вопроса",
-      optChoiceType: "С выбором ответа",
-      optTextType: "С вводом ответа",
+      choiceType: "С выбором ответа",
+      textType: "С вводом ответа",
       questionLabel: "Вопрос",
       questionPlaceholder: "Введите вопрос...",
       textDesign: "Оформление текста",
       fontLabel: "Шрифт (вопрос и ответы)",
       fontNeucha: "Neucha (Рукописный)",
       fontCaveat: "Caveat (Рукописный 2)",
-      qFontSize: "Размер шрифта (px)",
-      qTimer: "Таймер для этого вопроса",
+      fontSize: "Размер шрифта (px)",
+      qTimerTitle: "Таймер для этого вопроса",
       qSecondsLabel: "Секунд на этот вопрос (пусто = по умолчанию)",
       qSecondsPlaceholder: "например 20",
       mediaLinks: "Медиа (ссылки)",
       imageTitle: "Ссылка на картинку",
       audioTitle: "Ссылка на аудио",
-      clearField: "Очистить",
       answerOptions: "Варианты ответа (отметь верные)",
-      addOption: "Добавить вариант",
       correctInputAnswers: "Верные ответы (ввод)",
-      showPreview: "Показать в превью",
-      save: "Сохранить",
-      choiceCorrectPlaceholder: "✅ Верный ответ",
-      choiceOptionPlaceholder: "Вариант {n}",
-      textCorrectPlaceholder: "✅ Верный ответ",
-      textAnswerPlaceholder: "Верный вариант {n}",
-      importTitle: "Умный Импорт",
+      addOption: "➕ Добавить вариант",
+      showPreview: "👁 Показать в превью",
+      save: "💾 Сохранить",
+      importTitle: "📥 Умный Импорт",
       importModeLabel: "Режим импорта текста:",
       importModeBlocks: "Текст блоками (с вариантами ответов)",
       importModeLines: "Простой список (каждая строка — новый вопрос)",
       importPlaceholder: "Вставьте скопированный текст...",
       cancel: "Отмена",
-      recognizeAdd: "Распознать и добавить",
+      recognizeAdd: "✨ Распознать и добавить",
+      choiceSummary: "Выбор",
+      inputSummary: "Ввод",
+      mediaSummary: " (+ медиа)",
+      emptyQuestion: "(пусто)",
+      previewTitle: "В превью",
+      duplicateTitle: "Дублировать",
+      editTitle: "Редактировать",
+      deleteTitle: "Удалить",
+      copied: "Скопировано",
+      copiedOk: "Скопировано ✅",
+      error: "Ошибка",
+      deleted: "Удалено",
+      shownPreview: "Показано в превью",
+      copiedQuestion: "Вопрос скопирован",
+      maxQuestions: "Максимум 9 вопросов!",
+      alreadyNine: "Уже 9 вопросов 🙂",
+      cleared: "Очищено",
+      settingsApplied: "Настройки применены!",
+      applyConfirm: "Применить настройки (шрифт, размер, таймер, ТИП вопроса) ко всем вопросам?",
+      importLimit: "Импорт завершен (достигнут лимит 9)",
+      imported: "Импортировано: {n}",
+      importFailed: "Не удалось распознать текст",
+      updated: "Вопрос обновлён",
+      added: "Вопрос добавлен",
+      resetConfirm: "Вы уверены, что хотите удалить все вопросы и настройки, чтобы начать заново?",
+      validAnswer: "✅ Верный ответ",
+      optionN: "Вариант {n}",
+      correctVariantN: "Верный вариант {n}",
+      answerDefault: "Ответ",
       validateEmptyQuestion: "Пустой вопрос",
       validatePrompt: "Введите текст",
       validateMinOptions: "Минимум 2 варианта",
       validateCorrect: "Отметьте верный ответ",
-      validateQuestionTimer: "Таймер вопроса: 3–600 секунд",
-      answerDefault: "Ответ"
+      validateQuestionTimer: "Таймер вопроса: 3–600 секунд"
     },
     en: {
       pageTitle: "Claw Machine — Editor",
-      brandTitle: "Mathematical Interactive Box",
-      authorName: "Svetlana Bykova",
-      editorName: "“Claw Machine” Editor",
-      uiLanguage: "Interface language",
+      langLabel: "Interface language",
       sizeOk: "🟢 Code is OK",
-      sizeNear: "🟡 Code is near the limit",
-      sizeExceeded: "🔴 LIMIT EXCEEDED",
+      sizeAlmost: "🟡 Code is near the limit",
+      sizeLimit: "🔴 LIMIT EXCEEDED",
       resetAllTitle: "Reset all settings and start from scratch",
-      resetAll: "Reset all",
-      copyIframe: "Copy code (iframe)",
-      sizeWarningText: "⚠️ Too much text! Genially may cut off the link. Shorten the questions or download the game as a separate file.",
+      resetAll: "🔄 Reset all",
+      copyIframe: "📋 Copy code (iframe)",
+      sizeWarning: "⚠️ Too much text! Genially may trim the link. Shorten the questions or download the game as a separate file.",
       sectionTitle: "Title",
-      gameTitleLabel: "Game title",
+      titleLabel: "Game title",
       sectionDesign: "Design",
-      bgLinkLabel: "Game background (link)",
+      bgLabel: "Game background (link)",
       bgPlaceholder: "Leave empty for default",
-      resetBg: "Reset",
+      resetBg: "↩ Reset",
       transparentBg: "Transparent background",
       transparentBgHelp: "When enabled, the game background is transparent. The background link is ignored.",
       useLatex: "Use LaTeX",
-      latexHelp: "Enables mathematical formulas support (for example, $x^2$)",
+      latexHelp: "Enables support for math formulas (for example, $x^2$)",
       sectionTimer: "Answer timer",
       globalTimer: "Enable global timer",
-      globalTimerHelp: "If time runs out, the answer is counted as wrong.",
+      globalTimerHelp: "If time runs out, the answer counts as incorrect.",
       secondsDefault: "Seconds per question (default)",
       startScreen: "Start screen",
-      instructionText: "Instruction text",
+      instructionLabel: "Instruction text",
       finishScreen: "Final screen",
-      additionalText: "Additional text",
+      feedbackLabel: "Additional text",
       feedbackPlaceholder: "For example: Great job!",
       questions: "Questions",
-      add: "Add",
-      import: "Import",
-      clear: "Clear",
-      templatesTitle: "Design templates:",
+      add: "➕ Add",
+      import: "📥 Import",
+      clear: "🧹 Clear",
+      templates: "🎨 Design templates:",
       standardDefault: "Standard (default)",
-      applyToAll: "Apply to all",
-      dragHint: "You can drag questions by the ☰ icon to change their order.",
+      likeQuestion: "Like question #{n}",
+      applyAll: "🔄 Apply to all",
+      dragHint: "💡 Drag questions by the ☰ icon to reorder them.",
       strictNine: "Exactly <b>9 questions</b>.",
+      noQuestions: "No questions yet. Fill all 9.",
       preview: "Preview",
       livePreview: "Live game preview",
-      noQuestions: "No questions yet. Fill in all 9.",
-      likeQuestion: "Like question #{n}",
-      previewTitle: "Preview",
-      duplicateTitle: "Duplicate",
-      editTitle: "Edit",
-      deleteTitle: "Delete",
-      typeChoice: "Choice",
-      typeInput: "Input",
-      withMedia: " (+ media)",
-      copied: "Copied",
-      copySuccess: "Copied ✅",
-      copyError: "Error",
-      errorPrefix: "Error",
-      maxQuestions: "Maximum 9 questions!",
-      alreadyNine: "There are already 9 questions 🙂",
-      qCopied: "Question copied",
-      deleted: "Deleted",
-      shownPreview: "Shown in preview",
-      templateApplied: "Settings applied!",
-      applyTemplateConfirm: "Apply settings (font, size, timer, question TYPE) to all questions?",
-      cleaned: "Cleared",
-      importLimit: "Import completed (limit of 9 reached)",
-      importCount: "Imported: {n}",
-      importFailed: "Could not recognize the text",
-      resetConfirm: "Are you sure you want to delete all questions and settings and start over?",
-      close: "Close",
       modalAdd: "Add question",
       modalEdit: "Edit question",
-      questionAdded: "Question added",
-      questionUpdated: "Question updated",
+      close: "Close",
       questionType: "Question type",
-      optChoiceType: "Multiple choice",
-      optTextType: "Text input",
+      choiceType: "Multiple choice",
+      textType: "Text input",
       questionLabel: "Question",
       questionPlaceholder: "Enter a question...",
       textDesign: "Text design",
       fontLabel: "Font (question and answers)",
-      fontNeucha: "Neucha (Handwritten)",
-      fontCaveat: "Caveat (Handwritten 2)",
-      qFontSize: "Font size (px)",
-      qTimer: "Timer for this question",
+      fontNeucha: "Neucha (handwritten)",
+      fontCaveat: "Caveat (handwritten 2)",
+      fontSize: "Font size (px)",
+      qTimerTitle: "Timer for this question",
       qSecondsLabel: "Seconds for this question (empty = default)",
       qSecondsPlaceholder: "for example 20",
       mediaLinks: "Media (links)",
       imageTitle: "Image link",
       audioTitle: "Audio link",
-      clearField: "Clear",
       answerOptions: "Answer options (mark correct ones)",
-      addOption: "Add option",
       correctInputAnswers: "Correct answers (input)",
-      showPreview: "Show in preview",
-      save: "Save",
-      choiceCorrectPlaceholder: "✅ Correct answer",
-      choiceOptionPlaceholder: "Option {n}",
-      textCorrectPlaceholder: "✅ Correct answer",
-      textAnswerPlaceholder: "Correct option {n}",
-      importTitle: "Smart Import",
+      addOption: "➕ Add option",
+      showPreview: "👁 Show in preview",
+      save: "💾 Save",
+      importTitle: "📥 Smart Import",
       importModeLabel: "Text import mode:",
       importModeBlocks: "Text blocks (with answer options)",
       importModeLines: "Simple list (each line is a new question)",
       importPlaceholder: "Paste copied text...",
       cancel: "Cancel",
-      recognizeAdd: "Recognize and add",
+      recognizeAdd: "✨ Recognize and add",
+      choiceSummary: "Choice",
+      inputSummary: "Input",
+      mediaSummary: " (+ media)",
+      emptyQuestion: "(empty)",
+      previewTitle: "Preview",
+      duplicateTitle: "Duplicate",
+      editTitle: "Edit",
+      deleteTitle: "Delete",
+      copied: "Copied",
+      copiedOk: "Copied ✅",
+      error: "Error",
+      deleted: "Deleted",
+      shownPreview: "Shown in preview",
+      copiedQuestion: "Question copied",
+      maxQuestions: "Maximum 9 questions!",
+      alreadyNine: "Already 9 questions 🙂",
+      cleared: "Cleared",
+      settingsApplied: "Settings applied!",
+      applyConfirm: "Apply settings (font, size, timer, question TYPE) to all questions?",
+      importLimit: "Import finished (limit of 9 reached)",
+      imported: "Imported: {n}",
+      importFailed: "Could not recognize the text",
+      updated: "Question updated",
+      added: "Question added",
+      resetConfirm: "Are you sure you want to delete all questions and settings and start over?",
+      validAnswer: "✅ Correct answer",
+      optionN: "Option {n}",
+      correctVariantN: "Correct variant {n}",
+      answerDefault: "Answer",
       validateEmptyQuestion: "Empty question",
       validatePrompt: "Enter text",
       validateMinOptions: "At least 2 options",
       validateCorrect: "Mark the correct answer",
-      validateQuestionTimer: "Question timer: 3–600 seconds",
-      answerDefault: "Answer"
+      validateQuestionTimer: "Question timer: 3–600 seconds"
     },
     de: {
-      pageTitle: "Spielautomat — Editor",
-      brandTitle: "Mathematische Interaktive Box",
-      authorName: "Svetlana Bykova",
-      editorName: "Editor „Spielautomat“",
-      uiLanguage: "Sprache der Oberfläche",
+      pageTitle: "Greifautomat — Editor",
+      langLabel: "Sprache der Oberfläche",
       sizeOk: "🟢 Code ist in Ordnung",
-      sizeNear: "🟡 Code ist fast am Limit",
-      sizeExceeded: "🔴 LIMIT ÜBERSCHRITTEN",
+      sizeAlmost: "🟡 Code fast am Limit",
+      sizeLimit: "🔴 LIMIT ÜBERSCHRITTEN",
       resetAllTitle: "Alle Einstellungen zurücksetzen und neu beginnen",
-      resetAll: "Alles zurücksetzen",
-      copyIframe: "Code kopieren (iframe)",
-      sizeWarningText: "⚠️ Zu viel Text! Genially kann den Link abschneiden. Kürzen Sie die Fragen oder laden Sie das Spiel als separate Datei herunter.",
+      resetAll: "🔄 Alles zurücksetzen",
+      copyIframe: "📋 Code kopieren (iframe)",
+      sizeWarning: "⚠️ Zu viel Text! Genially kann den Link kürzen. Kürze die Fragen oder lade das Spiel als separate Datei herunter.",
       sectionTitle: "Titel",
-      gameTitleLabel: "Titel im Spiel",
+      titleLabel: "Titel im Spiel",
       sectionDesign: "Design",
-      bgLinkLabel: "Spielhintergrund (Link)",
-      bgPlaceholder: "Für Standard leer lassen",
-      resetBg: "Zurücksetzen",
+      bgLabel: "Spielhintergrund (Link)",
+      bgPlaceholder: "Leer lassen für Standard",
+      resetBg: "↩ Zurücksetzen",
       transparentBg: "Transparenter Hintergrund",
       transparentBgHelp: "Wenn aktiviert, ist der Spielhintergrund transparent. Der Hintergrund-Link wird ignoriert.",
       useLatex: "LaTeX verwenden",
       latexHelp: "Aktiviert Unterstützung für mathematische Formeln (z. B. $x^2$)",
       sectionTimer: "Antwort-Timer",
       globalTimer: "Globalen Timer aktivieren",
-      globalTimerHelp: "Wenn die Zeit abläuft, gilt die Antwort als falsch.",
+      globalTimerHelp: "Wenn die Zeit abläuft, zählt die Antwort als falsch.",
       secondsDefault: "Sekunden pro Frage (Standard)",
       startScreen: "Startbildschirm",
-      instructionText: "Anleitungstext",
+      instructionLabel: "Anleitungstext",
       finishScreen: "Abschlussbildschirm",
-      additionalText: "Zusätzlicher Text",
-      feedbackPlaceholder: "Zum Beispiel: Tolle Arbeit!",
+      feedbackLabel: "Zusätzlicher Text",
+      feedbackPlaceholder: "Zum Beispiel: Sehr gut!",
       questions: "Fragen",
-      add: "Hinzufügen",
-      import: "Import",
-      clear: "Leeren",
-      templatesTitle: "Designvorlagen:",
+      add: "➕ Hinzufügen",
+      import: "📥 Import",
+      clear: "🧹 Leeren",
+      templates: "🎨 Designvorlagen:",
       standardDefault: "Standard (voreingestellt)",
-      applyToAll: "Auf alle anwenden",
-      dragHint: "Sie können Fragen am Symbol ☰ ziehen, um die Reihenfolge zu ändern.",
+      likeQuestion: "Wie Frage #{n}",
+      applyAll: "🔄 Auf alle anwenden",
+      dragHint: "💡 Ziehe Fragen am Symbol ☰, um die Reihenfolge zu ändern.",
       strictNine: "Genau <b>9 Fragen</b>.",
+      noQuestions: "Noch keine Fragen. Fülle alle 9 aus.",
       preview: "Vorschau",
       livePreview: "Live-Vorschau des Spiels",
-      noQuestions: "Noch keine Fragen. Füllen Sie alle 9 aus.",
-      likeQuestion: "Wie Frage #{n}",
-      previewTitle: "Vorschau",
-      duplicateTitle: "Duplizieren",
-      editTitle: "Bearbeiten",
-      deleteTitle: "Löschen",
-      typeChoice: "Auswahl",
-      typeInput: "Eingabe",
-      withMedia: " (+ Medien)",
-      copied: "Kopiert",
-      copySuccess: "Kopiert ✅",
-      copyError: "Fehler",
-      errorPrefix: "Fehler",
-      maxQuestions: "Maximal 9 Fragen!",
-      alreadyNine: "Es gibt bereits 9 Fragen 🙂",
-      qCopied: "Frage kopiert",
-      deleted: "Gelöscht",
-      shownPreview: "In der Vorschau angezeigt",
-      templateApplied: "Einstellungen angewendet!",
-      applyTemplateConfirm: "Einstellungen (Schrift, Größe, Timer, Fragentyp) auf alle Fragen anwenden?",
-      cleaned: "Geleert",
-      importLimit: "Import abgeschlossen (Limit von 9 erreicht)",
-      importCount: "Importiert: {n}",
-      importFailed: "Text konnte nicht erkannt werden",
-      resetConfirm: "Sind Sie sicher, dass Sie alle Fragen und Einstellungen löschen und neu beginnen möchten?",
-      close: "Schließen",
       modalAdd: "Frage hinzufügen",
       modalEdit: "Frage bearbeiten",
-      questionAdded: "Frage hinzugefügt",
-      questionUpdated: "Frage aktualisiert",
+      close: "Schließen",
       questionType: "Fragetyp",
-      optChoiceType: "Mit Antwortauswahl",
-      optTextType: "Mit Texteingabe",
+      choiceType: "Mit Antwortauswahl",
+      textType: "Mit Texteingabe",
       questionLabel: "Frage",
       questionPlaceholder: "Frage eingeben...",
       textDesign: "Textgestaltung",
       fontLabel: "Schriftart (Frage und Antworten)",
-      fontNeucha: "Neucha (Handschrift)",
-      fontCaveat: "Caveat (Handschrift 2)",
-      qFontSize: "Schriftgröße (px)",
-      qTimer: "Timer für diese Frage",
+      fontNeucha: "Neucha (handschriftlich)",
+      fontCaveat: "Caveat (handschriftlich 2)",
+      fontSize: "Schriftgröße (px)",
+      qTimerTitle: "Timer für diese Frage",
       qSecondsLabel: "Sekunden für diese Frage (leer = Standard)",
-      qSecondsPlaceholder: "z. B. 20",
+      qSecondsPlaceholder: "zum Beispiel 20",
       mediaLinks: "Medien (Links)",
       imageTitle: "Bildlink",
       audioTitle: "Audiolink",
-      clearField: "Leeren",
       answerOptions: "Antwortoptionen (richtige markieren)",
-      addOption: "Option hinzufügen",
       correctInputAnswers: "Richtige Antworten (Eingabe)",
-      showPreview: "In Vorschau zeigen",
-      save: "Speichern",
-      choiceCorrectPlaceholder: "✅ Richtige Antwort",
-      choiceOptionPlaceholder: "Option {n}",
-      textCorrectPlaceholder: "✅ Richtige Antwort",
-      textAnswerPlaceholder: "Richtige Variante {n}",
-      importTitle: "Intelligenter Import",
-      importModeLabel: "Textimport-Modus:",
+      addOption: "➕ Option hinzufügen",
+      showPreview: "👁 In Vorschau zeigen",
+      save: "💾 Speichern",
+      importTitle: "📥 Intelligenter Import",
+      importModeLabel: "Text-Importmodus:",
       importModeBlocks: "Textblöcke (mit Antwortoptionen)",
-      importModeLines: "Einfache Liste (jede Zeile ist eine neue Frage)",
+      importModeLines: "Einfache Liste (jede Zeile = neue Frage)",
       importPlaceholder: "Kopierten Text einfügen...",
       cancel: "Abbrechen",
-      recognizeAdd: "Erkennen und hinzufügen",
+      recognizeAdd: "✨ Erkennen und hinzufügen",
+      choiceSummary: "Auswahl",
+      inputSummary: "Eingabe",
+      mediaSummary: " (+ Medien)",
+      emptyQuestion: "(leer)",
+      previewTitle: "Vorschau",
+      duplicateTitle: "Duplizieren",
+      editTitle: "Bearbeiten",
+      deleteTitle: "Löschen",
+      copied: "Kopiert",
+      copiedOk: "Kopiert ✅",
+      error: "Fehler",
+      deleted: "Gelöscht",
+      shownPreview: "In der Vorschau angezeigt",
+      copiedQuestion: "Frage kopiert",
+      maxQuestions: "Maximal 9 Fragen!",
+      alreadyNine: "Schon 9 Fragen 🙂",
+      cleared: "Geleert",
+      settingsApplied: "Einstellungen angewendet!",
+      applyConfirm: "Einstellungen (Schriftart, Größe, Timer, Fragetyp) auf alle Fragen anwenden?",
+      importLimit: "Import beendet (Limit von 9 erreicht)",
+      imported: "Importiert: {n}",
+      importFailed: "Text konnte nicht erkannt werden",
+      updated: "Frage aktualisiert",
+      added: "Frage hinzugefügt",
+      resetConfirm: "Möchtest du wirklich alle Fragen und Einstellungen löschen und neu beginnen?",
+      validAnswer: "✅ Richtige Antwort",
+      optionN: "Option {n}",
+      correctVariantN: "Richtige Variante {n}",
+      answerDefault: "Antwort",
       validateEmptyQuestion: "Leere Frage",
       validatePrompt: "Text eingeben",
       validateMinOptions: "Mindestens 2 Optionen",
-      validateCorrect: "Markieren Sie die richtige Antwort",
-      validateQuestionTimer: "Frage-Timer: 3–600 Sekunden",
-      answerDefault: "Antwort"
+      validateCorrect: "Richtige Antwort markieren",
+      validateQuestionTimer: "Frage-Timer: 3–600 Sekunden"
     },
     zh: {
       pageTitle: "抓娃娃机 — 编辑器",
-      brandTitle: "数学互动宝盒",
-      authorName: "斯韦特兰娜·贝科娃",
-      editorName: "“抓娃娃机”编辑器",
-      uiLanguage: "界面语言",
+      langLabel: "界面语言",
       sizeOk: "🟢 代码正常",
-      sizeNear: "🟡 代码接近限制",
-      sizeExceeded: "🔴 已超过限制",
-      resetAllTitle: "重置所有设置并重新开始",
-      resetAll: "全部重置",
-      copyIframe: "复制代码 (iframe)",
-      sizeWarningText: "⚠️ 文本太多！Genially 可能会截断链接。请缩短问题，或将游戏下载为单独文件。",
+      sizeAlmost: "🟡 代码接近限制",
+      sizeLimit: "🔴 超出限制",
+      resetAllTitle: "重置所有设置并从头开始",
+      resetAll: "🔄 全部重置",
+      copyIframe: "📋 复制代码（iframe）",
+      sizeWarning: "⚠️ 文本太多！Genially 可能会截断链接。请缩短问题或将游戏下载为单独文件。",
       sectionTitle: "标题",
-      gameTitleLabel: "游戏标题",
+      titleLabel: "游戏标题",
       sectionDesign: "外观",
-      bgLinkLabel: "游戏背景（链接）",
+      bgLabel: "游戏背景（链接）",
       bgPlaceholder: "留空则使用默认背景",
-      resetBg: "重置",
+      resetBg: "↩ 重置",
       transparentBg: "透明背景",
       transparentBgHelp: "启用后，游戏背景将透明。背景链接会被忽略。",
       useLatex: "使用 LaTeX",
@@ -663,109 +647,190 @@
       globalTimerHelp: "时间结束后，答案将判为错误。",
       secondsDefault: "每题秒数（默认）",
       startScreen: "开始界面",
-      instructionText: "说明文字",
+      instructionLabel: "说明文本",
       finishScreen: "结束界面",
-      additionalText: "附加文字",
-      feedbackPlaceholder: "例如：做得很棒！",
+      feedbackLabel: "附加文本",
+      feedbackPlaceholder: "例如：做得很好！",
       questions: "问题",
-      add: "添加",
-      import: "导入",
-      clear: "清空",
-      templatesTitle: "样式模板：",
+      add: "➕ 添加",
+      import: "📥 导入",
+      clear: "🧹 清空",
+      templates: "🎨 外观模板：",
       standardDefault: "标准（默认）",
-      applyToAll: "应用到全部",
-      dragHint: "可以拖动问题的 ☰ 图标来改变顺序。",
-      strictNine: "必须是 <b>9 个问题</b>。",
+      likeQuestion: "像第 {n} 题",
+      applyAll: "🔄 应用于全部",
+      dragHint: "💡 可以拖动 ☰ 图标来调整问题顺序。",
+      strictNine: "必须正好 <b>9 个问题</b>。",
+      noQuestions: "还没有问题。请填写全部 9 个。",
       preview: "预览",
       livePreview: "游戏实时预览",
-      noQuestions: "还没有问题。请填写全部 9 个。",
-      likeQuestion: "与问题 #{n} 相同",
-      previewTitle: "预览",
-      duplicateTitle: "复制",
-      editTitle: "编辑",
-      deleteTitle: "删除",
-      typeChoice: "选择",
-      typeInput: "输入",
-      withMedia: "（含媒体）",
-      copied: "已复制",
-      copySuccess: "已复制 ✅",
-      copyError: "错误",
-      errorPrefix: "错误",
-      maxQuestions: "最多 9 个问题！",
-      alreadyNine: "已经有 9 个问题了 🙂",
-      qCopied: "问题已复制",
-      deleted: "已删除",
-      shownPreview: "已在预览中显示",
-      templateApplied: "设置已应用！",
-      applyTemplateConfirm: "将设置（字体、大小、计时器、问题类型）应用到所有问题吗？",
-      cleaned: "已清空",
-      importLimit: "导入完成（已达到 9 个限制）",
-      importCount: "已导入：{n}",
-      importFailed: "无法识别文本",
-      resetConfirm: "确定要删除所有问题和设置并重新开始吗？",
-      close: "关闭",
       modalAdd: "添加问题",
       modalEdit: "编辑问题",
-      questionAdded: "问题已添加",
-      questionUpdated: "问题已更新",
+      close: "关闭",
       questionType: "问题类型",
-      optChoiceType: "选择答案",
-      optTextType: "输入答案",
+      choiceType: "选择题",
+      textType: "输入答案",
       questionLabel: "问题",
       questionPlaceholder: "请输入问题...",
-      textDesign: "文字样式",
+      textDesign: "文本样式",
       fontLabel: "字体（问题和答案）",
-      fontNeucha: "Neucha（手写体）",
-      fontCaveat: "Caveat（手写体 2）",
-      qFontSize: "字体大小 (px)",
-      qTimer: "此问题的计时器",
-      qSecondsLabel: "此问题秒数（留空 = 默认）",
+      fontNeucha: "Neucha（手写）",
+      fontCaveat: "Caveat（手写 2）",
+      fontSize: "字体大小（px）",
+      qTimerTitle: "本题计时器",
+      qSecondsLabel: "本题秒数（空 = 默认）",
       qSecondsPlaceholder: "例如 20",
       mediaLinks: "媒体（链接）",
       imageTitle: "图片链接",
       audioTitle: "音频链接",
-      clearField: "清空",
-      answerOptions: "答案选项（勾选正确项）",
-      addOption: "添加选项",
+      answerOptions: "答案选项（标记正确项）",
       correctInputAnswers: "正确答案（输入）",
-      showPreview: "在预览中显示",
-      save: "保存",
-      choiceCorrectPlaceholder: "✅ 正确答案",
-      choiceOptionPlaceholder: "选项 {n}",
-      textCorrectPlaceholder: "✅ 正确答案",
-      textAnswerPlaceholder: "正确答案 {n}",
-      importTitle: "智能导入",
+      addOption: "➕ 添加选项",
+      showPreview: "👁 在预览中显示",
+      save: "💾 保存",
+      importTitle: "📥 智能导入",
       importModeLabel: "文本导入模式：",
       importModeBlocks: "文本块（带答案选项）",
       importModeLines: "简单列表（每行一个新问题）",
       importPlaceholder: "粘贴复制的文本...",
       cancel: "取消",
-      recognizeAdd: "识别并添加",
+      recognizeAdd: "✨ 识别并添加",
+      choiceSummary: "选择",
+      inputSummary: "输入",
+      mediaSummary: "（+媒体）",
+      emptyQuestion: "（空）",
+      previewTitle: "预览",
+      duplicateTitle: "复制",
+      editTitle: "编辑",
+      deleteTitle: "删除",
+      copied: "已复制",
+      copiedOk: "已复制 ✅",
+      error: "错误",
+      deleted: "已删除",
+      shownPreview: "已在预览中显示",
+      copiedQuestion: "问题已复制",
+      maxQuestions: "最多 9 个问题！",
+      alreadyNine: "已经有 9 个问题 🙂",
+      cleared: "已清空",
+      settingsApplied: "设置已应用！",
+      applyConfirm: "将设置（字体、大小、计时器、问题类型）应用到所有问题吗？",
+      importLimit: "导入完成（已达到 9 个限制）",
+      imported: "已导入：{n}",
+      importFailed: "无法识别文本",
+      updated: "问题已更新",
+      added: "问题已添加",
+      resetConfirm: "确定要删除所有问题和设置并重新开始吗？",
+      validAnswer: "✅ 正确答案",
+      optionN: "选项 {n}",
+      correctVariantN: "正确答案 {n}",
+      answerDefault: "答案",
       validateEmptyQuestion: "空问题",
       validatePrompt: "请输入文本",
       validateMinOptions: "至少 2 个选项",
       validateCorrect: "请标记正确答案",
-      validateQuestionTimer: "问题计时器：3–600 秒",
-      answerDefault: "答案"
+      validateQuestionTimer: "问题计时器：3–600 秒"
     }
   };
   function tr(key, vars){
     const dict = I18N[editorLang] || I18N.ru;
-    let s = dict[key] ?? I18N.ru[key] ?? key;
-    if(vars) Object.keys(vars).forEach(k => { s = s.replaceAll("{" + k + "}", vars[k]); });
-    return s;
+    let val = dict[key] ?? I18N.ru[key] ?? key;
+    if(vars) Object.keys(vars).forEach(k => { val = val.replaceAll("{" + k + "}", String(vars[k])); });
+    return val;
   }
+  function setTxt(selector, value){ const el = document.querySelector(selector); if(el) el.textContent = value; }
+  function setHtml(selector, value){ const el = document.querySelector(selector); if(el) el.innerHTML = value; }
+  function setPlaceholder(id, value){ const el = $(id); if(el) el.placeholder = value; }
+  function setTitle(id, value){ const el = $(id); if(el) el.title = value; }
   function applyEditorLang(){
     if(!I18N[editorLang]) editorLang = "ru";
     document.documentElement.lang = editorLang === "zh" ? "zh" : editorLang;
     document.title = tr("pageTitle");
-    document.querySelectorAll("[data-i18n]").forEach(el => { el.innerHTML = tr(el.getAttribute("data-i18n")); });
-    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => { el.setAttribute("placeholder", tr(el.getAttribute("data-i18n-placeholder"))); });
-    document.querySelectorAll("[data-i18n-title]").forEach(el => { el.setAttribute("title", tr(el.getAttribute("data-i18n-title"))); });
-    const langSelect = $("selLang");
-    if(langSelect) langSelect.value = editorLang;
-    const qTitle = $("modalTitle");
-    if(qTitle) qTitle.textContent = (window.Editor && window.Editor.editingId) ? tr("modalEdit") : tr("modalAdd");
+    const langSel = $("selLang"); if(langSel) langSel.value = editorLang;
+    setTxt("#lblLangSelect", tr("langLabel"));
+    setTitle("btnResetAll", tr("resetAllTitle"));
+    if($("btnResetAll")) $("btnResetAll").textContent = tr("resetAll");
+    if($("btnCopyCode")) $("btnCopyCode").textContent = tr("copyIframe");
+    const warn = $("sizeWarning"); if(warn) warn.textContent = tr("sizeWarning");
+    const sections = document.querySelectorAll(".settings .section");
+    if(sections[0]) { setTxtSection(sections[0], tr("sectionTitle"), [tr("titleLabel")]); }
+    if(sections[1]) { setTxtSection(sections[1], tr("sectionDesign"), [tr("bgLabel")]); }
+    if(sections[2]) { setTxtSection(sections[2], tr("sectionTimer"), [tr("secondsDefault")]); }
+    if(sections[3]) { setTxtSection(sections[3], tr("startScreen"), [tr("instructionLabel")]); }
+    if(sections[4]) { setTxtSection(sections[4], tr("finishScreen"), [tr("feedbackLabel")]); }
+    if(sections[5]) {
+      const titleSpan = sections[5].querySelector(".title span:first-child"); if(titleSpan) titleSpan.textContent = tr("questions");
+    }
+    setPlaceholder("inpBgUrl", tr("bgPlaceholder"));
+    setPlaceholder("inpFeedback", tr("feedbackPlaceholder"));
+    setTxt("#btnResetBg", tr("resetBg"));
+    setTxt("#lblTransparentBgTitle", tr("transparentBg"));
+    setTxt("#lblTransparentBgHelp", tr("transparentBgHelp"));
+    setToggleText("chkUseLatex", tr("useLatex"), tr("latexHelp"));
+    setToggleText("chkTimer", tr("globalTimer"), tr("globalTimerHelp"));
+    if($("btnAddQ")) $("btnAddQ").textContent = tr("add");
+    if($("btnImportQ")) $("btnImportQ").textContent = tr("import");
+    if($("btnClearQs")) $("btnClearQs").textContent = tr("clear");
+    const tplTitle = document.querySelector("#newQTemplate")?.closest("div[style*='background']")?.querySelector("div"); if(tplTitle) tplTitle.textContent = tr("templates");
+    if($("btnApplyAll")) $("btnApplyAll").textContent = tr("applyAll");
+    const dragHint = document.querySelector("#qList")?.previousElementSibling; if(dragHint) dragHint.textContent = tr("dragHint");
+    const strict = document.querySelector("#qList")?.nextElementSibling; if(strict) strict.innerHTML = tr("strictNine");
+    setTxt(".preview-top .name", tr("preview"));
+    setTxt(".preview-top .hint", tr("livePreview"));
+    const modalTitle = $("modalTitle"); if(modalTitle) modalTitle.textContent = (Editor && Editor.editingId) ? tr("modalEdit") : tr("modalAdd");
+    if($("btnCloseModal")) $("btnCloseModal").textContent = tr("close");
+    const modalBodyLabels = document.querySelectorAll("#modalBackdrop .modal-body > label, #modalBackdrop .modal-body .choiceBlock label");
+    if(modalBodyLabels[0]) modalBodyLabels[0].textContent = tr("questionType");
+    if(modalBodyLabels[1]) modalBodyLabels[1].textContent = tr("questionLabel");
+    if(modalBodyLabels[2]) modalBodyLabels[2].textContent = tr("fontLabel");
+    if(modalBodyLabels[3]) modalBodyLabels[3].textContent = tr("fontSize");
+    if(modalBodyLabels[4]) modalBodyLabels[4].textContent = tr("qSecondsLabel");
+    setPlaceholder("inpPrompt", tr("questionPlaceholder"));
+    setPlaceholder("inpQSeconds", tr("qSecondsPlaceholder"));
+    const selType = $("selType"); if(selType){ const o=selType.options; if(o[0]) o[0].textContent=tr("choiceType"); if(o[1]) o[1].textContent=tr("textType"); }
+    const fontSel = $("inpQFont"); if(fontSel){ if(fontSel.options[0]) fontSel.options[0].textContent = tr("fontNeucha"); if(fontSel.options[1]) fontSel.options[1].textContent = tr("fontCaveat"); }
+    const choiceBlocks = document.querySelectorAll("#modalBackdrop .choiceBlock > div:first-child");
+    if(choiceBlocks[0]) choiceBlocks[0].textContent = tr("textDesign");
+    if(choiceBlocks[1]) choiceBlocks[1].textContent = tr("qTimerTitle");
+    if(choiceBlocks[2]) choiceBlocks[2].textContent = tr("mediaLinks");
+    if(choiceBlocks[3]) choiceBlocks[3].textContent = tr("answerOptions");
+    if(choiceBlocks[4]) choiceBlocks[4].textContent = tr("correctInputAnswers");
+    setTitle("btnClearImage", tr("clear"));
+    setTitle("btnClearAudio", tr("clear"));
+    const mediaIcons = document.querySelectorAll("#modalBackdrop .answerRow span");
+    if(mediaIcons[0]) mediaIcons[0].title = tr("imageTitle");
+    if(mediaIcons[1]) mediaIcons[1].title = tr("audioTitle");
+    if($("btnAddChoice")) $("btnAddChoice").textContent = tr("addOption");
+    if($("btnAddText")) $("btnAddText").textContent = tr("addOption");
+    if($("btnPreviewDraft")) $("btnPreviewDraft").textContent = tr("showPreview");
+    if($("btnSaveQ")) $("btnSaveQ").textContent = tr("save");
+    const importHead = document.querySelector("#importBackdrop .modal-head .h"); if(importHead) importHead.textContent = tr("importTitle");
+    const importClose = document.querySelector("#importBackdrop .modal-head button"); if(importClose) importClose.textContent = tr("close");
+    const importLabel = document.querySelector("#importBackdrop label"); if(importLabel) importLabel.textContent = tr("importModeLabel");
+    const importMode = $("importMode"); if(importMode){ if(importMode.options[0]) importMode.options[0].textContent = tr("importModeBlocks"); if(importMode.options[1]) importMode.options[1].textContent = tr("importModeLines"); }
+    setPlaceholder("importText", tr("importPlaceholder"));
+    const importFootBtns = document.querySelectorAll("#importBackdrop .modal-foot button");
+    if(importFootBtns[0]) importFootBtns[0].textContent = tr("cancel");
+    if(importFootBtns[1]) importFootBtns[1].textContent = tr("recognizeAdd");
+    const toastEl = $("toast"); if(toastEl && toastEl.textContent === I18N.ru.copied) toastEl.textContent = tr("copied");
+    refreshTemplateSelect();
+    checkLinkSize(encodeGameData(buildPayload(false)));
+  }
+  function setTxtSection(section, title, labels){
+    const titleEl = section.querySelector(".title"); if(titleEl) titleEl.textContent = title;
+    section.querySelectorAll("label").forEach((label, idx) => { if(labels[idx]) label.textContent = labels[idx]; });
+  }
+  function setToggleText(inputId, title, help){
+    const wrap = $(inputId)?.closest(".toggle"); if(!wrap) return;
+    const divs = wrap.querySelectorAll("div div");
+    if(divs[0]) divs[0].textContent = title;
+    if(divs[1]) divs[1].textContent = help;
+  }
+  function refreshTemplateSelect(){
+    const sel = $("newQTemplate"); if(!sel) return;
+    const current = sel.value;
+    sel.innerHTML = '<option value="-1">' + tr("standardDefault") + '</option>';
+    Editor.questions.forEach((q, i) => { sel.innerHTML += '<option value="' + i + '">' + tr("likeQuestion", {n:i+1}) + '</option>'; });
+    if(current && current !== "-1" && Editor.questions[Number(current)]) sel.value = current; else sel.value = "-1";
   }
 
 
@@ -913,16 +978,8 @@
 
         function initGameData() {
             const rawCfg = window.__CFG || {};
-            if(rawCfg.transparentBg) {
-                gameContainer.style.backgroundImage = 'none';
-                gameContainer.style.backgroundColor = 'transparent';
-            } else if(rawCfg.bgDataUrl) {
-                gameContainer.style.backgroundImage = 'url(' + rawCfg.bgDataUrl + ')';
-                gameContainer.style.backgroundColor = '';
-            } else {
-                gameContainer.style.backgroundImage = "url('" + baseUrl + "фон.png')";
-                gameContainer.style.backgroundColor = '';
-            }
+            if(rawCfg.transparentBg) { gameContainer.style.backgroundImage = 'none'; gameContainer.style.backgroundColor = 'transparent'; }
+            else if(rawCfg.bgDataUrl) gameContainer.style.backgroundImage = 'url(' + rawCfg.bgDataUrl + ')';
             document.getElementById('startTitle').textContent = rawCfg.title || "Игровой автомат";
             document.getElementById('startText').innerHTML = (rawCfg.instruction?.text || "Вставь монетку и управляй клешней.\\nПоймал игрушку — реши задачу.\\nВерно → игрушка твоя.\\nНеверно → игрушка упадет обратно.\\nУ тебя ровно 9 попыток!").replace(/\\\\n/g, "<br/>");
             if((rawCfg.feedback?.text || "").trim()) { document.getElementById('finishCustomText').innerHTML = rawCfg.feedback.text.replace(/\\\\n/g, "<br/>"); document.getElementById('finishCustomText').style.display = 'block'; }
@@ -1145,15 +1202,15 @@
     return { title, bgDataUrl, transparentBg, timer: { enabled: timerEnabled, seconds: timerSeconds }, useLatex, questions, instruction, feedback };
   }
 
-  const Editor = { title: "Игровой автомат", bgDataUrl: "", transparentBg: false, timer: { enabled:false, seconds: 30 }, useLatex: false, instruction: { text: "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!" }, feedback: { text: "" }, questions: [], draft: null, editingId: null }; window.Editor = Editor;
+  const Editor = { title: "Игровой автомат", bgDataUrl: "", transparentBg: false, timer: { enabled:false, seconds: 30 }, useLatex: false, instruction: { text: "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!" }, feedback: { text: "" }, questions: [], draft: null, editingId: null };
 
   function setCountPill(){ $("pillCount").textContent = Editor.questions.length + " / 9"; $("btnAddQ").disabled = (Editor.questions.length >= 9); if($("btnImportQ")) $("btnImportQ").disabled = (Editor.questions.length >= 9); }
   function escapeHtml(s){ return String(s ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;"); }
-  function qSummary(q){ const p = String(q.prompt || "").trim(); const short = p.length > 50 ? p.slice(0,50)+"…" : p; let type = (q.type==="choice" || q.type==="choice") ? tr("typeChoice") : tr("typeInput"); if (q.image || q.audio) type += tr("withMedia"); return { title: short || "(пусто)", sub: type }; }
+  function qSummary(q){ const p = String(q.prompt || "").trim(); const short = p.length > 50 ? p.slice(0,50)+"…" : p; let type = (q.type==="choice" || q.type==="choice") ? tr("choiceSummary") : tr("inputSummary"); if (q.image || q.audio) type += tr("mediaSummary"); return { title: short || tr("emptyQuestion"), sub: type }; }
 
   let draggedQIdx = null; window.dragQ = (e, i) => { draggedQIdx = i; e.dataTransfer.effectAllowed = 'move'; setTimeout(() => e.target.style.opacity = '0.5', 0); }; window.dragEndQ = (e) => { e.target.style.opacity = '1'; }; window.allowDropQ = (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }; window.dragEnterQ = (e) => { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }; window.dragLeaveQ = (e) => { e.currentTarget.classList.remove('drag-over'); };
   window.dropQ = (e, i) => { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); if(draggedQIdx === null || draggedQIdx === i) return; const item = Editor.questions.splice(draggedQIdx, 1)[0]; Editor.questions.splice(i, 0, item); draggedQIdx = null; renderList(); updatePreview(false); };
-  window.copyQ = (i) => { if(Editor.questions.length >= 9) { toast(tr("maxQuestions")); return; } const qCopy = deepClone(Editor.questions[i]); qCopy.id = uid(); Editor.questions.splice(i + 1, 0, qCopy); renderList(); updatePreview(false); toast(tr("qCopied")); };
+  window.copyQ = (i) => { if(Editor.questions.length >= 9) { toast(tr("maxQuestions")); return; } const qCopy = deepClone(Editor.questions[i]); qCopy.id = uid(); Editor.questions.splice(i + 1, 0, qCopy); renderList(); updatePreview(false); toast(tr("copiedQuestion")); };
   window.delQ = (id) => { Editor.questions = Editor.questions.filter(x => x.id !== id); renderList(); updatePreview(false); toast(tr("deleted")); };
   window.previewQ = (i) => { Editor.draft = deepClone(Editor.questions[i]); updatePreview(true); toast(tr("shownPreview")); };
   window.editQ = (i) => { openModal(Editor.questions[i]); };
@@ -1166,18 +1223,17 @@
         const s = qSummary(q);
         return `<div class="q-item" draggable="true" ondragstart="dragQ(event, ${i})" ondragend="dragEndQ(event)" ondragover="allowDropQ(event)" ondragenter="dragEnterQ(event)" ondragleave="dragLeaveQ(event)" ondrop="dropQ(event, ${i})">
             <div class="meta cursor-grab"><div class="t"><b>#${i+1} ☰</b> ${escapeHtml(s.title)}</div><div class="s">${escapeHtml(s.sub)}</div></div>
-            <div style="display:flex; gap:4px;"><button class="btn small" onclick="previewQ(${i})" type="button" title="${tr("previewTitle")}">👁</button><button class="btn small" onclick="copyQ(${i})" type="button" title="${tr("duplicateTitle")}">📋</button><button class="btn small" onclick="editQ(${i})" type="button" title="${tr("editTitle")}">✏️</button><button class="btn small danger" onclick="delQ('${q.id}')" type="button" title="${tr("deleteTitle")}">🗑</button></div></div>`;
+            <div style="display:flex; gap:4px;"><button class="btn small" onclick="previewQ(${i})" type="button" title="${escapeHtml(tr("previewTitle"))}">👁</button><button class="btn small" onclick="copyQ(${i})" type="button" title="${escapeHtml(tr("duplicateTitle"))}">📋</button><button class="btn small" onclick="editQ(${i})" type="button" title="${escapeHtml(tr("editTitle"))}">✏️</button><button class="btn small danger" onclick="delQ('${q.id}')" type="button" title="${escapeHtml(tr("deleteTitle"))}">🗑</button></div></div>`;
       }).join('');
     }
-    const sel = $("newQTemplate");
-    if(sel){ const val = sel.value; sel.innerHTML = '<option value="-1">' + tr("standardDefault") + '</option>'; Editor.questions.forEach((q, i) => { sel.innerHTML += '<option value="' + i + '">' + tr("likeQuestion", {n: i+1}) + '</option>'; }); if(val && Editor.questions[val]) sel.value = val; else sel.value = "-1"; }
+    refreshTemplateSelect();
   }
 
   window.applyTemplateToAll = () => {
-    if(Editor.questions.length === 0) return; const tplIdx = parseInt($("newQTemplate").value); if(!confirm(tr("applyTemplateConfirm"))) return;
+    if(Editor.questions.length === 0) return; const tplIdx = parseInt($("newQTemplate").value); if(!confirm(tr("applyConfirm"))) return;
     let baseQ = { font: "", fontSize: 32, seconds: null, type: "choice" }; if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; baseQ = { font: tq.font, fontSize: tq.fontSize, seconds: tq.seconds, type: tq.type }; }
     Editor.questions.forEach(q => { q.font = baseQ.font; q.fontSize = baseQ.fontSize; q.seconds = baseQ.seconds; if (q.type !== baseQ.type) { q.type = baseQ.type; if (q.type === 'choice') { let ans = (q.accepts && q.accepts.length > 0) ? q.accepts[0] : ""; q.options = [ans, "Вариант 2"]; q.correctIndices = [0]; delete q.accepts; } else { let ans = ""; if (q.options && q.correctIndices && q.correctIndices.length > 0) ans = q.options[q.correctIndices[0]] || ""; q.accepts = [ans]; delete q.options; delete q.correctIndices; } } });
-    renderList(); updatePreview(false); toast(tr("templateApplied"));
+    renderList(); updatePreview(false); toast(tr("settingsApplied"));
   };
 
   function showModal(){ $("modalBackdrop").style.display = "block"; $("modalBackdrop").setAttribute("aria-hidden","false"); }
@@ -1186,12 +1242,12 @@
 
   function renderChoiceUI(){
     const list = $("choiceList"); list.innerHTML = ""; const q = Editor.draft; if(!q) return; q.options = q.options || ["",""]; q.correctIndices = q.correctIndices || (typeof q.correctIndex === "number" ? [q.correctIndex] : [0]);
-    q.options.forEach((val, idx)=>{ const row = document.createElement("div"); row.className = "answerRow"; const r = document.createElement("input"); r.className="radio"; r.type="checkbox"; r.checked = q.correctIndices.includes(idx); r.onchange = (e)=>{ if (e.target.checked) { if (!q.correctIndices.includes(idx)) q.correctIndices.push(idx); } else { q.correctIndices = q.correctIndices.filter(i => i !== idx); } renderChoiceUI(); }; const inp = document.createElement("input"); inp.type="text"; inp.value = val || ""; inp.placeholder = q.correctIndices.includes(idx) ? tr("choiceCorrectPlaceholder") : tr("choiceOptionPlaceholder", {n: idx+1}); inp.oninput = ()=>{ q.options[idx] = inp.value; }; const del = document.createElement("button"); del.className="btn small danger"; del.type="button"; del.textContent="✖"; del.onclick = ()=>{ q.options.splice(idx,1); if(q.options.length < 2) q.options.push(""); q.correctIndices = q.correctIndices.filter(i => i !== idx).map(i => i > idx ? i - 1 : i); if(q.correctIndices.length === 0) q.correctIndices = [0]; renderChoiceUI(); }; row.appendChild(r); row.appendChild(inp); row.appendChild(del); list.appendChild(row); });
+    q.options.forEach((val, idx)=>{ const row = document.createElement("div"); row.className = "answerRow"; const r = document.createElement("input"); r.className="radio"; r.type="checkbox"; r.checked = q.correctIndices.includes(idx); r.onchange = (e)=>{ if (e.target.checked) { if (!q.correctIndices.includes(idx)) q.correctIndices.push(idx); } else { q.correctIndices = q.correctIndices.filter(i => i !== idx); } renderChoiceUI(); }; const inp = document.createElement("input"); inp.type="text"; inp.value = val || ""; inp.placeholder = q.correctIndices.includes(idx) ? tr("validAnswer") : tr("optionN", {n: idx+1}); inp.oninput = ()=>{ q.options[idx] = inp.value; }; const del = document.createElement("button"); del.className="btn small danger"; del.type="button"; del.textContent="✖"; del.onclick = ()=>{ q.options.splice(idx,1); if(q.options.length < 2) q.options.push(""); q.correctIndices = q.correctIndices.filter(i => i !== idx).map(i => i > idx ? i - 1 : i); if(q.correctIndices.length === 0) q.correctIndices = [0]; renderChoiceUI(); }; row.appendChild(r); row.appendChild(inp); row.appendChild(del); list.appendChild(row); });
   }
 
   function renderTextUI(){
     const list = $("textList"); list.innerHTML = ""; const q = Editor.draft; if(!q) return; q.accepts = q.accepts || [""];
-    q.accepts.forEach((val, idx)=>{ const row = document.createElement("div"); row.className = "answerRow"; const inp = document.createElement("input"); inp.type="text"; inp.value = val || ""; inp.placeholder = (idx===0) ? tr("textCorrectPlaceholder") : tr("textAnswerPlaceholder", {n: idx+1}); inp.oninput = ()=>{ q.accepts[idx] = inp.value; }; const del = document.createElement("button"); del.className="btn small danger"; del.type="button"; del.textContent="✖"; del.onclick = ()=>{ q.accepts.splice(idx,1); if(q.accepts.length === 0) q.accepts.push(""); renderTextUI(); }; row.appendChild(inp); row.appendChild(del); list.appendChild(row); });
+    q.accepts.forEach((val, idx)=>{ const row = document.createElement("div"); row.className = "answerRow"; const inp = document.createElement("input"); inp.type="text"; inp.value = val || ""; inp.placeholder = (idx===0) ? tr("validAnswer") : tr("correctVariantN", {n: idx+1}); inp.oninput = ()=>{ q.accepts[idx] = inp.value; }; const del = document.createElement("button"); del.className="btn small danger"; del.type="button"; del.textContent="✖"; del.onclick = ()=>{ q.accepts.splice(idx,1); if(q.accepts.length === 0) q.accepts.push(""); renderTextUI(); }; row.appendChild(inp); row.appendChild(del); list.appendChild(row); });
   }
 
   function openModal(existing=null){
@@ -1224,7 +1280,7 @@
   function checkLinkSize(data) {
       const maxLen = 3500, curLen = data.length, pct = Math.min(100, (curLen / maxLen) * 100); const bar = $("barSize"), lblText = $("lblSizeText"), warn = $("sizeWarning");
       if (bar) bar.style.width = pct + "%";
-      if (curLen < maxLen * 0.75) { if(bar) bar.style.background = "var(--ok)"; if(lblText) { lblText.textContent = tr("sizeOk"); lblText.style.color = "var(--ok)"; } if(warn) warn.style.display = "none"; } else if (curLen <= maxLen) { if(bar) bar.style.background = "var(--neon)"; if(lblText) { lblText.textContent = tr("sizeNear"); lblText.style.color = "var(--neon)"; } if(warn) warn.style.display = "none"; } else { if(bar) bar.style.background = "var(--danger)"; if(lblText) { lblText.textContent = tr("sizeExceeded"); lblText.style.color = "var(--danger)"; } if(warn) warn.style.display = "block"; }
+      if (curLen < maxLen * 0.75) { if(bar) bar.style.background = "var(--ok)"; if(lblText) { lblText.textContent = tr("sizeOk"); lblText.style.color = "var(--ok)"; } if(warn) warn.style.display = "none"; } else if (curLen <= maxLen) { if(bar) bar.style.background = "var(--neon)"; if(lblText) { lblText.textContent = tr("sizeAlmost"); lblText.style.color = "var(--neon)"; } if(warn) warn.style.display = "none"; } else { if(bar) bar.style.background = "var(--danger)"; if(lblText) { lblText.textContent = tr("sizeLimit"); lblText.style.color = "var(--danger)"; } if(warn) warn.style.display = "block"; }
   }
 
   const PREVIEW_CFGKEY = "__CLAW_preview_cfg__";
@@ -1241,19 +1297,10 @@
 
   let _previewTid = null; function debouncedPreview(){ if(_previewTid) clearTimeout(_previewTid); _previewTid = setTimeout(()=>updatePreview(false), 500); }
 
-  if($("selLang")) $("selLang").addEventListener("change", ()=>{
-    editorLang = $("selLang").value;
-    localStorage.setItem(LANG_KEY, editorLang);
-    applyEditorLang();
-    if(Editor.draft){ if($("selType").value === "choice") renderChoiceUI(); else renderTextUI(); }
-    renderList();
-    checkLinkSize(encodeGameData(buildPayload(false)));
-  });
-
   $("inpInstruction").value = Editor.instruction.text; $("inpFeedback").value = Editor.feedback.text;
-  $("inpInstruction").addEventListener("input", ()=>{ Editor.instruction.text = $("inpInstruction").value; debouncedPreview(); }); $("inpFeedback").addEventListener("input", ()=>{ Editor.feedback.text = $("inpFeedback").value; debouncedPreview(); }); $("inpTitle").addEventListener("input", ()=>{ Editor.title = $("inpTitle").value || "Игровой автомат"; debouncedPreview(); }); $("inpBgUrl").addEventListener("input", ()=>{ Editor.bgDataUrl = $("inpBgUrl").value.trim(); debouncedPreview(); }); $("inpSeconds").addEventListener("input", ()=>{ Editor.timer.seconds = Number($("inpSeconds").value || 30); debouncedPreview(); }); if($("chkTransparentBg")) $("chkTransparentBg").addEventListener("change", ()=>{ Editor.transparentBg = $("chkTransparentBg").checked; updatePreview(false); }); $("btnResetBg").addEventListener("click", ()=>{ Editor.bgDataUrl = ""; Editor.transparentBg = false; $("inpBgUrl").value = ""; if($("chkTransparentBg")) $("chkTransparentBg").checked = false; updatePreview(false); });
+  $("inpInstruction").addEventListener("input", ()=>{ Editor.instruction.text = $("inpInstruction").value; debouncedPreview(); }); $("inpFeedback").addEventListener("input", ()=>{ Editor.feedback.text = $("inpFeedback").value; debouncedPreview(); }); $("inpTitle").addEventListener("input", ()=>{ Editor.title = $("inpTitle").value || "Игровой автомат"; debouncedPreview(); }); $("inpBgUrl").addEventListener("input", ()=>{ Editor.bgDataUrl = $("inpBgUrl").value.trim(); debouncedPreview(); }); $("inpSeconds").addEventListener("input", ()=>{ Editor.timer.seconds = Number($("inpSeconds").value || 30); debouncedPreview(); }); if($("chkTransparentBg")) $("chkTransparentBg").addEventListener("change", ()=>{ Editor.transparentBg = $("chkTransparentBg").checked; updatePreview(false); }); if($("selLang")) $("selLang").addEventListener("change", ()=>{ editorLang = $("selLang").value; safeLangSet(editorLang); applyEditorLang(); renderList(); if(Editor.draft){ if((Editor.draft.type || "choice") === "choice") renderChoiceUI(); else renderTextUI(); } }); $("btnResetBg").addEventListener("click", ()=>{ Editor.bgDataUrl = ""; Editor.transparentBg = false; $("inpBgUrl").value = ""; if($("chkTransparentBg")) $("chkTransparentBg").checked = false; updatePreview(false); });
   if($("chkUseLatex")) $("chkUseLatex").addEventListener("change", ()=>{ Editor.useLatex = $("chkUseLatex").checked; updatePreview(false); }); $("chkTimer").addEventListener("change", ()=>{ Editor.timer.enabled = $("chkTimer").checked; updatePreview(false); });
-  $("btnAddQ").addEventListener("click", ()=>{ if(Editor.questions.length >= 9){ toast(tr("alreadyNine")); return; } openModal(null); }); $("btnClearQs").addEventListener("click", ()=>{ Editor.questions = []; renderList(); updatePreview(false); toast(tr("cleaned")); }); $("btnCloseModal").addEventListener("click", ()=>{ Editor.draft=null; Editor.editingId=null; hideModal(); }); $("modalBackdrop").addEventListener("click", (e)=>{ if(e.target === $("modalBackdrop")){ Editor.draft=null; Editor.editingId=null; hideModal(); } });
+  $("btnAddQ").addEventListener("click", ()=>{ if(Editor.questions.length >= 9){ toast(tr("alreadyNine")); return; } openModal(null); }); $("btnClearQs").addEventListener("click", ()=>{ Editor.questions = []; renderList(); updatePreview(false); toast(tr("cleared")); }); $("btnCloseModal").addEventListener("click", ()=>{ Editor.draft=null; Editor.editingId=null; hideModal(); }); $("modalBackdrop").addEventListener("click", (e)=>{ if(e.target === $("modalBackdrop")){ Editor.draft=null; Editor.editingId=null; hideModal(); } });
 
   window.closeImport = () => { $("importBackdrop").style.display = "none"; $("importBackdrop").setAttribute("aria-hidden","true"); $("importText").value = ''; };
   if ($("btnImportQ")) { $("btnImportQ").addEventListener("click", () => { if(Editor.questions.length >= 9) { toast(tr("alreadyNine")); return; } $("importBackdrop").style.display = "block"; $("importBackdrop").setAttribute("aria-hidden","false"); }); }
@@ -1263,25 +1310,25 @@
       const mode = document.getElementById('importMode').value; const tplIdx = parseInt(document.getElementById('newQTemplate').value); let baseQ = { font: "", fontSize: 32, seconds: null, image: "", audio: "" }; if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; baseQ = { font: tq.font, fontSize: tq.fontSize, seconds: tq.seconds }; }
       let addedCount = 0;
       if (mode === 'line') {
-          const lines = txt.split('\n'); for(let line of lines) { if (Editor.questions.length >= 9) break; const trimmed = line.trim(); if (trimmed) { Editor.questions.push({ id: uid(), ...baseQ, type: 'text', prompt: trimmed, accepts: [tr("answerDefault")] }); addedCount++; } }
+          const lines = txt.split('\n'); for(let line of lines) { if (Editor.questions.length >= 9) break; const trimmed = line.trim(); if (trimmed) { Editor.questions.push({ id: uid(), ...baseQ, type: 'text', prompt: trimmed, accepts: [tr('answerDefault')] }); addedCount++; } }
       } else {
           const blocks = txt.split(/\n\s*\n/);
           for(let block of blocks) {
               if (Editor.questions.length >= 9) break;
               const lines = block.trim().split('\n'); let qText = []; let opts = []; let autoAnswer = ''; const optRegex = /^(\d+|[а-яА-Яa-zA-Z])[\)\.]\s+(.+)$/;
               lines.forEach(line => { const trimmed = line.trim(); const match = trimmed.match(optRegex); if (match) { opts.push({ marker: match[1].toLowerCase(), t: match[2].trim() }); } else if (trimmed.toLowerCase().startsWith('ответ:') || trimmed.toLowerCase().startsWith('answer:')) { autoAnswer = trimmed.replace(/^(ответ:|answer:)\s*/i, '').trim().toLowerCase(); } else { qText.push(trimmed); } });
-              if (opts.length >= 2) { let correctIndices = [0]; if (autoAnswer) { const foundIdx = opts.findIndex(o => o.marker === autoAnswer || o.t.toLowerCase() === autoAnswer); if (foundIdx !== -1) correctIndices = [foundIdx]; } Editor.questions.push({ id: uid(), ...baseQ, type: 'choice', prompt: qText.join('\n'), options: opts.map(o => o.t), correctIndices: correctIndices }); addedCount++; } else if (qText.length > 0) { Editor.questions.push({ id: uid(), ...baseQ, type: 'text', prompt: qText.join('\n'), accepts: autoAnswer ? [autoAnswer] : [tr("answerDefault")] }); addedCount++; }
+              if (opts.length >= 2) { let correctIndices = [0]; if (autoAnswer) { const foundIdx = opts.findIndex(o => o.marker === autoAnswer || o.t.toLowerCase() === autoAnswer); if (foundIdx !== -1) correctIndices = [foundIdx]; } Editor.questions.push({ id: uid(), ...baseQ, type: 'choice', prompt: qText.join('\n'), options: opts.map(o => o.t), correctIndices: correctIndices }); addedCount++; } else if (qText.length > 0) { Editor.questions.push({ id: uid(), ...baseQ, type: 'text', prompt: qText.join('\n'), accepts: autoAnswer ? [autoAnswer] : [tr('answerDefault')] }); addedCount++; }
           }
       }
       closeImport(); renderList(); updatePreview(false);
-      if (Editor.questions.length >= 9 && addedCount > 0) toast(tr("importLimit")); else if (addedCount > 0) toast(tr("importCount", {n: addedCount})); else toast(tr("importFailed"));
+      if (Editor.questions.length >= 9 && addedCount > 0) toast(tr("importLimit")); else if (addedCount > 0) toast(tr("imported", {n: addedCount})); else toast(tr("importFailed"));
   };
 
   $("selType").addEventListener("change", ()=>{ const q = Editor.draft; if(!q) return; q.type = $("selType").value; syncModalType(); if(q.type === "choice"){ q.options = q.options || ["",""]; q.correctIndices = q.correctIndices || [0]; renderChoiceUI(); } else { q.accepts = q.accepts || [""]; renderTextUI(); } });
   if($("btnClearImage")) $("btnClearImage").addEventListener("click", () => { $("inpQImage").value = ""; }); if($("btnClearAudio")) $("btnClearAudio").addEventListener("click", () => { $("inpQAudio").value = ""; }); $("btnAddChoice").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.options = q.options || ["",""]; q.options.push(""); renderChoiceUI(); }); $("btnAddText").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.accepts = q.accepts || [""]; q.accepts.push(""); renderTextUI(); }); $("btnPreviewDraft").addEventListener("click", ()=>{ getDraftFromModal(); updatePreview(true); toast(tr("shownPreview")); });
   
-  $("btnSaveQ").addEventListener("click", ()=>{ const q = getDraftFromModal(); const err = validateQuestion(q); if(err){ toast(err); return; } if(Editor.editingId){ const idx = Editor.questions.findIndex(x=>x.id === Editor.editingId); if(idx >= 0){ q.id = Editor.editingId; Editor.questions[idx] = q; toast(tr("questionUpdated")); } else { Editor.questions.push(q); toast(tr("questionAdded")); } } else { Editor.questions.push(q); toast(tr("questionAdded")); } Editor.draft=null; Editor.editingId=null; hideModal(); renderList(); updatePreview(false); });
-  $("btnCopyCode").addEventListener("click", async ()=>{ const payload = buildPayload(false); const url = buildGameUrl(payload); const iframeCode = buildIframeFromUrl(url); const ok = await copyToClipboard(iframeCode); toast(ok ? tr("copySuccess") : tr("copyError")); });
+  $("btnSaveQ").addEventListener("click", ()=>{ const q = getDraftFromModal(); const err = validateQuestion(q); if(err){ toast(err); return; } if(Editor.editingId){ const idx = Editor.questions.findIndex(x=>x.id === Editor.editingId); if(idx >= 0){ q.id = Editor.editingId; Editor.questions[idx] = q; toast(tr("updated")); } else { Editor.questions.push(q); toast(tr("added")); } } else { Editor.questions.push(q); toast(tr("added")); } Editor.draft=null; Editor.editingId=null; hideModal(); renderList(); updatePreview(false); });
+  $("btnCopyCode").addEventListener("click", async ()=>{ const payload = buildPayload(false); const url = buildGameUrl(payload); const iframeCode = buildIframeFromUrl(url); const ok = await copyToClipboard(iframeCode); toast(ok ? tr("copiedOk") : tr("error")); });
   if ($("btnResetAll")) { $("btnResetAll").addEventListener("click", ()=>{ if(confirm(tr("resetConfirm"))) { localStorage.removeItem(AUTOSAVE_KEY); location.reload(); } }); }
 
   function bootGameOnly(cfg){ document.body.setAttribute("data-mode","game"); document.body.classList.add("gameOnly"); $("editorRoot").style.display = "none"; $("modalBackdrop").style.display = "none"; $("gameRoot").style.display = "block"; injectCanvasGame(cfg); }
@@ -1294,7 +1341,6 @@
   Editor.title = $("inpTitle").value || "Игровой автомат"; Editor.transparentBg = $("chkTransparentBg") ? $("chkTransparentBg").checked : false; Editor.timer.enabled = $("chkTimer").checked; Editor.timer.seconds = Number($("inpSeconds").value || 30); if($("chkUseLatex")) Editor.useLatex = $("chkUseLatex").checked; Editor.instruction.text = $("inpInstruction").value; Editor.feedback.text = $("inpFeedback").value;
 
   applyEditorLang();
-  renderList();
   updatePreview(false);
 })();
 </script>
