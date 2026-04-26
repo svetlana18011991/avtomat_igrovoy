@@ -10,13 +10,19 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Neucha&display=swap');
     html, body { height: 100%; margin: 0; overflow: hidden; position: relative; }
-    :root{ --text:#eaf0ff; --muted:#a9b6e6; --border: rgba(255,255,255,.10); --shadow2: 0 12px 34px rgba(0,0,0,.40); --radius: 18px; --radius2: 22px; --neon:#d6b14a; --danger:#ff4d4d; --ok:#2dd27d; }
+    :root{ --text:#eaf0ff; --muted:#a9b6e6; --border: rgba(255,255,255,.10);
+    --shadow2: 0 12px 34px rgba(0,0,0,.40); --radius: 18px; --radius2: 22px; --neon:#d6b14a; --danger:#ff4d4d; --ok:#2dd27d;
+    }
     *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-    body{ color:var(--text); background: radial-gradient(1100px 700px at 12% 18%, rgba(35,82,200,.28) 0%, rgba(5,8,22,0) 58%), radial-gradient(900px 640px at 88% 16%, rgba(20,160,255,.18) 0%, rgba(5,8,22,0) 62%), radial-gradient(1000px 780px at 55% 112%, rgba(214,177,74,.14) 0%, rgba(5,8,22,0) 58%), linear-gradient(180deg, rgba(4,10,32,.92), rgba(3,6,18,1)); }
+    body{ color:var(--text);
+    background: radial-gradient(1100px 700px at 12% 18%, rgba(35,82,200,.28) 0%, rgba(5,8,22,0) 58%), radial-gradient(900px 640px at 88% 16%, rgba(20,160,255,.18) 0%, rgba(5,8,22,0) 62%), radial-gradient(1000px 780px at 55% 112%, rgba(214,177,74,.14) 0%, rgba(5,8,22,0) 58%), linear-gradient(180deg, rgba(4,10,32,.92), rgba(3,6,18,1));
+    }
     body.gameOnly{background:transparent}
     .app{ display:grid; grid-template-columns: 460px 1fr; gap:14px; padding:14px; max-width: 1540px; margin: 0 auto; height: 100%; }
-    @media (max-width: 1020px){ .app { display: flex; flex-direction: column; overflow-y: auto; } .settings, .preview { height: auto !important; flex: none; min-height: 600px; } }
-    .panel{ background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04)); border:1px solid var(--border); border-radius:var(--radius2); box-shadow:var(--shadow2); backdrop-filter: blur(10px); overflow:hidden; position:relative; }
+    @media (max-width: 1020px){ .app { display: flex; flex-direction: column; overflow-y: auto;
+    } .settings, .preview { height: auto !important; flex: none; min-height: 600px; } }
+    .panel{ background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+    border:1px solid var(--border); border-radius:var(--radius2); box-shadow:var(--shadow2); backdrop-filter: blur(10px); overflow:hidden; position:relative; }
     .panel-header{ padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.10); display:flex;align-items:center;justify-content:space-between;gap:10px; }
     .panel-header .h{font-weight:950;letter-spacing:.2px; display:flex; align-items:center; gap:10px;}
     .settings{ height: 100%; display:flex; flex-direction:column; min-height: 0; }
@@ -84,97 +90,103 @@
       <div class="panel-header" style="flex-wrap: wrap; gap: 14px;">
         <div class="h">
           <a href="https://t.me/interactiv_matematika" target="_blank" title="Перейти в Telegram-канал" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; transition: opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
-            <img src="logo.png" alt="Логотип" class="anim-pulse" style="height: 42px; width: 42px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255, 174, 0, 0.5);" onerror="this.style.display='none'"/>
+            <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/logo.png" alt="Логотип" class="anim-pulse" style="height: 42px; width: 42px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255, 174, 0, 0.5);" onerror="this.style.display='none'"/>
             <div style="display:flex; flex-direction:column; justify-content:center;">
               <span style="font-size: 16px; font-weight: 900; line-height: 1.2;">Шкатулка математических интерактивов</span>
               <span style="font-size: 11px; color: rgba(255,255,255,0.7); line-height: 1.2;">Светлана Быкова</span>
-              <span style="font-size: 12px; color: var(--neon-orange-base); font-weight: 700; line-height: 1.2; margin-top: 2px;">Редактор «Игровой автомат»</span>
+              <span style="font-size: 12px; color: var(--neon-orange-base); font-weight: 700; line-height: 1.2; margin-top: 2px;" data-i18n="editor_title">Редактор «Игровой автомат»</span>
             </div>
           </a>
         </div>
         <div style="display:flex; gap:12px; align-items:center; flex-wrap: wrap;">
+          <select id="langSelect" style="border-radius:14px; padding:8px 12px; background:rgba(0,0,0,.25); color:var(--text); border:1px solid rgba(255,255,255,.14); outline:none; font-weight: bold; cursor: pointer;">
+            <option value="ru" selected>🇷🇺 RU</option>
+            <option value="en">🇬🇧 EN</option>
+            <option value="de">🇩🇪 DE</option>
+            <option value="zh">🇨🇳 ZH</option>
+          </select>
           <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px; justify-content:center;">
-             <span id="lblSizeText" style="font-size:11px; font-weight:900; color:var(--ok);">🟢 Код в норме</span>
+             <span id="lblSizeText" style="font-size:11px; font-weight:900; color:var(--ok);" data-i18n="lbl_size_ok">🟢 Код в норме</span>
              <div style="width:80px; background:rgba(0,0,0,.3); border:1px solid rgba(255,255,255,.1); height:6px; border-radius:3px; overflow:hidden;">
                 <div id="barSize" style="width:0%; height:100%; background:var(--ok); transition: width 0.3s, background 0.3s;"></div>
              </div>
           </div>
-          <button class="btn" id="btnResetAll" type="button" title="Сбросить все настройки и начать с чистого листа">🔄 Сбросить всё</button>
-          <button class="btn primary" id="btnCopyCode" type="button">📋 Скопировать код (iframe)</button>
+          <button class="btn" id="btnResetAll" type="button" title="Сбросить все настройки и начать с чистого листа" data-i18n="btn_reset">🔄 Сбросить всё</button>
+          <button class="btn primary" id="btnCopyCode" type="button" data-i18n="btn_copy">📋 Скопировать код (iframe)</button>
         </div>
       </div>
-      <div id="sizeWarning" style="display:none; background:rgba(255,77,77,.15); color:#ffd6d6; padding:8px 14px; font-size:12px; font-weight:700; border-bottom:1px solid rgba(255,77,77,.3);">
+      <div id="sizeWarning" style="display:none; background:rgba(255,77,77,.15); color:#ffd6d6; padding:8px 14px; font-size:12px; font-weight:700; border-bottom:1px solid rgba(255,77,77,.3);" data-i18n="size_warning">
          ⚠️ Текста слишком много! Genially может обрезать ссылку. Сократите вопросы или скачайте игру отдельным файлом.
       </div>
       <div class="errbar" id="errbar"></div>
       <div class="panel-body">
         <div class="section">
-          <div class="title">Название</div>
-          <label>Заголовок в игре</label>
-          <input id="inpTitle" type="text" value="Игровой автомат" />
+          <div class="title" data-i18n="title_main">Название</div>
+          <label data-i18n="title_label">Заголовок в игре</label>
+          <input id="inpTitle" type="text" value="Игровой автомат" data-i18n="title_ph" />
         </div>
         <div class="section">
-          <div class="title">Оформление</div>
-          <label>Фон игры (ссылка)</label>
+          <div class="title" data-i18n="design_main">Оформление</div>
+          <label data-i18n="bg_label">Фон игры (ссылка)</label>
           <div class="row" style="gap:10px; align-items:center; margin-top:6px">
-            <input id="inpBgUrl" type="text" placeholder="Оставьте пустым для стандарта" />
-            <button id="btnResetBg" type="button" class="btn small">↩ Сбросить</button>
+            <input id="inpBgUrl" type="text" placeholder="Оставьте пустым для стандарта" data-i18n="bg_ph" />
+            <button id="btnResetBg" type="button" class="btn small" data-i18n="btn_reset_bg">↩ Сбросить</button>
           </div>
           <div class="toggle">
             <input id="chkUseLatex" type="checkbox" />
             <div>
-               <div style="font-weight:900">Использовать LaTeX</div>
-              <div class="muted">Включает поддержку математических формул (например, $x^2$)</div>
+              <div style="font-weight:900" data-i18n="use_latex">Использовать LaTeX</div>
+              <div class="muted" data-i18n="use_latex_hint">Включает поддержку математических формул (например, $x^2$)</div>
             </div>
           </div>
         </div>
         <div class="section">
-          <div class="title">Таймер на ответ</div>
+          <div class="title" data-i18n="timer_main">Таймер на ответ</div>
           <div class="toggle">
             <input id="chkTimer" type="checkbox" />
             <div>
-              <div style="font-weight:900">Включить глобальный таймер</div>
-              <div class="muted">Если время вышло — ответ считается неверным.</div>
+              <div style="font-weight:900" data-i18n="timer_toggle">Включить глобальный таймер</div>
+              <div class="muted" data-i18n="timer_hint">Если время вышло — ответ считается неверным.</div>
             </div>
           </div>
-          <label>Секунд на вопрос (по умолчанию)</label>
+          <label data-i18n="timer_label">Секунд на вопрос (по умолчанию)</label>
           <input id="inpSeconds" type="number" min="5" max="600" step="1" value="30" />
         </div>
         <div class="section">
-          <div class="title">Стартовый экран</div>
-          <label>Текст инструкции</label>
+          <div class="title" data-i18n="start_main">Стартовый экран</div>
+          <label data-i18n="start_label">Текст инструкции</label>
           <textarea id="inpInstruction" style="min-height:90px;"></textarea>
         </div>
         <div class="section">
-          <div class="title">Финальный экран</div>
-          <label>Дополнительный текст</label>
-          <textarea id="inpFeedback" style="min-height:70px;" placeholder="Например: Отличная работа!"></textarea>
+          <div class="title" data-i18n="end_main">Финальный экран</div>
+          <label data-i18n="end_label">Дополнительный текст</label>
+          <textarea id="inpFeedback" style="min-height:70px;" placeholder="Например: Отличная работа!" data-i18n="end_ph"></textarea>
         </div>
         <div class="section">
-          <div class="title"><span>Вопросы</span> <span class="pill" id="pillCount">0 / 9</span></div>
+          <div class="title"><span data-i18n="q_main">Вопросы</span> <span class="pill" id="pillCount">0 / 9</span></div>
           <div class="row" style="margin-bottom:12px; align-items: center;">
-            <button class="btn primary" id="btnAddQ" type="button">➕ Добавить</button>
-            <button class="btn primary" id="btnImportQ" type="button" style="background: linear-gradient(90deg, #33d17a, #28a745); border-color: #28a745;">📥 Импорт</button>
-            <button class="btn" id="btnClearQs" type="button">🧹 Очистить</button>
+            <button class="btn primary" id="btnAddQ" type="button" data-i18n="btn_add_q">➕ Добавить</button>
+            <button class="btn primary" id="btnImportQ" type="button" style="background: linear-gradient(90deg, #33d17a, #28a745); border-color: #28a745;" data-i18n="btn_import_q">📥 Импорт</button>
+            <button class="btn" id="btnClearQs" type="button" data-i18n="btn_clear_q">🧹 Очистить</button>
           </div>
           <div style="background: rgba(214, 177, 74, 0.1); padding: 10px; border-radius: 12px; border: 1px solid rgba(214,177,74,.4); margin-bottom: 12px;">
-            <div style="font-size: 12px; color: var(--neon); font-weight: bold; margin-bottom: 8px;">🎨 Шаблоны оформления:</div>
+            <div style="font-size: 12px; color: var(--neon); font-weight: bold; margin-bottom: 8px;" data-i18n="tpl_label">🎨 Шаблоны оформления:</div>
             <div style="display:flex; align-items:center; gap:8px; flex-wrap: wrap;">
               <select id="newQTemplate" style="flex:1; min-width: 160px; border: 1px solid rgba(214,177,74,.4); border-radius: 12px; padding: 6px; font-size: 13px; background: rgba(0,0,0,0.5); color: #fff; outline: none;">
-                <option value="-1">Стандартные (по умолчанию)</option>
+                <option value="-1" data-i18n="tpl_default">Стандартные (по умолчанию)</option>
               </select>
-              <button class="btn small" style="background:var(--neon); color:#000; border:none; font-weight:bold; padding: 8px 12px;" onclick="applyTemplateToAll()" id="btnApplyAll" type="button">🔄 Применить ко всем</button>
+              <button class="btn small" style="background:var(--neon); color:#000; border:none; font-weight:bold; padding: 8px 12px;" onclick="applyTemplateToAll()" id="btnApplyAll" type="button" data-i18n="btn_apply_all">🔄 Применить ко всем</button>
             </div>
           </div>
-          <div style="font-size:11px; color:var(--neon); margin-bottom:8px;">💡 Можно перетаскивать вопросы (за значок ☰), чтобы менять их порядок.</div>
+          <div style="font-size:11px; color:var(--neon); margin-bottom:8px;" data-i18n="q_hint">💡 Можно перетаскивать вопросы (за значок ☰), чтобы менять их порядок.</div>
           <div class="q-list" id="qList"></div>
-          <div class="muted" style="margin-top:10px">Строго <b>9 вопросов</b>.</div>
+          <div class="muted" style="margin-top:10px" data-i18n="q_strict">Строго <b>9 вопросов</b>.</div>
         </div>
       </div>
     </div>
     <div class="panel preview">
       <div class="preview-top">
-        <div><div class="name">Просмотр</div><div class="hint">Живое превью игры</div></div>
+        <div><div class="name" data-i18n="preview_title">Просмотр</div><div class="hint" data-i18n="preview_hint">Живое превью игры</div></div>
       </div>
       <div class="panel-body">
         <div class="preview-stage"><iframe id="livePreview" title="Preview" style="width:100%;height:100%;border:0;background:transparent;overflow:hidden" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
@@ -185,17 +197,17 @@
 
   <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true">
-      <div class="modal-head"><div class="h" id="modalTitle">Добавить вопрос</div><button class="btn small danger" id="btnCloseModal" type="button">Закрыть</button></div>
+      <div class="modal-head"><div class="h" id="modalTitle" data-i18n="modal_add_title">Добавить вопрос</div><button class="btn small danger" id="btnCloseModal" type="button" data-i18n="btn_close">Закрыть</button></div>
       <div class="modal-body">
-        <label>Тип вопроса</label>
-        <select id="selType"><option value="choice" selected>С выбором ответа</option><option value="text">С вводом ответа</option></select>
-        <label>Вопрос</label>
-        <textarea id="inpPrompt" placeholder="Введите вопрос..."></textarea>
+        <label data-i18n="q_type">Тип вопроса</label>
+        <select id="selType"><option value="choice" selected data-i18n="type_choice">С выбором ответа</option><option value="text" data-i18n="type_text">С вводом ответа</option></select>
+        <label data-i18n="q_text">Вопрос</label>
+        <textarea id="inpPrompt" placeholder="Введите вопрос..." data-i18n="q_text_ph"></textarea>
         <div class="choiceBlock" style="margin-top:10px">
-          <div style="font-weight:900">Оформление текста</div>
+          <div style="font-weight:900" data-i18n="text_style">Оформление текста</div>
           <div class="row" style="margin-top:10px; align-items:flex-end">
             <div>
-              <label>Шрифт (вопрос и ответы)</label>
+              <label data-i18n="font_label">Шрифт (вопрос и ответы)</label>
               <select id="inpQFont">
                 <option value="'Neucha', cursive, sans-serif" style="font-family: 'Neucha', cursive;">Neucha (Рукописный)</option>
                 <option value="'Caveat', cursive, sans-serif" style="font-family: 'Caveat', cursive;">Caveat (Рукописный 2)</option>
@@ -209,20 +221,20 @@
               </select>
             </div>
             <div>
-              <label>Размер шрифта (px)</label>
+              <label data-i18n="font_size_label">Размер шрифта (px)</label>
               <input id="inpQFontSize" type="number" min="12" max="60" step="1" value="32" />
             </div>
           </div>
         </div>
         <div class="choiceBlock" style="margin-top:10px">
-          <div style="font-weight:900">Таймер для этого вопроса</div>
+          <div style="font-weight:900" data-i18n="q_timer">Таймер для этого вопроса</div>
           <div style="margin-top:10px">
-              <label>Секунд на этот вопрос (пусто = по умолчанию)</label>
-              <input id="inpQSeconds" type="number" min="3" max="600" step="1" placeholder="например 20" />
+              <label data-i18n="q_timer_label">Секунд на этот вопрос (пусто = по умолчанию)</label>
+              <input id="inpQSeconds" type="number" min="3" max="600" step="1" placeholder="например 20" data-i18n="q_timer_ph" />
           </div>
         </div>
         <div class="choiceBlock" style="margin-top:10px">
-          <div style="font-weight:900">Медиа (ссылки)</div>
+          <div style="font-weight:900" data-i18n="media">Медиа (ссылки)</div>
           <div class="answerRow">
             <span style="font-size:20px; line-height:1; cursor:help;" title="Ссылка на картинку">🖼️</span>
             <input id="inpQImage" type="text" placeholder="https://.../image.jpg" />
@@ -235,35 +247,35 @@
           </div>
         </div>
         <div id="choiceWrap" class="choiceBlock">
-          <div style="font-weight:900">Варианты ответа (отметь верные)</div>
+          <div style="font-weight:900" data-i18n="ans_choice">Варианты ответа (отметь верные)</div>
           <div id="choiceList"></div>
-          <button class="btn small" id="btnAddChoice" type="button" style="margin-top:10px">➕ Добавить вариант</button>
+          <button class="btn small" id="btnAddChoice" type="button" style="margin-top:10px" data-i18n="btn_add_ans">➕ Добавить вариант</button>
         </div>
         <div id="textWrap" class="choiceBlock" style="display:none">
-          <div style="font-weight:900">Верные ответы (ввод)</div>
+          <div style="font-weight:900" data-i18n="ans_text">Верные ответы (ввод)</div>
           <div id="textList"></div>
-          <button class="btn small" id="btnAddText" type="button" style="margin-top:10px">➕ Добавить вариант</button>
+          <button class="btn small" id="btnAddText" type="button" style="margin-top:10px" data-i18n="btn_add_ans">➕ Добавить вариант</button>
         </div>
       </div>
       <div class="modal-foot">
-        <button class="btn" id="btnPreviewDraft" type="button">👁 Показать в превью</button>
-        <button class="btn primary" id="btnSaveQ" type="button">💾 Сохранить</button>
+        <button class="btn" id="btnPreviewDraft" type="button" data-i18n="btn_preview">👁 Показать в превью</button>
+        <button class="btn primary" id="btnSaveQ" type="button" data-i18n="btn_save">💾 Сохранить</button>
       </div>
     </div>
   </div>
 
   <div class="modal-backdrop" id="importBackdrop" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true">
-      <div class="modal-head"><div class="h" style="color:#33d17a;">📥 Умный Импорт</div><button class="btn small danger" onclick="closeImport()" type="button">Закрыть</button></div>
+      <div class="modal-head"><div class="h" style="color:#33d17a;" data-i18n="import_title">📥 Умный Импорт</div><button class="btn small danger" onclick="closeImport()" type="button" data-i18n="btn_close">Закрыть</button></div>
       <div class="modal-body">
         <div class="row" style="margin-bottom:15px;">
-          <div><label>Режим импорта текста:</label><select id="importMode" style="border-color:#33d17a;"><option value="ege">Текст блоками (с вариантами ответов)</option><option value="line">Простой список (каждая строка — новый вопрос)</option></select></div>
+          <div><label data-i18n="import_mode">Режим импорта текста:</label><select id="importMode" style="border-color:#33d17a;"><option value="ege" data-i18n="import_ege">Текст блоками (с вариантами ответов)</option><option value="line" data-i18n="import_line">Простой список (каждая строка — новый вопрос)</option></select></div>
         </div>
-        <textarea id="importText" style="height:250px; font-family:'Courier New', monospace; font-size:14px;" placeholder="Вставьте скопированный текст..."></textarea>
+        <textarea id="importText" style="height:250px; font-family:'Courier New', monospace; font-size:14px;" placeholder="Вставьте скопированный текст..." data-i18n="import_ph"></textarea>
       </div>
       <div class="modal-foot">
-        <button class="btn" onclick="closeImport()" type="button">Отмена</button>
-        <button class="btn primary" style="background: linear-gradient(90deg, #33d17a, #28a745); border-color: #28a745;" onclick="processImport()" type="button">✨ Распознать и добавить</button>
+        <button class="btn" onclick="closeImport()" type="button" data-i18n="btn_cancel">Отмена</button>
+        <button class="btn primary" style="background: linear-gradient(90deg, #33d17a, #28a745); border-color: #28a745;" onclick="processImport()" type="button" data-i18n="btn_process">✨ Распознать и добавить</button>
       </div>
     </div>
   </div>
@@ -273,38 +285,214 @@
 <script>
 (() => {
   "use strict";
+
+  // --- MULTI-LANGUAGE SYSTEM (i18n) ---
+  const i18n = {
+    ru: {
+      editor_title: "Редактор «Игровой автомат»",
+      btn_reset: "🔄 Сбросить всё", btn_copy: "📋 Скопировать код (iframe)",
+      lbl_size_ok: "🟢 Код в норме", lbl_size_warn: "🟡 Код почти достиг лимита", lbl_size_err: "🔴 ПРЕВЫШЕН ЛИМИТ",
+      size_warning: "⚠️ Текста слишком много! Genially может обрезать ссылку. Сократите вопросы или скачайте игру отдельным файлом.",
+      title_main: "Название", title_label: "Заголовок в игре", title_ph: "Игровой автомат",
+      design_main: "Оформление", bg_label: "Фон игры (ссылка)", btn_reset_bg: "↩ Сбросить", bg_ph: "Оставьте пустым для стандарта",
+      use_latex: "Использовать LaTeX", use_latex_hint: "Включает поддержку математических формул (например, $x^2$)",
+      timer_main: "Таймер на ответ", timer_toggle: "Включить глобальный таймер", timer_hint: "Если время вышло — ответ считается неверным.",
+      timer_label: "Секунд на вопрос (по умолчанию)",
+      start_main: "Стартовый экран", start_label: "Текст инструкции",
+      end_main: "Финальный экран", end_label: "Дополнительный текст", end_ph: "Например: Отличная работа!",
+      q_main: "Вопросы", btn_add_q: "➕ Добавить", btn_import_q: "📥 Импорт", btn_clear_q: "🧹 Очистить",
+      tpl_label: "🎨 Шаблоны оформления:", tpl_default: "Стандартные (по умолчанию)", btn_apply_all: "🔄 Применить ко всем",
+      q_hint: "💡 Можно перетаскивать вопросы (за значок ☰), чтобы менять их порядок.", q_strict: "Строго <b>9 вопросов</b>.",
+      preview_title: "Просмотр", preview_hint: "Живое превью игры",
+      modal_add_title: "Добавить вопрос", modal_edit_title: "Редактировать вопрос", btn_close: "Закрыть",
+      q_type: "Тип вопроса", type_choice: "С выбором ответа", type_text: "С вводом ответа",
+      q_text: "Вопрос", q_text_ph: "Введите вопрос...",
+      text_style: "Оформление текста", font_label: "Шрифт (вопрос и ответы)", font_size_label: "Размер шрифта (px)",
+      q_timer: "Таймер для этого вопроса", q_timer_label: "Секунд на этот вопрос (пусто = по умолчанию)", q_timer_ph: "например 20",
+      media: "Медиа (ссылки)",
+      ans_choice: "Варианты ответа (отметь верные)", btn_add_ans: "➕ Добавить вариант",
+      ans_text: "Верные ответы (ввод)",
+      btn_preview: "👁 Показать в превью", btn_save: "💾 Сохранить",
+      import_title: "📥 Умный Импорт", import_mode: "Режим импорта текста:", import_ege: "Текст блоками (с вариантами ответов)", import_line: "Простой список (каждая строка — новый вопрос)", import_ph: "Вставьте скопированный текст...",
+      btn_cancel: "Отмена", btn_process: "✨ Распознать и добавить",
+      toast_copied: "Скопировано ✅", toast_error: "Ошибка", toast_cleared: "Очищено", toast_limit: "Уже 9 вопросов 🙂", toast_q_added: "Вопрос добавлен", toast_q_updated: "Вопрос обновлён", toast_q_deleted: "Удалено", toast_preview: "Показано в превью", toast_tpl_applied: "Настройки применены!", toast_import_done: "Импорт завершен (достигнут лимит 9)", toast_import_num: "Импортировано: ", toast_import_err: "Не удалось распознать текст",
+      empty_q: "Пока нет вопросов. Заполните все 9.", btn_edit: "Редактировать", btn_dup: "Дублировать", btn_del: "Удалить",
+      ans_correct: "✅ Верный ответ", ans_variant: "Вариант ", ans_correct_variant: "Верный вариант ",
+      confirm_reset: "Вы уверены, что хотите удалить все вопросы и настройки, чтобы начать заново?", confirm_tpl: "Применить настройки (шрифт, размер, таймер, ТИП вопроса) ко всем вопросам?"
+    },
+    en: {
+      editor_title: "Claw Machine Editor",
+      btn_reset: "🔄 Reset All", btn_copy: "📋 Copy Code (iframe)",
+      lbl_size_ok: "🟢 Code OK", lbl_size_warn: "🟡 Code near limit", lbl_size_err: "🔴 LIMIT EXCEEDED",
+      size_warning: "⚠️ Too much text! Genially might cut the link. Shorten questions or download separately.",
+      title_main: "Title", title_label: "In-game Title", title_ph: "Claw Machine",
+      design_main: "Appearance", bg_label: "Game Background (URL)", btn_reset_bg: "↩ Reset", bg_ph: "Leave empty for standard",
+      use_latex: "Use LaTeX", use_latex_hint: "Enables math formulas (e.g., $x^2$)",
+      timer_main: "Answer Timer", timer_toggle: "Enable Global Timer", timer_hint: "If time runs out, answer is incorrect.",
+      timer_label: "Seconds per question (default)",
+      start_main: "Start Screen", start_label: "Instruction Text",
+      end_main: "Final Screen", end_label: "Additional Text", end_ph: "E.g.: Great job!",
+      q_main: "Questions", btn_add_q: "➕ Add", btn_import_q: "📥 Import", btn_clear_q: "🧹 Clear",
+      tpl_label: "🎨 Styling Templates:", tpl_default: "Standard (default)", btn_apply_all: "🔄 Apply to All",
+      q_hint: "💡 You can drag questions (by ☰) to reorder them.", q_strict: "Strictly <b>9 questions</b>.",
+      preview_title: "Preview", preview_hint: "Live game preview",
+      modal_add_title: "Add Question", modal_edit_title: "Edit Question", btn_close: "Close",
+      q_type: "Question Type", type_choice: "Multiple Choice", type_text: "Text Input",
+      q_text: "Question", q_text_ph: "Enter question...",
+      text_style: "Text Styling", font_label: "Font (question & answers)", font_size_label: "Font Size (px)",
+      q_timer: "Timer for this question", q_timer_label: "Seconds (empty = default)", q_timer_ph: "e.g. 20",
+      media: "Media (Links)",
+      ans_choice: "Answer Options (check correct)", btn_add_ans: "➕ Add Option",
+      ans_text: "Correct Answers (input)",
+      btn_preview: "👁 Show in Preview", btn_save: "💾 Save",
+      import_title: "📥 Smart Import", import_mode: "Import Mode:", import_ege: "Text blocks (with options)", import_line: "Simple list (each line is a new question)", import_ph: "Paste copied text...",
+      btn_cancel: "Cancel", btn_process: "✨ Parse & Add",
+      toast_copied: "Copied ✅", toast_error: "Error", toast_cleared: "Cleared", toast_limit: "Already 9 questions 🙂", toast_q_added: "Question added", toast_q_updated: "Question updated", toast_q_deleted: "Deleted", toast_preview: "Shown in preview", toast_tpl_applied: "Settings applied!", toast_import_done: "Import complete (limit of 9 reached)", toast_import_num: "Imported: ", toast_import_err: "Could not parse text",
+      empty_q: "No questions yet. Fill all 9.", btn_edit: "Edit", btn_dup: "Duplicate", btn_del: "Delete",
+      ans_correct: "✅ Correct answer", ans_variant: "Option ", ans_correct_variant: "Correct option ",
+      confirm_reset: "Are you sure you want to delete all questions and settings to start over?", confirm_tpl: "Apply settings (font, size, timer, question TYPE) to all questions?"
+    },
+    de: {
+      editor_title: "Greifautomat-Editor",
+      btn_reset: "🔄 Alles zurücksetzen", btn_copy: "📋 Code kopieren",
+      lbl_size_ok: "🟢 Code OK", lbl_size_warn: "🟡 Limit fast erreicht", lbl_size_err: "🔴 LIMIT ÜBERSCHRITTEN",
+      size_warning: "⚠️ Zu viel Text! Genially könnte den Link abschneiden.",
+      title_main: "Titel", title_label: "Titel im Spiel", title_ph: "Greifautomat",
+      design_main: "Aussehen", bg_label: "Hintergrund (URL)", btn_reset_bg: "↩ Zurücksetzen", bg_ph: "Für Standard leer lassen",
+      use_latex: "LaTeX verwenden", use_latex_hint: "Aktiviert Mathe-Formeln (z.B. $x^2$)",
+      timer_main: "Timer", timer_toggle: "Globalen Timer aktivieren", timer_hint: "Wenn die Zeit abläuft, ist die Antwort falsch.",
+      timer_label: "Sekunden pro Frage",
+      start_main: "Startbildschirm", start_label: "Anleitungstext",
+      end_main: "Endbildschirm", end_label: "Zusätzlicher Text", end_ph: "Z.B.: Gut gemacht!",
+      q_main: "Fragen", btn_add_q: "➕ Hinzufügen", btn_import_q: "📥 Importieren", btn_clear_q: "🧹 Leeren",
+      tpl_label: "🎨 Design-Vorlagen:", tpl_default: "Standard", btn_apply_all: "🔄 Auf alle anwenden",
+      q_hint: "💡 Sie können Fragen ziehen (an ☰), um sie neu zu ordnen.", q_strict: "Genau <b>9 Fragen</b>.",
+      preview_title: "Vorschau", preview_hint: "Live-Spielvorschau",
+      modal_add_title: "Frage hinzufügen", modal_edit_title: "Frage bearbeiten", btn_close: "Schließen",
+      q_type: "Fragetyp", type_choice: "Multiple Choice", type_text: "Texteingabe",
+      q_text: "Frage", q_text_ph: "Frage eingeben...",
+      text_style: "Textformatierung", font_label: "Schriftart", font_size_label: "Schriftgröße (px)",
+      q_timer: "Timer für diese Frage", q_timer_label: "Sekunden (leer = Standard)", q_timer_ph: "z.B. 20",
+      media: "Medien (Links)",
+      ans_choice: "Antwortoptionen (richtige markieren)", btn_add_ans: "➕ Option hinzufügen",
+      ans_text: "Richtige Antworten",
+      btn_preview: "👁 In Vorschau zeigen", btn_save: "💾 Speichern",
+      import_title: "📥 Smart Import", import_mode: "Importmodus:", import_ege: "Textblöcke (mit Optionen)", import_line: "Einfache Liste", import_ph: "Kopierten Text einfügen...",
+      btn_cancel: "Abbrechen", btn_process: "✨ Erkennen & Hinzufügen",
+      toast_copied: "Kopiert ✅", toast_error: "Fehler", toast_cleared: "Geleert", toast_limit: "Bereits 9 Fragen 🙂", toast_q_added: "Frage hinzugefügt", toast_q_updated: "Frage aktualisiert", toast_q_deleted: "Gelöscht", toast_preview: "In Vorschau angezeigt", toast_tpl_applied: "Einstellungen angewendet!", toast_import_done: "Import abgeschlossen (Limit erreicht)", toast_import_num: "Importiert: ", toast_import_err: "Text konnte nicht erkannt werden",
+      empty_q: "Noch keine Fragen.", btn_edit: "Bearbeiten", btn_dup: "Duplizieren", btn_del: "Löschen",
+      ans_correct: "✅ Richtige Antwort", ans_variant: "Option ", ans_correct_variant: "Richtige Option ",
+      confirm_reset: "Möchten Sie wirklich alles löschen und neu beginnen?", confirm_tpl: "Einstellungen (Schrift, Größe, Timer, Typ) auf alle Fragen anwenden?"
+    },
+    zh: {
+      editor_title: "抓娃娃机编辑器",
+      btn_reset: "🔄 全部重置", btn_copy: "📋 复制代码 (iframe)",
+      lbl_size_ok: "🟢 代码正常", lbl_size_warn: "🟡 代码接近限制", lbl_size_err: "🔴 超过限制",
+      size_warning: "⚠️ 文本过多！Genially 可能会截断链接。请缩短问题或单独下载游戏。",
+      title_main: "标题", title_label: "游戏内标题", title_ph: "抓娃娃机",
+      design_main: "外观", bg_label: "游戏背景 (URL)", btn_reset_bg: "↩ 重置", bg_ph: "留空使用默认",
+      use_latex: "使用 LaTeX", use_latex_hint: "启用数学公式 (例如 $x^2$)",
+      timer_main: "答题计时器", timer_toggle: "启用全局计时器", timer_hint: "如果超时，答案计为错误。",
+      timer_label: "每题秒数 (默认)",
+      start_main: "开始屏幕", start_label: "说明文本",
+      end_main: "结束屏幕", end_label: "附加文本", end_ph: "例如：干得好！",
+      q_main: "问题", btn_add_q: "➕ 添加", btn_import_q: "📥 导入", btn_clear_q: "🧹 清除",
+      tpl_label: "🎨 样式模板：", tpl_default: "标准 (默认)", btn_apply_all: "🔄 应用于全部",
+      q_hint: "💡 您可以拖动问题 (按 ☰) 重新排序。", q_strict: "严格 <b>9 个问题</b>。",
+      preview_title: "预览", preview_hint: "实时游戏预览",
+      modal_add_title: "添加问题", modal_edit_title: "编辑问题", btn_close: "关闭",
+      q_type: "问题类型", type_choice: "选择题", type_text: "填空题",
+      q_text: "问题", q_text_ph: "输入问题...",
+      text_style: "文本样式", font_label: "字体 (问题和答案)", font_size_label: "字体大小 (px)",
+      q_timer: "此问题的计时器", q_timer_label: "秒数 (留空 = 默认)", q_timer_ph: "例如 20",
+      media: "媒体 (链接)",
+      ans_choice: "答案选项 (勾选正确项)", btn_add_ans: "➕ 添加选项",
+      ans_text: "正确答案 (输入)",
+      btn_preview: "👁 在预览中显示", btn_save: "💾 保存",
+      import_title: "📥 智能导入", import_mode: "导入模式：", import_ege: "文本块 (带选项)", import_line: "简单列表 (每行一个新问题)", import_ph: "粘贴复制的文本...",
+      btn_cancel: "取消", btn_process: "✨ 解析并添加",
+      toast_copied: "已复制 ✅", toast_error: "错误", toast_cleared: "已清除", toast_limit: "已有 9 个问题 🙂", toast_q_added: "问题已添加", toast_q_updated: "问题已更新", toast_q_deleted: "已删除", toast_preview: "已在预览中显示", toast_tpl_applied: "设置已应用！", toast_import_done: "导入完成 (已达 9 个限制)", toast_import_num: "已导入: ", toast_import_err: "无法识别文本",
+      empty_q: "暂无问题。请填满 9 个。", btn_edit: "编辑", btn_dup: "复制", btn_del: "删除",
+      ans_correct: "✅ 正确答案", ans_variant: "选项 ", ans_correct_variant: "正确选项 ",
+      confirm_reset: "确定要删除所有问题和设置并重新开始吗？", confirm_tpl: "将设置（字体、大小、计时器、题型）应用到所有问题？"
+    }
+  };
+
+  let currentLang = 'ru';
+
+  function changeLanguage(lang) {
+    if (!i18n[lang]) return;
+    currentLang = lang;
+    const dict = i18n[lang];
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key]) {
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          el.placeholder = dict[key];
+        } else {
+          el.innerHTML = dict[key];
+        }
+      }
+    });
+
+    // Обновляем динамические элементы
+    if (typeof renderList === 'function') renderList();
+    if (document.getElementById("selType")) {
+      if (document.getElementById("selType").value === "choice") renderChoiceUI();
+      else renderTextUI();
+    }
+    
+    // Обновляем статус лимита кода
+    const barData = document.getElementById("barSize") ? document.getElementById("barSize").style.width : "0%";
+    const pct = parseFloat(barData);
+    const lblText = document.getElementById("lblSizeText");
+    if(lblText) {
+      if (pct < 75) lblText.textContent = dict.lbl_size_ok;
+      else if (pct <= 100) lblText.textContent = dict.lbl_size_warn;
+      else lblText.textContent = dict.lbl_size_err;
+    }
+
+    localStorage.setItem('editor_lang', lang);
+  }
+
+  const savedLang = localStorage.getItem('editor_lang');
+  if (savedLang) {
+    const selectEl = document.getElementById('langSelect');
+    if (selectEl) {
+      selectEl.value = savedLang;
+      changeLanguage(savedLang);
+    }
+  }
+
+  document.getElementById('langSelect').addEventListener('change', (e) => {
+    changeLanguage(e.target.value);
+  });
+  // --- END MULTI-LANGUAGE SYSTEM ---
+
   const errbar = document.getElementById("errbar");
   function showErr(msg){ if(errbar){ errbar.classList.add("show"); errbar.textContent = "Ошибка: " + msg; } }
   const $ = (id)=>document.getElementById(id);
 
-  // КОД ИГРЫ
-  const __GAME_CSS__ = `body,html{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background-color:#000;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;user-select:none}#game-container{position:relative;width:100vw;height:100vh;background-image:url('https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/фон.png');background-size:100% 100%;background-position:center;background-repeat:no-repeat}#machine-no-claw{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:95%;pointer-events:none;z-index:10}.game-element{position:absolute;object-fit:contain;transition:all 1s ease}.toy{z-index:15;filter:drop-shadow(2px 4px 4px rgba(0,0,0,0.5));cursor:pointer}#toy-1{left:41.80%;top:32.84%;width:3.76%;height:9.19%}#toy-4{left:47.72%;top:32.70%;width:3.76%;height:9.46%}#toy-6{left:53.23%;top:32.70%;width:4.57%;height:9.46%}#toy-5{left:41.26%;top:42.57%;width:4.44%;height:10.00%}#toy-3{left:47.65%;top:42.97%;width:3.83%;height:9.19%}#toy-2{left:53.43%;top:42.84%;width:3.83%;height:9.73%}#toy-9{left:41.06%;top:53.11%;width:4.84%;height:9.73%}#toy-8{left:47.65%;top:54.19%;width:4.03%;height:9.46%}#toy-7{left:52.96%;top:52.57%;width:4.70%;height:10.68%}#claw-cord{position:absolute;background-color:#222;width:3px;top:12%;z-index:5;transition:left 0.3s ease,height 1s ease;box-shadow:1px 0px 2px rgba(0,0,0,0.5)}#claw-container{width:3.90%;height:12.16%;z-index:20;transition:left 0.3s ease,top 1s ease}#claw-img{width:100%;height:100%;object-fit:contain}#coin{left:51.95%;top:70.14%;width:5.58%;height:11.22%;z-index:20;cursor:pointer;transition:0.3s}.blinking{animation:blink 1.5s infinite}@keyframes blink{0%,100%{filter:brightness(1) drop-shadow(0 0 0px gold)}50%{filter:brightness(1.4) drop-shadow(0 0 15px gold);transform:scale(1.05)}}.control-btn{position:absolute;z-index:100;opacity:0;pointer-events:none;cursor:pointer;border-radius:20px;transition:opacity 0.1s,transform 0.1s;background:rgba(255,255,255,0.4)}.control-btn.active{pointer-events:auto;opacity:0}.control-btn.active:hover{opacity:0.1}.control-btn.active:active{opacity:0.5;transform:scale(0.95)}#btn-left{left:39%;top:62%;width:7%;height:8%}#btn-action{left:46%;top:62%;width:9%;height:8%}#btn-right{left:55%;top:62%;width:7%;height:8%}#drop-area{position:absolute;left:45.16%;top:71.76%;width:5.58%;height:11.22%;z-index:10}#progress-area{position:absolute;left:8.87%;top:3.65%;width:4.10%;height:95.68%;z-index:25;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;gap:2%;padding-top:3%}.collected-slot{width:90%;aspect-ratio:1;background:rgba(255,255,255,0.7);border:3px solid #fff;border-radius:50%;display:flex;justify-content:center;align-items:center;padding:2px;box-shadow:inset 0px 3px 6px rgba(0,0,0,0.2),0 2px 4px rgba(0,0,0,0.3)}.collected-slot img{width:100%;height:100%;object-fit:contain;border-radius:50%}.toy-collected-anim{transform:scale(1.3);opacity:0;transition:all 0.5s ease}.game-modal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.8);background:#ffffff;padding:40px 30px;border-radius:30px;border:4px solid #48dbfb;box-shadow:0 20px 50px rgba(0,0,0,0.5),inset 0 0 0 6px #ffffff,inset 0 0 0 10px #feca57;z-index:100;opacity:0;pointer-events:none;transition:all 0.4s cubic-bezier(0.2,0.8,0.2,1);text-align:center;display:flex;flex-direction:column;align-items:center;color:#2c3e50;width:min(85%,650px);max-height:85vh;overflow-y:auto;overflow-x:hidden}.game-modal::-webkit-scrollbar{width:6px}.game-modal::-webkit-scrollbar-track{background:transparent}.game-modal::-webkit-scrollbar-thumb{background:#feca57;border-radius:10px}.game-modal.active{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}.game-modal.active.draft-open{left:25%;width:46%;padding:30px 15px;transform:translate(-50%,-50%) scale(1)}.game-modal h2{margin:0 0 25px 0;color:#2c3e50;font-size:32px;line-height:1.3;font-weight:900;transition:font-size 0.4s}.game-modal.active.draft-open h2{font-size:26px}.modal-top-bar{width:100%;display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;position:relative;z-index:110}.qTimer{display:flex;align-items:center;gap:8px;padding:6px 16px;border-radius:15px;background:#fff;border:3px solid #ff4757;color:#ff4757;font-weight:900;font-size:20px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}.qPulse{animation:pulse 1s infinite;color:#ff4d4d;border-color:#ff4d4d;background:#ffeaa7}@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}#gDrawToggle{font-size:20px;background:#ffffff;border:3px solid #ced6e0;border-radius:50%;width:50px;height:50px;cursor:pointer;color:#333;display:flex;align-items:center;justify-content:center;transition:0.2s;box-shadow:0 4px 10px rgba(0,0,0,0.1)}#gDrawToggle:hover{transform:scale(1.1);border-color:#feca57}#task-options{display:flex;gap:15px;justify-content:center;width:100%;flex-wrap:wrap;margin-bottom:10px}.task-option{padding:12px 25px;background:#ffffff;color:#2c3e50;border-radius:20px;cursor:pointer;font-weight:bold;font-size:26px;transition:0.2s;min-width:80px;border:5px dotted #ff9f43;box-shadow:0 6px 0 #ff9f43}.task-option:hover{background:#fffcf2;transform:translateY(3px);box-shadow:0 3px 0 #ff9f43}
-    /* ИЗМЕНЕНА АНИМАЦИЯ МИГАНИЯ И ЦВЕТ КНОПОК ПРИ ОШИБКЕ/ПОБЕДЕ */
-    .task-option.correct{background:#1dd1a1 !important;border-color:#10ac84 !important;box-shadow:0 6px 0 #10ac84 !important;color:white}.task-option.incorrect{animation:flashRed 0.6s infinite !important;}
-    @keyframes flashRed{0%,100%{background-color:#ff6b6b !important;color:white !important;border-color:#ee5253 !important;box-shadow:0 6px 0 #ee5253 !important;}50%{background-color:#fffcf2 !important;color:#ff6b6b !important;border-color:#ff6b6b !important;box-shadow:0 6px 0 #ff6b6b !important;}}
-    .game-modal.active.draft-open .task-option{font-size:20px;padding:10px 15px}#inputRow{display:none;gap:10px;align-items:center;width:100%;justify-content:center;margin-bottom:10px;flex-wrap:wrap}#ansInput{flex:1;min-width:200px;max-width:300px;background:#ffffff;border:5px dotted #0abde3;border-radius:20px;padding:12px 16px;color:#2c3e50;font-size:26px;font-weight:bold;outline:none;transition:0.2s}#ansInput:focus{border-color:#ff9f43;box-shadow:0 0 10px rgba(255,159,67,0.3)}.game-modal.active.draft-open #ansInput{font-size:20px;padding:10px 14px}#ansInput.correct{background:#1dd1a1 !important;border-color:#10ac84 !important;color:white !important;}#ansInput.incorrect{animation:flashRed 0.6s infinite !important;}
-    #submitBtn{padding:12px 25px;background:#ff9f43;color:white;border:3px solid #e17055;box-shadow:0 6px 0 #e17055;border-radius:20px;font-weight:bold;cursor:pointer;font-size:24px;transition:0.2s}#submitBtn:hover{background:#feca57;transform:translateY(3px);box-shadow:0 3px 0 #e17055}.game-modal.active.draft-open #submitBtn{font-size:20px;padding:10px 20px}#start,#finish{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);z-index:200}#finish{display:none}.screen-card{width:min(650px,90%);background:#ffffff;border-radius:30px;border:4px solid #48dbfb;box-shadow:0 20px 50px rgba(0,0,0,0.5),inset 0 0 0 6px #ffffff,inset 0 0 0 10px #feca57;padding:40px;text-align:center;color:#2c3e50;position:relative}.screen-card h1{margin:0 0 15px 0;font-size:42px;color:#ff6b6b;font-weight:900;text-shadow:2px 2px 0px #feca57}.screen-card p{font-size:22px;line-height:1.5;margin-bottom:25px;color:#2f3542;font-weight:600}.play-btn{background:#ff9f43;border:3px solid #ee5253;box-shadow:0 6px 0 #ee5253;padding:15px 35px;border-radius:25px;color:white;font-size:24px;font-weight:bold;cursor:pointer;transition:0.2s;text-transform:uppercase;letter-spacing:1px}.play-btn:hover{background:#ff6b6b;transform:translateY(3px);box-shadow:0 3px 0 #ee5253}
-    .draftWrap { position: absolute; top: 0; right: -55%; bottom: 0; width: 50%; min-width: 320px; max-width: 600px; background: #ffffff; border-left: 6px solid #48dbfb; box-shadow: -10px 0 40px rgba(0,0,0,0.3); transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; z-index: 1000; box-sizing: border-box; }
+  const __GAME_CSS__ = `body,html{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background-color:#000;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;user-select:none}#game-container{position:relative;width:100vw;height:100vh;background-image:url('https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/фон.png');background-size:100% 100%;background-position:center;background-repeat:no-repeat}#machine-no-claw{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:95%;pointer-events:none;z-index:10}.game-element{position:absolute;object-fit:contain;transition:all 1s ease}.toy{z-index:15;filter:drop-shadow(2px 4px 4px rgba(0,0,0,0.5));cursor:pointer}#toy-1{left:41.80%;top:32.84%;width:3.76%;height:9.19%}#toy-4{left:47.72%;top:32.70%;width:3.76%;height:9.46%}#toy-6{left:53.23%;top:32.70%;width:4.57%;height:9.46%}#toy-5{left:41.26%;top:42.57%;width:4.44%;height:10.00%}#toy-3{left:47.65%;top:42.97%;width:3.83%;height:9.19%}#toy-2{left:53.43%;top:42.84%;width:3.83%;height:9.73%}#toy-9{left:41.06%;top:53.11%;width:4.84%;height:9.73%}#toy-8{left:47.65%;top:54.19%;width:4.03%;height:9.46%}#toy-7{left:52.96%;top:52.57%;width:4.70%;height:10.68%}#claw-cord{position:absolute;background-color:#222;width:3px;top:12%;z-index:5;transition:left 0.3s ease,height 1s ease;box-shadow:1px 0px 2px rgba(0,0,0,0.5)}#claw-container{width:3.90%;height:12.16%;z-index:20;transition:left 0.3s ease,top 1s ease}#claw-img{width:100%;height:100%;object-fit:contain}#coin{left:51.95%;top:70.14%;width:5.58%;height:11.22%;z-index:20;cursor:pointer;transition:0.3s}.blinking{animation:blink 1.5s infinite}@keyframes blink{0%,100%{filter:brightness(1) drop-shadow(0 0 0px gold)}50%{filter:brightness(1.4) drop-shadow(0 0 15px gold);transform:scale(1.05)}}.control-btn{position:absolute;z-index:100;opacity:0;pointer-events:none;cursor:pointer;border-radius:20px;transition:opacity 0.1s,transform 0.1s;background:rgba(255,255,255,0.4)}.control-btn.active{pointer-events:auto;opacity:0}.control-btn.active:hover{opacity:0.1}.control-btn.active:active{opacity:0.5;transform:scale(0.95)}#btn-left{left:39%;top:62%;width:7%;height:8%}#btn-action{left:46%;top:62%;width:9%;height:8%}#btn-right{left:55%;top:62%;width:7%;height:8%}#drop-area{position:absolute;left:45.16%;top:71.76%;width:5.58%;height:11.22%;z-index:10}#progress-area{position:absolute;left:8.87%;top:3.65%;width:4.10%;height:95.68%;z-index:25;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;gap:2%;padding-top:3%}.collected-slot{width:90%;aspect-ratio:1;background:rgba(255,255,255,0.7);border:3px solid #fff;border-radius:50%;display:flex;justify-content:center;align-items:center;padding:2px;box-shadow:inset 0px 3px 6px rgba(0,0,0,0.2),0 2px 4px rgba(0,0,0,0.3)}.collected-slot img{width:100%;height:100%;object-fit:contain;border-radius:50%}.toy-collected-anim{transform:scale(1.3);opacity:0;transition:all 0.5s ease}.game-modal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.8);background:#ffffff;padding:40px 30px;border-radius:30px;border:4px solid #48dbfb;box-shadow:0 20px 50px rgba(0,0,0,0.5),inset 0 0 0 6px #ffffff,inset 0 0 0 10px #feca57;z-index:100;opacity:0;pointer-events:none;transition:all 0.4s cubic-bezier(0.2,0.8,0.2,1);text-align:center;display:flex;flex-direction:column;align-items:center;color:#2c3e50;width:min(85%,650px);max-height:85vh;overflow-y:auto;overflow-x:hidden}.game-modal::-webkit-scrollbar{width:6px}.game-modal::-webkit-scrollbar-track{background:transparent}.game-modal::-webkit-scrollbar-thumb{background:#feca57;border-radius:10px}.game-modal.active{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}.game-modal.active.draft-open{left:25%;width:46%;padding:30px 15px;transform:translate(-50%,-50%) scale(1)}.game-modal h2{margin:0 0 25px 0;color:#2c3e50;font-size:32px;line-height:1.3;font-weight:900;transition:font-size 0.4s}.game-modal.active.draft-open h2{font-size:26px}.modal-top-bar{width:100%;display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;position:relative;z-index:110}.qTimer{display:flex;align-items:center;gap:8px;padding:6px 16px;border-radius:15px;background:#fff;border:3px solid #ff4757;color:#ff4757;font-weight:900;font-size:20px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}.qPulse{animation:pulse 1s infinite;color:#ff4d4d;border-color:#ff4d4d;background:#ffeaa7}@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}#gDrawToggle{font-size:20px;background:#ffffff;border:3px solid #ced6e0;border-radius:50%;width:50px;height:50px;cursor:pointer;color:#333;display:flex;align-items:center;justify-content:center;transition:0.2s;box-shadow:0 4px 10px rgba(0,0,0,0.1)}#gDrawToggle:hover{transform:scale(1.1);border-color:#feca57}#task-options{display:flex;gap:15px;justify-content:center;width:100%;flex-wrap:wrap;margin-bottom:10px}.task-option{padding:12px 25px;background:#ffffff;color:#2c3e50;border-radius:20px;cursor:pointer;font-weight:bold;font-size:26px;transition:0.2s;min-width:80px;border:5px dotted #ff9f43;box-shadow:0 6px 0 #ff9f43}.task-option:hover{background:#fffcf2;transform:translateY(3px);box-shadow:0 3px 0 #ff9f43}.task-option.correct{background:#1dd1a1 !important;border-color:#10ac84 !important;box-shadow:0 6px 0 #10ac84 !important;color:white}.task-option.incorrect{background:#ff6b6b !important;border-color:#ee5253 !important;box-shadow:0 6px 0 #ee5253 !important;color:white;animation:shake 0.5s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}.game-modal.active.draft-open .task-option{font-size:20px;padding:10px 15px}#inputRow{display:none;gap:10px;align-items:center;width:100%;justify-content:center;margin-bottom:10px;flex-wrap:wrap}#ansInput{flex:1;min-width:200px;max-width:300px;background:#ffffff;border:5px dotted #0abde3;border-radius:20px;padding:12px 16px;color:#2c3e50;font-size:26px;font-weight:bold;outline:none;transition:0.2s}#ansInput:focus{border-color:#ff9f43;box-shadow:0 0 10px rgba(255,159,67,0.3)}.game-modal.active.draft-open #ansInput{font-size:20px;padding:10px 14px}#submitBtn{padding:12px 25px;background:#ff9f43;color:white;border:3px solid #e17055;box-shadow:0 6px 0 #e17055;border-radius:20px;font-weight:bold;cursor:pointer;font-size:24px;transition:0.2s}#submitBtn:hover{background:#feca57;transform:translateY(3px);box-shadow:0 3px 0 #e17055}.game-modal.active.draft-open #submitBtn{font-size:20px;padding:10px 20px}#start,#finish{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);z-index:200}#finish{display:none}.screen-card{width:min(650px,90%);background:#ffffff;border-radius:30px;border:4px solid #48dbfb;box-shadow:0 20px 50px rgba(0,0,0,0.5),inset 0 0 0 6px #ffffff,inset 0 0 0 10px #feca57;padding:40px;text-align:center;color:#2c3e50;position:relative}.screen-card h1{margin:0 0 15px 0;font-size:42px;color:#ff6b6b;font-weight:900;text-shadow:2px 2px 0px #feca57}.screen-card p{font-size:22px;line-height:1.5;margin-bottom:25px;color:#2f3542;font-weight:600}.play-btn{background:#ff9f43;border:3px solid #ee5253;box-shadow:0 6px 0 #ee5253;padding:15px 35px;border-radius:25px;color:white;font-size:24px;font-weight:bold;cursor:pointer;transition:0.2s;text-transform:uppercase;letter-spacing:1px}.play-btn:hover{background:#ff6b6b;transform:translateY(3px);box-shadow:0 3px 0 #ee5253}
+    .draftWrap { position: absolute; top: 0; right: -55%; bottom: 0; width: 50%; min-width: 320px; max-width: 600px; background: #ffffff; border-left: 6px solid #48dbfb; box-shadow: -10px 0 40px rgba(0,0,0,0.3); transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; z-index: 1000; }
     .draftWrap.open { transform: translateX(0); right: 0; }
-    .draftHead { display: flex; flex-direction: column; gap: 12px; padding: 45px 20px 15px 20px; background: #ffffff; border-bottom: 3px solid #e0e0e0; flex-shrink: 0; box-sizing: border-box; }
-    .draftTitleRow { display: flex; justify-content: space-between; align-items: center; width: 100%; flex-shrink: 0; }
-    #gDrawTools { display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; justify-content: flex-start; width: 100%; flex-shrink: 0; overflow-x: auto; padding-bottom: 5px; }
-    #gDrawTools::-webkit-scrollbar { height: 4px; }
-    #gDrawTools::-webkit-scrollbar-thumb { background: #ced6e0; border-radius: 4px; }
+    .draftHead { display: flex; flex-direction: column; gap: 10px; padding: 15px 20px; background: #ffffff; border-bottom: 3px solid #e0e0e0; }
+    .draftTitleRow { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+    #gDrawTools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: flex-start; width: 100%; }
     #gDrawColor { width: 36px; height: 36px; border: 2px solid #ced6e0; cursor: pointer; border-radius: 8px; background: #fff; padding: 0; flex-shrink: 0; }
-    #gDrawSize { flex: 1; min-width: 60px; max-width: 120px; accent-color: #0abde3; flex-shrink: 0; }
+    #gDrawSize { flex: 1; min-width: 60px; max-width: 120px; accent-color: #0abde3; }
     #gDrawEraser, #gCanvasClear { background: #f1f2f6; border: 2px solid #ced6e0; padding: 6px 12px; border-radius: 12px; cursor: pointer; font-size: 16px; color: #2f3542; transition: 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     #gDrawEraser.active { background: #f9d423; border-color: #feca57; }
     #gCanvasClear { color: #ff4757; border-color: #ff4757; }
     #gCanvasClear:hover { background: #ffefef; border-color: #ff6b6b; }
-    #gBtnDraftClose { background: #ff6b6b; border: none; color: white; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer; font-weight: bold; transition: 0.2s; box-shadow: 0 4px 10px rgba(255,107,107,0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-left: auto; margin-top: 5px; }
+    #gBtnDraftClose { background: #ff6b6b; border: none; color: white; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer; font-weight: bold; transition: 0.2s; box-shadow: 0 4px 10px rgba(255,107,107,0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     #gBtnDraftClose:hover { transform: scale(1.1); }
-    .draftBody { flex: 1; position: relative; width: 100%; background-color: #ffffff; background-image: linear-gradient(#e0e0e0 1px, transparent 1px), linear-gradient(90deg, #e0e0e0 1px, transparent 1px); background-size: 30px 30px; cursor: crosshair; touch-action: none; min-height: 0; }
+    .draftBody { flex: 1; position: relative; width: 100%; background-color: #ffffff; background-image: linear-gradient(#e0e0e0 1px, transparent 1px), linear-gradient(90deg, #e0e0e0 1px, transparent 1px); background-size: 30px 30px; cursor: crosshair; touch-action: none; }
     #gCanvas { display: block; width: 100%; height: 100%; touch-action: none; }
     .anim-pulse-game{animation:pulse-logo-game 2.5s infinite ease-in-out}@keyframes pulse-logo-game{0%{transform:scale(1);filter:drop-shadow(0 2px 4px rgba(0,0,0,0.8))}50%{transform:scale(1.15);filter:drop-shadow(0 4px 8px rgba(0,0,0,0.9))}100%{transform:scale(1);filter:drop-shadow(0 2px 4px rgba(0,0,0,0.8))}}`;
 
   const __GAME_HTML__ = `
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"><\/script>
     <div id="game-container">
         <img id="machine-no-claw" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/avtomat.png">
         <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/1.png" class="game-element toy" id="toy-1" data-col="0">
@@ -316,15 +504,22 @@
         <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/6.png" class="game-element toy" id="toy-6" data-col="2">
         <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/2.png" class="game-element toy" id="toy-2" data-col="2">
         <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/7.png" class="game-element toy" id="toy-7" data-col="2">
+
         <div id="claw-cord"></div>
         <div id="claw-container" class="game-element"><img id="claw-img" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/клешня.png"></div>
         <img id="coin" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/монета.png" class="blinking" style="position: absolute;">
-        <div id="btn-left" class="control-btn" title="Влево"></div><div id="btn-action" class="control-btn" title="START"></div><div id="btn-right" class="control-btn" title="Вправо"></div>
+
+        <div id="btn-left" class="control-btn" title="Влево"></div>
+        <div id="btn-action" class="control-btn" title="START"></div>
+        <div id="btn-right" class="control-btn" title="Вправо"></div>
+
         <div id="drop-area"></div><div id="progress-area"></div>
+
         <div id="error-modal" class="game-modal">
             <h2 style="color: #ff4757; text-shadow: none;">В этом ряду пусто!</h2>
             <button class="play-btn" style="font-size: 18px; padding: 12px 25px; margin-top:10px;" onclick="document.getElementById('error-modal').classList.remove('active'); gameState='playing';">Выбрать другой</button>
         </div>
+
         <div id="task-modal" class="game-modal">
             <div class="modal-top-bar">
                 <div id="qTimerBadge" class="qTimer" style="display:none;">⏳ <span id="qTimerText"></span></div>
@@ -336,12 +531,14 @@
             <div id="task-options"></div>
             <div id="inputRow"><input id="ansInput" type="text" placeholder="Введите ответ..." autocomplete="off"><button id="submitBtn">ОК</button></div>
         </div>
+
         <div id="start"><div class="screen-card" id="startCard"><h1 id="startTitle">Игровой автомат</h1><div id="startText"></div><button class="play-btn" id="playBtn" style="margin-top:20px;">▶ Начать игру</button></div></div>
         <div id="finish"><div class="screen-card" id="finishCard"><h1>Игра окончена!</h1><p id="finishText">Собрано игрушек: <b id="finishScore" style="color:#ff4757; font-size:32px;">0</b> из 9</p><p id="finishCustomText" style="display:none; color: #2f3542;"></p><div style="display:flex; justify-content:center; gap:20px; margin-bottom:25px; font-size: 22px; font-weight:bold;"><div style="background: #e8f8f5; padding: 12px 20px; border-radius: 15px; border: 3px solid #1dd1a1; color:#10ac84;">Верно: <b id="stCorrect">0</b></div><div style="background: #ffefef; padding: 12px 20px; border-radius: 15px; border: 3px solid #ff6b6b; color:#ee5253;">Ошибок: <b id="stWrong">0</b></div></div><button class="play-btn" id="restartBtn">↻ Сыграть ещё раз</button></div></div>
+
         <div id="gDraftWrap" class="draftWrap">
             <div class="draftHead">
                 <div class="draftTitleRow">
-                    <span style="font-weight: 900; font-size: 22px; color: #2c3e50; line-height: 1; margin: 0; padding: 0;">✏️ Черновик</span>
+                    <span style="font-weight: 900; font-size: 22px; color: #2c3e50;">✏️ Черновик</span>
                     <button id="gBtnDraftClose" title="Закрыть черновик">✖</button>
                 </div>
                 <div id="gDrawTools">
@@ -353,11 +550,15 @@
             </div>
             <div class="draftBody"><canvas id="gCanvas"></canvas></div>
         </div>
+
         <a href="https://t.me/interactiv_matematika" target="_blank" style="position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; opacity: 0.65; pointer-events: auto; z-index: 10; text-decoration: none; transition: opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.65">
             <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/logo.png" class="anim-pulse-game" alt="Логотип" style="height: 26px; width: 26px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255,174,0,0.4);" onerror="this.style.display='none'">
             <span style="font-family: 'Caveat', cursive; font-size: 20px; color: rgba(255,255,255,0.85); text-shadow: 0 2px 4px rgba(0,0,0,0.9); white-space: nowrap; letter-spacing: 0.5px;">Шкатулка математических интерактивов</span>
         </a>
     </div>
+    <audio id="sound-success" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/correct_click.mp3"></audio>
+    <audio id="sound-error" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/wrong_click.mp3"></audio>
+    <audio id="sound-progress" src="https://images.genial.ly/images/genially/images/genially_common_assets/genially_common_assets_audio/hover.mp3"></audio>
   `;
 
   const __GAME_JS__ = `
@@ -365,11 +566,9 @@
         const gameContainer = document.getElementById('game-container'), coin = document.getElementById('coin');
         const clawContainer = document.getElementById('claw-container'), clawImg = document.getElementById('claw-img'), clawCord = document.getElementById('claw-cord');
         const progressArea = document.getElementById('progress-area'), controls = [document.getElementById('btn-left'), document.getElementById('btn-right'), document.getElementById('btn-action')];
-
         let gameState = 'start_screen', collectedToysCount = 0, currentQuestionIndex = 0, correctCount = 0, wrongCount = 0, selectedToyElement = null, grabbedToyOffsetY = 0, timerInterval = null;
         const clawPositionsX = [41.55, 47.65, 53.45], clawStartTop = 20.14, clawWidth = 3.90, clawHeight = 12.16;
         let currentCol = 1, tasks = [], globalTimer = null;
-        
         function playCoinDrop() {
             try {
                 let ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -378,7 +577,8 @@
                 osc1.type = 'triangle'; osc1.frequency.setValueAtTime(1200, ctx.currentTime); osc1.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.1);
                 gain1.gain.setValueAtTime(0, ctx.currentTime); gain1.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.02); gain1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
                 osc1.start(ctx.currentTime); osc1.stop(ctx.currentTime + 0.15);
-                let osc2 = ctx.createOscillator(); let gain2 = ctx.createGain();
+                let osc2 = ctx.createOscillator();
+                let gain2 = ctx.createGain();
                 osc2.connect(gain2); gain2.connect(ctx.destination);
                 osc2.type = 'triangle'; osc2.frequency.setValueAtTime(1500, ctx.currentTime + 0.08); osc2.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.18);
                 gain2.gain.setValueAtTime(0, ctx.currentTime + 0.08); gain2.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.1); gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
@@ -386,44 +586,11 @@
             } catch(e) {}
         }
 
-        function playSuccessSound() {
-            try {
-                let ctx = new (window.AudioContext || window.webkitAudioContext)();
-                let osc = ctx.createOscillator(); let gain = ctx.createGain();
-                osc.connect(gain); gain.connect(ctx.destination);
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(523.25, ctx.currentTime);
-                osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
-                osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2);
-                osc.frequency.setValueAtTime(1046.50, ctx.currentTime + 0.3);
-                gain.gain.setValueAtTime(0, ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.05);
-                gain.gain.setValueAtTime(0.5, ctx.currentTime + 0.3);
-                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
-                osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.6);
-            } catch(e) {}
-        }
-
-        function playErrorSound() {
-            try {
-                let ctx = new (window.AudioContext || window.webkitAudioContext)();
-                let osc = ctx.createOscillator(); let gain = ctx.createGain();
-                osc.connect(gain); gain.connect(ctx.destination);
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(300, ctx.currentTime); 
-                osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.3);
-                gain.gain.setValueAtTime(0, ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.05);
-                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
-                osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.4);
-            } catch(e) {}
-        }
-
         function initGameData() {
             const rawCfg = window.__CFG || {};
             if(rawCfg.bgDataUrl) gameContainer.style.backgroundImage = 'url(' + rawCfg.bgDataUrl + ')';
             document.getElementById('startTitle').textContent = rawCfg.title || "Игровой автомат";
-            document.getElementById('startText').innerHTML = (rawCfg.instruction?.text || "Вставь монетку и управляй клешней.\\nПоймал игрушку — реши задачу.\\nВерно → игрушка твоя.\\nНеверно → игрушка упадет обратно.\\nУ тебя ровно 9 попыток!").replace(/\\\\n/g, "<br/>");
+            document.getElementById('startText').innerHTML = (rawCfg.instruction?.text || "Вставь монетку и управляй клешней.<br>Поймал игрушку — реши задачу.<br>Верно → игрушка твоя.<br>Неверно → игрушка упадет обратно.<br>У тебя ровно 9 попыток!").replace(/\\\\n/g, "<br/>");
             if((rawCfg.feedback?.text || "").trim()) { document.getElementById('finishCustomText').innerHTML = rawCfg.feedback.text.replace(/\\\\n/g, "<br/>"); document.getElementById('finishCustomText').style.display = 'block'; }
             globalTimer = rawCfg.timer?.enabled ? Number(rawCfg.timer.seconds) : null;
             tasks = (rawCfg.questions || []).map(q => {
@@ -441,9 +608,9 @@
 
         const initialToyPositions = {};
         document.querySelectorAll('.toy').forEach(t => { initialToyPositions[t.id] = { left: t.style.left, top: t.style.top, width: t.style.width, height: t.style.height }; });
-
         function updateClawPosition(targetLeft, targetTop) {
-            clawContainer.style.left = targetLeft + '%'; clawContainer.style.top = targetTop + '%'; clawCord.style.left = (targetLeft + (clawWidth / 2)) + '%';
+            clawContainer.style.left = targetLeft + '%';
+            clawContainer.style.top = targetTop + '%'; clawCord.style.left = (targetLeft + (clawWidth / 2)) + '%';
             let cordHeight = targetTop - 12 + 2; if (cordHeight < 0) cordHeight = 0; clawCord.style.height = cordHeight + '%';
         }
 
@@ -459,13 +626,11 @@
         
         addTap(coin, () => {
             if (gameState !== 'waiting_coin') return;
-            playCoinDrop(); 
+            playCoinDrop();
             gameState = 'playing'; coin.classList.remove('blinking'); coin.style.opacity = '0'; controls.forEach(c => c.classList.add('active'));
         });
-
         addTap(document.getElementById('btn-left'), () => { if (gameState === 'playing' && currentCol > 0) { currentCol--; updateClawPosition(clawPositionsX[currentCol], clawStartTop); } });
         addTap(document.getElementById('btn-right'), () => { if (gameState === 'playing' && currentCol < 2) { currentCol++; updateClawPosition(clawPositionsX[currentCol], clawStartTop); } });
-
         addTap(document.getElementById('btn-action'), () => {
             if (gameState !== 'playing') return; gameState = 'claw_moving';
             const toysInCol = Array.from(document.querySelectorAll('.toy[data-col="'+currentCol+'"]')).filter(toy => !toy.classList.contains('collected'));
@@ -477,27 +642,33 @@
             setTimeout(() => {
                 clawImg.src = baseUrl + '10.png';
                 setTimeout(() => {
-                    clawImg.src = baseUrl + 'клешня.png'; selectedToyElement.style.left = (clawCenterX - toyPos.width / 2) + '%'; selectedToyElement.style.top = (targetClawTop + grabbedToyOffsetY) + '%'; selectedToyElement.style.zIndex = '25'; selectedToyElement.style.pointerEvents = 'none';
+                    clawImg.src = baseUrl + 'клешня.png';
+                    selectedToyElement.style.left = (clawCenterX - toyPos.width / 2) + '%'; selectedToyElement.style.top = (targetClawTop + grabbedToyOffsetY) + '%'; selectedToyElement.style.zIndex = '25';
+                    selectedToyElement.style.pointerEvents = 'none';
                     setTimeout(() => { updateClawPosition(clawPositionsX[currentCol], clawStartTop); selectedToyElement.style.top = (clawStartTop + grabbedToyOffsetY) + '%'; setTimeout(showTask, 1000); }, 250);
                 }, 400);
             }, 1000);
         });
 
         function showTask() {
-            gameState = 'task_active'; const q = tasks[currentQuestionIndex];
+            gameState = 'task_active';
+            const q = tasks[currentQuestionIndex];
             document.getElementById('gDraftWrap').classList.remove('open'); document.getElementById('task-modal').classList.remove('draft-open');
             if(window.ctxScratch) { window.ctxScratch.save(); window.ctxScratch.setTransform(1,0,0,1,0,0); window.ctxScratch.clearRect(0,0,window.canvasScratch.width, window.canvasScratch.height); window.ctxScratch.restore(); }
             const txtEl = document.getElementById('task-text'); txtEl.innerHTML = q.prompt || "Вопрос";
             const fontToApply = q.font || "'Neucha', cursive, sans-serif"; txtEl.style.setProperty('font-family', fontToApply, 'important'); txtEl.style.fontSize = q.fontSize ? q.fontSize + "px" : "32px";
-            const qImg = document.getElementById('qImg'), qAudio = document.getElementById('qAudio'); document.getElementById('qMedia').style.display = 'none'; qImg.style.display = 'none'; qAudio.style.display = 'none'; try{ qAudio.pause(); }catch(e){}
-            if (q.image || q.audio) { document.getElementById('qMedia').style.display = 'block'; if(q.image) { qImg.src = q.image; qImg.style.display = 'block'; } if(q.audio) { qAudio.src = q.audio; qAudio.style.display = 'block'; } }
-            const optionsDiv = document.getElementById('task-options'), inputRow = document.getElementById('inputRow'), ansInput = document.getElementById('ansInput'); optionsDiv.innerHTML = '';
+            const qImg = document.getElementById('qImg'), qAudio = document.getElementById('qAudio'); document.getElementById('qMedia').style.display = 'none'; qImg.style.display = 'none';
+            qAudio.style.display = 'none'; try{ qAudio.pause(); }catch(e){}
+            if (q.image || q.audio) { document.getElementById('qMedia').style.display = 'block';
+                if(q.image) { qImg.src = q.image; qImg.style.display = 'block'; } if(q.audio) { qAudio.src = q.audio; qAudio.style.display = 'block'; } }
+            const optionsDiv = document.getElementById('task-options'), inputRow = document.getElementById('inputRow'), ansInput = document.getElementById('ansInput');
+            optionsDiv.innerHTML = '';
             ansInput.style.setProperty('font-family', fontToApply, 'important'); ansInput.style.fontSize = q.fontSize ? (q.fontSize * 0.8) + "px" : "26px";
-            ansInput.classList.remove('correct', 'incorrect');
-            
             if (q.type === "choice") {
-                optionsDiv.style.display = 'flex'; inputRow.style.display = 'none'; const shuffledOpts = [...q.options];
-                for (let i = shuffledOpts.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]]; }
+                optionsDiv.style.display = 'flex';
+                inputRow.style.display = 'none'; const shuffledOpts = [...q.options];
+                for (let i = shuffledOpts.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));
+                [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]]; }
                 shuffledOpts.forEach(opt => { const btn = document.createElement('div'); btn.className = 'task-option'; btn.style.setProperty('font-family', fontToApply, 'important'); btn.style.fontSize = q.fontSize ? (q.fontSize * 0.8) + "px" : "26px"; btn.textContent = opt; btn.onclick = () => checkAnswer(opt, btn); optionsDiv.appendChild(btn); });
             } else { optionsDiv.style.display = 'none'; inputRow.style.display = 'flex'; ansInput.value = ''; document.getElementById('submitBtn').onclick = () => checkAnswer(ansInput.value, null); }
             document.getElementById('task-modal').classList.add('active'); startTimer(q);
@@ -509,51 +680,44 @@
             if(timerInterval) { clearInterval(timerInterval); timerInterval = null; }
             let secs = q.seconds != null ? Number(q.seconds) : globalTimer;
             if(Number.isFinite(secs) && secs > 0) {
-                badge.style.display = 'flex'; badge.classList.remove('qPulse'); let left = Math.round(secs);
-                const tick = () => { text.textContent = left; if(left <= 5) badge.classList.add('qPulse'); if(left <= 0) { clearInterval(timerInterval); timerInterval = null; checkAnswer("__TIMEOUT__", null); } left--; };
+                badge.style.display = 'flex';
+                badge.classList.remove('qPulse'); let left = Math.round(secs);
+                const tick = () => { text.textContent = left; if(left <= 5) badge.classList.add('qPulse');
+                if(left <= 0) { clearInterval(timerInterval); timerInterval = null; checkAnswer("__TIMEOUT__", null); } left--; };
                 tick(); timerInterval = setInterval(tick, 1000);
             } else { badge.style.display = 'none'; badge.classList.remove('qPulse'); }
         }
 
         document.getElementById('ansInput').addEventListener("keydown", (e) => { if(e.key === "Enter" && gameState === 'task_active') checkAnswer(document.getElementById('ansInput').value, null); });
-
         function checkAnswer(userValue, btnElement) {
-            if (gameState !== 'task_active') return; gameState = 'checking';
+            if (gameState !== 'task_active') return;
+            gameState = 'checking';
             if(timerInterval) { clearInterval(timerInterval); timerInterval = null; } try{ document.getElementById("qAudio").pause(); }catch(e){}
             const q = tasks[currentQuestionIndex]; let isCorrect = false;
-            let targetEl = btnElement; if (!targetEl && q.type === "input") targetEl = document.getElementById('ansInput');
-
-            if (userValue !== "__TIMEOUT__") { const valStr = normalizeAnswer(userValue); if (q.type === "input") isCorrect = (q.accepts || []).map(normalizeAnswer).includes(valStr); else isCorrect = (q.answers || []).map(normalizeAnswer).includes(valStr); }
-            currentQuestionIndex++; 
+            if (userValue !== "__TIMEOUT__") { const valStr = normalizeAnswer(userValue); if (q.type === "input") isCorrect = (q.accepts || []).map(normalizeAnswer).includes(valStr);
+            else isCorrect = (q.answers || []).map(normalizeAnswer).includes(valStr); }
+            currentQuestionIndex++;
             if (isCorrect) {
-                if (targetEl) targetEl.classList.add('correct'); 
-                playSuccessSound(); 
-                correctCount++;
-
-                if (window.confetti && targetEl) {
-                    const rect = targetEl.getBoundingClientRect();
-                    const x = (rect.left + rect.width / 2) / window.innerWidth;
-                    const y = (rect.top + rect.height / 2) / window.innerHeight;
-                    confetti({ particleCount: 100, spread: 70, origin: { x, y }, zIndex: 999999, colors: ['#ff9f43', '#0abde3', '#1dd1a1', '#ff6b6b', '#feca57'] });
-                }
-
-                setTimeout(() => { document.getElementById('task-modal').classList.remove('active'); document.getElementById('gDraftWrap').classList.remove('open'); document.getElementById('task-modal').classList.remove('draft-open'); dropToy(); }, 1500);
+                if (btnElement) btnElement.classList.add('correct');
+                document.getElementById('sound-success').play(); correctCount++;
+                setTimeout(() => { document.getElementById('task-modal').classList.remove('active'); document.getElementById('gDraftWrap').classList.remove('open'); document.getElementById('task-modal').classList.remove('draft-open'); dropToy(); }, 1000);
             } else {
-                if (targetEl) targetEl.classList.add('incorrect'); 
-                playErrorSound(); 
-                wrongCount++;
-                setTimeout(() => { if (targetEl) targetEl.classList.remove('incorrect'); document.getElementById('task-modal').classList.remove('active'); document.getElementById('gDraftWrap').classList.remove('open'); document.getElementById('task-modal').classList.remove('draft-open'); resetToy(selectedToyElement); }, 1200);
+                if (btnElement) btnElement.classList.add('incorrect');
+                document.getElementById('sound-error').play(); wrongCount++;
+                setTimeout(() => { if (btnElement) btnElement.classList.remove('incorrect'); document.getElementById('task-modal').classList.remove('active'); document.getElementById('gDraftWrap').classList.remove('open'); document.getElementById('task-modal').classList.remove('draft-open'); resetToy(selectedToyElement); }, 1000);
             }
         }
 
         function dropToy() {
-            gameContainer.appendChild(selectedToyElement); selectedToyElement.style.transform = 'none'; selectedToyElement.style.left = '45.16%'; selectedToyElement.style.top = '71.76%'; selectedToyElement.style.width = '5.58%'; selectedToyElement.style.height = '11.22%'; selectedToyElement.style.zIndex = '30'; selectedToyElement.style.pointerEvents = 'auto'; selectedToyElement.classList.add('collected');
+            gameContainer.appendChild(selectedToyElement);
+            selectedToyElement.style.transform = 'none'; selectedToyElement.style.left = '45.16%'; selectedToyElement.style.top = '71.76%'; selectedToyElement.style.width = '5.58%'; selectedToyElement.style.height = '11.22%'; selectedToyElement.style.zIndex = '30';
+            selectedToyElement.style.pointerEvents = 'auto'; selectedToyElement.classList.add('collected');
             setTimeout(() => { selectedToyElement.style.animation = 'blink 2s infinite'; selectedToyElement.onclick = () => moveToProgress(selectedToyElement); }, 1000);
         }
 
         function moveToProgress(toy) {
-            toy.style.animation = 'none'; toy.classList.add('toy-collected-anim'); 
-            playCoinDrop(); // Звук при добавлении в копилку
+            toy.style.animation = 'none';
+            toy.classList.add('toy-collected-anim'); document.getElementById('sound-progress').play();
             setTimeout(() => { toy.style.display = 'none'; const slot = document.createElement('div'); slot.className = 'collected-slot'; slot.innerHTML = '<img src="' + toy.src + '">'; progressArea.appendChild(slot); collectedToysCount++; checkGameEnd(); }, 500);
         }
         
@@ -577,27 +741,40 @@
         window.canvasScratch = canvasScratch; window.ctxScratch = ctxScratch;
         const taskModal = document.getElementById('task-modal'), draftWrap = document.getElementById('gDraftWrap'), drawToggle = document.getElementById('gDrawToggle'), draftClose = document.getElementById('gBtnDraftClose'), canvasClearBtn = document.getElementById('gCanvasClear'), drawColor = document.getElementById('gDrawColor'), drawSize = document.getElementById('gDrawSize'), drawEraser = document.getElementById('gDrawEraser');
         let isScratchDrawing = false, isEraser = false, lastX = 0, lastY = 0, cachedRect = null;
-
         if (canvasScratch) {
             function resizeScratchCanvas() {
-                const rect = drawArea.getBoundingClientRect(); if(rect.width === 0) return;
-                const dpr = window.devicePixelRatio || 1, tempCanvas = document.createElement('canvas'); tempCanvas.width = canvasScratch.width; tempCanvas.height = canvasScratch.height; tempCanvas.getContext('2d').drawImage(canvasScratch, 0, 0);
+                const rect = drawArea.getBoundingClientRect();
+                if(rect.width === 0) return;
+                const dpr = window.devicePixelRatio || 1, tempCanvas = document.createElement('canvas'); tempCanvas.width = canvasScratch.width; tempCanvas.height = canvasScratch.height;
+                tempCanvas.getContext('2d').drawImage(canvasScratch, 0, 0);
                 canvasScratch.width = rect.width * dpr; canvasScratch.height = rect.height * dpr;
-                ctxScratch.scale(dpr, dpr); ctxScratch.save(); ctxScratch.setTransform(1, 0, 0, 1, 0, 0); ctxScratch.drawImage(tempCanvas, 0, 0); ctxScratch.restore(); cachedRect = canvasScratch.getBoundingClientRect();
+                ctxScratch.scale(dpr, dpr); ctxScratch.save();
+                ctxScratch.setTransform(1, 0, 0, 1, 0, 0); ctxScratch.drawImage(tempCanvas, 0, 0); ctxScratch.restore(); cachedRect = canvasScratch.getBoundingClientRect();
             }
-            function getScratchMousePos(e) { if (!cachedRect) cachedRect = canvasScratch.getBoundingClientRect(); return { x: (e.clientX || e.touches?.[0].clientX) - cachedRect.left, y: (e.clientY || e.touches?.[0].clientY) - cachedRect.top }; }
-            function applyCtxStyle() { ctxScratch.lineWidth = drawSize.value; ctxScratch.lineCap = 'round'; ctxScratch.lineJoin = 'round'; if (isEraser) { ctxScratch.globalCompositeOperation = 'destination-out'; ctxScratch.strokeStyle = 'rgba(0,0,0,1)'; } else { ctxScratch.globalCompositeOperation = 'source-over'; ctxScratch.strokeStyle = drawColor.value; } }
-            const startScratchDraw = (e) => { isScratchDrawing = true; cachedRect = canvasScratch.getBoundingClientRect(); applyCtxStyle(); const pos = getScratchMousePos(e); lastX = pos.x; lastY = pos.y; ctxScratch.beginPath(); ctxScratch.moveTo(lastX, lastY); ctxScratch.lineTo(lastX + 0.01, lastY); ctxScratch.stroke(); };
-            const doScratchDraw = (e) => { if (!isScratchDrawing) return; const pos = getScratchMousePos(e); ctxScratch.beginPath(); ctxScratch.moveTo(lastX, lastY); ctxScratch.lineTo(pos.x, pos.y); lastX = pos.x; lastY = pos.y; ctxScratch.stroke(); if(e.cancelable && e.type.startsWith('touch')) e.preventDefault(); };
+            function getScratchMousePos(e) { if (!cachedRect) cachedRect = canvasScratch.getBoundingClientRect();
+                return { x: (e.clientX || e.touches?.[0].clientX) - cachedRect.left, y: (e.clientY || e.touches?.[0].clientY) - cachedRect.top };
+            }
+            function applyCtxStyle() { ctxScratch.lineWidth = drawSize.value;
+                ctxScratch.lineCap = 'round'; ctxScratch.lineJoin = 'round'; if (isEraser) { ctxScratch.globalCompositeOperation = 'destination-out'; ctxScratch.strokeStyle = 'rgba(0,0,0,1)';
+                } else { ctxScratch.globalCompositeOperation = 'source-over'; ctxScratch.strokeStyle = drawColor.value; } }
+            const startScratchDraw = (e) => { isScratchDrawing = true;
+                cachedRect = canvasScratch.getBoundingClientRect(); applyCtxStyle(); const pos = getScratchMousePos(e); lastX = pos.x; lastY = pos.y; ctxScratch.beginPath(); ctxScratch.moveTo(lastX, lastY);
+                ctxScratch.lineTo(lastX + 0.01, lastY); ctxScratch.stroke(); };
+            const doScratchDraw = (e) => { if (!isScratchDrawing) return; const pos = getScratchMousePos(e); ctxScratch.beginPath();
+                ctxScratch.moveTo(lastX, lastY); ctxScratch.lineTo(pos.x, pos.y); lastX = pos.x; lastY = pos.y; ctxScratch.stroke(); if(e.cancelable && e.type.startsWith('touch')) e.preventDefault(); };
             const stopScratchDraw = () => { isScratchDrawing = false; };
             
-            canvasScratch.addEventListener('pointerdown', startScratchDraw, {passive: false}); canvasScratch.addEventListener('pointermove', doScratchDraw, {passive: false}); canvasScratch.addEventListener('pointerup', stopScratchDraw); canvasScratch.addEventListener('pointerout', stopScratchDraw);
+            canvasScratch.addEventListener('pointerdown', startScratchDraw, {passive: false}); canvasScratch.addEventListener('pointermove', doScratchDraw, {passive: false}); canvasScratch.addEventListener('pointerup', stopScratchDraw);
+            canvasScratch.addEventListener('pointerout', stopScratchDraw);
             canvasScratch.addEventListener('touchstart', startScratchDraw, {passive: false}); canvasScratch.addEventListener('touchmove', doScratchDraw, {passive: false}); canvasScratch.addEventListener('touchend', stopScratchDraw);
 
-            canvasClearBtn.onclick = () => { ctxScratch.save(); ctxScratch.setTransform(1, 0, 0, 1, 0, 0); ctxScratch.clearRect(0, 0, canvasScratch.width, canvasScratch.height); ctxScratch.restore(); };
-            drawEraser.onclick = () => { isEraser = !isEraser; drawEraser.classList.toggle('active', isEraser); }; drawColor.addEventListener('input', () => { isEraser = false; drawEraser.classList.remove('active'); });
+            canvasClearBtn.onclick = () => { ctxScratch.save();
+                ctxScratch.setTransform(1, 0, 0, 1, 0, 0); ctxScratch.clearRect(0, 0, canvasScratch.width, canvasScratch.height); ctxScratch.restore(); };
+            drawEraser.onclick = () => { isEraser = !isEraser;
+                drawEraser.classList.toggle('active', isEraser); }; drawColor.addEventListener('input', () => { isEraser = false; drawEraser.classList.remove('active'); });
 
-            drawToggle.onclick = () => { draftWrap.classList.add('open'); taskModal.classList.add('draft-open'); setTimeout(resizeScratchCanvas, 400); };
+            drawToggle.onclick = () => { draftWrap.classList.add('open'); taskModal.classList.add('draft-open');
+                setTimeout(resizeScratchCanvas, 400); };
             draftClose.onclick = () => { draftWrap.classList.remove('open'); taskModal.classList.remove('draft-open'); };
             window.addEventListener("resize", () => { if (draftWrap.classList.contains('open')) resizeScratchCanvas(); });
         }
@@ -605,78 +782,105 @@
   `;
 
   function injectCanvasGame(cfg){
-    const root = $("gameRoot"); root.innerHTML = __GAME_HTML__;
+    const root = $("gameRoot");
+    root.innerHTML = __GAME_HTML__;
     let st = document.getElementById("__claw_game_style");
     if(!st){ st = document.createElement("style"); st.id="__claw_game_style"; st.textContent = __GAME_CSS__; document.head.appendChild(st); }
     window.__CFG = { title: cfg.title || "Игровой автомат", questions: cfg.questions || [], useLatex: !!cfg.useLatex, bgDataUrl: cfg.bgDataUrl || "", timer: cfg.timer, instruction: cfg.instruction, feedback: cfg.feedback };
     
     if(!window.__CLAW_GAME_RAN__){ window.__CLAW_GAME_RAN__ = true; try{ eval(__GAME_JS__); }catch(e){ showErr(e?.stack || e?.message || String(e)); }
-    } else { try{ if(typeof initGameData === 'function') initGameData(); const startLayer = document.getElementById("start"); if(startLayer) startLayer.style.display="flex"; const qp = new URLSearchParams(location.search); if(qp.get("autostart")==="1"){ const pBtn = document.getElementById("playBtn"); if(pBtn) pBtn.click(); } }catch(e){} }
+    } else { try{ if(typeof initGameData === 'function') initGameData();
+    const startLayer = document.getElementById("start"); if(startLayer) startLayer.style.display="flex"; const qp = new URLSearchParams(location.search); if(qp.get("autostart")==="1"){ const pBtn = document.getElementById("playBtn"); if(pBtn) pBtn.click();
+    } }catch(e){} }
   }
 
   function uid(){ return "q_" + Math.random().toString(36).slice(2,9) + "_" + Date.now().toString(36); }
   function deepClone(obj){ return JSON.parse(JSON.stringify(obj)); }
-  function toast(msg){ const tEl = $("toast"); if (!tEl) return; tEl.textContent = msg; tEl.classList.add("show"); setTimeout(()=>tEl.classList.remove("show"), 1400); }
-  async function copyToClipboard(text){ try{ if (navigator.clipboard && window.isSecureContext){ await navigator.clipboard.writeText(text); return true; } }catch(e){} try{ const ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.left = "0"; ta.style.top = "0"; ta.style.opacity = "0"; ta.style.width = "1px"; ta.style.height = "1px"; ta.style.pointerEvents = "none"; ta.style.zIndex = "-1"; document.body.appendChild(ta); ta.focus(); ta.select(); ta.setSelectionRange(0, ta.value.length); const ok = document.execCommand("copy"); document.body.removeChild(ta); return ok; }catch(e){ return false; } }
+  function toast(msg){ const tEl = $("toast"); if (!tEl) return; tEl.textContent = msg;
+    tEl.classList.add("show"); setTimeout(()=>tEl.classList.remove("show"), 1400); }
+  async function copyToClipboard(text){ try{ if (navigator.clipboard && window.isSecureContext){ await navigator.clipboard.writeText(text); return true;
+    } }catch(e){} try{ const ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.left = "0";
+    ta.style.top = "0"; ta.style.opacity = "0"; ta.style.width = "1px"; ta.style.height = "1px"; ta.style.pointerEvents = "none"; ta.style.zIndex = "-1"; document.body.appendChild(ta); ta.focus();
+    ta.select(); ta.setSelectionRange(0, ta.value.length); const ok = document.execCommand("copy"); document.body.removeChild(ta); return ok; }catch(e){ return false;
+    } }
   function selfPageUrl(){ let p = location.pathname || "/"; if(p.endsWith("/")) p += "index.html"; return location.origin + p; }
-  function parseQueryParams(){ const q = {}; const s = window.location.search.replace(/^\?/, ""); s.split("&").filter(Boolean).forEach(pair=>{ const [k,v] = pair.split("="); if(k) q[decodeURIComponent(k)] = decodeURIComponent(v||""); }); return q; }
-  function parseHashParams(){ const h = (location.hash || "").replace(/^#/, ""); const out = {}; h.split("&").filter(Boolean).forEach(pair=>{ const [k,v] = pair.split("="); if(k) out[decodeURIComponent(k)] = decodeURIComponent(v || ""); }); return out; }
+  function parseQueryParams(){ const q = {}; const s = window.location.search.replace(/^\?/, "");
+    s.split("&").filter(Boolean).forEach(pair=>{ const [k,v] = pair.split("="); if(k) q[decodeURIComponent(k)] = decodeURIComponent(v||""); }); return q; }
+  function parseHashParams(){ const h = (location.hash || "").replace(/^#/, ""); const out = {};
+    h.split("&").filter(Boolean).forEach(pair=>{ const [k,v] = pair.split("="); if(k) out[decodeURIComponent(k)] = decodeURIComponent(v || ""); }); return out; }
 
   function packPayload(p) {
-      const out = {}; if (p.title && p.title !== "Игровой автомат") out.ti = p.title; if (p.bgDataUrl) out.bg = p.bgDataUrl; if (p.useLatex) out.ul = 1; if (p.timer && p.timer.enabled) { out.tm = 1; out.ts = p.timer.seconds; }
-      if (p.instruction) { out.i = {}; if (p.instruction.text !== "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!") out.i.t = p.instruction.text; if (Object.keys(out.i).length === 0) delete out.i; }
+      const out = {};
+      if (p.title && p.title !== "Игровой автомат") out.ti = p.title; if (p.bgDataUrl) out.bg = p.bgDataUrl; if (p.useLatex) out.ul = 1;
+      if (p.timer && p.timer.enabled) { out.tm = 1; out.ts = p.timer.seconds; }
+      if (p.instruction) { out.i = {};
+      if (p.instruction.text !== "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!") out.i.t = p.instruction.text;
+      if (Object.keys(out.i).length === 0) delete out.i; }
       if (p.feedback && p.feedback.text) out.f = p.feedback.text;
-      out.q = (p.questions || []).map(q => { const mq = {}; mq.t = q.type === "text" ? 1 : 0; if (q.prompt) mq.p = q.prompt; if (mq.t === 0) { if (q.options) mq.o = q.options; if (q.correctIndices && (q.correctIndices.length > 1 || q.correctIndices[0] !== 0)) mq.c = q.correctIndices; } else { if (q.accepts) mq.a = q.accepts; } if (q.seconds) mq.s = q.seconds; if (q.image) mq.i = q.image; if (q.audio) mq.au = q.audio; if (q.font) mq.fn = q.font; if (q.fontSize && q.fontSize !== 32) mq.fs = q.fontSize; return mq; }); return out;
+      out.q = (p.questions || []).map(q => { const mq = {}; mq.t = q.type === "text" ? 1 : 0; if (q.prompt) mq.p = q.prompt; if (mq.t === 0) { if (q.options) mq.o = q.options; if (q.correctIndices && (q.correctIndices.length > 1 || q.correctIndices[0] !== 0)) mq.c = q.correctIndices; } else { if (q.accepts) mq.a = q.accepts; } if (q.seconds) mq.s = q.seconds; if (q.image) mq.i = q.image; if (q.audio) mq.au = q.audio; if (q.font) mq.fn = q.font; if (q.fontSize && q.fontSize !== 32) mq.fs = q.fontSize; return mq; });
+      return out;
   }
 
   function unpackPayload(out) {
-      if (!out || typeof out !== 'object') return normalizeCfg({}); if (out.questions) return normalizeCfg(out); 
-      const p = { title: out.ti || "Игровой автомат", useLatex: !!out.ul, bgDataUrl: out.bg || "", timer: { enabled: !!out.tm, seconds: out.ts || 30 }, instruction: { text: (out.i && out.i.t !== undefined) ? out.i.t : "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!" }, feedback: { text: out.f || "" }, questions: (out.q || []).map(mq => { const q = {}; q.type = mq.t === 1 ? "text" : "choice"; q.prompt = mq.p || ""; if (q.type === "choice") { q.options = mq.o || ["Да", "Нет"]; q.correctIndices = mq.c || [0]; } else { q.accepts = mq.a || ["Ответ"]; } q.seconds = mq.s || null; q.image = mq.i || ""; q.audio = mq.au || ""; q.font = mq.fn = q.font; q.fontSize = mq.fs || null; return q; }) }; return normalizeCfg(p);
+      if (!out || typeof out !== 'object') return normalizeCfg({});
+      if (out.questions) return normalizeCfg(out); 
+      const p = { title: out.ti || "Игровой автомат", useLatex: !!out.ul, bgDataUrl: out.bg || "", timer: { enabled: !!out.tm, seconds: out.ts || 30 }, instruction: { text: (out.i && out.i.t !== undefined) ? out.i.t : "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!" }, feedback: { text: out.f || "" }, questions: (out.q || []).map(mq => { const q = {}; q.type = mq.t === 1 ? "text" : "choice"; q.prompt = mq.p || ""; if (q.type === "choice") { q.options = mq.o || ["Да", "Нет"]; q.correctIndices = mq.c || [0]; } else { q.accepts = mq.a || ["Ответ"]; } q.seconds = mq.s || null; q.image = mq.i || ""; q.audio = mq.au || ""; q.font = mq.fn = q.font; q.fontSize = mq.fs || null; return q; }) };
+      return normalizeCfg(p);
   }
 
   function encodeGameData(payload) { return "~" + LZString.compressToEncodedURIComponent(JSON.stringify(packPayload(payload))); }
-  function decodeGameData(str) { if (str.startsWith("~")) return unpackPayload(JSON.parse(LZString.decompressFromEncodedURIComponent(str.slice(1)))); let s = String(str||"").replaceAll("-","+").replaceAll("_","/"); while(s.length % 4) s += "="; return unpackPayload(JSON.parse(decodeURIComponent(escape(atob(s))))); }
+  function decodeGameData(str) { if (str.startsWith("~")) return unpackPayload(JSON.parse(LZString.decompressFromEncodedURIComponent(str.slice(1))));
+      let s = String(str||"").replaceAll("-","+").replaceAll("_","/"); while(s.length % 4) s += "="; return unpackPayload(JSON.parse(decodeURIComponent(escape(atob(s)))));
+  }
 
   function normalizeCfg(raw){
-    const cfg = raw && typeof raw === "object" ? raw : {}; const title = String(cfg.title || "Игровой автомат"), bgDataUrl = String(cfg.bgDataUrl || ""), useLatex = !!cfg.useLatex; const timerEnabled = !!cfg.timer?.enabled, timerSeconds = Math.max(5, Math.min(600, Number(cfg.timer?.seconds || 30))); const instruction = { text: cfg.instruction?.text !== undefined ? String(cfg.instruction.text) : "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!" }; const feedback = { text: cfg.feedback?.text !== undefined ? String(cfg.feedback.text) : "" };
+    const cfg = raw && typeof raw === "object" ? raw : {};
+    const title = String(cfg.title || "Игровой автомат"), bgDataUrl = String(cfg.bgDataUrl || ""), useLatex = !!cfg.useLatex;
+    const timerEnabled = !!cfg.timer?.enabled, timerSeconds = Math.max(5, Math.min(600, Number(cfg.timer?.seconds || 30))); const instruction = { text: cfg.instruction?.text !== undefined ? String(cfg.instruction.text) : "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!" }; const feedback = { text: cfg.feedback?.text !== undefined ? String(cfg.feedback.text) : "" };
     let questions = Array.isArray(cfg.questions) ? cfg.questions.slice(0,9) : [];
     questions = questions.map(q=>{ const rawSecs = (q && ("seconds" in q)) ? q.seconds : null; const nSecs = (rawSecs==null || rawSecs==="") ? null : Number(rawSecs); const seconds = (Number.isFinite(nSecs) && nSecs>0) ? Math.max(1, Math.min(600, Math.round(nSecs))) : null; const image = String(q?.image || "").trim(), audio = String(q?.audio || "").trim(), font = String(q?.font || "").trim(), fontSize = q?.fontSize ? Number(q.fontSize) : null; if(q?.type === "text" || q?.type === "input"){ return { type:"text", prompt:String(q.prompt||""), accepts:(Array.isArray(q.accepts)?q.accepts:[String(q.answer||"")]).map(x=>String(x||"")), seconds, image, audio, font, fontSize }; } return { type:"choice", prompt:String(q?.prompt||""), options:(Array.isArray(q?.options)?q.options:[]).map(x=>String(x||"")), correctIndices: (Array.isArray(q?.correctIndices) ? q.correctIndices : [Number(q?.correctIndex||0)]), seconds, image, audio, font, fontSize }; });
     return { title, bgDataUrl, timer: { enabled: timerEnabled, seconds: timerSeconds }, useLatex, questions, instruction, feedback };
   }
 
   const Editor = { title: "Игровой автомат", bgDataUrl: "", timer: { enabled:false, seconds: 30 }, useLatex: false, instruction: { text: "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!" }, feedback: { text: "" }, questions: [], draft: null, editingId: null };
-
+  
   function setCountPill(){ $("pillCount").textContent = Editor.questions.length + " / 9"; $("btnAddQ").disabled = (Editor.questions.length >= 9); if($("btnImportQ")) $("btnImportQ").disabled = (Editor.questions.length >= 9); }
   function escapeHtml(s){ return String(s ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;"); }
   function qSummary(q){ const p = String(q.prompt || "").trim(); const short = p.length > 50 ? p.slice(0,50)+"…" : p; let type = (q.type==="choice" || q.type==="choice") ? "Выбор" : "Ввод"; if (q.image || q.audio) type += " (+ медиа)"; return { title: short || "(пусто)", sub: type }; }
 
-  let draggedQIdx = null; window.dragQ = (e, i) => { draggedQIdx = i; e.dataTransfer.effectAllowed = 'move'; setTimeout(() => e.target.style.opacity = '0.5', 0); }; window.dragEndQ = (e) => { e.target.style.opacity = '1'; }; window.allowDropQ = (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }; window.dragEnterQ = (e) => { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }; window.dragLeaveQ = (e) => { e.currentTarget.classList.remove('drag-over'); };
+  let draggedQIdx = null; window.dragQ = (e, i) => { draggedQIdx = i; e.dataTransfer.effectAllowed = 'move'; setTimeout(() => e.target.style.opacity = '0.5', 0); }; window.dragEndQ = (e) => { e.target.style.opacity = '1'; }; window.allowDropQ = (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }; 
+  window.dragEnterQ = (e) => { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }; window.dragLeaveQ = (e) => { e.currentTarget.classList.remove('drag-over'); };
   window.dropQ = (e, i) => { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); if(draggedQIdx === null || draggedQIdx === i) return; const item = Editor.questions.splice(draggedQIdx, 1)[0]; Editor.questions.splice(i, 0, item); draggedQIdx = null; renderList(); updatePreview(false); };
-  window.copyQ = (i) => { if(Editor.questions.length >= 9) { toast("Максимум 9 вопросов!"); return; } const qCopy = deepClone(Editor.questions[i]); qCopy.id = uid(); Editor.questions.splice(i + 1, 0, qCopy); renderList(); updatePreview(false); toast("Вопрос скопирован"); };
-  window.delQ = (id) => { Editor.questions = Editor.questions.filter(x => x.id !== id); renderList(); updatePreview(false); toast("Удалено"); };
-  window.previewQ = (i) => { Editor.draft = deepClone(Editor.questions[i]); updatePreview(true); toast("Показано в превью"); };
+  window.copyQ = (i) => { if(Editor.questions.length >= 9) { toast(i18n[currentLang].toast_limit); return; } const qCopy = deepClone(Editor.questions[i]); qCopy.id = uid(); Editor.questions.splice(i + 1, 0, qCopy); renderList(); updatePreview(false); toast(i18n[currentLang].toast_copied); };
+  window.delQ = (id) => { Editor.questions = Editor.questions.filter(x => x.id !== id); renderList(); updatePreview(false); toast(i18n[currentLang].toast_q_deleted); };
+  window.previewQ = (i) => { Editor.draft = deepClone(Editor.questions[i]); updatePreview(true); toast(i18n[currentLang].toast_preview); };
   window.editQ = (i) => { openModal(Editor.questions[i]); };
 
   function renderList() {
     const list = $("qList"); list.innerHTML = ""; setCountPill();
-    if(Editor.questions.length === 0){ const d = document.createElement("div"); d.className = "muted"; d.textContent = "Пока нет вопросов. Заполните все 9."; list.appendChild(d);
+    if(Editor.questions.length === 0){ const d = document.createElement("div"); d.className = "muted"; d.textContent = i18n[currentLang].empty_q; list.appendChild(d);
     } else {
       list.innerHTML = Editor.questions.map((q, i) => {
         const s = qSummary(q);
         return `<div class="q-item" draggable="true" ondragstart="dragQ(event, ${i})" ondragend="dragEndQ(event)" ondragover="allowDropQ(event)" ondragenter="dragEnterQ(event)" ondragleave="dragLeaveQ(event)" ondrop="dropQ(event, ${i})">
             <div class="meta cursor-grab"><div class="t"><b>#${i+1} ☰</b> ${escapeHtml(s.title)}</div><div class="s">${escapeHtml(s.sub)}</div></div>
-            <div style="display:flex; gap:4px;"><button class="btn small" onclick="previewQ(${i})" type="button" title="В превью">👁</button><button class="btn small" onclick="copyQ(${i})" type="button" title="Дублировать">📋</button><button class="btn small" onclick="editQ(${i})" type="button" title="Редактировать">✏️</button><button class="btn small danger" onclick="delQ('${q.id}')" type="button" title="Удалить">🗑</button></div></div>`;
+            <div style="display:flex; gap:4px;"><button class="btn small" onclick="previewQ(${i})" type="button" title="${i18n[currentLang].btn_preview.split(' ')[1]}">👁</button><button class="btn small" onclick="copyQ(${i})" type="button" title="${i18n[currentLang].btn_dup}">📋</button><button class="btn small" onclick="editQ(${i})" type="button" title="${i18n[currentLang].btn_edit}">✏️</button><button class="btn small danger" onclick="delQ('${q.id}')" type="button" title="${i18n[currentLang].btn_del}">🗑</button></div></div>`;
       }).join('');
     }
     const sel = $("newQTemplate");
-    if(sel){ const val = sel.value; sel.innerHTML = '<option value="-1">Стандартные (по умолчанию)</option>'; Editor.questions.forEach((q, i) => { sel.innerHTML += '<option value="' + i + '">Как в вопросе #' + (i+1) + '</option>'; }); if(val && Editor.questions[val]) sel.value = val; else sel.value = "-1"; }
+    if(sel){ const val = sel.value;
+      sel.innerHTML = '<option value="-1">' + i18n[currentLang].tpl_default + '</option>'; Editor.questions.forEach((q, i) => { sel.innerHTML += '<option value="' + i + '">#' + (i+1) + '</option>'; });
+      if(val && Editor.questions[val]) sel.value = val; else sel.value = "-1";
+    }
   }
 
   window.applyTemplateToAll = () => {
-    if(Editor.questions.length === 0) return; const tplIdx = parseInt($("newQTemplate").value); if(!confirm("Применить настройки (шрифт, размер, таймер, ТИП вопроса) ко всем вопросам?")) return;
-    let baseQ = { font: "", fontSize: 32, seconds: null, type: "choice" }; if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; baseQ = { font: tq.font, fontSize: tq.fontSize, seconds: tq.seconds, type: tq.type }; }
-    Editor.questions.forEach(q => { q.font = baseQ.font; q.fontSize = baseQ.fontSize; q.seconds = baseQ.seconds; if (q.type !== baseQ.type) { q.type = baseQ.type; if (q.type === 'choice') { let ans = (q.accepts && q.accepts.length > 0) ? q.accepts[0] : ""; q.options = [ans, "Вариант 2"]; q.correctIndices = [0]; delete q.accepts; } else { let ans = ""; if (q.options && q.correctIndices && q.correctIndices.length > 0) ans = q.options[q.correctIndices[0]] || ""; q.accepts = [ans]; delete q.options; delete q.correctIndices; } } });
-    renderList(); updatePreview(false); toast("Настройки применены!");
+    if(Editor.questions.length === 0) return; const tplIdx = parseInt($("newQTemplate").value);
+    if(!confirm(i18n[currentLang].confirm_tpl)) return;
+    let baseQ = { font: "", fontSize: 32, seconds: null, type: "choice" };
+    if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; baseQ = { font: tq.font, fontSize: tq.fontSize, seconds: tq.seconds, type: tq.type }; }
+    Editor.questions.forEach(q => { q.font = baseQ.font; q.fontSize = baseQ.fontSize; q.seconds = baseQ.seconds; if (q.type !== baseQ.type) { q.type = baseQ.type; if (q.type === 'choice') { let ans = (q.accepts && q.accepts.length > 0) ? q.accepts[0] : ""; q.options = [ans, "Option 2"]; q.correctIndices = [0]; delete q.accepts; } else { let ans = ""; if (q.options && q.correctIndices && q.correctIndices.length > 0) ans = q.options[q.correctIndices[0]] || ""; q.accepts = [ans]; delete q.options; delete q.correctIndices; } } });
+    renderList(); updatePreview(false); toast(i18n[currentLang].toast_tpl_applied);
   };
 
   function showModal(){ $("modalBackdrop").style.display = "block"; $("modalBackdrop").setAttribute("aria-hidden","false"); }
@@ -684,36 +888,58 @@
   function syncModalType(){ const ty = $("selType").value; $("choiceWrap").style.display = (ty==="choice") ? "block" : "none"; $("textWrap").style.display = (ty==="text") ? "block" : "none"; }
 
   function renderChoiceUI(){
-    const list = $("choiceList"); list.innerHTML = ""; const q = Editor.draft; if(!q) return; q.options = q.options || ["",""]; q.correctIndices = q.correctIndices || (typeof q.correctIndex === "number" ? [q.correctIndex] : [0]);
-    q.options.forEach((val, idx)=>{ const row = document.createElement("div"); row.className = "answerRow"; const r = document.createElement("input"); r.className="radio"; r.type="checkbox"; r.checked = q.correctIndices.includes(idx); r.onchange = (e)=>{ if (e.target.checked) { if (!q.correctIndices.includes(idx)) q.correctIndices.push(idx); } else { q.correctIndices = q.correctIndices.filter(i => i !== idx); } renderChoiceUI(); }; const inp = document.createElement("input"); inp.type="text"; inp.value = val || ""; inp.placeholder = q.correctIndices.includes(idx) ? "✅ Верный ответ" : ("Вариант " + (idx+1)); inp.oninput = ()=>{ q.options[idx] = inp.value; }; const del = document.createElement("button"); del.className="btn small danger"; del.type="button"; del.textContent="✖"; del.onclick = ()=>{ q.options.splice(idx,1); if(q.options.length < 2) q.options.push(""); q.correctIndices = q.correctIndices.filter(i => i !== idx).map(i => i > idx ? i - 1 : i); if(q.correctIndices.length === 0) q.correctIndices = [0]; renderChoiceUI(); }; row.appendChild(r); row.appendChild(inp); row.appendChild(del); list.appendChild(row); });
+    const list = $("choiceList"); list.innerHTML = "";
+    const q = Editor.draft; if(!q) return; q.options = q.options || ["",""]; q.correctIndices = q.correctIndices || (typeof q.correctIndex === "number" ? [q.correctIndex] : [0]);
+    q.options.forEach((val, idx)=>{ const row = document.createElement("div"); row.className = "answerRow"; const r = document.createElement("input"); r.className="radio"; r.type="checkbox"; r.checked = q.correctIndices.includes(idx); r.onchange = (e)=>{ if (e.target.checked) { if (!q.correctIndices.includes(idx)) q.correctIndices.push(idx); } else { q.correctIndices = q.correctIndices.filter(i => i !== idx); } renderChoiceUI(); }; const inp = document.createElement("input"); inp.type="text"; inp.value = val || ""; inp.placeholder = q.correctIndices.includes(idx) ? i18n[currentLang].ans_correct : (i18n[currentLang].ans_variant + (idx+1)); inp.oninput = ()=>{ q.options[idx] = inp.value; }; const del = document.createElement("button"); del.className="btn small danger"; del.type="button"; del.textContent="✖"; del.onclick = ()=>{ q.options.splice(idx,1); if(q.options.length < 2) q.options.push(""); q.correctIndices = q.correctIndices.filter(i => i !== idx).map(i => i > idx ? i - 1 : i); if(q.correctIndices.length === 0) q.correctIndices = [0]; renderChoiceUI(); }; row.appendChild(r);
+    row.appendChild(inp); row.appendChild(del); list.appendChild(row); });
   }
 
   function renderTextUI(){
-    const list = $("textList"); list.innerHTML = ""; const q = Editor.draft; if(!q) return; q.accepts = q.accepts || [""];
-    q.accepts.forEach((val, idx)=>{ const row = document.createElement("div"); row.className = "answerRow"; const inp = document.createElement("input"); inp.type="text"; inp.value = val || ""; inp.placeholder = (idx===0) ? "✅ Верный ответ" : ("Верный вариант " + (idx+1)); inp.oninput = ()=>{ q.accepts[idx] = inp.value; }; const del = document.createElement("button"); del.className="btn small danger"; del.type="button"; del.textContent="✖"; del.onclick = ()=>{ q.accepts.splice(idx,1); if(q.accepts.length === 0) q.accepts.push(""); renderTextUI(); }; row.appendChild(inp); row.appendChild(del); list.appendChild(row); });
+    const list = $("textList"); list.innerHTML = "";
+    const q = Editor.draft; if(!q) return; q.accepts = q.accepts || [""];
+    q.accepts.forEach((val, idx)=>{ const row = document.createElement("div"); row.className = "answerRow"; const inp = document.createElement("input"); inp.type="text"; inp.value = val || ""; inp.placeholder = (idx===0) ? i18n[currentLang].ans_correct : (i18n[currentLang].ans_correct_variant + (idx+1)); inp.oninput = ()=>{ q.accepts[idx] = inp.value; }; const del = document.createElement("button"); del.className="btn small danger"; del.type="button"; del.textContent="✖"; del.onclick = ()=>{ q.accepts.splice(idx,1); if(q.accepts.length === 0) q.accepts.push(""); renderTextUI(); }; row.appendChild(inp); row.appendChild(del); list.appendChild(row); });
   }
 
   function openModal(existing=null){
-    if(existing){ Editor.draft = deepClone(existing); if(typeof Editor.draft.correctIndex === "number" && !Editor.draft.correctIndices) Editor.draft.correctIndices = [Editor.draft.correctIndex]; Editor.editingId = existing.id; $("modalTitle").textContent = "Редактировать вопрос";
-    } else { Editor.draft = { id: uid(), type: "choice", prompt: "", options: ["",""], correctIndices: [0], seconds: null, image: "", audio: "", font: "", fontSize: 32 }; Editor.editingId = null; $("modalTitle").textContent = "Добавить вопрос"; const tplIdx = parseInt($("newQTemplate") ? $("newQTemplate").value : "-1"); if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; Editor.draft.font = tq.font; Editor.draft.fontSize = tq.fontSize; Editor.draft.seconds = tq.seconds; Editor.draft.type = tq.type; if (tq.type === 'choice') { Editor.draft.options = ["",""]; Editor.draft.correctIndices = [0]; delete Editor.draft.accepts; } else { Editor.draft.accepts = [""]; delete Editor.draft.options; delete Editor.draft.correctIndices; } } }
+    if(existing){ Editor.draft = deepClone(existing); if(typeof Editor.draft.correctIndex === "number" && !Editor.draft.correctIndices) Editor.draft.correctIndices = [Editor.draft.correctIndex];
+    Editor.editingId = existing.id; $("modalTitle").innerHTML = i18n[currentLang].modal_edit_title;
+    } else { Editor.draft = { id: uid(), type: "choice", prompt: "", options: ["",""], correctIndices: [0], seconds: null, image: "", audio: "", font: "", fontSize: 32 };
+    Editor.editingId = null; $("modalTitle").innerHTML = i18n[currentLang].modal_add_title; const tplIdx = parseInt($("newQTemplate") ? $("newQTemplate").value : "-1");
+    if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; Editor.draft.font = tq.font; Editor.draft.fontSize = tq.fontSize; Editor.draft.seconds = tq.seconds;
+    Editor.draft.type = tq.type; if (tq.type === 'choice') { Editor.draft.options = ["",""]; Editor.draft.correctIndices = [0]; delete Editor.draft.accepts;
+    } else { Editor.draft.accepts = [""]; delete Editor.draft.options; delete Editor.draft.correctIndices; } } }
     $("selType").value = Editor.draft.type || "choice"; $("inpPrompt").value = Editor.draft.prompt || "";
-    if(!("font" in Editor.draft)) Editor.draft.font = ""; if($("inpQFont")) $("inpQFont").value = Editor.draft.font; if(!("fontSize" in Editor.draft)) Editor.draft.fontSize = 32; if($("inpQFontSize")) $("inpQFontSize").value = Editor.draft.fontSize || 32; if(!("seconds" in Editor.draft)) Editor.draft.seconds = null; if($("inpQSeconds")) $("inpQSeconds").value = (Editor.draft.seconds ?? ""); if(!("image" in Editor.draft)) Editor.draft.image = ""; if(!("audio" in Editor.draft)) Editor.draft.audio = ""; if($("inpQImage")) $("inpQImage").value = Editor.draft.image; if($("inpQAudio")) $("inpQAudio").value = Editor.draft.audio;
+    if(!("font" in Editor.draft)) Editor.draft.font = ""; if($("inpQFont")) $("inpQFont").value = Editor.draft.font;
+    if(!("fontSize" in Editor.draft)) Editor.draft.fontSize = 32; if($("inpQFontSize")) $("inpQFontSize").value = Editor.draft.fontSize || 32; if(!("seconds" in Editor.draft)) Editor.draft.seconds = null;
+    if($("inpQSeconds")) $("inpQSeconds").value = (Editor.draft.seconds ?? ""); if(!("image" in Editor.draft)) Editor.draft.image = ""; if(!("audio" in Editor.draft)) Editor.draft.audio = "";
+    if($("inpQImage")) $("inpQImage").value = Editor.draft.image; if($("inpQAudio")) $("inpQAudio").value = Editor.draft.audio;
     syncModalType(); if($("selType").value === "choice") renderChoiceUI(); else renderTextUI(); showModal(); setTimeout(()=>$("inpPrompt").focus(), 40);
   }
 
   function getDraftFromModal(){
-    const q = Editor.draft; if(!q) return null; q.type = $("selType").value; q.prompt = $("inpPrompt").value || ""; q.font = $("inpQFont") ? $("inpQFont").value : ""; q.fontSize = $("inpQFontSize") ? Number($("inpQFontSize").value) || 32 : 32; q.seconds = ($("inpQSeconds") && $("inpQSeconds").value !== "") ? Number($("inpQSeconds").value) : null; if(q.seconds != null){ const s = Number(q.seconds); if(!Number.isFinite(s) || s < 3 || s > 600) return "Таймер вопроса: 3–600 секунд"; q.seconds = Math.round(s); } q.image = $("inpQImage") ? $("inpQImage").value.trim() : ""; q.audio = $("inpQAudio") ? $("inpQAudio").value.trim() : ""; if(q.type === "choice"){ q.options = (q.options || []).map(x=>String(x||"")); q.correctIndices = Array.isArray(q.correctIndices) && q.correctIndices.length ? q.correctIndices : [0]; } else { q.accepts = (q.accepts || [""]).map(x=>String(x||"")); } return q;
+    const q = Editor.draft; if(!q) return null; q.type = $("selType").value;
+    q.prompt = $("inpPrompt").value || ""; q.font = $("inpQFont") ? $("inpQFont").value : ""; q.fontSize = $("inpQFontSize") ? Number($("inpQFontSize").value) || 32 : 32; q.seconds = ($("inpQSeconds") && $("inpQSeconds").value !== "") ? Number($("inpQSeconds").value) : null;
+    if(q.seconds != null){ const s = Number(q.seconds); if(!Number.isFinite(s) || s < 3 || s > 600) return "Timer error: 3–600";
+    q.seconds = Math.round(s); } q.image = $("inpQImage") ? $("inpQImage").value.trim() : ""; q.audio = $("inpQAudio") ? $("inpQAudio").value.trim() : "";
+    if(q.type === "choice"){ q.options = (q.options || []).map(x=>String(x||"")); q.correctIndices = Array.isArray(q.correctIndices) && q.correctIndices.length ? q.correctIndices : [0];
+    } else { q.accepts = (q.accepts || [""]).map(x=>String(x||"")); } return q;
   }
 
   function validateQuestion(q){
-    if(!q) return "Пустой вопрос"; if(!(q.prompt||"").trim()) return "Введите текст";
-    if(q.type === "choice"){ const opts = (q.options||[]).map(x=>String(x||"").trim()).filter(Boolean); if(opts.length < 2) return "Минимум 2 варианта"; q.options = opts; if(!q.correctIndices || q.correctIndices.length === 0) return "Отметьте верный ответ"; q.correctIndices = q.correctIndices.filter(i => i >= 0 && i < q.options.length); if(q.correctIndices.length === 0) q.correctIndices = [0]; return ""; }
-    const acc = (q.accepts||[]).map(x=>String(x||"").trim()).filter(Boolean); if(acc.length === 0) return "Отметьте верный ответ"; q.accepts = acc; return "";
+    if(!q) return "Empty question"; if(!(q.prompt||"").trim()) return "Enter text";
+    if(q.type === "choice"){ const opts = (q.options||[]).map(x=>String(x||"").trim()).filter(Boolean); if(opts.length < 2) return "Min 2 options"; q.options = opts;
+    if(!q.correctIndices || q.correctIndices.length === 0) return "Select correct answer"; q.correctIndices = q.correctIndices.filter(i => i >= 0 && i < q.options.length);
+    if(q.correctIndices.length === 0) q.correctIndices = [0]; return ""; }
+    const acc = (q.accepts||[]).map(x=>String(x||"").trim()).filter(Boolean);
+    if(acc.length === 0) return "Select correct answer"; q.accepts = acc; return "";
   }
 
   function buildPayload(previewWithDraft){
     let questions = Editor.questions.map(q=>{ if(q.type === "choice"){ return { type:"choice", prompt:q.prompt||"", options:(q.options||[]).slice(), correctIndices:(q.correctIndices||[0]).slice(), seconds:(q.seconds??null), image:q.image||"", audio:q.audio||"", font:q.font||"", fontSize:q.fontSize||null }; } return { type:"text", prompt:q.prompt||"", accepts:(q.accepts||[]).slice(), seconds:(q.seconds??null), image:q.image||"", audio:q.audio||"", font:q.font||"", fontSize:q.fontSize||null }; });
-    if(previewWithDraft && Editor.draft){ const d = deepClone(Editor.draft); questions = questions.slice(); if(d.type === "choice"){ const mapped = { type:"choice", prompt:d.prompt||"", options:(d.options||[]).slice(), correctIndices:(d.correctIndices||[0]).slice(), seconds: (d.seconds==null || d.seconds==="") ? null : Number(d.seconds), image:d.image||"", audio:d.audio||"", font:d.font||"", fontSize:d.fontSize||null }; if(questions.length === 0) questions.push(mapped); else questions[0] = mapped; } else { const mapped = { type:"text", prompt:d.prompt||"", accepts:(d.accepts||[]).slice(), seconds: (d.seconds==null || d.seconds==="") ? null : Number(d.seconds), image:d.image||"", audio:d.audio||"", font:d.font||"", fontSize:d.fontSize||null }; if(questions.length === 0) questions.push(mapped); else questions[0] = mapped; } }
+    if(previewWithDraft && Editor.draft){ const d = deepClone(Editor.draft); questions = questions.slice();
+    if(d.type === "choice"){ const mapped = { type:"choice", prompt:d.prompt||"", options:(d.options||[]).slice(), correctIndices:(d.correctIndices||[0]).slice(), seconds: (d.seconds==null || d.seconds==="") ? null : Number(d.seconds), image:d.image||"", audio:d.audio||"", font:d.font||"", fontSize:d.fontSize||null }; if(questions.length === 0) questions.push(mapped); else questions[0] = mapped;
+    } else { const mapped = { type:"text", prompt:d.prompt||"", accepts:(d.accepts||[]).slice(), seconds: (d.seconds==null || d.seconds==="") ? null : Number(d.seconds), image:d.image||"", audio:d.audio||"", font:d.font||"", fontSize:d.fontSize||null }; if(questions.length === 0) questions.push(mapped); else questions[0] = mapped;
+    } }
     return normalizeCfg({ title: Editor.title || "Игровой автомат", bgDataUrl: Editor.bgDataUrl || "", timer: { enabled: !!Editor.timer.enabled, seconds: Number(Editor.timer.seconds || 30) }, useLatex: !!Editor.useLatex, instruction: Editor.instruction, feedback: Editor.feedback, questions });
   }
 
@@ -721,9 +947,22 @@
   function buildGameUrl(payload){ const data = encodeGameData(payload); return selfPageUrl() + "?game=" + data; }
 
   function checkLinkSize(data) {
-      const maxLen = 3500, curLen = data.length, pct = Math.min(100, (curLen / maxLen) * 100); const bar = $("barSize"), lblText = $("lblSizeText"), warn = $("sizeWarning");
+      const maxLen = 3500, curLen = data.length, pct = Math.min(100, (curLen / maxLen) * 100);
+      const bar = $("barSize"), lblText = $("lblSizeText"), warn = $("sizeWarning");
       if (bar) bar.style.width = pct + "%";
-      if (curLen < maxLen * 0.75) { if(bar) bar.style.background = "var(--ok)"; if(lblText) { lblText.textContent = "🟢 Код в норме"; lblText.style.color = "var(--ok)"; } if(warn) warn.style.display = "none"; } else if (curLen <= maxLen) { if(bar) bar.style.background = "var(--neon)"; if(lblText) { lblText.textContent = "🟡 Код почти достиг лимита"; lblText.style.color = "var(--neon)"; } if(warn) warn.style.display = "none"; } else { if(bar) bar.style.background = "var(--danger)"; if(lblText) { lblText.textContent = "🔴 ПРЕВЫШЕН ЛИМИТ"; lblText.style.color = "var(--danger)"; } if(warn) warn.style.display = "block"; }
+      if (curLen < maxLen * 0.75) { 
+        if(bar) bar.style.background = "var(--ok)"; 
+        if(lblText) { lblText.textContent = i18n[currentLang].lbl_size_ok; lblText.style.color = "var(--ok)"; } 
+        if(warn) warn.style.display = "none"; 
+      } else if (curLen <= maxLen) { 
+        if(bar) bar.style.background = "var(--neon)";
+        if(lblText) { lblText.textContent = i18n[currentLang].lbl_size_warn; lblText.style.color = "var(--neon)"; } 
+        if(warn) warn.style.display = "none";
+      } else { 
+        if(bar) bar.style.background = "var(--danger)"; 
+        if(lblText) { lblText.textContent = i18n[currentLang].lbl_size_err; lblText.style.color = "var(--danger)"; } 
+        if(warn) warn.style.display = "block"; 
+      }
   }
 
   const PREVIEW_CFGKEY = "__CLAW_preview_cfg__";
@@ -733,56 +972,78 @@
   function updatePreview(previewWithDraft){
     const payload = buildPayload(previewWithDraft), data = encodeGameData(payload); checkLinkSize(data);
     if (!previewWithDraft && !document.body.classList.contains("gameOnly")) { try { localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(payload)); } catch(e) {} }
-    const useKey = data.length > 2500; let urlParams = "?preview=1"; if (previewWithDraft) urlParams += "&autostart=1";
-    if(useKey){ const key = storePreviewCfg(payload); if(key){ const src = selfPageUrl() + urlParams + "&cfgkey=" + encodeURIComponent(key) + "#cfgkey=" + encodeURIComponent(key); $("livePreview").src = src; return; } }
+    const useKey = data.length > 2500;
+    let urlParams = "?preview=1"; if (previewWithDraft) urlParams += "&autostart=1";
+    if(useKey){ const key = storePreviewCfg(payload);
+    if(key){ const src = selfPageUrl() + urlParams + "&cfgkey=" + encodeURIComponent(key) + "#cfgkey=" + encodeURIComponent(key); $("livePreview").src = src; return; } }
     $("livePreview").src = selfPageUrl() + urlParams + "&game=" + data;
   }
 
-  let _previewTid = null; function debouncedPreview(){ if(_previewTid) clearTimeout(_previewTid); _previewTid = setTimeout(()=>updatePreview(false), 500); }
+  let _previewTid = null;
+  function debouncedPreview(){ if(_previewTid) clearTimeout(_previewTid); _previewTid = setTimeout(()=>updatePreview(false), 500); }
 
   $("inpInstruction").value = Editor.instruction.text; $("inpFeedback").value = Editor.feedback.text;
-  $("inpInstruction").addEventListener("input", ()=>{ Editor.instruction.text = $("inpInstruction").value; debouncedPreview(); }); $("inpFeedback").addEventListener("input", ()=>{ Editor.feedback.text = $("inpFeedback").value; debouncedPreview(); }); $("inpTitle").addEventListener("input", ()=>{ Editor.title = $("inpTitle").value || "Игровой автомат"; debouncedPreview(); }); $("inpBgUrl").addEventListener("input", ()=>{ Editor.bgDataUrl = $("inpBgUrl").value.trim(); debouncedPreview(); }); $("inpSeconds").addEventListener("input", ()=>{ Editor.timer.seconds = Number($("inpSeconds").value || 30); debouncedPreview(); }); $("btnResetBg").addEventListener("click", ()=>{ Editor.bgDataUrl = ""; $("inpBgUrl").value = ""; updatePreview(false); });
+  $("inpInstruction").addEventListener("input", ()=>{ Editor.instruction.text = $("inpInstruction").value; debouncedPreview(); }); $("inpFeedback").addEventListener("input", ()=>{ Editor.feedback.text = $("inpFeedback").value; debouncedPreview(); });
+  $("inpTitle").addEventListener("input", ()=>{ Editor.title = $("inpTitle").value || "Игровой автомат"; debouncedPreview(); }); $("inpBgUrl").addEventListener("input", ()=>{ Editor.bgDataUrl = $("inpBgUrl").value.trim(); debouncedPreview(); });
+  $("inpSeconds").addEventListener("input", ()=>{ Editor.timer.seconds = Number($("inpSeconds").value || 30); debouncedPreview(); }); $("btnResetBg").addEventListener("click", ()=>{ Editor.bgDataUrl = ""; $("inpBgUrl").value = ""; updatePreview(false); });
   if($("chkUseLatex")) $("chkUseLatex").addEventListener("change", ()=>{ Editor.useLatex = $("chkUseLatex").checked; updatePreview(false); }); $("chkTimer").addEventListener("change", ()=>{ Editor.timer.enabled = $("chkTimer").checked; updatePreview(false); });
-  $("btnAddQ").addEventListener("click", ()=>{ if(Editor.questions.length >= 9){ toast("Уже 9 вопросов 🙂"); return; } openModal(null); }); $("btnClearQs").addEventListener("click", ()=>{ Editor.questions = []; renderList(); updatePreview(false); toast("Очищено"); }); $("btnCloseModal").addEventListener("click", ()=>{ Editor.draft=null; Editor.editingId=null; hideModal(); }); $("modalBackdrop").addEventListener("click", (e)=>{ if(e.target === $("modalBackdrop")){ Editor.draft=null; Editor.editingId=null; hideModal(); } });
+  $("btnAddQ").addEventListener("click", ()=>{ if(Editor.questions.length >= 9){ toast(i18n[currentLang].toast_limit); return; } openModal(null); });
+  $("btnClearQs").addEventListener("click", ()=>{ Editor.questions = []; renderList(); updatePreview(false); toast(i18n[currentLang].toast_cleared); }); $("btnCloseModal").addEventListener("click", ()=>{ Editor.draft=null; Editor.editingId=null; hideModal(); });
+  $("modalBackdrop").addEventListener("click", (e)=>{ if(e.target === $("modalBackdrop")){ Editor.draft=null; Editor.editingId=null; hideModal(); } });
 
   window.closeImport = () => { $("importBackdrop").style.display = "none"; $("importBackdrop").setAttribute("aria-hidden","true"); $("importText").value = ''; };
-  if ($("btnImportQ")) { $("btnImportQ").addEventListener("click", () => { if(Editor.questions.length >= 9) { toast("Уже 9 вопросов 🙂"); return; } $("importBackdrop").style.display = "block"; $("importBackdrop").setAttribute("aria-hidden","false"); }); }
+  if ($("btnImportQ")) { $("btnImportQ").addEventListener("click", () => { if(Editor.questions.length >= 9) { toast(i18n[currentLang].toast_limit); return; } $("importBackdrop").style.display = "block"; $("importBackdrop").setAttribute("aria-hidden","false"); }); }
 
   window.processImport = () => {
       const txt = document.getElementById('importText').value.trim(); if (!txt) return closeImport();
-      const mode = document.getElementById('importMode').value; const tplIdx = parseInt(document.getElementById('newQTemplate').value); let baseQ = { font: "", fontSize: 32, seconds: null, image: "", audio: "" }; if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; baseQ = { font: tq.font, fontSize: tq.fontSize, seconds: tq.seconds }; }
+      const mode = document.getElementById('importMode').value; const tplIdx = parseInt(document.getElementById('newQTemplate').value); let baseQ = { font: "", fontSize: 32, seconds: null, image: "", audio: "" };
+      if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; baseQ = { font: tq.font, fontSize: tq.fontSize, seconds: tq.seconds }; }
       let addedCount = 0;
       if (mode === 'line') {
-          const lines = txt.split('\n'); for(let line of lines) { if (Editor.questions.length >= 9) break; const trimmed = line.trim(); if (trimmed) { Editor.questions.push({ id: uid(), ...baseQ, type: 'text', prompt: trimmed, accepts: ['Ответ'] }); addedCount++; } }
+          const lines = txt.split('\n');
+          for(let line of lines) { if (Editor.questions.length >= 9) break; const trimmed = line.trim();
+          if (trimmed) { Editor.questions.push({ id: uid(), ...baseQ, type: 'text', prompt: trimmed, accepts: ['Ответ'] }); addedCount++; } }
       } else {
           const blocks = txt.split(/\n\s*\n/);
           for(let block of blocks) {
               if (Editor.questions.length >= 9) break;
               const lines = block.trim().split('\n'); let qText = []; let opts = []; let autoAnswer = ''; const optRegex = /^(\d+|[а-яА-Яa-zA-Z])[\)\.]\s+(.+)$/;
               lines.forEach(line => { const trimmed = line.trim(); const match = trimmed.match(optRegex); if (match) { opts.push({ marker: match[1].toLowerCase(), t: match[2].trim() }); } else if (trimmed.toLowerCase().startsWith('ответ:') || trimmed.toLowerCase().startsWith('answer:')) { autoAnswer = trimmed.replace(/^(ответ:|answer:)\s*/i, '').trim().toLowerCase(); } else { qText.push(trimmed); } });
-              if (opts.length >= 2) { let correctIndices = [0]; if (autoAnswer) { const foundIdx = opts.findIndex(o => o.marker === autoAnswer || o.t.toLowerCase() === autoAnswer); if (foundIdx !== -1) correctIndices = [foundIdx]; } Editor.questions.push({ id: uid(), ...baseQ, type: 'choice', prompt: qText.join('\n'), options: opts.map(o => o.t), correctIndices: correctIndices }); addedCount++; } else if (qText.length > 0) { Editor.questions.push({ id: uid(), ...baseQ, type: 'text', prompt: qText.join('\n'), accepts: autoAnswer ? [autoAnswer] : ['Ответ'] }); addedCount++; }
+              if (opts.length >= 2) { let correctIndices = [0]; if (autoAnswer) { const foundIdx = opts.findIndex(o => o.marker === autoAnswer || o.t.toLowerCase() === autoAnswer);
+              if (foundIdx !== -1) correctIndices = [foundIdx]; } Editor.questions.push({ id: uid(), ...baseQ, type: 'choice', prompt: qText.join('\n'), options: opts.map(o => o.t), correctIndices: correctIndices });
+              addedCount++; } else if (qText.length > 0) { Editor.questions.push({ id: uid(), ...baseQ, type: 'text', prompt: qText.join('\n'), accepts: autoAnswer ? [autoAnswer] : ['Ответ'] }); addedCount++; }
           }
       }
-      closeImport(); renderList(); updatePreview(false);
-      if (Editor.questions.length >= 9 && addedCount > 0) toast("Импорт завершен (достигнут лимит 9)"); else if (addedCount > 0) toast("Импортировано: " + addedCount); else toast("Не удалось распознать текст");
+      closeImport();
+      renderList(); updatePreview(false);
+      if (Editor.questions.length >= 9 && addedCount > 0) toast(i18n[currentLang].toast_import_done);
+      else if (addedCount > 0) toast(i18n[currentLang].toast_import_num + addedCount); else toast(i18n[currentLang].toast_import_err);
   };
-
-  $("selType").addEventListener("change", ()=>{ const q = Editor.draft; if(!q) return; q.type = $("selType").value; syncModalType(); if(q.type === "choice"){ q.options = q.options || ["",""]; q.correctIndices = q.correctIndices || [0]; renderChoiceUI(); } else { q.accepts = q.accepts || [""]; renderTextUI(); } });
-  if($("btnClearImage")) $("btnClearImage").addEventListener("click", () => { $("inpQImage").value = ""; }); if($("btnClearAudio")) $("btnClearAudio").addEventListener("click", () => { $("inpQAudio").value = ""; }); $("btnAddChoice").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.options = q.options || ["",""]; q.options.push(""); renderChoiceUI(); }); $("btnAddText").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.accepts = q.accepts || [""]; q.accepts.push(""); renderTextUI(); }); $("btnPreviewDraft").addEventListener("click", ()=>{ getDraftFromModal(); updatePreview(true); toast("Показано в превью"); });
   
-  $("btnSaveQ").addEventListener("click", ()=>{ const q = getDraftFromModal(); const err = validateQuestion(q); if(err){ toast(err); return; } if(Editor.editingId){ const idx = Editor.questions.findIndex(x=>x.id === Editor.editingId); if(idx >= 0){ q.id = Editor.editingId; Editor.questions[idx] = q; toast("Вопрос обновлён"); } else { Editor.questions.push(q); toast("Вопрос добавлен"); } } else { Editor.questions.push(q); toast("Вопрос добавлен"); } Editor.draft=null; Editor.editingId=null; hideModal(); renderList(); updatePreview(false); });
-  $("btnCopyCode").addEventListener("click", async ()=>{ const payload = buildPayload(false); const url = buildGameUrl(payload); const iframeCode = buildIframeFromUrl(url); const ok = await copyToClipboard(iframeCode); toast(ok ? "Скопировано ✅" : "Ошибка"); });
-  if ($("btnResetAll")) { $("btnResetAll").addEventListener("click", ()=>{ if(confirm("Вы уверены, что хотите удалить все вопросы и настройки, чтобы начать заново?")) { localStorage.removeItem(AUTOSAVE_KEY); location.reload(); } }); }
+  $("selType").addEventListener("change", ()=>{ const q = Editor.draft; if(!q) return; q.type = $("selType").value; syncModalType(); if(q.type === "choice"){ q.options = q.options || ["",""]; q.correctIndices = q.correctIndices || [0]; renderChoiceUI(); } else { q.accepts = q.accepts || [""]; renderTextUI(); } });
+  if($("btnClearImage")) $("btnClearImage").addEventListener("click", () => { $("inpQImage").value = ""; }); if($("btnClearAudio")) $("btnClearAudio").addEventListener("click", () => { $("inpQAudio").value = ""; });
+  $("btnAddChoice").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.options = q.options || ["",""]; q.options.push(""); renderChoiceUI(); });
+  $("btnAddText").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.accepts = q.accepts || [""]; q.accepts.push(""); renderTextUI(); });
+  $("btnPreviewDraft").addEventListener("click", ()=>{ getDraftFromModal(); updatePreview(true); toast(i18n[currentLang].toast_preview); });
+  
+  $("btnSaveQ").addEventListener("click", ()=>{ const q = getDraftFromModal(); const err = validateQuestion(q); if(err){ toast(err); return; } if(Editor.editingId){ const idx = Editor.questions.findIndex(x=>x.id === Editor.editingId); if(idx >= 0){ q.id = Editor.editingId; Editor.questions[idx] = q; toast(i18n[currentLang].toast_q_updated); } else { Editor.questions.push(q); toast(i18n[currentLang].toast_q_added); } } else { Editor.questions.push(q); toast(i18n[currentLang].toast_q_added); } Editor.draft=null; Editor.editingId=null; hideModal(); renderList(); updatePreview(false); });
+  $("btnCopyCode").addEventListener("click", async ()=>{ const payload = buildPayload(false); const url = buildGameUrl(payload); const iframeCode = buildIframeFromUrl(url); const ok = await copyToClipboard(iframeCode); toast(ok ? i18n[currentLang].toast_copied : i18n[currentLang].toast_error); });
+  if ($("btnResetAll")) { $("btnResetAll").addEventListener("click", ()=>{ if(confirm(i18n[currentLang].confirm_reset)) { localStorage.removeItem(AUTOSAVE_KEY); location.reload(); } }); }
 
   function bootGameOnly(cfg){ document.body.setAttribute("data-mode","game"); document.body.classList.add("gameOnly"); $("editorRoot").style.display = "none"; $("modalBackdrop").style.display = "none"; $("gameRoot").style.display = "block"; injectCanvasGame(cfg); }
-  const qp = parseQueryParams(); const hp = parseHashParams(); const gameParam = qp.game || hp.game; const cfgKeyParam = qp.cfgkey || hp.cfgkey;
+  const qp = parseQueryParams(); const hp = parseHashParams(); const gameParam = qp.game || hp.game;
+  const cfgKeyParam = qp.cfgkey || hp.cfgkey;
   if (window.__EMBEDDED_CFG__) { try{ bootGameOnly(normalizeCfg(window.__EMBEDDED_CFG__)); } catch(e){ $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Не удалось прочитать конфиг</div>'; } return; }
   if(gameParam){ try{ const raw = decodeGameData(gameParam); bootGameOnly(raw); } catch(e){ $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Ошибка iframe</div>'; } return; }
   if(cfgKeyParam){ try{ const rawStr = localStorage.getItem(cfgKeyParam) || sessionStorage.getItem(cfgKeyParam); if(!rawStr) throw new Error("cfgkey not found"); const raw = JSON.parse(rawStr); bootGameOnly(normalizeCfg(raw)); }catch(e){ $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Ошибка (cfgkey)</div>'; } return; }
 
-  try { const saved = localStorage.getItem(AUTOSAVE_KEY); if (saved) { const p = JSON.parse(saved); if(p.title) $("inpTitle").value = p.title; if(p.bgDataUrl) $("inpBgUrl").value = p.bgDataUrl; if(p.timer) { $("chkTimer").checked = !!p.timer.enabled; if(p.timer.seconds) $("inpSeconds").value = p.timer.seconds; } if(p.useLatex !== undefined && $("chkUseLatex")) $("chkUseLatex").checked = !!p.useLatex; if(p.instruction && p.instruction.text !== undefined) $("inpInstruction").value = p.instruction.text; if(p.feedback && p.feedback.text !== undefined) $("inpFeedback").value = p.feedback.text; if(Array.isArray(p.questions)) { Editor.questions = p.questions.map(q => ({...q, id: uid()})); } } } catch(e) {}
+  try { const saved = localStorage.getItem(AUTOSAVE_KEY);
+  if (saved) { const p = JSON.parse(saved); if(p.title) $("inpTitle").value = p.title; if(p.bgDataUrl) $("inpBgUrl").value = p.bgDataUrl; if(p.timer) { $("chkTimer").checked = !!p.timer.enabled;
+  if(p.timer.seconds) $("inpSeconds").value = p.timer.seconds; } if(p.useLatex !== undefined && $("chkUseLatex")) $("chkUseLatex").checked = !!p.useLatex;
+  if(p.instruction && p.instruction.text !== undefined) $("inpInstruction").value = p.instruction.text; if(p.feedback && p.feedback.text !== undefined) $("inpFeedback").value = p.feedback.text;
+  if(Array.isArray(p.questions)) { Editor.questions = p.questions.map(q => ({...q, id: uid()})); } } } catch(e) {}
+  
   Editor.title = $("inpTitle").value || "Игровой автомат"; Editor.timer.enabled = $("chkTimer").checked; Editor.timer.seconds = Number($("inpSeconds").value || 30); if($("chkUseLatex")) Editor.useLatex = $("chkUseLatex").checked; Editor.instruction.text = $("inpInstruction").value; Editor.feedback.text = $("inpFeedback").value;
-
   updatePreview(false);
 })();
 </script>
