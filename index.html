@@ -562,6 +562,7 @@
         let gameState = 'start_screen', collectedToysCount = 0, currentQuestionIndex = 0, correctCount = 0, wrongCount = 0, selectedToyElement = null, grabbedToyOffsetY = 0, timerInterval = null;
         const clawPositionsX = [41.55, 47.65, 53.45], clawStartTop = 20.14, clawWidth = 3.90, clawHeight = 12.16;
         let currentCol = 1, tasks = [], globalTimer = null;
+
         function playCoinDrop() {
             try {
                 let ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -582,18 +583,27 @@
         function initGameData() {
             const rawCfg = window.__CFG || {};
             
-            if (rawCfg.transparentBg) {
+            if (rawCfg.transparentBg && gameContainer) {
                 document.body.style.backgroundColor = 'transparent';
                 document.documentElement.style.backgroundColor = 'transparent';
                 gameContainer.style.backgroundImage = 'none';
                 gameContainer.style.backgroundColor = 'transparent';
-            } else if(rawCfg.bgDataUrl) {
+            } else if(rawCfg.bgDataUrl && gameContainer) {
                 gameContainer.style.backgroundImage = 'url(' + rawCfg.bgDataUrl + ')';
             }
 
             document.getElementById('startTitle').textContent = rawCfg.title || "Игровой автомат";
-            document.getElementById('startText').innerHTML = (rawCfg.instruction?.text || "Вставь монетку и управляй клешней.<br>Поймал игрушку — реши задачу.<br>Верно → игрушка твоя.<br>Неверно → игрушка упадет обратно.<br>У тебя ровно 9 попыток!").replace(/\\\\n/g, "<br/>");
-            if((rawCfg.feedback?.text || "").trim()) { document.getElementById('finishCustomText').innerHTML = rawCfg.feedback.text.replace(/\\\\n/g, "<br/>"); document.getElementById('finishCustomText').style.display = 'block'; }
+            
+            // Надежная обработка переносов строк для любых типов переносов (нативные и экранированные)
+            let stText = (rawCfg.instruction && rawCfg.instruction.text !== undefined) ? String(rawCfg.instruction.text) : "Вставь монетку и управляй клешней.\\nПоймал игрушку — реши задачу.\\nВерно → игрушка твоя.\\nНеверно → игрушка упадет обратно.\\nУ тебя ровно 9 попыток!";
+            document.getElementById('startText').innerHTML = stText.split('\\\\n').join('<br/>').split('\\n').join('<br/>').split('\\n').join('<br/>');
+
+            let fbText = (rawCfg.feedback && rawCfg.feedback.text !== undefined) ? String(rawCfg.feedback.text) : "";
+            if (fbText.trim() !== "") {
+                document.getElementById('finishCustomText').innerHTML = fbText.split('\\\\n').join('<br/>').split('\\n').join('<br/>').split('\\n').join('<br/>');
+                document.getElementById('finishCustomText').style.display = 'block';
+            }
+
             globalTimer = rawCfg.timer?.enabled ? Number(rawCfg.timer.seconds) : null;
             tasks = (rawCfg.questions || []).map(q => {
                 if (q.type === "text" || q.type === "input") return { type: "input", prompt: q.prompt, accepts: q.accepts || [], seconds: q.seconds, image: q.image, audio: q.audio, font: q.font, fontSize: q.fontSize };
@@ -602,6 +612,7 @@
             });
             if (tasks.length === 0) tasks.push({ type: "choice", prompt: "Пример вопроса", options: ["1", "2"], answers: ["1"] });
             progressArea.innerHTML = '';
+            
             if (rawCfg.useLatex && !document.getElementById('mathjax-script')) {
                 window.MathJax = { tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }, startup: { typeset: false } };
                 const script = document.createElement('script'); script.id = 'mathjax-script'; script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"; document.head.appendChild(script);
