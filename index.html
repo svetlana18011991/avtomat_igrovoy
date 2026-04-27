@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Игровой автомат — Редактор</title>
   
-  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=twiLqLLCbRaz1LRxF2HPcMpb7Y5bAmi2edq4OfOtjTGl3XL8c4DFxWljV5T4JjxDKHQWYBuvOIJVBvZHFi3hYMb435EfmZg-kx8pSMbYWVsa_zDLTdzPJh_ZMdRJsnf2Plsez4gpx8wKEavy7WCf7aRnHUBuPQdQFwRsFNRO85NiL9Oqkn04ItE9__ubBlE7mo-ubhMJ3H9jfIMMZTgv-3yP7BfVbEL0azsexui92Cp68DiWa3nYSHmkYLy8h9ejl9mTchBWojmPST7UZ_5MiQ" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ufWbKzlZTe6M01YjnGqr_i2EmfRcLZL00mSbrOCeSKN9cnECi_H-WVKzcu6wi8eyG3HqsVjJTKaQtgT0VFnXC3PY2mtIdBftPgrq2ktoV2bsWY0JtsGcNi3BM7aG-EfxTLSDeC2mcIlU6ekqOyx0XF5wGBrUZc5NSTj-viLu_Ny7Se4XXI_nux92Z8R8qmtkZbxtn_VZLBdwOWougUWhShDuverKdZ0WhFGULanGF0Z04zz_FhBADnA8ZcusTjLGH9Mzfmaxg_YRKBx3RR6oiw" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Neucha&display=swap');
@@ -1524,17 +1524,50 @@
       const handle = document.createElement("div"); handle.className = "toy-resize-handle"; handle.textContent = "↘"; handle.addEventListener("pointerdown", startToyResize); cell.appendChild(handle); grid.appendChild(cell);
     }); updateToySideText();
   }
-  function selectToy(idx){ selectedToyIdx = Math.max(0, Math.min(8, Number(idx)||0)); renderToyGrid(); }
-  function pointerCellPercent(e, cell){ const r = cell.getBoundingClientRect(); return {x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100}; }
-  function startToyDrag(e){ e.preventDefault(); e.stopPropagation(); const cell = e.currentTarget.closest(".toy-cell"); const idx = Number(cell.dataset.idx); selectToy(idx); toyDragState = { mode:"move", idx, cell }; try{ e.currentTarget.setPointerCapture(e.pointerId); }catch(err){} window.addEventListener("pointermove", onToyPointerMove); window.addEventListener("pointerup", stopToyPointer, {once:true}); }
-  function startToyResize(e){ e.preventDefault(); e.stopPropagation(); const cell = e.currentTarget.closest(".toy-cell"); const idx = Number(cell.dataset.idx); selectToy(idx); toyDragState = { mode:"resize", idx, cell }; try{ e.currentTarget.setPointerCapture(e.pointerId); }catch(err){} window.addEventListener("pointermove", onToyPointerMove); window.addEventListener("pointerup", stopToyPointer, {once:true}); }
-  function onToyPointerMove(e){
-    if(!toyDragState) return; const t = Editor.toys[toyDragState.idx] || defaultToySettings(); const pnt = pointerCellPercent(e, toyDragState.cell);
-    if(toyDragState.mode === "move"){ t.offsetX = pnt.x - 50; t.offsetY = pnt.y - 50; }
-    else { const cx = 50 + Number(t.offsetX || 0), cy = 50 + Number(t.offsetY || 0); const newSize = Math.max(Math.abs(pnt.x - cx) * 2, Math.abs(pnt.y - cy) * 2, TOY_CELL_BASE_SIZE * TOY_MIN_SCALE); t.scale = clamp(newSize / TOY_CELL_BASE_SIZE, TOY_MIN_SCALE, TOY_MAX_SCALE); }
-    Editor.toys[toyDragState.idx] = normalizeToySettings(t); renderToyGrid(); debouncedPreview();
+  function updateToyCell(idx){
+    const cell = document.querySelector('.toy-cell[data-idx="' + idx + '"]'); if(!cell) return;
+    const img = cell.querySelector(".toy-edit-img"); if(!img) return;
+    const st = toyStyleForCell(Editor.toys[idx] || defaultToySettings());
+    img.src = toyImageSrc(idx); img.style.width = st.size + "%"; img.style.height = st.size + "%"; img.style.left = st.left + "%"; img.style.top = st.top + "%";
   }
-  function stopToyPointer(){ window.removeEventListener("pointermove", onToyPointerMove); toyDragState = null; updatePreview(false); }
+  function refreshToySelection(){ document.querySelectorAll(".toy-cell").forEach(c => c.classList.toggle("selected", Number(c.dataset.idx) === selectedToyIdx)); updateToySideText(); }
+  function selectToy(idx){ selectedToyIdx = Math.max(0, Math.min(8, Number(idx)||0)); refreshToySelection(); }
+  function pointerCellPercent(e, cell){ const r = cell.getBoundingClientRect(); return {x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100}; }
+  function startToyDrag(e){
+    e.preventDefault(); e.stopPropagation(); const cell = e.currentTarget.closest(".toy-cell"); if(!cell) return; const idx = Number(cell.dataset.idx); selectToy(idx);
+    const t = normalizeToySettings(Editor.toys[idx] || defaultToySettings()); const r = cell.getBoundingClientRect();
+    toyDragState = { mode:"move", idx, cell, startClientX:e.clientX, startClientY:e.clientY, startOffsetX:t.offsetX, startOffsetY:t.offsetY, cellW:r.width || 1, cellH:r.height || 1, moved:false };
+    try{ e.currentTarget.setPointerCapture(e.pointerId); }catch(err){}
+    window.addEventListener("pointermove", onToyPointerMove); window.addEventListener("pointerup", stopToyPointer, {once:true}); window.addEventListener("pointercancel", stopToyPointer, {once:true});
+  }
+  function startToyResize(e){
+    e.preventDefault(); e.stopPropagation(); const cell = e.currentTarget.closest(".toy-cell"); if(!cell) return; const idx = Number(cell.dataset.idx); selectToy(idx);
+    const t = normalizeToySettings(Editor.toys[idx] || defaultToySettings()); const r = cell.getBoundingClientRect();
+    toyDragState = { mode:"resize", idx, cell, startClientX:e.clientX, startClientY:e.clientY, startScale:t.scale, startOffsetX:t.offsetX, startOffsetY:t.offsetY, cellW:r.width || 1, cellH:r.height || 1, moved:false };
+    try{ e.currentTarget.setPointerCapture(e.pointerId); }catch(err){}
+    window.addEventListener("pointermove", onToyPointerMove); window.addEventListener("pointerup", stopToyPointer, {once:true}); window.addEventListener("pointercancel", stopToyPointer, {once:true});
+  }
+  function onToyPointerMove(e){
+    if(!toyDragState) return;
+    const dxPx = e.clientX - toyDragState.startClientX, dyPx = e.clientY - toyDragState.startClientY;
+    if(!toyDragState.moved && Math.hypot(dxPx, dyPx) < 4) return;
+    toyDragState.moved = true;
+    const dx = (dxPx / toyDragState.cellW) * 100, dy = (dyPx / toyDragState.cellH) * 100;
+    const t = Editor.toys[toyDragState.idx] || defaultToySettings();
+    if(toyDragState.mode === "move"){
+      t.offsetX = toyDragState.startOffsetX + dx;
+      t.offsetY = toyDragState.startOffsetY + dy;
+    } else {
+      const startSize = TOY_CELL_BASE_SIZE * toyDragState.startScale;
+      const deltaSize = 2 * Math.max(dx, dy);
+      t.scale = clamp((startSize + deltaSize) / TOY_CELL_BASE_SIZE, TOY_MIN_SCALE, TOY_MAX_SCALE);
+    }
+    Editor.toys[toyDragState.idx] = normalizeToySettings(t); updateToyCell(toyDragState.idx); debouncedPreview();
+  }
+  function stopToyPointer(){
+    window.removeEventListener("pointermove", onToyPointerMove); window.removeEventListener("pointercancel", stopToyPointer);
+    const changed = !!(toyDragState && toyDragState.moved); toyDragState = null; if(changed) updatePreview(false);
+  }
   function openToyModal(){ Editor.toys = normalizeToys(Editor.toys); renderToyGrid(); $("toyBackdrop").style.display="block"; $("toyBackdrop").setAttribute("aria-hidden","false"); }
   function closeToyModal(){ $("toyBackdrop").style.display="none"; $("toyBackdrop").setAttribute("aria-hidden","true"); }
 
