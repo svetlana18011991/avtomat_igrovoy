@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Игровой автомат — Редактор</title>
   
-  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ufWbKzlZTe6M01YjnGqr_i2EmfRcLZL00mSbrOCeSKN9cnECi_H-WVKzcu6wi8eyG3HqsVjJTKaQtgT0VFnXC3PY2mtIdBftPgrq2ktoV2bsWY0JtsGcNi3BM7aG-EfxTLSDeC2mcIlU6ekqOyx0XF5wGBrUZc5NSTj-viLu_Ny7Se4XXI_nux92Z8R8qmtkZbxtn_VZLBdwOWougUWhShDuverKdZ0WhFGULanGF0Z04zz_FhBADnA8ZcusTjLGH9Mzfmaxg_YRKBx3RR6oiw" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=qmjB5mLnzHphMbXHJkAKC7nT7bF3FivBvb2-CGQ2HaTUJxU80tJsGJeS5N7QNxrmXVitiQXKdSZXYOskH-fo7vHKpUYLxQOcxmE4KysjFlN_EIhJ34CZ8nIGlqm43zT9_u9f2_4TdIffy5uu39Az26g0f75n_xra7nbvFOqlfL6dIzKEv0J_Kq73z3Ww25a6s_ANtFemoAp9L2DK8wdw49fHpG1_CCbMh5Mpvbz8GZOYRutlG1BbMToRjOvq0OY4wWSzBN8C25SR0lXnAxbNLw" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Neucha&display=swap');
@@ -304,6 +304,7 @@
             <input id="inpToyUrl" type="text" placeholder="https://.../toy.png" />
             <div class="toy-url-row">
               <button class="btn small primary" id="btnApplyToyUrl" type="button">Применить ссылку</button>
+              <button class="btn small" id="btnRemoveToyBg" type="button">Удалить фон</button>
               <button class="btn small" id="btnCenterToy" type="button">По центру</button>
             </div>
             <div class="toy-url-row">
@@ -465,6 +466,11 @@
       toyUrlLabel: "Ссылка на картинку игрушки",
       toyUrlPlaceholder: "https://.../toy.png",
       applyToyUrl: "Применить ссылку",
+      removeToyBg: "Удалить фон",
+      removingToyBg: "Удаляю фон...",
+      toyBgRemoved: "Фон удалён",
+      toyBgRemoveFailed: "Не удалось удалить фон. Попробуйте картинку с однотонным фоном или другую ссылку.",
+      toyBgRemoveCors: "Не удалось обработать картинку по этой ссылке: сайт запрещает чтение изображения. Используйте другую ссылку или загрузите картинку на хостинг с открытым доступом.",
       centerToy: "По центру",
       resetThisToy: "Сбросить эту",
       resetAllToys: "Сбросить все",
@@ -590,6 +596,11 @@
       toyUrlLabel: "Toy image link",
       toyUrlPlaceholder: "https://.../toy.png",
       applyToyUrl: "Apply link",
+      removeToyBg: "Remove background",
+      removingToyBg: "Removing background...",
+      toyBgRemoved: "Background removed",
+      toyBgRemoveFailed: "Could not remove the background. Try an image with a plain background or another link.",
+      toyBgRemoveCors: "Could not process this image link: the site blocks image reading. Use another link or an image host with open access.",
       centerToy: "Center",
       resetThisToy: "Reset this one",
       resetAllToys: "Reset all",
@@ -715,6 +726,11 @@
       toyUrlLabel: "Link zum Spielzeugbild",
       toyUrlPlaceholder: "https://.../toy.png",
       applyToyUrl: "Link anwenden",
+      removeToyBg: "Hintergrund entfernen",
+      removingToyBg: "Hintergrund wird entfernt...",
+      toyBgRemoved: "Hintergrund entfernt",
+      toyBgRemoveFailed: "Der Hintergrund konnte nicht entfernt werden. Versuchen Sie ein Bild mit einfarbigem Hintergrund oder einen anderen Link.",
+      toyBgRemoveCors: "Dieses Bild kann über den Link nicht verarbeitet werden: Die Website blockiert das Lesen des Bildes. Verwenden Sie einen anderen Link oder einen Hoster mit offenem Zugriff.",
       centerToy: "Zentrieren",
       resetThisToy: "Dieses zurücksetzen",
       resetAllToys: "Alle zurücksetzen",
@@ -840,6 +856,11 @@
       toyUrlLabel: "玩具图片链接",
       toyUrlPlaceholder: "https://.../toy.png",
       applyToyUrl: "应用链接",
+      removeToyBg: "删除背景",
+      removingToyBg: "正在删除背景...",
+      toyBgRemoved: "背景已删除",
+      toyBgRemoveFailed: "无法删除背景。请尝试使用纯色背景图片或其他链接。",
+      toyBgRemoveCors: "无法处理此图片链接：该网站禁止读取图片。请使用其他链接或开放访问的图片托管。",
       centerToy: "居中",
       resetThisToy: "重置此玩具",
       resetAllToys: "全部重置",
@@ -1000,6 +1021,7 @@
     setTxt("#toyUrlLabel", tr("toyUrlLabel"));
     setPlaceholder("inpToyUrl", tr("toyUrlPlaceholder"));
     setTxt("#btnApplyToyUrl", tr("applyToyUrl"));
+    setTxt("#btnRemoveToyBg", tr("removeToyBg"));
     setTxt("#btnCenterToy", tr("centerToy"));
     setTxt("#btnResetToy", tr("resetThisToy"));
     setTxt("#btnResetAllToys", tr("resetAllToys"));
@@ -1568,6 +1590,108 @@
     window.removeEventListener("pointermove", onToyPointerMove); window.removeEventListener("pointercancel", stopToyPointer);
     const changed = !!(toyDragState && toyDragState.moved); toyDragState = null; if(changed) updatePreview(false);
   }
+
+  function loadToyImageForCanvas(src){
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error("image-load-failed"));
+      img.src = src;
+    });
+  }
+  function colorDistanceSq(a, b){
+    const dr = a[0] - b[0], dg = a[1] - b[1], db = a[2] - b[2];
+    return dr*dr + dg*dg + db*db;
+  }
+  function removePlainBackgroundFromCanvas(canvas){
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    const w = canvas.width, h = canvas.height;
+    if(!w || !h) throw new Error("empty-canvas");
+    const img = ctx.getImageData(0, 0, w, h);
+    const data = img.data;
+    const idxOf = (x, y) => (y * w + x) * 4;
+    const sample = (x, y) => { const i = idxOf(x, y); return [data[i], data[i+1], data[i+2], data[i+3]]; };
+    const seeds = [[0,0], [w-1,0], [0,h-1], [w-1,h-1]];
+    const bgColors = seeds.map(([x,y]) => sample(x,y));
+    const tol = 58, tolSq = tol * tol;
+    const visited = new Uint8Array(w * h);
+    const queue = [];
+    const isBg = (x, y) => {
+      const i = idxOf(x, y);
+      const alpha = data[i+3];
+      if(alpha <= 12) return true;
+      const p = [data[i], data[i+1], data[i+2], alpha];
+      return bgColors.some(c => c[3] <= 12 || colorDistanceSq(p, c) <= tolSq);
+    };
+    for(const [x,y] of seeds){ const k = y*w + x; visited[k] = 1; queue.push([x,y]); }
+    let head = 0, removed = 0;
+    while(head < queue.length){
+      const [x,y] = queue[head++];
+      if(!isBg(x,y)) continue;
+      const di = idxOf(x,y); data[di+3] = 0; removed++;
+      const neigh = [[x+1,y], [x-1,y], [x,y+1], [x,y-1]];
+      for(const [nx,ny] of neigh){
+        if(nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+        const k = ny*w + nx;
+        if(visited[k]) continue;
+        visited[k] = 1;
+        queue.push([nx,ny]);
+      }
+    }
+    const alphaCopy = new Uint8ClampedArray(w * h);
+    for(let i=0, k=0; i<data.length; i+=4, k++) alphaCopy[k] = data[i+3];
+    for(let y=1; y<h-1; y++){
+      for(let x=1; x<w-1; x++){
+        const k = y*w+x, i = k*4;
+        if(alphaCopy[k] === 0) continue;
+        let nearTransparent = false;
+        for(let yy=-1; yy<=1; yy++){
+          for(let xx=-1; xx<=1; xx++){
+            if(alphaCopy[(y+yy)*w + (x+xx)] === 0) nearTransparent = true;
+          }
+        }
+        if(nearTransparent && isBg(x, y)) data[i+3] = Math.min(data[i+3], 35);
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+    return removed;
+  }
+  async function removeSelectedToyBackground(){
+    if(!Editor.toys) Editor.toys = normalizeToys([]);
+    const btn = $("btnRemoveToyBg");
+    const oldText = btn ? btn.textContent : "";
+    try{
+      if(btn){ btn.disabled = true; btn.textContent = tr("removingToyBg"); }
+      const src = toyImageSrc(selectedToyIdx);
+      const img = await loadToyImageForCanvas(src);
+      const maxSide = 520;
+      const scale = Math.min(1, maxSide / Math.max(img.naturalWidth || img.width || 1, img.naturalHeight || img.height || 1));
+      const w = Math.max(1, Math.round((img.naturalWidth || img.width || 1) * scale));
+      const h = Math.max(1, Math.round((img.naturalHeight || img.height || 1) * scale));
+      const canvas = document.createElement("canvas"); canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      ctx.clearRect(0, 0, w, h); ctx.drawImage(img, 0, 0, w, h);
+      removePlainBackgroundFromCanvas(canvas);
+      let dataUrl = "";
+      try { dataUrl = canvas.toDataURL("image/webp", 0.92); } catch(e) { dataUrl = canvas.toDataURL("image/png"); }
+      if(!dataUrl || !dataUrl.startsWith("data:image/")) dataUrl = canvas.toDataURL("image/png");
+      const t = Editor.toys[selectedToyIdx] || defaultToySettings();
+      t.src = dataUrl;
+      Editor.toys[selectedToyIdx] = normalizeToySettings(t);
+      if($("inpToyUrl")) $("inpToyUrl").value = dataUrl;
+      updateToyCell(selectedToyIdx);
+      updatePreview(false);
+      toast(tr("toyBgRemoved"));
+    } catch(err){
+      const msg = String(err && (err.message || err.name) || err);
+      if(msg.includes("tainted") || msg.includes("Security") || msg.includes("cross-origin") || msg.includes("canvas")) toast(tr("toyBgRemoveCors"));
+      else toast(tr("toyBgRemoveFailed"));
+    } finally {
+      if(btn){ btn.disabled = false; btn.textContent = oldText || tr("removeToyBg"); }
+    }
+  }
+
   function openToyModal(){ Editor.toys = normalizeToys(Editor.toys); renderToyGrid(); $("toyBackdrop").style.display="block"; $("toyBackdrop").setAttribute("aria-hidden","false"); }
   function closeToyModal(){ $("toyBackdrop").style.display="none"; $("toyBackdrop").setAttribute("aria-hidden","true"); }
 
@@ -1701,6 +1825,7 @@
   if($("toyBackdrop")) $("toyBackdrop").addEventListener("click", (e)=>{ if(e.target === $("toyBackdrop")) closeToyModal(); });
   if($("btnApplyToyUrl")) $("btnApplyToyUrl").addEventListener("click", ()=>{ Editor.toys[selectedToyIdx].src = ($("inpToyUrl").value || "").trim(); Editor.toys[selectedToyIdx] = normalizeToySettings(Editor.toys[selectedToyIdx]); renderToyGrid(); updatePreview(false); toast(tr("toyUrlApplied")); });
   if($("inpToyUrl")) $("inpToyUrl").addEventListener("keydown", (e)=>{ if(e.key === "Enter") $("btnApplyToyUrl").click(); });
+  if($("btnRemoveToyBg")) $("btnRemoveToyBg").addEventListener("click", removeSelectedToyBackground);
   if($("btnCenterToy")) $("btnCenterToy").addEventListener("click", ()=>{ const t = Editor.toys[selectedToyIdx] || defaultToySettings(); t.offsetX = 0; t.offsetY = 0; Editor.toys[selectedToyIdx] = normalizeToySettings(t); renderToyGrid(); updatePreview(false); toast(tr("toyCentered")); });
   if($("btnResetToy")) $("btnResetToy").addEventListener("click", ()=>{ Editor.toys[selectedToyIdx] = defaultToySettings(); renderToyGrid(); updatePreview(false); toast(tr("toyReset")); });
   if($("btnResetAllToys")) $("btnResetAllToys").addEventListener("click", ()=>{ if(confirm(tr("resetAllToysConfirm"))){ Editor.toys = normalizeToys([]); renderToyGrid(); updatePreview(false); toast(tr("allToysReset")); } });
