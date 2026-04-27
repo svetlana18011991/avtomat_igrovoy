@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Игровой автомат — Редактор</title>
   
-  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=cmu16bxMcBnStyMrkM4LnmOIdfyunMaskkY6fK1fn77K5WKyRVELTD-ivw7PhjGUkcN44QBb-I833xz0Vzk4p_Gp5NoTiTRawZ7scGX6kIrdA18FjS7eK3Ff7u5kBzcofBZb-CKRnt_SSfRunLRwzPNXQQr4YHyxwFDBe9whOUsjN24SK-HG95Z6EWMbs-6WmiAt_KB0gILWSVSkQecEgNsXaOrolfRD5gJjAdUwF_V758y4v3c_dP1m0BKasqaSc4l0qjn3onbaDCYQ5a8YDg" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=twiLqLLCbRaz1LRxF2HPcMpb7Y5bAmi2edq4OfOtjTGl3XL8c4DFxWljV5T4JjxDKHQWYBuvOIJVBvZHFi3hYMb435EfmZg-kx8pSMbYWVsa_zDLTdzPJh_ZMdRJsnf2Plsez4gpx8wKEavy7WCf7aRnHUBuPQdQFwRsFNRO85NiL9Oqkn04ItE9__ubBlE7mo-ubhMJ3H9jfIMMZTgv-3yP7BfVbEL0azsexui92Cp68DiWa3nYSHmkYLy8h9ejl9mTchBWojmPST7UZ_5MiQ" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Neucha&display=swap');
@@ -76,6 +76,21 @@
     input:focus, textarea:focus, select:focus { border-color: var(--neon-orange-base) !important; box-shadow: 0 0 8px var(--neon-orange-glow), inset 0 0 4px rgba(255, 136, 0, 0.2) !important; }
     @keyframes pulse-logo { 0% { transform: scale(1); box-shadow: 0 0 5px rgba(255, 174, 0, 0.4); } 50% { transform: scale(1.08); box-shadow: 0 0 15px rgba(255, 174, 0, 0.8); } 100% { transform: scale(1); box-shadow: 0 0 5px rgba(255, 174, 0, 0.4); } }
     .anim-pulse { animation: pulse-logo 2.5s infinite ease-in-out; }
+
+    .toy-modal{ max-width:1080px; }
+    .toy-editor-layout{ display:grid; grid-template-columns:minmax(360px,1fr) 320px; gap:14px; align-items:start; }
+    .toy-grid{ display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:12px; }
+    .toy-cell{ position:relative; aspect-ratio:1; border-radius:18px; border:2px solid rgba(255,174,0,.35); background:radial-gradient(circle at 50% 42%, rgba(255,255,255,.13), rgba(0,0,0,.22)); overflow:hidden; cursor:pointer; touch-action:none; user-select:none; }
+    .toy-cell.selected{ border-color:var(--neon-orange-base); box-shadow:0 0 14px var(--neon-orange-glow), inset 0 0 18px rgba(255,174,0,.13); }
+    .toy-cell::after{ content:""; position:absolute; inset:10px; border:1px dashed rgba(255,255,255,.22); border-radius:14px; pointer-events:none; }
+    .toy-num{ position:absolute; left:8px; top:8px; z-index:3; padding:4px 7px; border-radius:999px; background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.18); color:#fff; font-weight:950; font-size:12px; }
+    .toy-edit-img{ position:absolute; object-fit:contain; transform:translate(-50%,-50%); z-index:2; cursor:move; touch-action:none; user-select:none; -webkit-user-drag:none; filter:drop-shadow(2px 4px 4px rgba(0,0,0,.45)); }
+    .toy-resize-handle{ position:absolute; z-index:4; width:20px; height:20px; right:7px; bottom:7px; border-radius:7px; background:var(--neon-orange-base); border:2px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,.35); cursor:nwse-resize; display:flex; align-items:center; justify-content:center; color:#16110c; font-size:12px; font-weight:950; }
+    .toy-side{ border:1px solid rgba(255,255,255,.12); background:rgba(0,0,0,.18); border-radius:16px; padding:12px; }
+    .toy-side-title{ font-size:16px; font-weight:950; margin-bottom:8px; color:var(--neon-orange-base); }
+    .toy-url-row{ display:flex; gap:8px; align-items:center; margin-top:8px; }
+    .toy-url-row input{ flex:1; min-width:0; }
+    @media (max-width: 900px){ .toy-editor-layout{ grid-template-columns:1fr; } .toy-modal{ max-width:820px; } }
   </style>
 </head>
 <body>
@@ -135,6 +150,11 @@
                <div style="font-weight:900" id="lblTransparentBgTitle">Прозрачный фон</div>
                <div class="muted" id="lblTransparentBgHelp">Если включено, фон игры будет прозрачным. Ссылка на фон игнорируется.</div>
             </div>
+          </div>
+
+          <div style="margin-top:10px; display:flex; flex-direction:column; gap:6px;">
+            <button id="btnOpenToys" type="button" class="btn" style="width:100%;">🧸 Настроить игрушки</button>
+            <div class="muted" id="toySectionHelp">Можно заменить одну или несколько игрушек, подвигать их внутри ячейки и изменить размер.</div>
           </div>
           <div class="toggle">
             <input id="chkUseLatex" type="checkbox" />
@@ -264,6 +284,38 @@
       <div class="modal-foot">
         <button class="btn" id="btnPreviewDraft" type="button">👁 Показать в превью</button>
         <button class="btn primary" id="btnSaveQ" type="button">💾 Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal-backdrop" id="toyBackdrop" aria-hidden="true">
+    <div class="modal toy-modal" role="dialog" aria-modal="true">
+      <div class="modal-head"><div class="h" id="toyModalTitle">🧸 Настройка игрушек</div><button class="btn small danger" id="btnCloseToyModal" type="button">Закрыть</button></div>
+      <div class="modal-body">
+        <div class="toy-editor-layout">
+          <div>
+            <div id="toyGrid" class="toy-grid"></div>
+            <div class="muted" id="toyGridHint" style="margin-top:10px;">Кликните на игрушку. Перетащите её внутри ячейки или потяните за уголок, чтобы изменить размер.</div>
+          </div>
+          <div class="toy-side">
+            <div class="toy-side-title" id="toySelectedTitle">Игрушка #1</div>
+            <label id="toyUrlLabel" for="inpToyUrl">Ссылка на картинку игрушки</label>
+            <input id="inpToyUrl" type="text" placeholder="https://.../toy.png" />
+            <div class="toy-url-row">
+              <button class="btn small primary" id="btnApplyToyUrl" type="button">Применить ссылку</button>
+              <button class="btn small" id="btnCenterToy" type="button">По центру</button>
+            </div>
+            <div class="toy-url-row">
+              <button class="btn small danger" id="btnResetToy" type="button">Сбросить эту</button>
+              <button class="btn small danger" id="btnResetAllToys" type="button">Сбросить все</button>
+            </div>
+            <div class="muted" id="toyTip" style="margin-top:12px;">Лучше использовать PNG/WebP с прозрачным фоном. Если вставить большую картинку как ссылку, код останется компактным.</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" id="btnCloseToyModal2" type="button">Закрыть</button>
       </div>
     </div>
   </div>
@@ -404,7 +456,24 @@
       validatePrompt: "Введите текст",
       validateMinOptions: "Минимум 2 варианта",
       validateCorrect: "Отметьте верный ответ",
-      validateQuestionTimer: "Таймер вопроса: 3–600 секунд"
+      validateQuestionTimer: "Таймер вопроса: 3–600 секунд",
+      toysOpen: "🧸 Настроить игрушки",
+      toysHelp: "Можно заменить одну или несколько игрушек, подвигать их внутри ячейки и изменить размер.",
+      toysModalTitle: "🧸 Настройка игрушек",
+      toysGridHint: "Кликните на игрушку. Перетащите её внутри ячейки или потяните за уголок, чтобы изменить размер.",
+      toySelectedTitle: "Игрушка #{n}",
+      toyUrlLabel: "Ссылка на картинку игрушки",
+      toyUrlPlaceholder: "https://.../toy.png",
+      applyToyUrl: "Применить ссылку",
+      centerToy: "По центру",
+      resetThisToy: "Сбросить эту",
+      resetAllToys: "Сбросить все",
+      toyTip: "Лучше использовать PNG/WebP с прозрачным фоном. Если вставить большую картинку как ссылку, код останется компактным.",
+      toyUrlApplied: "Картинка игрушки обновлена",
+      toyCentered: "Игрушка по центру",
+      toyReset: "Игрушка сброшена",
+      allToysReset: "Все игрушки сброшены",
+      resetAllToysConfirm: "Сбросить все игрушки к стандартным?"
     },
     en: {
       pageTitle: "Claw Machine — Editor",
@@ -512,7 +581,24 @@
       validatePrompt: "Enter text",
       validateMinOptions: "At least 2 options",
       validateCorrect: "Mark the correct answer",
-      validateQuestionTimer: "Question timer: 3–600 seconds"
+      validateQuestionTimer: "Question timer: 3–600 seconds",
+      toysOpen: "🧸 Customize toys",
+      toysHelp: "Replace one or several toys, move them inside their cells, and resize them.",
+      toysModalTitle: "🧸 Toy settings",
+      toysGridHint: "Click a toy. Drag it inside the cell or pull the corner to resize it.",
+      toySelectedTitle: "Toy #{n}",
+      toyUrlLabel: "Toy image link",
+      toyUrlPlaceholder: "https://.../toy.png",
+      applyToyUrl: "Apply link",
+      centerToy: "Center",
+      resetThisToy: "Reset this one",
+      resetAllToys: "Reset all",
+      toyTip: "PNG/WebP with a transparent background works best. Image links keep the generated code compact.",
+      toyUrlApplied: "Toy image updated",
+      toyCentered: "Toy centered",
+      toyReset: "Toy reset",
+      allToysReset: "All toys reset",
+      resetAllToysConfirm: "Reset all toys to defaults?"
     },
     de: {
       pageTitle: "Greifautomat — Editor",
@@ -620,7 +706,24 @@
       validatePrompt: "Text eingeben",
       validateMinOptions: "Mindestens 2 Optionen",
       validateCorrect: "Richtige Antwort markieren",
-      validateQuestionTimer: "Frage-Timer: 3–600 Sekunden"
+      validateQuestionTimer: "Frage-Timer: 3–600 Sekunden",
+      toysOpen: "🧸 Spielzeuge anpassen",
+      toysHelp: "Ersetzen Sie ein oder mehrere Spielzeuge, verschieben Sie sie in der Zelle und ändern Sie die Größe.",
+      toysModalTitle: "🧸 Spielzeug-Einstellungen",
+      toysGridHint: "Klicken Sie auf ein Spielzeug. Ziehen Sie es in der Zelle oder ziehen Sie an der Ecke, um die Größe zu ändern.",
+      toySelectedTitle: "Spielzeug #{n}",
+      toyUrlLabel: "Link zum Spielzeugbild",
+      toyUrlPlaceholder: "https://.../toy.png",
+      applyToyUrl: "Link anwenden",
+      centerToy: "Zentrieren",
+      resetThisToy: "Dieses zurücksetzen",
+      resetAllToys: "Alle zurücksetzen",
+      toyTip: "PNG/WebP mit transparentem Hintergrund passt am besten. Bildlinks halten den erzeugten Code kompakt.",
+      toyUrlApplied: "Spielzeugbild aktualisiert",
+      toyCentered: "Spielzeug zentriert",
+      toyReset: "Spielzeug zurückgesetzt",
+      allToysReset: "Alle Spielzeuge zurückgesetzt",
+      resetAllToysConfirm: "Alle Spielzeuge auf Standard zurücksetzen?"
     },
     zh: {
       pageTitle: "抓娃娃机 — 编辑器",
@@ -728,7 +831,24 @@
       validatePrompt: "请输入文本",
       validateMinOptions: "至少 2 个选项",
       validateCorrect: "请标记正确答案",
-      validateQuestionTimer: "问题计时器：3–600 秒"
+      validateQuestionTimer: "问题计时器：3–600 秒",
+      toysOpen: "🧸 设置玩具",
+      toysHelp: "可以替换一个或多个玩具，在单元格内移动并调整大小。",
+      toysModalTitle: "🧸 玩具设置",
+      toysGridHint: "点击玩具。可在单元格内拖动，或拉动角标调整大小。",
+      toySelectedTitle: "玩具 #{n}",
+      toyUrlLabel: "玩具图片链接",
+      toyUrlPlaceholder: "https://.../toy.png",
+      applyToyUrl: "应用链接",
+      centerToy: "居中",
+      resetThisToy: "重置此玩具",
+      resetAllToys: "全部重置",
+      toyTip: "建议使用透明背景的 PNG/WebP。使用图片链接可以保持生成代码更紧凑。",
+      toyUrlApplied: "玩具图片已更新",
+      toyCentered: "玩具已居中",
+      toyReset: "玩具已重置",
+      allToysReset: "所有玩具已重置",
+      resetAllToysConfirm: "将所有玩具恢复默认？"
     }
   };
   const GAME_I18N = {
@@ -871,6 +991,20 @@
     setTxt("#btnResetBg", tr("resetBg"));
     setTxt("#lblTransparentBgTitle", tr("transparentBg"));
     setTxt("#lblTransparentBgHelp", tr("transparentBgHelp"));
+    setTxt("#btnOpenToys", tr("toysOpen"));
+    setTxt("#toySectionHelp", tr("toysHelp"));
+    setTxt("#toyModalTitle", tr("toysModalTitle"));
+    if($("btnCloseToyModal")) $("btnCloseToyModal").textContent = tr("close");
+    if($("btnCloseToyModal2")) $("btnCloseToyModal2").textContent = tr("close");
+    setTxt("#toyGridHint", tr("toysGridHint"));
+    setTxt("#toyUrlLabel", tr("toyUrlLabel"));
+    setPlaceholder("inpToyUrl", tr("toyUrlPlaceholder"));
+    setTxt("#btnApplyToyUrl", tr("applyToyUrl"));
+    setTxt("#btnCenterToy", tr("centerToy"));
+    setTxt("#btnResetToy", tr("resetThisToy"));
+    setTxt("#btnResetAllToys", tr("resetAllToys"));
+    setTxt("#toyTip", tr("toyTip"));
+    updateToySideText();
     setToggleText("chkUseLatex", tr("useLatex"), tr("latexHelp"));
     setToggleText("chkTimer", tr("globalTimer"), tr("globalTimerHelp"));
     if($("btnAddQ")) $("btnAddQ").textContent = tr("add");
@@ -1114,6 +1248,26 @@
             } catch(e) {}
         }
 
+        const toyBasePositions = {1:{left:41.80,top:32.84,width:3.76,height:9.19},4:{left:47.72,top:32.70,width:3.76,height:9.46},6:{left:53.23,top:32.70,width:4.57,height:9.46},5:{left:41.26,top:42.57,width:4.44,height:10.00},3:{left:47.65,top:42.97,width:3.83,height:9.19},2:{left:53.43,top:42.84,width:3.83,height:9.73},9:{left:41.06,top:53.11,width:4.84,height:9.73},8:{left:47.65,top:54.19,width:4.03,height:9.46},7:{left:52.96,top:52.57,width:4.70,height:10.68}};
+        function numClamp(v, min, max, fallback){ v = Number(v); if(!Number.isFinite(v)) v = fallback; return Math.max(min, Math.min(max, v)); }
+        function applyToyCustomizations(rawCfg){
+            const toys = Array.isArray(rawCfg.toys) ? rawCfg.toys : [];
+            for(let id=1; id<=9; id++){
+                const el = document.getElementById('toy-' + id), base = toyBasePositions[id]; if(!el || !base) continue;
+                const cfg = toys[id-1] || {};
+                const scale = numClamp(cfg.scale, 0.45, 1.55, 1);
+                const offsetX = numClamp(cfg.offsetX, -50, 50, 0);
+                const offsetY = numClamp(cfg.offsetY, -50, 50, 0);
+                const w = base.width * scale, h = base.height * scale;
+                const left = base.left + (base.width - w) / 2 + (base.width * offsetX / 100);
+                const top = base.top + (base.height - h) / 2 + (base.height * offsetY / 100);
+                el.src = (cfg.src && String(cfg.src).trim()) ? String(cfg.src).trim() : (baseUrl + id + '.png');
+                el.style.left = left + '%'; el.style.top = top + '%'; el.style.width = w + '%'; el.style.height = h + '%';
+                el.style.objectFit = 'contain';
+                if(typeof initialToyPositions !== 'undefined') initialToyPositions[el.id] = { left: el.style.left, top: el.style.top, width: el.style.width, height: el.style.height };
+            }
+        }
+
         function initGameData() {
             const rawCfg = window.__CFG || {};
             const gameText = applyGameLanguage(rawCfg);
@@ -1133,6 +1287,7 @@
                 gameContainer.style.background = '';
                 if(rawCfg.bgDataUrl) gameContainer.style.backgroundImage = 'url(' + rawCfg.bgDataUrl + ')';
             }
+            applyToyCustomizations(rawCfg);
             document.getElementById('startTitle').textContent = rawCfg.title || gameText.title;
             document.getElementById('startText').innerHTML = (rawCfg.instruction?.text || gameText.instruction).replace(/\\n/g, "<br/>");
             if((rawCfg.feedback?.text || "").trim()) { document.getElementById('finishCustomText').innerHTML = rawCfg.feedback.text.replace(/\\\\n/g, "<br/>"); document.getElementById('finishCustomText').style.display = 'block'; }
@@ -1319,7 +1474,7 @@
     const root = $("gameRoot"); root.innerHTML = __GAME_HTML__;
     let st = document.getElementById("__claw_game_style");
     if(!st){ st = document.createElement("style"); st.id="__claw_game_style"; st.textContent = __GAME_CSS__; document.head.appendChild(st); }
-    window.__CFG = { title: cfg.title || gameTr(cfg.lang || editorLang).title, lang: cfg.lang || editorLang || "ru", questions: cfg.questions || [], useLatex: !!cfg.useLatex, bgDataUrl: cfg.bgDataUrl || "", transparentBg: !!cfg.transparentBg, timer: cfg.timer, instruction: cfg.instruction, feedback: cfg.feedback };
+    window.__CFG = { title: cfg.title || gameTr(cfg.lang || editorLang).title, lang: cfg.lang || editorLang || "ru", questions: cfg.questions || [], useLatex: !!cfg.useLatex, bgDataUrl: cfg.bgDataUrl || "", transparentBg: !!cfg.transparentBg, toys: normalizeToys(cfg.toys), timer: cfg.timer, instruction: cfg.instruction, feedback: cfg.feedback };
     
     if(!window.__CLAW_GAME_RAN__){ window.__CLAW_GAME_RAN__ = true; try{ eval(__GAME_JS__); }catch(e){ showErr(e?.stack || e?.message || String(e)); }
     } else { try{ if(typeof initGameData === 'function') initGameData(); const startLayer = document.getElementById("start"); if(startLayer) startLayer.style.display="flex"; const qp = new URLSearchParams(location.search); if(qp.get("autostart")==="1"){ const pBtn = document.getElementById("playBtn"); if(pBtn) pBtn.click(); } }catch(e){} }
@@ -1333,16 +1488,68 @@
   function parseQueryParams(){ const q = {}; const s = window.location.search.replace(/^\?/, ""); s.split("&").filter(Boolean).forEach(pair=>{ const [k,v] = pair.split("="); if(k) q[decodeURIComponent(k)] = decodeURIComponent(v||""); }); return q; }
   function parseHashParams(){ const h = (location.hash || "").replace(/^#/, ""); const out = {}; h.split("&").filter(Boolean).forEach(pair=>{ const [k,v] = pair.split("="); if(k) out[decodeURIComponent(k)] = decodeURIComponent(v || ""); }); return out; }
 
+
+  const TOY_BASE_URL = "https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/";
+  const TOY_IDS = [1,4,6,5,3,2,9,8,7];
+  const TOY_CELL_BASE_SIZE = 62;
+  const TOY_MIN_SCALE = 0.45;
+  const TOY_MAX_SCALE = 1.55;
+  let selectedToyIdx = 0;
+  let toyDragState = null;
+  function toyDefaultSrc(id){ return TOY_BASE_URL + id + ".png"; }
+  function defaultToySettings(){ return { src:"", scale:1, offsetX:0, offsetY:0 }; }
+  function clamp(n, min, max){ return Math.max(min, Math.min(max, Number(n) || 0)); }
+  function normalizeToySettings(t){
+    const out = { src:String(t?.src || "").trim(), scale:Number(t?.scale || 1), offsetX:Number(t?.offsetX || 0), offsetY:Number(t?.offsetY || 0) };
+    out.scale = clamp(out.scale, TOY_MIN_SCALE, TOY_MAX_SCALE);
+    const size = TOY_CELL_BASE_SIZE * out.scale;
+    const maxOffset = Math.max(0, (100 - size) / 2);
+    out.offsetX = clamp(out.offsetX, -maxOffset, maxOffset);
+    out.offsetY = clamp(out.offsetY, -maxOffset, maxOffset);
+    out.offsetX = Math.round(out.offsetX * 100) / 100;
+    out.offsetY = Math.round(out.offsetY * 100) / 100;
+    out.scale = Math.round(out.scale * 1000) / 1000;
+    return out;
+  }
+  function normalizeToys(arr){ const list = Array.isArray(arr) ? arr : []; return Array.from({length:9}, (_, i) => normalizeToySettings(list[i] || {})); }
+  function toyImageSrc(idx){ const id = idx + 1; const t = Editor.toys?.[idx] || defaultToySettings(); return t.src || toyDefaultSrc(id); }
+  function toyStyleForCell(t){ t = normalizeToySettings(t || {}); const size = TOY_CELL_BASE_SIZE * t.scale; return { size, left: 50 + t.offsetX, top: 50 + t.offsetY }; }
+  function updateToySideText(){ const t = Editor.toys?.[selectedToyIdx] || defaultToySettings(); if($("toySelectedTitle")) $("toySelectedTitle").textContent = tr("toySelectedTitle", {n:selectedToyIdx + 1}); if($("inpToyUrl")) $("inpToyUrl").value = t.src || ""; }
+  function renderToyGrid(){
+    const grid = $("toyGrid"); if(!grid) return; Editor.toys = normalizeToys(Editor.toys); grid.innerHTML = "";
+    TOY_IDS.forEach(id => {
+      const idx = id - 1; const t = Editor.toys[idx]; const st = toyStyleForCell(t); const cell = document.createElement("div");
+      cell.className = "toy-cell" + (idx === selectedToyIdx ? " selected" : ""); cell.dataset.idx = String(idx); cell.innerHTML = '<div class="toy-num">#' + id + '</div>';
+      const img = document.createElement("img"); img.className = "toy-edit-img"; img.src = toyImageSrc(idx); img.alt = "toy " + id; img.style.width = st.size + "%"; img.style.height = st.size + "%"; img.style.left = st.left + "%"; img.style.top = st.top + "%"; img.draggable = false; img.addEventListener("pointerdown", startToyDrag); cell.addEventListener("pointerdown", (e)=>{ if(e.target === cell) selectToy(idx); }); cell.appendChild(img);
+      const handle = document.createElement("div"); handle.className = "toy-resize-handle"; handle.textContent = "↘"; handle.addEventListener("pointerdown", startToyResize); cell.appendChild(handle); grid.appendChild(cell);
+    }); updateToySideText();
+  }
+  function selectToy(idx){ selectedToyIdx = Math.max(0, Math.min(8, Number(idx)||0)); renderToyGrid(); }
+  function pointerCellPercent(e, cell){ const r = cell.getBoundingClientRect(); return {x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100}; }
+  function startToyDrag(e){ e.preventDefault(); e.stopPropagation(); const cell = e.currentTarget.closest(".toy-cell"); const idx = Number(cell.dataset.idx); selectToy(idx); toyDragState = { mode:"move", idx, cell }; try{ e.currentTarget.setPointerCapture(e.pointerId); }catch(err){} window.addEventListener("pointermove", onToyPointerMove); window.addEventListener("pointerup", stopToyPointer, {once:true}); }
+  function startToyResize(e){ e.preventDefault(); e.stopPropagation(); const cell = e.currentTarget.closest(".toy-cell"); const idx = Number(cell.dataset.idx); selectToy(idx); toyDragState = { mode:"resize", idx, cell }; try{ e.currentTarget.setPointerCapture(e.pointerId); }catch(err){} window.addEventListener("pointermove", onToyPointerMove); window.addEventListener("pointerup", stopToyPointer, {once:true}); }
+  function onToyPointerMove(e){
+    if(!toyDragState) return; const t = Editor.toys[toyDragState.idx] || defaultToySettings(); const pnt = pointerCellPercent(e, toyDragState.cell);
+    if(toyDragState.mode === "move"){ t.offsetX = pnt.x - 50; t.offsetY = pnt.y - 50; }
+    else { const cx = 50 + Number(t.offsetX || 0), cy = 50 + Number(t.offsetY || 0); const newSize = Math.max(Math.abs(pnt.x - cx) * 2, Math.abs(pnt.y - cy) * 2, TOY_CELL_BASE_SIZE * TOY_MIN_SCALE); t.scale = clamp(newSize / TOY_CELL_BASE_SIZE, TOY_MIN_SCALE, TOY_MAX_SCALE); }
+    Editor.toys[toyDragState.idx] = normalizeToySettings(t); renderToyGrid(); debouncedPreview();
+  }
+  function stopToyPointer(){ window.removeEventListener("pointermove", onToyPointerMove); toyDragState = null; updatePreview(false); }
+  function openToyModal(){ Editor.toys = normalizeToys(Editor.toys); renderToyGrid(); $("toyBackdrop").style.display="block"; $("toyBackdrop").setAttribute("aria-hidden","false"); }
+  function closeToyModal(){ $("toyBackdrop").style.display="none"; $("toyBackdrop").setAttribute("aria-hidden","true"); }
+
   function packPayload(p) {
       const out = {}; if (p.lang && p.lang !== "ru") out.l = p.lang; if (p.title && p.title !== gameTr(p.lang || "ru").title) out.ti = p.title; if (p.bgDataUrl) out.bg = p.bgDataUrl; if (p.transparentBg) out.tb = 1; if (p.useLatex) out.ul = 1; if (p.timer && p.timer.enabled) { out.tm = 1; out.ts = p.timer.seconds; }
       if (p.instruction) { out.i = {}; if (p.instruction.text !== gameTr(p.lang || "ru").instruction) out.i.t = p.instruction.text; if (Object.keys(out.i).length === 0) delete out.i; }
       if (p.feedback && p.feedback.text) out.f = p.feedback.text;
+      const toyPack = normalizeToys(p.toys).map(t => { const mt = {}; if(t.src) mt.s = t.src; if(Math.abs(t.scale - 1) > 0.001) mt.z = t.scale; if(Math.abs(t.offsetX) > 0.001) mt.x = t.offsetX; if(Math.abs(t.offsetY) > 0.001) mt.y = t.offsetY; return Object.keys(mt).length ? mt : null; });
+      if(toyPack.some(Boolean)) out.ty = toyPack;
       out.q = (p.questions || []).map(q => { const mq = {}; mq.t = q.type === "text" ? 1 : 0; if (q.prompt) mq.p = q.prompt; if (mq.t === 0) { if (q.options) mq.o = q.options; if (q.correctIndices && (q.correctIndices.length > 1 || q.correctIndices[0] !== 0)) mq.c = q.correctIndices; } else { if (q.accepts) mq.a = q.accepts; } if (q.seconds) mq.s = q.seconds; if (q.image) mq.i = q.image; if (q.audio) mq.au = q.audio; if (q.font) mq.fn = q.font; if (q.fontSize && q.fontSize !== 32) mq.fs = q.fontSize; return mq; }); return out;
   }
 
   function unpackPayload(out) {
       if (!out || typeof out !== 'object') return normalizeCfg({}); if (out.questions) return normalizeCfg(out); 
-      const pLang = out.l || "ru"; const p = { lang: pLang, title: out.ti || gameTr(pLang).title, useLatex: !!out.ul, bgDataUrl: out.bg || "", transparentBg: !!out.tb, timer: { enabled: !!out.tm, seconds: out.ts || 30 }, instruction: { text: (out.i && out.i.t !== undefined) ? out.i.t : gameTr(pLang).instruction }, feedback: { text: out.f || "" }, questions: (out.q || []).map(mq => { const q = {}; q.type = mq.t === 1 ? "text" : "choice"; q.prompt = mq.p || ""; if (q.type === "choice") { q.options = mq.o || ["Да", "Нет"]; q.correctIndices = mq.c || [0]; } else { q.accepts = mq.a || ["Ответ"]; } q.seconds = mq.s || null; q.image = mq.i || ""; q.audio = mq.au || ""; q.font = mq.fn || ""; q.fontSize = mq.fs || null; return q; }) }; return normalizeCfg(p);
+      const pLang = out.l || "ru"; const p = { lang: pLang, title: out.ti || gameTr(pLang).title, useLatex: !!out.ul, bgDataUrl: out.bg || "", transparentBg: !!out.tb, toys: (out.ty || []).map(mt => mt ? ({ src: mt.s || "", scale: mt.z || 1, offsetX: mt.x || 0, offsetY: mt.y || 0 }) : {}), timer: { enabled: !!out.tm, seconds: out.ts || 30 }, instruction: { text: (out.i && out.i.t !== undefined) ? out.i.t : gameTr(pLang).instruction }, feedback: { text: out.f || "" }, questions: (out.q || []).map(mq => { const q = {}; q.type = mq.t === 1 ? "text" : "choice"; q.prompt = mq.p || ""; if (q.type === "choice") { q.options = mq.o || ["Да", "Нет"]; q.correctIndices = mq.c || [0]; } else { q.accepts = mq.a || ["Ответ"]; } q.seconds = mq.s || null; q.image = mq.i || ""; q.audio = mq.au || ""; q.font = mq.fn || ""; q.fontSize = mq.fs || null; return q; }) }; return normalizeCfg(p);
   }
 
   function encodeGameData(payload) { return "~" + LZString.compressToEncodedURIComponent(JSON.stringify(packPayload(payload))); }
@@ -1350,12 +1557,12 @@
 
   function normalizeCfg(raw){
     const cfg = raw && typeof raw === "object" ? raw : {}; const lang = (cfg.lang && GAME_I18N[cfg.lang]) ? cfg.lang : ((typeof editorLang !== "undefined" && GAME_I18N[editorLang]) ? editorLang : "ru"); const title = String(cfg.title || gameTr(lang).title), bgDataUrl = String(cfg.bgDataUrl || ""), transparentBg = !!cfg.transparentBg, useLatex = !!cfg.useLatex; const timerEnabled = !!cfg.timer?.enabled, timerSeconds = Math.max(5, Math.min(600, Number(cfg.timer?.seconds || 30))); const instruction = { text: cfg.instruction?.text !== undefined ? String(cfg.instruction.text) : gameTr(lang).instruction }; const feedback = { text: cfg.feedback?.text !== undefined ? String(cfg.feedback.text) : "" };
-    let questions = Array.isArray(cfg.questions) ? cfg.questions.slice(0,9) : [];
+    const toys = normalizeToys(cfg.toys); let questions = Array.isArray(cfg.questions) ? cfg.questions.slice(0,9) : [];
     questions = questions.map(q=>{ const rawSecs = (q && ("seconds" in q)) ? q.seconds : null; const nSecs = (rawSecs==null || rawSecs==="") ? null : Number(rawSecs); const seconds = (Number.isFinite(nSecs) && nSecs>0) ? Math.max(1, Math.min(600, Math.round(nSecs))) : null; const image = String(q?.image || "").trim(), audio = String(q?.audio || "").trim(), font = String(q?.font || "").trim(), fontSize = q?.fontSize ? Number(q.fontSize) : null; if(q?.type === "text" || q?.type === "input"){ return { type:"text", prompt:String(q.prompt||""), accepts:(Array.isArray(q.accepts)?q.accepts:[String(q.answer||"")]).map(x=>String(x||"")), seconds, image, audio, font, fontSize }; } return { type:"choice", prompt:String(q?.prompt||""), options:(Array.isArray(q?.options)?q.options:[]).map(x=>String(x||"")), correctIndices: (Array.isArray(q?.correctIndices) ? q.correctIndices : [Number(q?.correctIndex||0)]), seconds, image, audio, font, fontSize }; });
-    return { lang, title, bgDataUrl, transparentBg, timer: { enabled: timerEnabled, seconds: timerSeconds }, useLatex, questions, instruction, feedback };
+    return { lang, title, bgDataUrl, transparentBg, toys, timer: { enabled: timerEnabled, seconds: timerSeconds }, useLatex, questions, instruction, feedback };
   }
 
-  const Editor = { title: gameTr(editorLang).title, bgDataUrl: "", transparentBg: false, timer: { enabled:false, seconds: 30 }, useLatex: false, instruction: { text: gameTr(editorLang).instruction }, feedback: { text: "" }, questions: [], draft: null, editingId: null };
+  const Editor = { title: gameTr(editorLang).title, bgDataUrl: "", transparentBg: false, toys: normalizeToys([]), timer: { enabled:false, seconds: 30 }, useLatex: false, instruction: { text: gameTr(editorLang).instruction }, feedback: { text: "" }, questions: [], draft: null, editingId: null };
 
   function setCountPill(){ $("pillCount").textContent = Editor.questions.length + " / 9"; $("btnAddQ").disabled = (Editor.questions.length >= 9); if($("btnImportQ")) $("btnImportQ").disabled = (Editor.questions.length >= 9); }
   function escapeHtml(s){ return String(s ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;"); }
@@ -1424,7 +1631,7 @@
   function buildPayload(previewWithDraft){
     let questions = Editor.questions.map(q=>{ if(q.type === "choice"){ return { type:"choice", prompt:q.prompt||"", options:(q.options||[]).slice(), correctIndices:(q.correctIndices||[0]).slice(), seconds:(q.seconds??null), image:q.image||"", audio:q.audio||"", font:q.font||"", fontSize:q.fontSize||null }; } return { type:"text", prompt:q.prompt||"", accepts:(q.accepts||[]).slice(), seconds:(q.seconds??null), image:q.image||"", audio:q.audio||"", font:q.font||"", fontSize:q.fontSize||null }; });
     if(previewWithDraft && Editor.draft){ const d = deepClone(Editor.draft); questions = questions.slice(); if(d.type === "choice"){ const mapped = { type:"choice", prompt:d.prompt||"", options:(d.options||[]).slice(), correctIndices:(d.correctIndices||[0]).slice(), seconds: (d.seconds==null || d.seconds==="") ? null : Number(d.seconds), image:d.image||"", audio:d.audio||"", font:d.font||"", fontSize:d.fontSize||null }; if(questions.length === 0) questions.push(mapped); else questions[0] = mapped; } else { const mapped = { type:"text", prompt:d.prompt||"", accepts:(d.accepts||[]).slice(), seconds: (d.seconds==null || d.seconds==="") ? null : Number(d.seconds), image:d.image||"", audio:d.audio||"", font:d.font||"", fontSize:d.fontSize||null }; if(questions.length === 0) questions.push(mapped); else questions[0] = mapped; } }
-    return normalizeCfg({ lang: editorLang, title: Editor.title || gameTr(editorLang).title, bgDataUrl: Editor.bgDataUrl || "", transparentBg: !!Editor.transparentBg, timer: { enabled: !!Editor.timer.enabled, seconds: Number(Editor.timer.seconds || 30) }, useLatex: !!Editor.useLatex, instruction: Editor.instruction, feedback: Editor.feedback, questions });
+    return normalizeCfg({ lang: editorLang, title: Editor.title || gameTr(editorLang).title, bgDataUrl: Editor.bgDataUrl || "", transparentBg: !!Editor.transparentBg, toys: normalizeToys(Editor.toys), timer: { enabled: !!Editor.timer.enabled, seconds: Number(Editor.timer.seconds || 30) }, useLatex: !!Editor.useLatex, instruction: Editor.instruction, feedback: Editor.feedback, questions });
   }
 
   function buildIframeFromUrl(src){ return `<iframe src="${src}" style="width:100%;height:100%;border:0;border-radius:18px;overflow:hidden;background:transparent" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>`; }
@@ -1454,6 +1661,16 @@
   $("inpInstruction").addEventListener("input", ()=>{ Editor.instruction.text = $("inpInstruction").value; debouncedPreview(); }); $("inpFeedback").addEventListener("input", ()=>{ Editor.feedback.text = $("inpFeedback").value; debouncedPreview(); }); $("inpTitle").addEventListener("input", ()=>{ Editor.title = $("inpTitle").value || gameTr(editorLang).title; debouncedPreview(); }); $("inpBgUrl").addEventListener("input", ()=>{ Editor.bgDataUrl = $("inpBgUrl").value.trim(); debouncedPreview(); }); $("inpSeconds").addEventListener("input", ()=>{ Editor.timer.seconds = Number($("inpSeconds").value || 30); debouncedPreview(); }); if($("chkTransparentBg")) $("chkTransparentBg").addEventListener("change", ()=>{ Editor.transparentBg = $("chkTransparentBg").checked; updatePreview(false); }); if($("selLang")) $("selLang").addEventListener("change", ()=>{ editorLang = $("selLang").value; safeLangSet(editorLang); syncDefaultGameTextsForLang(editorLang); applyEditorLang(); renderList(); if(Editor.draft){ if((Editor.draft.type || "choice") === "choice") renderChoiceUI(); else renderTextUI(); } updatePreview(false); }); $("btnResetBg").addEventListener("click", ()=>{ Editor.bgDataUrl = ""; Editor.transparentBg = false; $("inpBgUrl").value = ""; if($("chkTransparentBg")) $("chkTransparentBg").checked = false; updatePreview(false); });
   if($("chkUseLatex")) $("chkUseLatex").addEventListener("change", ()=>{ Editor.useLatex = $("chkUseLatex").checked; updatePreview(false); }); $("chkTimer").addEventListener("change", ()=>{ Editor.timer.enabled = $("chkTimer").checked; updatePreview(false); });
   $("btnAddQ").addEventListener("click", ()=>{ if(Editor.questions.length >= 9){ toast(tr("alreadyNine")); return; } openModal(null); }); $("btnClearQs").addEventListener("click", ()=>{ Editor.questions = []; renderList(); updatePreview(false); toast(tr("cleared")); }); $("btnCloseModal").addEventListener("click", ()=>{ Editor.draft=null; Editor.editingId=null; hideModal(); }); $("modalBackdrop").addEventListener("click", (e)=>{ if(e.target === $("modalBackdrop")){ Editor.draft=null; Editor.editingId=null; hideModal(); } });
+
+  if($("btnOpenToys")) $("btnOpenToys").addEventListener("click", openToyModal);
+  if($("btnCloseToyModal")) $("btnCloseToyModal").addEventListener("click", closeToyModal);
+  if($("btnCloseToyModal2")) $("btnCloseToyModal2").addEventListener("click", closeToyModal);
+  if($("toyBackdrop")) $("toyBackdrop").addEventListener("click", (e)=>{ if(e.target === $("toyBackdrop")) closeToyModal(); });
+  if($("btnApplyToyUrl")) $("btnApplyToyUrl").addEventListener("click", ()=>{ Editor.toys[selectedToyIdx].src = ($("inpToyUrl").value || "").trim(); Editor.toys[selectedToyIdx] = normalizeToySettings(Editor.toys[selectedToyIdx]); renderToyGrid(); updatePreview(false); toast(tr("toyUrlApplied")); });
+  if($("inpToyUrl")) $("inpToyUrl").addEventListener("keydown", (e)=>{ if(e.key === "Enter") $("btnApplyToyUrl").click(); });
+  if($("btnCenterToy")) $("btnCenterToy").addEventListener("click", ()=>{ const t = Editor.toys[selectedToyIdx] || defaultToySettings(); t.offsetX = 0; t.offsetY = 0; Editor.toys[selectedToyIdx] = normalizeToySettings(t); renderToyGrid(); updatePreview(false); toast(tr("toyCentered")); });
+  if($("btnResetToy")) $("btnResetToy").addEventListener("click", ()=>{ Editor.toys[selectedToyIdx] = defaultToySettings(); renderToyGrid(); updatePreview(false); toast(tr("toyReset")); });
+  if($("btnResetAllToys")) $("btnResetAllToys").addEventListener("click", ()=>{ if(confirm(tr("resetAllToysConfirm"))){ Editor.toys = normalizeToys([]); renderToyGrid(); updatePreview(false); toast(tr("allToysReset")); } });
 
   window.closeImport = () => { $("importBackdrop").style.display = "none"; $("importBackdrop").setAttribute("aria-hidden","true"); $("importText").value = ''; };
   if ($("btnImportQ")) { $("btnImportQ").addEventListener("click", () => { if(Editor.questions.length >= 9) { toast(tr("alreadyNine")); return; } $("importBackdrop").style.display = "block"; $("importBackdrop").setAttribute("aria-hidden","false"); }); }
@@ -1490,7 +1707,7 @@
   if(gameParam){ try{ const raw = decodeGameData(gameParam); bootGameOnly(raw); } catch(e){ $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Ошибка iframe</div>'; } return; }
   if(cfgKeyParam){ try{ const rawStr = localStorage.getItem(cfgKeyParam) || sessionStorage.getItem(cfgKeyParam); if(!rawStr) throw new Error("cfgkey not found"); const raw = JSON.parse(rawStr); bootGameOnly(normalizeCfg(raw)); }catch(e){ $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Ошибка (cfgkey)</div>'; } return; }
 
-  try { const saved = localStorage.getItem(AUTOSAVE_KEY); if (saved) { const p = JSON.parse(saved); if(p.lang && GAME_I18N[p.lang]) { editorLang = p.lang; safeLangSet(editorLang); } if(p.title) $("inpTitle").value = p.title; if(p.bgDataUrl) $("inpBgUrl").value = p.bgDataUrl; if(p.transparentBg !== undefined && $("chkTransparentBg")) $("chkTransparentBg").checked = !!p.transparentBg; if(p.timer) { $("chkTimer").checked = !!p.timer.enabled; if(p.timer.seconds) $("inpSeconds").value = p.timer.seconds; } if(p.useLatex !== undefined && $("chkUseLatex")) $("chkUseLatex").checked = !!p.useLatex; if(p.instruction && p.instruction.text !== undefined) $("inpInstruction").value = p.instruction.text; if(p.feedback && p.feedback.text !== undefined) $("inpFeedback").value = p.feedback.text; if(Array.isArray(p.questions)) { Editor.questions = p.questions.map(q => ({...q, id: uid()})); } } } catch(e) {}
+  try { const saved = localStorage.getItem(AUTOSAVE_KEY); if (saved) { const p = JSON.parse(saved); if(p.lang && GAME_I18N[p.lang]) { editorLang = p.lang; safeLangSet(editorLang); } if(p.title) $("inpTitle").value = p.title; if(p.bgDataUrl) $("inpBgUrl").value = p.bgDataUrl; if(p.transparentBg !== undefined && $("chkTransparentBg")) $("chkTransparentBg").checked = !!p.transparentBg; if(p.timer) { $("chkTimer").checked = !!p.timer.enabled; if(p.timer.seconds) $("inpSeconds").value = p.timer.seconds; } if(p.useLatex !== undefined && $("chkUseLatex")) $("chkUseLatex").checked = !!p.useLatex; if(p.instruction && p.instruction.text !== undefined) $("inpInstruction").value = p.instruction.text; if(p.feedback && p.feedback.text !== undefined) $("inpFeedback").value = p.feedback.text; if(Array.isArray(p.questions)) { Editor.questions = p.questions.map(q => ({...q, id: uid()})); } if(Array.isArray(p.toys)) { Editor.toys = normalizeToys(p.toys); } } } catch(e) {}
   Editor.title = $("inpTitle").value || "Игровой автомат"; Editor.transparentBg = $("chkTransparentBg") ? $("chkTransparentBg").checked : false; Editor.timer.enabled = $("chkTimer").checked; Editor.timer.seconds = Number($("inpSeconds").value || 30); if($("chkUseLatex")) Editor.useLatex = $("chkUseLatex").checked; Editor.instruction.text = $("inpInstruction").value; Editor.feedback.text = $("inpFeedback").value;
 
   applyEditorLang();
