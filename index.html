@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Игровой автомат — Редактор</title>
   
-  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=IosZzrgdcN3Cb17Winc0mk5vK6MZsczPCf_NnNXS2G-NOw904hdW6BLzTAoekv7GBYYKnfG4pMg_gzUpmjgd2mqA_UeiDjXkdlIz8qNqWqySGEmue8rjcHIxMnXCb8jYIbb_h6yy6NArUhzfO6miyzNBs8hKqUiuJVcse4ldOSlXMw7mBQ5WKs9yuyhTjjpxWMSWkUGCVx9AEMkYbJZ1ZgA4nl6-8Xb6zzBu3OXEdCbcB1IdSLA5EkKJUWL8LCZ6vNk4yNKVzKSxH2fyu6btYg" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=qmjB5mLnzHphMbXHJkAKC7nT7bF3FivBvb2-CGQ2HaTUJxU80tJsGJeS5N7QNxrmXVitiQXKdSZXYOskH-fo7vHKpUYLxQOcxmE4KysjFlN_EIhJ34CZ8nIGlqm43zT9_u9f2_4TdIffy5uu39Az26g0f75n_xra7nbvFOqlfL6dIzKEv0J_Kq73z3Ww25a6s_ANtFemoAp9L2DK8wdw49fHpG1_CCbMh5Mpvbz8GZOYRutlG1BbMToRjOvq0OY4wWSzBN8C25SR0lXnAxbNLw" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Neucha&display=swap');
@@ -1335,11 +1335,6 @@
             let cordHeight = targetTop - 12 + 2; if (cordHeight < 0) cordHeight = 0; clawCord.style.height = cordHeight + '%';
         }
 
-        function resetClawToStartPosition() {
-            currentCol = 1;
-            updateClawPosition(clawPositionsX[currentCol], clawStartTop);
-        }
-
         function getPercentPositionFromRect(element) {
             const containerRect = gameContainer.getBoundingClientRect(), rect = element.getBoundingClientRect();
             return { left: ((rect.left - containerRect.left) / containerRect.width) * 100, top: ((rect.top - containerRect.top) / containerRect.height) * 100, width: (rect.width / containerRect.width) * 100, height: (rect.height / containerRect.height) * 100 };
@@ -1441,7 +1436,6 @@
 
         function dropToy() {
             gameContainer.appendChild(selectedToyElement); selectedToyElement.style.transform = 'none'; selectedToyElement.style.left = '45.16%'; selectedToyElement.style.top = '71.76%'; selectedToyElement.style.width = '5.58%'; selectedToyElement.style.height = '11.22%'; selectedToyElement.style.zIndex = '30'; selectedToyElement.style.pointerEvents = 'auto'; selectedToyElement.classList.add('collected');
-            resetClawToStartPosition();
             setTimeout(() => { selectedToyElement.style.animation = 'blink 2s infinite'; selectedToyElement.onclick = () => moveToProgress(selectedToyElement); }, 1000);
         }
 
@@ -1453,7 +1447,6 @@
         
         function resetToy(toyElement) {
             toyElement.style.opacity = '0';
-            resetClawToStartPosition();
             setTimeout(() => {
                 gameContainer.appendChild(toyElement); const init = initialToyPositions[toyElement.id];
                 toyElement.style.transition = 'none'; toyElement.style.left = init.left; toyElement.style.top = init.top; toyElement.style.width = init.width; toyElement.style.height = init.height; toyElement.style.transform = 'none'; toyElement.style.zIndex = '15'; toyElement.style.pointerEvents = 'auto';
