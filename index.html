@@ -436,14 +436,12 @@
       }
     });
 
-    // Обновляем динамические элементы
     if (typeof renderList === 'function') renderList();
     if (document.getElementById("selType")) {
-      if (document.getElementById("selType").value === "choice") renderChoiceUI();
-      else renderTextUI();
+      if (document.getElementById("selType").value === "choice" && typeof renderChoiceUI === 'function') renderChoiceUI();
+      else if (typeof renderTextUI === 'function') renderTextUI();
     }
     
-    // Обновляем статус лимита кода
     const barData = document.getElementById("barSize") ? document.getElementById("barSize").style.width : "0%";
     const pct = parseFloat(barData);
     const lblText = document.getElementById("lblSizeText");
@@ -456,19 +454,9 @@
     localStorage.setItem('editor_lang', lang);
   }
 
-  const savedLang = localStorage.getItem('editor_lang');
-  if (savedLang) {
-    const selectEl = document.getElementById('langSelect');
-    if (selectEl) {
-      selectEl.value = savedLang;
-      changeLanguage(savedLang);
-    }
-  }
-
   document.getElementById('langSelect').addEventListener('change', (e) => {
     changeLanguage(e.target.value);
   });
-  // --- END MULTI-LANGUAGE SYSTEM ---
 
   const errbar = document.getElementById("errbar");
   function showErr(msg){ if(errbar){ errbar.classList.add("show"); errbar.textContent = "Ошибка: " + msg; } }
@@ -1043,7 +1031,25 @@
   if(p.instruction && p.instruction.text !== undefined) $("inpInstruction").value = p.instruction.text; if(p.feedback && p.feedback.text !== undefined) $("inpFeedback").value = p.feedback.text;
   if(Array.isArray(p.questions)) { Editor.questions = p.questions.map(q => ({...q, id: uid()})); } } } catch(e) {}
   
-  Editor.title = $("inpTitle").value || "Игровой автомат"; Editor.timer.enabled = $("chkTimer").checked; Editor.timer.seconds = Number($("inpSeconds").value || 30); if($("chkUseLatex")) Editor.useLatex = $("chkUseLatex").checked; Editor.instruction.text = $("inpInstruction").value; Editor.feedback.text = $("inpFeedback").value;
+  Editor.title = $("inpTitle").value || "Игровой автомат"; 
+  Editor.timer.enabled = $("chkTimer").checked; 
+  Editor.timer.seconds = Number($("inpSeconds").value || 30); 
+  if($("chkUseLatex")) Editor.useLatex = $("chkUseLatex").checked; 
+  Editor.instruction.text = $("inpInstruction").value; 
+  Editor.feedback.text = $("inpFeedback").value;
+  
+  // ПЕРЕНЕСЕНО СЮДА:
+  const savedLang = localStorage.getItem('editor_lang');
+  if (savedLang) {
+    const selectEl = document.getElementById('langSelect');
+    if (selectEl) {
+      selectEl.value = savedLang;
+      changeLanguage(savedLang);
+    }
+  } else {
+    changeLanguage('ru');
+  }
+
   updatePreview(false);
 })();
 </script>
