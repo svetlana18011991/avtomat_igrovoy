@@ -206,6 +206,11 @@
           <input id="inpTitle" type="text" value="Игровой автомат" />
         </div>
         <div class="section">
+          <div class="title">Стартовый экран</div>
+          <label>Текст инструкции</label>
+          <textarea id="inpInstruction" style="min-height:90px;"></textarea>
+        </div>
+        <div class="section">
           <div class="title">Оформление</div>
           <label>Фон игры (ссылка)</label>
           <div class="row" style="gap:10px; align-items:center; margin-top:6px">
@@ -254,11 +259,6 @@
           </div>
           <label>Секунд на вопрос (по умолчанию)</label>
           <input id="inpSeconds" type="number" min="5" max="600" step="1" value="30" />
-        </div>
-        <div class="section">
-          <div class="title">Стартовый экран</div>
-          <label>Текст инструкции</label>
-          <textarea id="inpInstruction" style="min-height:90px;"></textarea>
         </div>
         <div class="section">
           <div class="title">Финальный экран</div>
@@ -404,10 +404,7 @@
     <div class="modal" role="dialog" aria-modal="true">
       <div class="modal-head"><div class="h" style="color:#33d17a;">📥 Умный Импорт</div><button class="btn small danger" onclick="closeImport()" type="button">Закрыть</button></div>
       <div class="modal-body">
-         <div class="row" style="margin-bottom:15px;">
-          <div><label>Режим импорта текста:</label><select id="importMode" style="border-color:#33d17a;"><option value="ege">Текст блоками (с вариантами ответов)</option><option value="line">Простой список (каждая строка — новый вопрос)</option></select></div>
-        </div>
-        <textarea id="importText" style="height:250px; font-family:'Courier New', monospace; font-size:14px;" placeholder="Вставьте скопированный текст..."></textarea>
+        <textarea id="importText" style="height:250px; font-family:'Courier New', monospace; font-size:14px;" placeholder="Вставьте скопированный список... (каждая строка — новый вопрос)"></textarea>
       </div>
       <div class="modal-foot">
         <button class="btn" onclick="closeImport()" type="button">Отмена</button>
@@ -498,10 +495,7 @@
       showPreview: "👁 Показать в превью",
       save: "💾 Сохранить",
       importTitle: "📥 Умный Импорт",
-      importModeLabel: "Режим импорта текста:",
-      importModeBlocks: "Текст блоками (с вариантами ответов)",
-      importModeLines: "Простой список (каждая строка — новый вопрос)",
-      importPlaceholder: "Вставьте скопированный текст...",
+      importPlaceholder: "Вставьте скопированный список... (каждая строка — новый вопрос)",
       cancel: "Отмена",
       recognizeAdd: "✨ Распознать и добавить",
       choiceSummary: "Выбор",
@@ -628,10 +622,7 @@
       showPreview: "👁 Show in preview",
       save: "💾 Save",
       importTitle: "📥 Smart Import",
-      importModeLabel: "Text import mode:",
-      importModeBlocks: "Text blocks (with answer options)",
-      importModeLines: "Simple list (each line is a new question)",
-      importPlaceholder: "Paste copied text...",
+      importPlaceholder: "Paste copied list... (each line is a new question)",
       cancel: "Cancel",
       recognizeAdd: "✨ Recognize and add",
       choiceSummary: "Choice",
@@ -758,9 +749,6 @@
       showPreview: "👁 In Vorschau zeigen",
       save: "💾 Speichern",
       importTitle: "📥 Intelligenter Import",
-      importModeLabel: "Text-Importmodus:",
-      importModeBlocks: "Textblöcke (mit Antwortoptionen)",
-      importModeLines: "Einfache Liste (jede Zeile = neue Frage)",
       importPlaceholder: "Kopierten Text einfügen...",
       cancel: "Abbrechen",
       recognizeAdd: "✨ Erkennen und hinzufügen",
@@ -888,9 +876,6 @@
       showPreview: "👁 在预览中显示",
       save: "💾 保存",
       importTitle: "📥 智能导入",
-      importModeLabel: "文本导入模式：",
-      importModeBlocks: "文本块（带答案选项）",
-      importModeLines: "简单列表（每行一个新问题）",
       importPlaceholder: "粘贴复制的文本...",
       cancel: "取消",
       recognizeAdd: "✨ 识别并添加",
@@ -1080,9 +1065,9 @@
     const warn = $("sizeWarning"); if(warn) warn.textContent = tr("sizeWarning");
     const sections = document.querySelectorAll(".settings .section");
     if(sections[0]) { setTxtSection(sections[0], tr("sectionTitle"), [tr("titleLabel")]); }
-    if(sections[1]) { setTxtSection(sections[1], tr("sectionDesign"), [tr("bgLabel")]); }
-    if(sections[2]) { setTxtSection(sections[2], tr("sectionTimer"), [tr("secondsDefault")]); }
-    if(sections[3]) { setTxtSection(sections[3], tr("startScreen"), [tr("instructionLabel")]); }
+    if(sections[1]) { setTxtSection(sections[1], tr("startScreen"), [tr("instructionLabel")]); }
+    if(sections[2]) { setTxtSection(sections[2], tr("sectionDesign"), [tr("bgLabel")]); }
+    if(sections[3]) { setTxtSection(sections[3], tr("sectionTimer"), [tr("secondsDefault")]); }
     if(sections[4]) { setTxtSection(sections[4], tr("finishScreen"), [tr("feedbackLabel")]); }
     if(sections[5]) {
       const titleSpan = sections[5].querySelector(".title span:first-child");
@@ -1149,9 +1134,6 @@
     if($("btnSaveQ")) $("btnSaveQ").textContent = tr("save");
     const importHead = document.querySelector("#importBackdrop .modal-head .h"); if(importHead) importHead.textContent = tr("importTitle");
     const importClose = document.querySelector("#importBackdrop .modal-head button"); if(importClose) importClose.textContent = tr("close");
-    const importLabel = document.querySelector("#importBackdrop label"); if(importLabel) importLabel.textContent = tr("importModeLabel");
-    const importMode = $("importMode"); if(importMode){ if(importMode.options[0]) importMode.options[0].textContent = tr("importModeBlocks");
-    if(importMode.options[1]) importMode.options[1].textContent = tr("importModeLines"); }
     setPlaceholder("importText", tr("importPlaceholder"));
     const importFootBtns = document.querySelectorAll("#importBackdrop .modal-foot button");
     if(importFootBtns[0]) importFootBtns[0].textContent = tr("cancel");
@@ -1182,7 +1164,6 @@
 
   // КОД ИГРЫ
   const __GAME_CSS__ = `body,html{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background-color:#000;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;user-select:none}#game-container{position:relative;width:100vw;height:100vh;background-image:url('https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/фон.png');background-size:100% 100%;background-position:center;background-repeat:no-repeat}#machine-no-claw{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:95%;pointer-events:none;z-index:10}.game-element{position:absolute;object-fit:contain;transition:all 1s ease}.toy{z-index:15;filter:drop-shadow(2px 4px 4px rgba(0,0,0,0.5));cursor:pointer}#toy-1{left:41.80%;top:32.84%;width:3.76%;height:9.19%}#toy-4{left:47.72%;top:32.70%;width:3.76%;height:9.46%}#toy-6{left:53.23%;top:32.70%;width:4.57%;height:9.46%}#toy-5{left:41.26%;top:42.57%;width:4.44%;height:10.00%}#toy-3{left:47.65%;top:42.97%;width:3.83%;height:9.19%}#toy-2{left:53.43%;top:42.84%;width:3.83%;height:9.73%}#toy-9{left:41.06%;top:53.11%;width:4.84%;height:9.73%}#toy-8{left:47.65%;top:54.19%;width:4.03%;height:9.46%}#toy-7{left:52.96%;top:52.57%;width:4.70%;height:10.68%}#claw-cord{position:absolute;background-color:#222;width:3px;top:12%;z-index:5;transition:left 0.3s ease,height 1s ease;box-shadow:1px 0px 2px rgba(0,0,0,0.5)}#claw-container{width:3.90%;height:12.16%;z-index:20;transition:left 0.3s ease,top 1s ease}#claw-img{width:100%;height:100%;object-fit:contain}#coin{left:51.95%;top:70.14%;width:5.58%;height:11.22%;z-index:20;cursor:pointer;transition:0.3s}.blinking{animation:blink 1.5s infinite}@keyframes blink{0%,100%{filter:brightness(1) drop-shadow(0 0 0px gold)}50%{filter:brightness(1.4) drop-shadow(0 0 15px gold);transform:scale(1.05)}}.control-btn{position:absolute;z-index:100;opacity:0;pointer-events:none;cursor:pointer;border-radius:20px;transition:opacity 0.1s,transform 0.1s;background:rgba(255,255,255,0.4)}.control-btn.active{pointer-events:auto;opacity:0}.control-btn.active:hover{opacity:0.1}.control-btn.active:active{opacity:0.5;transform:scale(0.95)}#btn-left{left:39%;top:62%;width:7%;height:8%}#btn-action{left:46%;top:62%;width:9%;height:8%}#btn-right{left:55%;top:62%;width:7%;height:8%}#drop-area{position:absolute;left:45.16%;top:71.76%;width:5.58%;height:11.22%;z-index:10}#progress-area{position:absolute;left:8.87%;top:3.65%;width:4.10%;height:95.68%;z-index:25;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;gap:2%;padding-top:3%}.collected-slot{width:90%;aspect-ratio:1;background:rgba(255,255,255,0.7);border:3px solid #fff;border-radius:50%;display:flex;justify-content:center;align-items:center;padding:2px;box-shadow:inset 0px 3px 6px rgba(0,0,0,0.2),0 2px 4px rgba(0,0,0,0.3)}.collected-slot img{width:100%;height:100%;object-fit:contain;border-radius:50%}.toy-collected-anim{transform:scale(1.3);opacity:0;transition:all 0.5s ease}.game-modal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.8);background:#ffffff;padding:40px 30px;border-radius:30px;border:4px solid #48dbfb;box-shadow:0 20px 50px rgba(0,0,0,0.5),inset 0 0 0 6px #ffffff,inset 0 0 0 10px #feca57;z-index:100;opacity:0;pointer-events:none;transition:all 0.4s cubic-bezier(0.2,0.8,0.2,1);text-align:center;display:flex;flex-direction:column;align-items:center;color:#2c3e50;width:min(85%,650px);max-height:85vh;overflow-y:auto;overflow-x:hidden}.game-modal::-webkit-scrollbar{width:6px}.game-modal::-webkit-scrollbar-track{background:transparent}.game-modal::-webkit-scrollbar-thumb{background:#feca57;border-radius:10px}.game-modal.active{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}.game-modal.active.draft-open{left:25%;width:46%;padding:30px 15px;transform:translate(-50%,-50%) scale(1)}.game-modal h2{margin:0 0 25px 0;color:#2c3e50;font-size:32px;line-height:1.3;font-weight:900;transition:font-size 0.4s}.game-modal.active.draft-open h2{font-size:26px}.modal-top-bar{width:100%;display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;position:relative;z-index:110}.qTimer{display:flex;align-items:center;gap:8px;padding:6px 16px;border-radius:15px;background:#fff;border:3px solid #ff4757;color:#ff4757;font-weight:900;font-size:20px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}.qPulse{animation:pulse 1s infinite;color:#ff4d4d;border-color:#ff4d4d;background:#ffeaa7}@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}#gDrawToggle{font-size:20px;background:#ffffff;border:3px solid #ced6e0;border-radius:50%;width:50px;height:50px;cursor:pointer;color:#333;display:flex;align-items:center;justify-content:center;transition:0.2s;box-shadow:0 4px 10px rgba(0,0,0,0.1)}#gDrawToggle:hover{transform:scale(1.1);border-color:#feca57}#task-options{display:flex;gap:15px;justify-content:center;width:100%;flex-wrap:wrap;margin-bottom:10px}.task-option{padding:12px 25px;background:#ffffff;color:#2c3e50;border-radius:20px;cursor:pointer;font-weight:bold;font-size:26px;transition:0.2s;min-width:80px;border:5px dotted #ff9f43;box-shadow:0 6px 0 #ff9f43}.task-option:hover{background:#fffcf2;transform:translateY(3px);box-shadow:0 3px 0 #ff9f43}
-    /* ИЗМЕНЕНА АНИМАЦИЯ МИГАНИЯ И ЦВЕТ КНОПОК ПРИ ОШИБКЕ/ПОБЕДЕ */
     .task-option.correct{background:#1dd1a1 !important;border-color:#10ac84 !important;box-shadow:0 6px 0 #10ac84 !important;color:white}.task-option.incorrect{animation:flashRed 0.6s infinite !important;}
     @keyframes flashRed{0%,100%{background-color:#ff6b6b !important;color:white !important;border-color:#ee5253 !important;box-shadow:0 6px 0 #ee5253 !important;}50%{background-color:#fffcf2 !important;color:#ff6b6b !important;border-color:#ff6b6b !important;box-shadow:0 6px 0 #ff6b6b !important;}}
     .game-modal.active.draft-open .task-option{font-size:20px;padding:10px 15px}#inputRow{display:none;gap:10px;align-items:center;width:100%;justify-content:center;margin-bottom:10px;flex-wrap:wrap}#ansInput{flex:1;min-width:200px;max-width:300px;background:#ffffff;border:5px dotted #0abde3;border-radius:20px;padding:12px 16px;color:#2c3e50;font-size:26px;font-weight:bold;outline:none;transition:0.2s}#ansInput:focus{border-color:#ff9f43;box-shadow:0 0 10px rgba(255,159,67,0.3)}.game-modal.active.draft-open #ansInput{font-size:20px;padding:10px 14px}#ansInput.correct{background:#1dd1a1 !important;border-color:#10ac84 !important;color:white !important;}#ansInput.incorrect{animation:flashRed 0.6s infinite !important;}
@@ -1208,7 +1189,7 @@
   const __GAME_HTML__ = `
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"><\/script>
     <div id="game-container">
-        <img id="machine-no-claw" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/avtomat.png">
+        <img id="machine-no-claw" src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/avtomat.png" style="bottom: 0;">
         <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/1.png" class="game-element toy" id="toy-1" data-col="0">
         <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/5.png" class="game-element toy" id="toy-5" data-col="0">
         <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/9.png" class="game-element toy" id="toy-9" data-col="0">
@@ -1255,10 +1236,6 @@
             </div>
             <div class="draftBody"><canvas id="gCanvas"></canvas></div>
         </div>
-        <a href="https://t.me/interactiv_matematika" target="_blank" style="position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; opacity: 0.65; pointer-events: auto; z-index: 10; text-decoration: none; transition: opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.65">
-            <img src="https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/logo.png" class="anim-pulse-game" alt="Логотип" style="height: 26px; width: 26px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255,174,0,0.4);" onerror="this.style.display='none'">
-            <span style="font-family: 'Caveat', cursive; font-size: 20px; color: rgba(255,255,255,0.85); text-shadow: 0 2px 4px rgba(0,0,0,0.9); white-space: nowrap; letter-spacing: 0.5px;">Шкатулка математических интерактивов</span>
-        </a>
     </div>
   `;
 
@@ -1299,7 +1276,6 @@
             setTitle('gDrawEraser', t.eraser);
             setTitle('gCanvasClear', t.clear);
             const draftTitle = document.querySelector('.draftTitleRow span'); if(draftTitle) draftTitle.textContent = t.draft;
-            const footer = document.querySelector('#game-container a span'); if(footer) footer.textContent = t.footer;
             return t;
         }
         
@@ -1402,6 +1378,7 @@
             const machineImg = document.getElementById('machine-no-claw');
             if (machineImg && mVariants[mIdx]) {
                 machineImg.src = 'https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/' + mVariants[mIdx];
+                machineImg.style.bottom = mIdx > 0 ? '1.5%' : '0';
             }
             // ----------------------------
 
@@ -2018,22 +1995,14 @@
 
   window.processImport = () => {
       const txt = document.getElementById('importText').value.trim(); if (!txt) return closeImport();
-      const mode = document.getElementById('importMode').value; const tplIdx = parseInt(document.getElementById('newQTemplate').value); let baseQ = { font: "", fontSize: 32, seconds: null, image: "", audio: "" };
+      const tplIdx = parseInt(document.getElementById('newQTemplate').value); let baseQ = { font: "", fontSize: 32, seconds: null, image: "", audio: "" };
       if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; baseQ = { font: tq.font, fontSize: tq.fontSize, seconds: tq.seconds }; }
       let addedCount = 0;
-      if (mode === 'line') {
-          const lines = txt.split('\n');
-          for(let line of lines) { if (Editor.questions.length >= 9) break; const trimmed = line.trim();
-          if (trimmed) { Editor.questions.push({ id: uid(), ...baseQ, type: 'text', prompt: trimmed, accepts: [tr('answerDefault')] }); addedCount++; } }
-      } else {
-          const blocks = txt.split(/\n\s*\n/);
-          for(let block of blocks) {
-              if (Editor.questions.length >= 9) break;
-              const lines = block.trim().split('\n'); let qText = []; let opts = []; let autoAnswer = ''; const optRegex = /^(\d+|[а-яА-Яa-zA-Z])[\)\.]\s+(.+)$/;
-              lines.forEach(line => { const trimmed = line.trim(); const match = trimmed.match(optRegex); if (match) { opts.push({ marker: match[1].toLowerCase(), t: match[2].trim() }); } else if (trimmed.toLowerCase().startsWith('ответ:') || trimmed.toLowerCase().startsWith('answer:')) { autoAnswer = trimmed.replace(/^(ответ:|answer:)\s*/i, '').trim().toLowerCase(); } else { qText.push(trimmed); } });
-              if (opts.length >= 2) { let correctIndices = [0]; if (autoAnswer) { const foundIdx = opts.findIndex(o => o.marker === autoAnswer || o.t.toLowerCase() === autoAnswer);
-              if (foundIdx !== -1) correctIndices = [foundIdx]; } Editor.questions.push({ id: uid(), ...baseQ, type: 'choice', prompt: qText.join('\n'), options: opts.map(o => o.t), correctIndices: correctIndices }); addedCount++; } else if (qText.length > 0) { Editor.questions.push({ id: uid(), ...baseQ, type: 'text', prompt: qText.join('\n'), accepts: autoAnswer ? [autoAnswer] : [tr('answerDefault')] }); addedCount++; }
-          }
+      const lines = txt.split('\n');
+      for(let line of lines) { 
+          if (Editor.questions.length >= 9) break; 
+          const trimmed = line.trim();
+          if (trimmed) { Editor.questions.push({ id: uid(), ...baseQ, type: 'text', prompt: trimmed, accepts: [tr('answerDefault')] }); addedCount++; } 
       }
       closeImport();
       renderList(); updatePreview(false);
