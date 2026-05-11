@@ -39,28 +39,22 @@
     .section .title{ font-weight:950; font-size:13.5px; margin-bottom:10px; color:rgba(255,255,255,.92); display:flex;align-items:center;justify-content:space-between;gap:8px; }
     label{ display:block; font-size:12.5px; color:rgba(255,255,255,.86); margin:10px 0 6px }
     input[type="text"], input[type="number"], textarea, select{ width:100%; border-radius:14px; padding:10px 11px; border:1px solid rgba(255,255,255,.14); background:rgba(0,0,0,.25); color:var(--text); outline:none; }
-    .row{display:flex; gap:10px; flex-wrap:wrap} .row > *{flex:1; min-width:170px}
-    .toggle{ display:flex; align-items:center; gap:10px; padding:10px 10px; border-radius:14px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); margin-top:8px; }
     .btn{ padding:11px 12px; border-radius:14px; border:1px solid var(--neon-orange-base) !important; background:rgba(255,255,255,.06); color:var(--text); cursor:pointer; font-weight:950; font-size:14px; transition:0.1s ease; display:inline-flex; align-items:center; justify-content:center; gap:8px; user-select:none; }
     .btn:hover{box-shadow: 0 0 10px var(--neon-orange-glow) !important; background: rgba(255, 136, 0, 0.15) !important;}
     .btn.primary{ background: linear-gradient(90deg, rgba(255, 174, 0, 0.4), rgba(255, 136, 0, 0.3)) !important; }
-    .btn.danger{border-color:rgba(255,77,77,.35) !important; background:rgba(255,77,77,.08) !important;}
-    .q-list{display:flex; flex-direction:column; gap:10px;}
     .q-item{ padding:10px 10px; border-radius:14px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); display:flex; gap:10px; align-items:center; justify-content:space-between; transition: 0.2s; }
     .preview{ height: 100%; display:flex; flex-direction:column; padding:0; overflow:hidden; }
     .preview-stage{ flex: 1; position:relative; border-radius:var(--radius2); border:1px solid rgba(255,255,255,.10); overflow:hidden; background:rgba(0,0,0,.18); box-shadow: var(--shadow2); }
-    .modal-backdrop{ position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.65); backdrop-filter: blur(8px); display: none; z-index: 999998; }
-    .modal{ position: absolute; top: 15px; bottom: 15px; left: 15px; right: 15px; margin: auto; max-width: 820px; display: flex; flex-direction: column; border-radius: 20px; border: 1px solid var(--neon-orange-base) !important; background: #16110c !important; box-shadow: var(--neon-box-shadow), 0 30px 80px rgba(0,0,0,.7) !important; overflow: hidden; }
-    .modal-body{ padding: 14px; overflow-y: auto; flex: 1; }
+    /* ЛИПКАЯ ПАНЕЛЬ НАСТРОЕК */
     .toy-side{ border:1px solid rgba(255,255,255,.12); background:rgba(0,0,0,.18); border-radius:16px; padding:12px; position: sticky; top: 0; }
-    .toy-url-row{ display:flex; gap:8px; align-items:center; margin-top:8px; flex-wrap: wrap; }
     .toy-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; }
     .toy-cell{ position:relative; aspect-ratio:1; border-radius:18px; border:2px solid rgba(255,174,0,.35); background:radial-gradient(circle at 50% 42%, rgba(255,255,255,.13), rgba(0,0,0,.22)); overflow:hidden; cursor:pointer; }
     .toy-cell.selected{ border-color:var(--neon-orange-base); box-shadow:0 0 14px var(--neon-orange-glow); }
     .toy-edit-img{ position:absolute; object-fit:contain; transform:translate(-50%,-50%); filter:drop-shadow(2px 4px 4px rgba(0,0,0,.45)); }
-    .toy-resize-handle{ position:absolute; width:20px; height:20px; right:7px; bottom:7px; border-radius:7px; background:var(--neon-orange-base); border:2px solid #fff; cursor:nwse-resize; display:flex; align-items:center; justify-content:center; color:#16110c; font-size:12px; font-weight:bold; }
     .toast{ position:fixed; left:50%; bottom:16px; transform:translateX(-50%); background:rgba(0,0,0,.7); border:1px solid var(--neon-orange-base); color:#fff; padding:10px 12px; border-radius:14px; backdrop-filter: blur(10px); opacity:0; transition:0.2s; z-index:999999; }
     .toast.show{ opacity:1; }
+    .modal-backdrop{ position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.65); backdrop-filter: blur(8px); display: none; z-index: 999998; }
+    .modal{ position: absolute; top: 15px; bottom: 15px; left: 15px; right: 15px; margin: auto; max-width: 900px; display: flex; flex-direction: column; border-radius: 20px; border: 1px solid var(--neon-orange-base) !important; background: #16110c !important; overflow: hidden; }
   </style>
 </head>
 <body>
@@ -72,7 +66,7 @@
           <span style="font-size: 11px; color: var(--neon-orange-base);">Редактор «Игровой автомат»</span>
         </div>
         <div style="display:flex; gap:10px;">
-          <button class="btn" id="btnResetAll">🔄 Сбросить</button>
+          <button class="btn" onclick="if(confirm('Сбросить всё?')) location.reload()">🔄 Сбросить</button>
           <button class="btn primary" id="btnCopyCode">☁️ Сохранить и Скопировать</button>
         </div>
       </div>
@@ -84,85 +78,67 @@
         <div class="section">
           <div class="title">Оформление</div>
           <label>Фон игры</label>
-          <div class="row" style="align-items:center;">
+          <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
             <div id="bgStatus" style="flex:1; font-size:12px; color:#aaa;">Стандартный фон</div>
             <input type="file" id="inpBgFile" accept="image/*" style="display:none">
-            <button id="btnUploadBg" class="btn small primary">📁 Загрузить</button>
-            <button id="btnResetBg" class="btn small danger">✖</button>
+            <button class="btn small primary" onclick="$('inpBgFile').click()">📁 Загрузить</button>
+            <button class="btn small danger" id="btnResetBg">✖</button>
           </div>
           <label>Стиль автомата</label>
           <select id="selMachineVariant">
             <option value="0">Вариант 1 (Стандарт)</option>
-            <option value="1">Вариант 2</option>
-            <option value="2">Вариант 3</option>
-            <option value="3">Вариант 4</option>
+            <option value="1">Вариант 2 (Неон)</option>
+            <option value="2">Вариант 3 (Космос)</option>
+            <option value="3">Вариант 4 (Золото)</option>
           </select>
-          <button id="btnOpenToys" class="btn" style="width:100%; margin-top:12px;">🧸 Настроить игрушки</button>
+          <button class="btn" style="width:100%; margin-top:12px;" onclick="openToyModal()">🧸 Настроить игрушки</button>
         </div>
         <div class="section">
           <div class="title">Вопросы <span id="pillCount" style="color:var(--neon-orange-base)">0 / 9</span></div>
-          <div class="row" style="margin-bottom:12px;">
-            <button class="btn primary" id="btnAddQ" style="flex:1">➕ Добавить</button>
-            <button class="btn" id="btnClearQs">🧹 Очистить</button>
-          </div>
+          <button class="btn primary" style="width:100%; margin-bottom:10px;" onclick="openModal()">➕ Добавить вопрос</button>
           <div class="q-list" id="qList"></div>
         </div>
       </div>
     </div>
     <div class="panel preview">
-      <div class="panel-header"><div>Просмотр (обновляется мгновенно)</div></div>
+      <div class="panel-header"><div>Предпросмотр (обновляется мгновенно)</div></div>
       <div class="preview-stage"><iframe id="livePreview" style="width:100%;height:100%;border:0;background:transparent;" allow="autoplay; fullscreen"></iframe></div>
     </div>
   </div>
 
-  <div class="modal-backdrop" id="modalBackdrop">
-    <div class="modal">
-      <div class="modal-body">
-        <label>Текст вопроса</label>
-        <textarea id="inpPrompt" placeholder="Введите вопрос..."></textarea>
-        <label>Картинка к вопросу</label>
-        <div class="row">
-           <div id="qImgStatus" style="flex:1; color:#aaa;">❌ Нет картинки</div>
-           <input type="file" id="inpQFile" accept="image/*" style="display:none">
-           <button id="btnUploadQ" class="btn small primary">📁 Загрузить</button>
-           <button id="btnDelQImg" class="btn small danger">✖</button>
+  <div class="modal-backdrop" id="toyBackdrop"><div class="modal" style="padding:20px;">
+    <div style="display:grid; grid-template-columns: 1fr 300px; gap:20px;">
+      <div id="toyGrid" class="toy-grid"></div>
+      <div class="toy-side">
+        <div id="toySelectedTitle" style="font-weight:950; color:var(--neon-orange-base); margin-bottom:15px;">Игрушка #1</div>
+        <input type="file" id="inpToyFile" accept="image/*" style="display:none">
+        <button class="btn primary" style="width:100%;" onclick="$('inpToyFile').click()">📁 Загрузить с компьютера</button>
+        <button class="btn small" style="width:100%; margin-top:10px;" id="btnRemoveToyBg">✨ Удалить фон</button>
+        <div style="display:flex; gap:5px; margin-top:10px;">
+           <button class="btn small danger" style="flex:1" id="btnResetToy">Сбросить</button>
+           <button class="btn small" style="flex:1" id="btnCenterToy">В центр</button>
         </div>
-        <div id="choiceWrap" style="margin-top:15px;">
-           <div style="font-weight:900;">Варианты ответа (отметьте верные)</div>
-           <div id="choiceList"></div>
-           <button class="btn small" id="btnAddChoice" style="margin-top:10px;">➕ Добавить вариант</button>
-        </div>
-      </div>
-      <div class="modal-header" style="padding:14px; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:flex-end; gap:10px;">
-        <button class="btn" id="btnCloseModal">Отмена</button>
-        <button class="btn primary" id="btnSaveQ">💾 Сохранить</button>
+        <button class="btn primary" style="width:100%; margin-top:20px;" onclick="$('toyBackdrop').style.display='none'">Готово</button>
       </div>
     </div>
-  </div>
+  </div></div>
 
-  <div class="modal-backdrop" id="toyBackdrop">
-    <div class="modal" style="max-width:900px;">
-      <div class="modal-body">
-        <div class="toy-editor-layout" style="display:grid; grid-template-columns: 1fr 300px; gap:20px;">
-          <div id="toyGrid" class="toy-grid"></div>
-          <div class="toy-side">
-            <div id="toySelectedTitle" style="font-weight:950; color:var(--neon-orange-base);">Игрушка #1</div>
-            <div class="toy-url-row" style="margin-top:15px;">
-              <input type="file" id="inpToyFile" accept="image/*" style="display:none">
-              <button class="btn primary" id="btnUploadToy" style="width:100%;">📁 Загрузить с компьютера</button>
-            </div>
-            <button class="btn small" id="btnRemoveToyBg" style="width:100%; margin-top:8px;">✨ Удалить фон</button>
-            <div class="toy-url-row" style="margin-top:15px;">
-              <button class="btn small danger" id="btnResetToy" style="flex:1">Сбросить</button>
-              <button class="btn small" id="btnCenterToy" style="flex:1">В центр</button>
-            </div>
-            <button class="btn small danger" id="btnResetAllToys" style="width:100%; margin-top:8px;">❌ Сбросить всё</button>
-          </div>
-        </div>
-      </div>
-      <div style="padding:14px; text-align:right;"><button class="btn primary" id="btnCloseToyModal">Готово</button></div>
+  <div class="modal-backdrop" id="modalBackdrop"><div class="modal" style="padding:20px; max-width:600px;">
+    <label>Текст вопроса</label>
+    <textarea id="inpPrompt" placeholder="Введите вопрос..."></textarea>
+    <label>Картинка</label>
+    <div style="display:flex; gap:8px; align-items:center; margin-bottom:15px;">
+        <div id="qImgStatus" style="flex:1; color:#aaa; font-size:12px;">❌ Нет картинки</div>
+        <input type="file" id="inpQFile" accept="image/*" style="display:none">
+        <button class="btn small primary" onclick="$('inpQFile').click()">📁 Загрузить</button>
     </div>
-  </div>
+    <div id="choiceList"></div>
+    <button class="btn small" onclick="addOption()">➕ Вариант</button>
+    <div style="margin-top:20px; display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn" onclick="$('modalBackdrop').style.display='none'">Отмена</button>
+        <button class="btn primary" id="btnSaveQ">💾 Сохранить</button>
+    </div>
+  </div></div>
 
   <div class="toast" id="toast">Скопировано</div>
 
@@ -172,54 +148,39 @@
   const TOY_BASE_URL = "https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/";
   const TOY_IDS = [1,4,6,5,3,2,9,8,7];
   let selectedToyIdx = 0;
-  let toyDragState = null;
-
-  const Editor = { title: "Игровой автомат", bgDataUrl: "", transparentBg: false, machineVariant: 0, toys: Array.from({length:9}, ()=>({src:"", scale:1, offsetX:0, offsetY:0})), questions: [], draft: null, editingId: null };
+  const Editor = { title: "Игровой автомат", bgDataUrl: "", machineVariant: 0, toys: Array.from({length:9}, ()=>({src:"", scale:1, offsetX:0, offsetY:0})), questions: [] };
 
   // СЖИМАТЕЛЬ
-  window.compressImage = function(file, maxSize = 200) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (e) => {
-        const img = new Image();
-        img.src = e.target.result;
-        img.onload = () => {
-          const canvas = document.createElement("canvas");
-          let w = img.width, h = img.height;
-          if(w > h) { if(w > maxSize) { h *= maxSize / w; w = maxSize; } }
-          else { if(h > maxSize) { w *= maxSize / h; h = maxSize; } }
-          canvas.width = w; canvas.height = h;
-          canvas.getContext("2d").drawImage(img, 0, 0, w, h);
-          resolve(canvas.toDataURL("image/webp", 0.6));
-        };
+  window.compressImage = (file, maxSize = 200) => new Promise(res => {
+    const reader = new FileReader(); reader.readAsDataURL(file);
+    reader.onload = e => {
+      const img = new Image(); img.src = e.target.result;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        let w = img.width, h = img.height;
+        if(w > h) { if(w > maxSize) { h *= maxSize / w; w = maxSize; } } else { if(h > maxSize) { w *= maxSize / h; h = maxSize; } }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+        res(canvas.toDataURL("image/webp", 0.6));
       };
-    });
-  };
+    };
+  });
 
-  // ПРЕДПРОСМОТР БЕЗ ПЕРЕЗАГРУЗКИ
+  // МГНОВЕННОЕ ОБНОВЛЕНИЕ
   function updatePreview() {
     const iframe = $("livePreview");
-    const payload = { ...Editor, toys: normalizeToys(Editor.toys) };
-    
+    const payload = JSON.parse(JSON.stringify(Editor)); 
     if (iframe.contentWindow && iframe.dataset.loaded === "true") {
-      // Отправляем сообщение внутрь iframe
       iframe.contentWindow.postMessage({ type: 'UPDATE_CONFIG', config: payload }, '*');
     } else {
-      // Если еще не загружен, ставим URL
-      const data = "~" + LZString.compressToEncodedURIComponent(JSON.stringify(packPayload(payload)));
+      const data = "~" + LZString.compressToEncodedURIComponent(JSON.stringify({ti:payload.title, bg:payload.bgDataUrl, mv:payload.machineVariant, q:[], ty:[]}));
       iframe.src = location.origin + location.pathname + "?preview=1&game=" + data;
-      iframe.onload = () => { iframe.dataset.loaded = "true"; };
+      iframe.onload = () => { iframe.dataset.loaded = "true"; updatePreview(); };
     }
   }
 
-  function packPayload(p) {
-    return { ti: p.title, bg: p.bgDataUrl, mv: p.machineVariant, ty: p.toys.map(t=>t.src?{s:t.src, z:t.scale, x:t.offsetX, y:t.offsetY}:null), q: p.questions.map(q=>({p:q.prompt, i:q.image, o:q.options, c:q.correctIndices})) };
-  }
-
-  function normalizeToys(arr){ return arr.map(t=>({src:t.src||"", scale:t.scale||1, offsetX:t.offsetX||0, offsetY:t.offsetY||0})); }
-
   // ПАНЕЛЬ ИГРУШЕК
+  window.openToyModal = () => { renderToyGrid(); $("toyBackdrop").style.display="block"; };
   function renderToyGrid(){
     const grid = $("toyGrid"); grid.innerHTML = "";
     TOY_IDS.forEach(id => {
@@ -229,60 +190,42 @@
       const img = document.createElement("img"); img.className = "toy-edit-img";
       img.src = t.src || (TOY_BASE_URL + id + ".png");
       img.style.width = (60 * t.scale) + "%"; img.style.left = (50 + t.offsetX) + "%"; img.style.top = (50 + t.offsetY) + "%";
-      cell.onclick = () => { selectedToyIdx = idx; renderToyGrid(); };
+      cell.onclick = () => { selectedToyIdx = idx; renderToyGrid(); $("toySelectedTitle").textContent = "Игрушка #" + id; };
       cell.appendChild(img); grid.appendChild(cell);
     });
-    $("toySelectedTitle").textContent = "Игрушка #" + (selectedToyIdx + 1);
   }
 
   // СОБЫТИЯ
   $("inpTitle").oninput = (e) => { Editor.title = e.target.value; updatePreview(); };
   $("selMachineVariant").onchange = (e) => { Editor.machineVariant = Number(e.target.value); updatePreview(); };
-  $("btnUploadBg").onclick = () => $("inpBgFile").click();
   $("inpBgFile").onchange = async (e) => {
-    const file = e.target.files[0]; if(!file) return;
-    Editor.bgDataUrl = await window.compressImage(file, 1024);
-    $("bgStatus").textContent = "✅ Свой фон"; $("bgStatus").style.color = "#1dd1a1";
-    updatePreview();
+    Editor.bgDataUrl = await window.compressImage(e.target.files[0], 1024);
+    $("bgStatus").textContent = "✅ Загружен"; updatePreview();
   };
-  $("btnResetBg").onclick = () => { Editor.bgDataUrl = ""; $("bgStatus").textContent = "Стандартный фон"; updatePreview(); };
-  
-  $("btnOpenToys").onclick = () => { renderToyGrid(); $("toyBackdrop").style.display="block"; };
-  $("btnCloseToyModal").onclick = () => $("toyBackdrop").style.display="none";
-  
-  $("btnUploadToy").onclick = () => $("inpToyFile").click();
+  $("btnResetBg").onclick = () => { Editor.bgDataUrl = ""; $("bgStatus").textContent = "Стандартный"; updatePreview(); };
   $("inpToyFile").onchange = async (e) => {
-    const file = e.target.files[0]; if(!file) return;
-    Editor.toys[selectedToyIdx].src = await window.compressImage(file, 150);
+    Editor.toys[selectedToyIdx].src = await window.compressImage(e.target.files[0], 150);
     renderToyGrid(); updatePreview();
   };
 
-  $("btnResetAll").onclick = () => { if(confirm("Сбросить всё?")) location.reload(); };
-
-  // СОХРАНЕНИЕ В FIREBASE
+  // FIREBASE
   $("btnCopyCode").onclick = async () => {
-    const btn = $("btnCopyCode"); btn.textContent = "⏳ Сохраняю...";
+    const btn = $("btnCopyCode"); btn.textContent = "⏳...";
     const id = "g_" + Date.now().toString(36);
-    const payload = { ...Editor, toys: normalizeToys(Editor.toys) };
-    const compressed = "~" + LZString.compressToEncodedURIComponent(JSON.stringify(packPayload(payload)));
-    await db.ref('games/' + id).set({ d: compressed, t: Date.now() });
-    const url = location.origin + location.pathname + "?id=" + id;
-    const iframe = `<iframe src="${url}" style="width:100%;height:100%;border:0;border-radius:18px;overflow:hidden;background:transparent" allowfullscreen></iframe>`;
-    navigator.clipboard.writeText(iframe);
-    btn.textContent = "📋 Скопировано!";
-    setTimeout(()=>btn.textContent="☁️ Сохранить и Скопировать", 2000);
+    const data = "~" + LZString.compressToEncodedURIComponent(JSON.stringify({ti:Editor.title, bg:Editor.bgDataUrl, mv:Editor.machineVariant, ty:Editor.toys.map(t=>t.src?{s:t.src, z:t.scale, x:t.offsetX, y:t.offsetY}:null), q:Editor.questions}));
+    await db.ref('games/' + id).set({ d: data, t: Date.now() });
+    navigator.clipboard.writeText(`<iframe src="${location.origin + location.pathname}?id=${id}" style="width:100%;height:100%;border:0;border-radius:18px;background:transparent" allowfullscreen></iframe>`);
+    btn.textContent = "📋 Скопировано!"; setTimeout(()=>btn.textContent="☁️ Сохранить и Скопировать", 2000);
   };
 
-  // ЛОГИКА ВНУТРИ ИГРЫ (ОБРАБОТКА ОБНОВЛЕНИЙ)
-  const isPreview = new URLSearchParams(location.search).get("preview");
-  if (isPreview) {
-    window.addEventListener('message', (event) => {
-      if (event.data && event.data.type === 'UPDATE_CONFIG') {
-        // Здесь вызывается функция перерисовки игры с новыми данными
-        if (window.initGameData) {
-          window.__CFG = event.data.config;
-          window.initGameData();
-        }
+  // ЛОГИКА ВНУТРИ ИГРЫ (ОБРАБОТКА postMessage)
+  if (new URLSearchParams(location.search).get("preview")) {
+    window.addEventListener('message', (e) => {
+      if (e.data.type === 'UPDATE_CONFIG') {
+         window.__CFG = e.data.config;
+         // Исправляем путь: вызываем initGameData, который живет в движке
+         if (typeof window.initGameData === 'function') window.initGameData();
+         else if (typeof initGameData === 'function') initGameData();
       }
     });
   }
