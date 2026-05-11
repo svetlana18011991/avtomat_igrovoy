@@ -104,11 +104,9 @@
     .toy-edit-img{ position:absolute; object-fit:contain; transform:translate(-50%,-50%); z-index:2; cursor:move; touch-action:none; user-select:none; -webkit-user-drag:none; filter:drop-shadow(2px 4px 4px rgba(0,0,0,.45)); }
     .toy-resize-handle{ position:absolute; z-index:4; width:20px; height:20px; right:7px; bottom:7px; border-radius:7px; background:var(--neon-orange-base); border:2px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,.35); cursor:nwse-resize; display:flex; align-items:center; justify-content:center; color:#16110c; font-size:12px; font-weight:950; }
     
-    /* ИСПРАВЛЕНИЕ ЛИПКОЙ ПАНЕЛИ И ПЕРЕНОСОВ */
     .toy-side{ border:1px solid rgba(255,255,255,.12); background:rgba(0,0,0,.18); border-radius:16px; padding:12px; position: sticky; top: 0; }
     .toy-side-title{ font-size:16px; font-weight:950; margin-bottom:8px; color:var(--neon-orange-base); }
     .toy-url-row{ display:flex; gap:8px; align-items:center; margin-top:8px; flex-wrap: wrap; }
-    
     .toy-url-row input{ flex:1; min-width:0; }
     @media (max-width: 900px){ .toy-editor-layout{ grid-template-columns:1fr; } .toy-modal{ max-width:820px; } }
   </style>
@@ -137,18 +135,9 @@
                 <option value="zh">中文</option>
              </select>
           </div>
-          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px; justify-content:center; display:none;">
-             <span id="lblSizeText" style="font-size:11px; font-weight:900; color:var(--ok);">🟢 Код в норме</span>
-             <div style="width:80px; background:rgba(0,0,0,.3); border:1px solid rgba(255,255,255,.1); height:6px; border-radius:3px; overflow:hidden;">
-                <div id="barSize" style="width:0%; height:100%; background:var(--ok); transition: width 0.3s, background 0.3s;"></div>
-             </div>
-          </div>
           <button class="btn" id="btnResetAll" type="button" title="Сбросить все настройки и начать с чистого листа">🔄 Сбросить всё</button>
           <button class="btn primary" id="btnCopyCode" type="button" style="background: linear-gradient(90deg, #48dbfb, #0abde3); border-color: #0abde3;">☁️ Сохранить и Скопировать</button>
         </div>
-      </div>
-      <div id="sizeWarning" style="display:none; background:rgba(255,77,77,.15); color:#ffd6d6; padding:8px 14px; font-size:12px; font-weight:700; border-bottom:1px solid rgba(255,77,77,.3);">
-         ⚠️ Текста слишком много!
       </div>
       <div class="errbar" id="errbar"></div>
       <div class="panel-body">
@@ -164,17 +153,20 @@
         </div>
         <div class="section">
           <div class="title">Оформление</div>
-          <label>Фон игры (ссылка)</label>
-          <div class="row" style="gap:10px; align-items:center; margin-top:6px">
-            <input id="inpBgUrl" type="text" placeholder="Оставьте пустым для стандарта" />
-            <button id="btnResetBg" type="button" class="btn small">↩ Сбросить</button>
-          </div>
           
+          <label>Фон игры</label>
+          <div class="row" style="gap:10px; align-items:center; margin-top:6px">
+            <input id="inpBgUrl" type="text" style="display:none;" />
+            <div id="bgStatus" style="flex:1; font-size:12px; color:#aaa; font-weight:bold; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Стандартный фон</div>
+            <input type="file" id="inpBgFile" accept="image/*" style="display:none">
+            <button id="btnUploadBg" type="button" class="btn small" style="background:#0abde3;color:#000;border:none;">📁 Загрузить</button>
+            <button id="btnResetBg" type="button" class="btn small danger" title="Удалить фон">✖</button>
+          </div>
           <div class="toggle">
             <input id="chkTransparentBg" type="checkbox" />
             <div>
                <div style="font-weight:900" id="lblTransparentBgTitle">Прозрачный фон</div>
-               <div class="muted" id="lblTransparentBgHelp">Если включено, фон игры будет прозрачным. Ссылка на фон игнорируется.</div>
+               <div class="muted" id="lblTransparentBgHelp">Если включено, фон игры будет прозрачным. Своя картинка игнорируется.</div>
             </div>
           </div>
 
@@ -290,16 +282,18 @@
         </div>
         <div class="choiceBlock" style="margin-top:10px">
           <div style="font-weight:900">Медиа</div>
+          
           <div class="answerRow">
-            <span style="font-size:20px; line-height:1; cursor:help;" title="Ссылка на картинку">🖼️</span>
-            <input id="inpQImage" type="text" placeholder="https://.../image.jpg" />
+            <span style="font-size:20px; line-height:1; cursor:help;" title="Картинка">🖼️</span>
+            <input id="inpQImage" type="text" style="display:none;" />
+            <div id="qImageStatus" style="flex:1; font-size:12px; color:#aaa; font-weight:bold; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">❌ Нет картинки</div>
             <input type="file" id="inpQImageFile" accept="image/*" style="display:none">
-            <button class="btn small" id="btnUploadQImage" type="button" title="Сжать и вставить" style="background:#0abde3;color:#000;border:none;flex-shrink:0;">📁 С компа</button>
-            <button class="btn small danger" id="btnClearImage" type="button">✖</button>
+            <button class="btn small" id="btnUploadQImage" type="button" title="Загрузить картинку" style="background:#0abde3;color:#000;border:none;flex-shrink:0;">📁 Загрузить</button>
+            <button class="btn small danger" id="btnClearImage" type="button" title="Удалить картинку">✖</button>
           </div>
           <div class="answerRow">
-            <span style="font-size:20px; line-height:1; cursor:help;" title="Ссылка на аудио">🎵</span>
-            <input id="inpQAudio" type="text" placeholder="https://.../audio.mp3" />
+            <span style="font-size:20px; line-height:1; cursor:help;" title="Аудио">🎵</span>
+            <input id="inpQAudio" type="text" placeholder="Ссылка на аудио (.mp3)..." />
             <button class="btn small danger" id="btnClearAudio" type="button">✖</button>
           </div>
         </div>
@@ -331,25 +325,23 @@
             <div id="toyGrid" class="toy-grid"></div>
             <div class="muted" id="toyGridHint" style="margin-top:10px;">Кликните на игрушку. Перетащите её внутри ячейки или потяните за уголок, чтобы изменить размер.</div>
           </div>
+          
           <div class="toy-side">
             <div class="toy-side-title" id="toySelectedTitle">Игрушка #1</div>
-            <label id="toyUrlLabel" for="inpToyUrl">Ссылка на картинку игрушки</label>
-            <input id="inpToyUrl" type="text" placeholder="https://.../toy.png" />
-            <div class="toy-url-row">
-              <button class="btn small primary" id="btnApplyToyUrl" type="button">Применить ссылку</button>
+            <div class="toy-url-row" style="margin-top: 15px;">
               <input type="file" id="inpToyFile" accept="image/*" style="display:none">
-              <button class="btn small" id="btnUploadToy" type="button" style="background:#0abde3;color:#000;border:none;">📁 С компа</button>
-              
-              <button class="btn small" id="btnRemoveToyBg" type="button">Удалить фон</button>
-              <button class="btn small" id="btnCenterToy" type="button">По центру</button>
+              <button class="btn small" id="btnUploadToy" type="button" style="background:#0abde3;color:#000;border:none; padding: 10px 15px; font-size: 14px;">📁 Загрузить</button>
+              <button class="btn small" id="btnRemoveToyBg" type="button" style="padding: 10px 15px; font-size: 14px;">✨ Удалить фон</button>
             </div>
-            <div class="toy-url-row">
+            <div class="toy-url-row" style="margin-top: 10px;">
+              <button class="btn small" id="btnCenterToy" type="button">По центру</button>
               <button class="btn small danger" id="btnResetToy" type="button">Сбросить эту</button>
               <button class="btn small danger" id="btnResetAllToys" type="button">Сбросить все</button>
             </div>
-            <div class="muted" id="toyTip" style="margin-top:12px;">Вы можете загрузить картинку прямо с компьютера или вставить ссылку. Сервер Firebase всё сохранит!</div>
+            <div class="muted" id="toyTip" style="margin-top:16px;">Загрузите картинку с компьютера. Сервер Firebase всё сохранит автоматически!</div>
+            <input id="inpToyUrl" type="hidden" />
           </div>
-        </div>
+          </div>
       </div>
       <div class="modal-foot">
         <button class="btn" id="btnCloseToyModal2" type="button">Закрыть</button>
@@ -388,21 +380,15 @@
     ru: {
       pageTitle: "Игровой автомат — Редактор",
       langLabel: "Язык интерфейса",
-      sizeOk: "🟢 Код в норме",
-      sizeAlmost: "🟡 Код почти достиг лимита",
-      sizeLimit: "🔴 ПРЕВЫШЕН ЛИМИТ",
       resetAllTitle: "Сбросить все настройки и начать с чистого листа",
       resetAll: "🔄 Сбросить всё",
       copyIframe: "☁️ Сохранить и Скопировать",
-      sizeWarning: "⚠️ Текста слишком много!",
       sectionTitle: "Название",
       titleLabel: "Заголовок в игре",
       sectionDesign: "Оформление",
-      bgLabel: "Фон игры (ссылка)",
-      bgPlaceholder: "Оставьте пустым для стандарта",
-      resetBg: "↩ Сбросить",
+      bgLabel: "Фон игры",
       transparentBg: "Прозрачный фон",
-      transparentBgHelp: "Если включено, фон игры будет прозрачным.",
+      transparentBgHelp: "Если включено, фон игры будет прозрачным. Своя картинка игнорируется.",
       useLatex: "Использовать LaTeX",
       latexHelp: "Включает поддержку математических формул",
       sectionTimer: "Таймер на ответ",
@@ -444,8 +430,8 @@
       qSecondsLabel: "Секунд на этот вопрос (пусто = по умолчанию)",
       qSecondsPlaceholder: "например 20",
       mediaLinks: "Медиа",
-      imageTitle: "Ссылка на картинку",
-      audioTitle: "Ссылка на аудио",
+      imageTitle: "Картинка",
+      audioTitle: "Аудио",
       answerOptions: "Варианты ответа (отметь верные)",
       correctInputAnswers: "Верные ответы (ввод)",
       addOption: "➕ Добавить вариант",
@@ -473,7 +459,7 @@
       alreadyNine: "Уже 9 вопросов 🙂",
       cleared: "Очищено",
       settingsApplied: "Настройки применены!",
-      applyConfirm: "Применить настройки (шрифт, размер, таймер, ТИП вопроса) ко всем вопросам?",
+      applyConfirm: "Применить настройки (шрифт, размер, таймер, ТИП вопроса) ко всем вопросов?",
       importLimit: "Импорт завершен (достигнут лимит 9)",
       imported: "Импортировано: {n}",
       importFailed: "Не удалось распознать текст",
@@ -494,10 +480,7 @@
       toysModalTitle: "🧸 Настройка игрушек",
       toysGridHint: "Кликните на игрушку. Перетащите её внутри ячейки или потяните за уголок, чтобы изменить размер.",
       toySelectedTitle: "Игрушка #{n}",
-      toyUrlLabel: "Ссылка на картинку игрушки",
-      toyUrlPlaceholder: "https://.../toy.png",
-      applyToyUrl: "Применить ссылку",
-      removeToyBg: "Удалить фон",
+      removeToyBg: "✨ Удалить фон",
       removingToyBg: "Удаляю фон...",
       toyBgRemoved: "Фон удалён",
       toyBgRemoveFailed: "Не удалось удалить фон.",
@@ -505,8 +488,7 @@
       centerToy: "По центру",
       resetThisToy: "Сбросить эту",
       resetAllToys: "Сбросить все",
-      toyTip: "Вы можете загрузить картинку прямо с компьютера или вставить ссылку. Сервер Firebase всё сохранит!",
-      toyUrlApplied: "Картинка игрушки обновлена",
+      toyTip: "Загрузите картинку с компьютера. Сервер Firebase всё сохранит автоматически!",
       toyCentered: "Игрушка по центру",
       toyReset: "Игрушка сброшена",
       allToysReset: "Все игрушки сброшены",
@@ -565,7 +547,6 @@
     setTitle("btnResetAll", tr("resetAllTitle"));
     if($("btnResetAll")) $("btnResetAll").textContent = tr("resetAll");
     if($("btnCopyCode")) $("btnCopyCode").textContent = tr("copyIframe");
-    const warn = $("sizeWarning"); if(warn) warn.textContent = tr("sizeWarning");
     const sections = document.querySelectorAll(".settings .section");
     if(sections[0]) { setTxtSection(sections[0], tr("sectionTitle"), [tr("titleLabel")]); }
     if(sections[1]) { setTxtSection(sections[1], tr("startScreen"), [tr("instructionLabel")]); }
@@ -576,9 +557,7 @@
       const titleSpan = sections[5].querySelector(".title span:first-child");
       if(titleSpan) titleSpan.textContent = tr("questions");
     }
-    setPlaceholder("inpBgUrl", tr("bgPlaceholder"));
     setPlaceholder("inpFeedback", tr("feedbackPlaceholder"));
-    setTxt("#btnResetBg", tr("resetBg"));
     setTxt("#lblTransparentBgTitle", tr("transparentBg"));
     setTxt("#lblTransparentBgHelp", tr("transparentBgHelp"));
     setTxt("#btnOpenToys", tr("toysOpen"));
@@ -587,9 +566,6 @@
     if($("btnCloseToyModal")) $("btnCloseToyModal").textContent = tr("close");
     if($("btnCloseToyModal2")) $("btnCloseToyModal2").textContent = tr("close");
     setTxt("#toyGridHint", tr("toysGridHint"));
-    setTxt("#toyUrlLabel", tr("toyUrlLabel"));
-    setPlaceholder("inpToyUrl", tr("toyUrlPlaceholder"));
-    setTxt("#btnApplyToyUrl", tr("applyToyUrl"));
     setTxt("#btnRemoveToyBg", tr("removeToyBg"));
     setTxt("#btnCenterToy", tr("centerToy"));
     setTxt("#btnResetToy", tr("resetThisToy"));
@@ -873,7 +849,6 @@
                 if(rawCfg.bgDataUrl) gameContainer.style.backgroundImage = 'url(' + rawCfg.bgDataUrl + ')';
             }
             applyToyCustomizations(rawCfg);
-            // --- Смена скина автомата ---
             const mVariants = ['avtomat.png', 'avtomat1.png', 'avtomat2.png', 'avtomat3.png'];
             const mIdx = rawCfg.machineVariant || 0;
             const machineImg = document.getElementById('machine-no-claw');
@@ -881,8 +856,6 @@
                 machineImg.src = 'https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/' + mVariants[mIdx];
                 machineImg.style.bottom = mIdx > 0 ? '1.5%' : '0';
             }
-            // ----------------------------
-
             document.getElementById('startTitle').textContent = rawCfg.title || gameText.title;
             document.getElementById('startText').innerHTML = (rawCfg.instruction?.text || gameText.instruction).replace(/\\n/g, "<br/>");
             if((rawCfg.feedback?.text || "").trim()) { document.getElementById('finishCustomText').innerHTML = rawCfg.feedback.text.replace(/\\\\n/g, "<br/>"); document.getElementById('finishCustomText').style.display = 'block'; }
@@ -1427,7 +1400,13 @@
     if(!("font" in Editor.draft)) Editor.draft.font = ""; if($("inpQFont")) $("inpQFont").value = Editor.draft.font;
     if(!("fontSize" in Editor.draft)) Editor.draft.fontSize = 32; if($("inpQFontSize")) $("inpQFontSize").value = Editor.draft.fontSize || 32; if(!("seconds" in Editor.draft)) Editor.draft.seconds = null;
     if($("inpQSeconds")) $("inpQSeconds").value = (Editor.draft.seconds ?? ""); if(!("image" in Editor.draft)) Editor.draft.image = ""; if(!("audio" in Editor.draft)) Editor.draft.audio = "";
-    if($("inpQImage")) $("inpQImage").value = Editor.draft.image; if($("inpQAudio")) $("inpQAudio").value = Editor.draft.audio;
+    if($("inpQImage")) { $("inpQImage").value = Editor.draft.image; 
+        if($("qImageStatus")) {
+            $("qImageStatus").textContent = Editor.draft.image ? "✅ Загружена" : "❌ Нет картинки";
+            $("qImageStatus").style.color = Editor.draft.image ? "#1dd1a1" : "#aaa";
+        }
+    } 
+    if($("inpQAudio")) $("inpQAudio").value = Editor.draft.audio;
     syncModalType(); if($("selType").value === "choice") renderChoiceUI(); else renderTextUI(); showModal(); setTimeout(()=>$("inpPrompt").focus(), 40);
   }
 
@@ -1476,13 +1455,22 @@
   let _previewTid = null;
   function debouncedPreview(){ if(_previewTid) clearTimeout(_previewTid); _previewTid = setTimeout(()=>updatePreview(false), 500); }
 
+  function updateBgStatus() {
+      const bgStatus = $("bgStatus");
+      if(bgStatus) {
+          bgStatus.textContent = Editor.bgDataUrl ? "✅ Свой фон загружен" : "Стандартный фон";
+          bgStatus.style.color = Editor.bgDataUrl ? "#1dd1a1" : "#aaa";
+      }
+  }
+
   $("inpTitle").value = Editor.title; $("inpInstruction").value = Editor.instruction.text; $("inpFeedback").value = Editor.feedback.text;
   $("inpInstruction").addEventListener("input", ()=>{ Editor.instruction.text = $("inpInstruction").value; debouncedPreview(); }); $("inpFeedback").addEventListener("input", ()=>{ Editor.feedback.text = $("inpFeedback").value; debouncedPreview(); });
-  $("inpTitle").addEventListener("input", ()=>{ Editor.title = $("inpTitle").value || gameTr(editorLang).title; debouncedPreview(); }); $("inpBgUrl").addEventListener("input", ()=>{ Editor.bgDataUrl = $("inpBgUrl").value.trim(); debouncedPreview(); });
+  $("inpTitle").addEventListener("input", ()=>{ Editor.title = $("inpTitle").value || gameTr(editorLang).title; debouncedPreview(); }); 
+  
   $("inpSeconds").addEventListener("input", ()=>{ Editor.timer.seconds = Number($("inpSeconds").value || 30); debouncedPreview(); }); if($("chkTransparentBg")) $("chkTransparentBg").addEventListener("change", ()=>{ Editor.transparentBg = $("chkTransparentBg").checked; updatePreview(false); });
   if($("selMachineVariant")) $("selMachineVariant").addEventListener("change", ()=>{ Editor.machineVariant = Number($("selMachineVariant").value); updatePreview(false); });
   if($("selLang")) $("selLang").addEventListener("change", ()=>{ editorLang = $("selLang").value; safeLangSet(editorLang); syncDefaultGameTextsForLang(editorLang); applyEditorLang(); renderList(); if(Editor.draft){ if((Editor.draft.type || "choice") === "choice") renderChoiceUI(); else renderTextUI(); } updatePreview(false); });
-  $("btnResetBg").addEventListener("click", ()=>{ Editor.bgDataUrl = ""; Editor.transparentBg = false; $("inpBgUrl").value = ""; if($("chkTransparentBg")) $("chkTransparentBg").checked = false; updatePreview(false); });
+  $("btnResetBg").addEventListener("click", ()=>{ Editor.bgDataUrl = ""; Editor.transparentBg = false; $("inpBgUrl").value = ""; if($("chkTransparentBg")) $("chkTransparentBg").checked = false; updateBgStatus(); updatePreview(false); });
   if($("chkUseLatex")) $("chkUseLatex").addEventListener("change", ()=>{ Editor.useLatex = $("chkUseLatex").checked; updatePreview(false); }); $("chkTimer").addEventListener("change", ()=>{ Editor.timer.enabled = $("chkTimer").checked; updatePreview(false); });
   $("btnAddQ").addEventListener("click", ()=>{ if(Editor.questions.length >= 9){ toast(tr("alreadyNine")); return; } openModal(null); }); $("btnClearQs").addEventListener("click", ()=>{ Editor.questions = []; renderList(); updatePreview(false); toast(tr("cleared")); });
   $("btnCloseModal").addEventListener("click", ()=>{ Editor.draft=null; Editor.editingId=null; hideModal(); }); $("modalBackdrop").addEventListener("click", (e)=>{ if(e.target === $("modalBackdrop")){ Editor.draft=null; Editor.editingId=null; hideModal(); } });
@@ -1491,12 +1479,31 @@
   if($("btnCloseToyModal")) $("btnCloseToyModal").addEventListener("click", closeToyModal);
   if($("btnCloseToyModal2")) $("btnCloseToyModal2").addEventListener("click", closeToyModal);
   if($("toyBackdrop")) $("toyBackdrop").addEventListener("click", (e)=>{ if(e.target === $("toyBackdrop")) closeToyModal(); });
-  if($("btnApplyToyUrl")) $("btnApplyToyUrl").addEventListener("click", ()=>{ Editor.toys[selectedToyIdx].src = ($("inpToyUrl").value || "").trim(); Editor.toys[selectedToyIdx] = normalizeToySettings(Editor.toys[selectedToyIdx]); renderToyGrid(); updatePreview(false); toast(tr("toyUrlApplied")); });
-  if($("inpToyUrl")) $("inpToyUrl").addEventListener("keydown", (e)=>{ if(e.key === "Enter") $("btnApplyToyUrl").click(); });
   if($("btnRemoveToyBg")) $("btnRemoveToyBg").addEventListener("click", removeSelectedToyBackground);
   if($("btnCenterToy")) $("btnCenterToy").addEventListener("click", ()=>{ const t = Editor.toys[selectedToyIdx] || defaultToySettings(); t.offsetX = 0; t.offsetY = 0; Editor.toys[selectedToyIdx] = normalizeToySettings(t); renderToyGrid(); updatePreview(false); toast(tr("toyCentered")); });
   if($("btnResetToy")) $("btnResetToy").addEventListener("click", ()=>{ Editor.toys[selectedToyIdx] = defaultToySettings(); renderToyGrid(); updatePreview(false); toast(tr("toyReset")); });
   if($("btnResetAllToys")) $("btnResetAllToys").addEventListener("click", ()=>{ if(confirm(tr("resetAllToysConfirm"))){ Editor.toys = normalizeToys([]); renderToyGrid(); updatePreview(false); toast(tr("allToysReset")); } });
+
+  // ЛОГИКА ЗАГРУЗКИ С КОМПА - ФОН ИГРЫ
+  if($("btnUploadBg")) {
+      $("btnUploadBg").addEventListener("click", () => $("inpBgFile").click());
+      $("inpBgFile").addEventListener("change", async (e) => {
+          const file = e.target.files[0];
+          if(!file) return;
+          const oldText = $("btnUploadBg").textContent;
+          $("btnUploadBg").textContent = "⏳...";
+          try {
+              const dataUrl = await window.compressImage(file, 1024); // Фоновая картинка
+              $("inpBgUrl").value = dataUrl;
+              Editor.bgDataUrl = dataUrl;
+              updateBgStatus();
+              debouncedPreview();
+              toast("Фон загружен!");
+          } catch(err) { toast("Ошибка!"); }
+          $("btnUploadBg").textContent = oldText;
+          $("inpBgFile").value = "";
+      });
+  }
 
   // ЛОГИКА ЗАГРУЗКИ С КОМПА - ИГРУШКИ
   if($("btnUploadToy")) {
@@ -1529,6 +1536,10 @@
           try {
               const dataUrl = await window.compressImage(file, 450); // для заданий можно побольше
               $("inpQImage").value = dataUrl;
+              if($("qImageStatus")) {
+                  $("qImageStatus").textContent = "✅ Загружена";
+                  $("qImageStatus").style.color = "#1dd1a1";
+              }
               toast("Картинка загружена!");
           } catch(err) { toast("Ошибка!"); }
           $("btnUploadQImage").textContent = oldText;
@@ -1556,7 +1567,18 @@
       else toast(tr("importFailed"));
   };
   $("selType").addEventListener("change", ()=>{ const q = Editor.draft; if(!q) return; q.type = $("selType").value; syncModalType(); if(q.type === "choice"){ q.options = q.options || ["",""]; q.correctIndices = q.correctIndices || [0]; renderChoiceUI(); } else { q.accepts = q.accepts || [""]; renderTextUI(); } });
-  if($("btnClearImage")) $("btnClearImage").addEventListener("click", () => { $("inpQImage").value = ""; }); if($("btnClearAudio")) $("btnClearAudio").addEventListener("click", () => { $("inpQAudio").value = ""; });
+  
+  if($("btnClearImage")) {
+      $("btnClearImage").addEventListener("click", () => { 
+          $("inpQImage").value = ""; 
+          if($("qImageStatus")) {
+              $("qImageStatus").textContent = "❌ Нет картинки";
+              $("qImageStatus").style.color = "#aaa";
+          }
+      }); 
+  }
+  if($("btnClearAudio")) $("btnClearAudio").addEventListener("click", () => { $("inpQAudio").value = ""; });
+  
   $("btnAddChoice").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.options = q.options || ["",""]; q.options.push(""); renderChoiceUI(); });
   $("btnAddText").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.accepts = q.accepts || [""]; q.accepts.push(""); renderTextUI(); });
   $("btnPreviewDraft").addEventListener("click", ()=>{ getDraftFromModal(); updatePreview(true); toast(tr("shownPreview")); });
@@ -1628,7 +1650,7 @@
   if(cfgKeyParam){ try{ const rawStr = localStorage.getItem(cfgKeyParam) || sessionStorage.getItem(cfgKeyParam); if(!rawStr) throw new Error("cfgkey not found"); const raw = JSON.parse(rawStr); bootGameOnly(normalizeCfg(raw)); }catch(e){ $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Ошибка (cfgkey)</div>'; } return; }
 
   try { const saved = localStorage.getItem(AUTOSAVE_KEY); if (saved) { const p = JSON.parse(saved);
-  if(p.lang && GAME_I18N[p.lang]) { editorLang = p.lang; safeLangSet(editorLang); } if(p.title) $("inpTitle").value = p.title; if(p.bgDataUrl) $("inpBgUrl").value = p.bgDataUrl;
+  if(p.lang && GAME_I18N[p.lang]) { editorLang = p.lang; safeLangSet(editorLang); } if(p.title) $("inpTitle").value = p.title; if(p.bgDataUrl) { $("inpBgUrl").value = p.bgDataUrl; Editor.bgDataUrl = p.bgDataUrl; }
   if(p.transparentBg !== undefined && $("chkTransparentBg")) $("chkTransparentBg").checked = !!p.transparentBg; 
   if(p.machineVariant !== undefined && $("selMachineVariant")) { $("selMachineVariant").value = p.machineVariant; Editor.machineVariant = p.machineVariant; }
   if(p.timer) { $("chkTimer").checked = !!p.timer.enabled; if(p.timer.seconds) $("inpSeconds").value = p.timer.seconds; } 
@@ -1642,6 +1664,7 @@
   Editor.instruction.text = $("inpInstruction").value; Editor.feedback.text = $("inpFeedback").value;
 
   applyEditorLang();
+  updateBgStatus();
   updatePreview(false);
 })();
 </script>
