@@ -162,8 +162,8 @@
             <select id="selMachineVariant">
               <option value="0">Вариант 1 (Стандартный)</option>
               <option value="1">Вариант 2 (Неон)</option>
-              <option value="2">Вариант 3 (Космос)</option>
-              <option value="3">Вариант 4 (Золото)</option>
+              <option value="2">Вариант 3 (Винтажный)</option>
+              <option value="3">Вариант 4 (Ретро)</option>
             </select>
           </div>
 
@@ -300,6 +300,7 @@
       </div>
     </div>
   </div>
+
 
   <div class="modal-backdrop" id="toyBackdrop" aria-hidden="true">
     <div class="modal toy-modal" role="dialog" aria-modal="true">
@@ -443,7 +444,7 @@
       alreadyNine: "Уже 9 вопросов 🙂",
       cleared: "Очищено",
       settingsApplied: "Настройки применены!",
-      applyConfirm: "Применить настройки ко всем вопросам?",
+      applyConfirm: "Применить настройки (шрифт, размер, таймер, ТИП вопроса) ко всем вопросам?",
       importLimit: "Импорт завершен (достигнут лимит 9)",
       imported: "Импортировано: {n}",
       importFailed: "Не удалось распознать текст",
@@ -932,7 +933,6 @@
   
   function gameTr(lang){ return GAME_I18N[lang] || GAME_I18N.en || GAME_I18N.ru; }
   
-  // Умная функция проверки текста (чтобы понимать, что текст стандартный, на каком бы языке он ни был)
   function isAnyDefaultTitle(title) { return Object.values(GAME_I18N).some(dict => dict.title === title); }
   function isAnyDefaultInstruction(text) { return Object.values(GAME_I18N).some(dict => dict.instruction === text); }
 
@@ -1732,7 +1732,6 @@
       return normalizeCfg(p);
   }
 
-  function encodeGameData(payload) { return "~" + LZString.compressToEncodedURIComponent(JSON.stringify(packPayload(payload))); }
   function decodeGameData(str) { if (str.startsWith("~")) return unpackPayload(JSON.parse(LZString.decompressFromEncodedURIComponent(str.slice(1)))); let s = String(str||"").replaceAll("-","+").replaceAll("_","/"); while(s.length % 4) s += "="; return unpackPayload(JSON.parse(decodeURIComponent(escape(atob(s))))); }
 
   function normalizeCfg(raw){
@@ -1886,244 +1885,4 @@
   $("inpInstruction").addEventListener("input", ()=>{ Editor.instruction.text = $("inpInstruction").value; debouncedPreview(); }); $("inpFeedback").addEventListener("input", ()=>{ Editor.feedback.text = $("inpFeedback").value; debouncedPreview(); });
   $("inpTitle").addEventListener("input", ()=>{ Editor.title = $("inpTitle").value || gameTr(editorLang).title; debouncedPreview(); }); 
   
-  $("inpSeconds").addEventListener("input", ()=>{ Editor.timer.seconds = Number($("inpSeconds").value || 30); debouncedPreview(); }); if($("chkTransparentBg")) $("chkTransparentBg").addEventListener("change", ()=>{ Editor.transparentBg = $("chkTransparentBg").checked; updatePreview(false); });
-  if($("selMachineVariant")) $("selMachineVariant").addEventListener("change", ()=>{ Editor.machineVariant = Number($("selMachineVariant").value); updatePreview(false); });
-  
-  // ИСПРАВЛЕНО: ПРАВИЛЬНОЕ ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ
-  if($("selLang")) $("selLang").addEventListener("change", ()=>{ 
-      editorLang = $("selLang").value; 
-      safeLangSet(editorLang); 
-      syncDefaultGameTextsForLang(editorLang); 
-      applyEditorLang(); 
-      renderList(); 
-      if(Editor.draft){ 
-          if((Editor.draft.type || "choice") === "choice") renderChoiceUI(); else renderTextUI(); 
-      } 
-      updatePreview(false); 
-  });
-  
-  // КНОПКА СБРОСА ФОНА
-  $("btnResetBg").addEventListener("click", ()=>{ 
-      Editor.bgDataUrl = ""; 
-      Editor.transparentBg = false; 
-      if($("inpBgUrl")) $("inpBgUrl").value = ""; 
-      if($("chkTransparentBg")) $("chkTransparentBg").checked = false; 
-      updateBgStatus(); 
-      updatePreview(false); 
-  });
-  
-  if($("chkUseLatex")) $("chkUseLatex").addEventListener("change", ()=>{ Editor.useLatex = $("chkUseLatex").checked; updatePreview(false); }); $("chkTimer").addEventListener("change", ()=>{ Editor.timer.enabled = $("chkTimer").checked; updatePreview(false); });
-  $("btnAddQ").addEventListener("click", ()=>{ if(Editor.questions.length >= 9){ toast(tr("alreadyNine")); return; } openModal(null); }); $("btnClearQs").addEventListener("click", ()=>{ Editor.questions = []; renderList(); updatePreview(false); toast(tr("cleared")); });
-  $("btnCloseModal").addEventListener("click", ()=>{ Editor.draft=null; Editor.editingId=null; hideModal(); }); $("modalBackdrop").addEventListener("click", (e)=>{ if(e.target === $("modalBackdrop")){ Editor.draft=null; Editor.editingId=null; hideModal(); } });
-
-  if($("btnOpenToys")) $("btnOpenToys").addEventListener("click", openToyModal);
-  if($("btnCloseToyModal")) $("btnCloseToyModal").addEventListener("click", closeToyModal);
-  if($("btnCloseToyModal2")) $("btnCloseToyModal2").addEventListener("click", closeToyModal);
-  if($("toyBackdrop")) $("toyBackdrop").addEventListener("click", (e)=>{ if(e.target === $("toyBackdrop")) closeToyModal(); });
-  if($("btnRemoveToyBg")) $("btnRemoveToyBg").addEventListener("click", removeSelectedToyBackground);
-  if($("btnCenterToy")) $("btnCenterToy").addEventListener("click", ()=>{ const t = Editor.toys[selectedToyIdx] || defaultToySettings(); t.offsetX = 0; t.offsetY = 0; Editor.toys[selectedToyIdx] = normalizeToySettings(t); renderToyGrid(); updatePreview(false); toast(tr("toyCentered")); });
-  if($("btnResetToy")) $("btnResetToy").addEventListener("click", ()=>{ Editor.toys[selectedToyIdx] = defaultToySettings(); renderToyGrid(); updatePreview(false); toast(tr("toyReset")); });
-  if($("btnResetAllToys")) $("btnResetAllToys").addEventListener("click", ()=>{ if(confirm(tr("resetAllToysConfirm"))){ Editor.toys = normalizeToys([]); renderToyGrid(); updatePreview(false); toast(tr("allToysReset")); } });
-
-  // ЛОГИКА ЗАГРУЗКИ С КОМПА - ФОН ИГРЫ
-  if($("btnUploadBg")) {
-      $("btnUploadBg").addEventListener("click", () => $("inpBgFile").click());
-      $("inpBgFile").addEventListener("change", async (e) => {
-          const file = e.target.files[0];
-          if(!file) return;
-          const oldText = $("btnUploadBg").textContent;
-          $("btnUploadBg").textContent = "⏳...";
-          try {
-              const dataUrl = await window.compressImage(file, 1024); // Фоновая картинка
-              if($("inpBgUrl")) $("inpBgUrl").value = dataUrl;
-              Editor.bgDataUrl = dataUrl;
-              updateBgStatus();
-              debouncedPreview();
-              toast("Фон загружен!");
-          } catch(err) { console.error(err); toast("Ошибка загрузки фона!"); }
-          $("btnUploadBg").textContent = oldText;
-          $("inpBgFile").value = "";
-      });
-  }
-
-  // ЛОГИКА ЗАГРУЗКИ С КОМПА - ИГРУШКИ
-  if($("btnUploadToy")) {
-      $("btnUploadToy").addEventListener("click", () => $("inpToyFile").click());
-      $("inpToyFile").addEventListener("change", async (e) => {
-          const file = e.target.files[0];
-          if(!file) return;
-          const oldText = $("btnUploadToy").textContent;
-          $("btnUploadToy").textContent = "⏳ Ждите...";
-          try {
-              const dataUrl = await window.compressImage(file, 160); // игрушкам большое качество не нужно
-              Editor.toys[selectedToyIdx].src = dataUrl;
-              Editor.toys[selectedToyIdx] = normalizeToySettings(Editor.toys[selectedToyIdx]);
-              if($("inpToyUrl")) $("inpToyUrl").value = dataUrl;
-              renderToyGrid(); updatePreview(false); toast("Картинка сжата и загружена!");
-          } catch(err) { toast("Ошибка обработки!"); }
-          $("btnUploadToy").textContent = oldText;
-          $("inpToyFile").value = "";
-      });
-  }
-
-  // ЛОГИКА ЗАГРУЗКИ С КОМПА - ВОПРОСЫ
-  if($("btnUploadQImage")) {
-      $("btnUploadQImage").addEventListener("click", () => $("inpQImageFile").click());
-      $("inpQImageFile").addEventListener("change", async (e) => {
-          const file = e.target.files[0];
-          if(!file) return;
-          const oldText = $("btnUploadQImage").textContent;
-          $("btnUploadQImage").textContent = "⏳...";
-          try {
-              const dataUrl = await window.compressImage(file, 450); // для заданий можно побольше
-              if($("inpQImage")) $("inpQImage").value = dataUrl;
-              if($("qImageStatus")) {
-                  $("qImageStatus").textContent = "✅ Загружена";
-                  $("qImageStatus").style.color = "#1dd1a1";
-              }
-              toast("Картинка загружена!");
-          } catch(err) { toast("Ошибка!"); }
-          $("btnUploadQImage").textContent = oldText;
-          $("inpQImageFile").value = "";
-      });
-  }
-
-  window.closeImport = () => { $("importBackdrop").style.display = "none"; $("importBackdrop").setAttribute("aria-hidden","true"); $("importText").value = ''; };
-  if ($("btnImportQ")) { $("btnImportQ").addEventListener("click", () => { if(Editor.questions.length >= 9) { toast(tr("alreadyNine")); return; } $("importBackdrop").style.display = "block"; $("importBackdrop").setAttribute("aria-hidden","false"); }); }
-
-  window.processImport = () => {
-      const txt = document.getElementById('importText').value.trim(); if (!txt) return closeImport();
-      const tplIdx = parseInt(document.getElementById('newQTemplate').value); let baseQ = { font: "", fontSize: 32, seconds: null, image: "", audio: "" };
-      if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; baseQ = { font: tq.font, fontSize: tq.fontSize, seconds: tq.seconds }; }
-      let addedCount = 0;
-      const lines = txt.split('\n');
-      for(let line of lines) { 
-          if (Editor.questions.length >= 9) break;
-          const trimmed = line.trim();
-          if (trimmed) { Editor.questions.push({ id: uid(), ...baseQ, type: 'text', prompt: trimmed, accepts: [tr('answerDefault')] }); addedCount++; } 
-      }
-      closeImport();
-      renderList(); updatePreview(false);
-      if (Editor.questions.length >= 9 && addedCount > 0) toast(tr("importLimit")); else if (addedCount > 0) toast(tr("imported", {n: addedCount}));
-      else toast(tr("importFailed"));
-  };
-  $("selType").addEventListener("change", ()=>{ const q = Editor.draft; if(!q) return; q.type = $("selType").value; syncModalType(); if(q.type === "choice"){ q.options = q.options || ["",""]; q.correctIndices = q.correctIndices || [0]; renderChoiceUI(); } else { q.accepts = q.accepts || [""]; renderTextUI(); } });
-  
-  if($("btnClearImage")) {
-      $("btnClearImage").addEventListener("click", () => { 
-          if($("inpQImage")) $("inpQImage").value = ""; 
-          if($("qImageStatus")) {
-              $("qImageStatus").textContent = "❌ Нет картинки";
-              $("qImageStatus").style.color = "#aaa";
-          }
-      }); 
-  }
-  if($("btnClearAudio")) $("btnClearAudio").addEventListener("click", () => { if($("inpQAudio")) $("inpQAudio").value = ""; });
-  
-  $("btnAddChoice").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.options = q.options || ["",""]; q.options.push(""); renderChoiceUI(); });
-  $("btnAddText").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.accepts = q.accepts || [""]; q.accepts.push(""); renderTextUI(); });
-  $("btnPreviewDraft").addEventListener("click", ()=>{ getDraftFromModal(); updatePreview(true); toast(tr("shownPreview")); });
-  
-  $("btnSaveQ").addEventListener("click", ()=>{ const q = getDraftFromModal(); const err = validateQuestion(q); if(err){ toast(err); return; } if(Editor.editingId){ const idx = Editor.questions.findIndex(x=>x.id === Editor.editingId); if(idx >= 0){ q.id = Editor.editingId; Editor.questions[idx] = q; toast(tr("updated")); } else { Editor.questions.push(q); toast(tr("added")); } } else { Editor.questions.push(q); toast(tr("added")); } Editor.draft=null; Editor.editingId=null; hideModal(); renderList(); updatePreview(false); });
-  
-  // СОХРАНЕНИЕ В FIREBASE И КОПИРОВАНИЕ
-  $("btnCopyCode").addEventListener("click", async ()=>{ 
-    const btn = $("btnCopyCode");
-    const originalText = btn.textContent;
-    btn.textContent = "⏳ Сохранение в облако...";
-    btn.disabled = true;
-    
-    try {
-        const payload = buildPayload(false);
-        const compressedData = encodeGameData(payload);
-        const uniqueId = "g_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 4);
-        
-        await db.ref('games/' + uniqueId).set({
-            d: compressedData,
-            t: Date.now()
-        });
-        
-        const shortUrl = selfPageUrl() + "?id=" + uniqueId;
-        const iframeCode = `<iframe src="${shortUrl}" style="width:100%;height:100%;border:0;border-radius:18px;overflow:hidden;background:transparent" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>`; 
-        
-        const ok = await copyToClipboard(iframeCode); 
-        toast(ok ? tr("copiedOk") : tr("error")); 
-    } catch(err) {
-        console.error(err);
-        toast("Ошибка при сохранении на сервер Firebase!");
-    }
-    
-    btn.textContent = originalText;
-    btn.disabled = false;
-  });
-  
-  if ($("btnResetAll")) { $("btnResetAll").addEventListener("click", ()=>{ if(confirm(tr("resetConfirm"))) { localStorage.removeItem(AUTOSAVE_KEY); location.reload(); } }); }
-
-  function bootGameOnly(cfg){ document.body.setAttribute("data-mode","game"); document.body.classList.add("gameOnly"); $("editorRoot").style.display = "none"; $("modalBackdrop").style.display = "none"; $("gameRoot").style.display = "block"; injectCanvasGame(cfg); }
-  const qp = parseQueryParams(); const hp = parseHashParams();
-  
-  // УМНАЯ ЛОГИКА ЗАПУСКА: ИГРА ИЛИ РЕДАКТОР
-  const idParam = qp.id || hp.id;
-  const gameParam = qp.game || hp.game;
-  const isPreview = !!qp.preview;
-
-  if (gameParam || idParam || isPreview || window.__EMBEDDED_CFG__) {
-      if (window.__EMBEDDED_CFG__) {
-          try{ bootGameOnly(normalizeCfg(window.__EMBEDDED_CFG__)); } catch(e){ $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Не удалось прочитать конфиг</div>'; }
-      } else if (gameParam) {
-          try {
-              const raw = decodeGameData(gameParam);
-              bootGameOnly(raw);
-          } catch(e) { $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Ошибка iframe</div>'; }
-      } else if (idParam) {
-          $("gameRoot").innerHTML = '<div style="padding:20px;color:#fff;font-family:sans-serif;text-align:center;">Загрузка интерактива...</div>';
-          $("gameRoot").style.display = "block";
-          document.body.classList.add("gameOnly");
-          $("editorRoot").style.display = "none";
-          $("modalBackdrop").style.display = "none";
-          
-          db.ref('games/' + idParam).once('value').then(snap => {
-              if(snap.exists()) {
-                  const data = snap.val().d;
-                  const raw = decodeGameData(data);
-                  bootGameOnly(raw);
-              } else {
-                  $("gameRoot").innerHTML = '<div style="padding:20px;color:#ff6b6b;font-family:sans-serif;text-align:center;">Игра не найдена или удалена :(</div>';
-              }
-          }).catch(err => {
-              $("gameRoot").innerHTML = '<div style="padding:20px;color:#ff6b6b;font-family:sans-serif;text-align:center;">Ошибка подключения к базе данных.</div>';
-          });
-      } else if (isPreview) {
-          // Пустая игра для предпросмотра (ждет сообщений от редактора)
-          bootGameOnly(normalizeCfg({}));
-          window.addEventListener('message', (e) => {
-              if (e.data && e.data.type === 'UPDATE_CONFIG') {
-                  window.__CFG = normalizeCfg(e.data.config);
-                  if (typeof window.initGameData === 'function') window.initGameData();
-              }
-          });
-      }
-      return; // ОСТАНАВЛИВАЕМ ВЫПОЛНЕНИЕ, ЧТОБЫ РЕДАКТОР НЕ ЗАГРУЖАЛСЯ ПОВЕРХ ИГРЫ
-  }
-
-  try { const saved = localStorage.getItem(AUTOSAVE_KEY); if (saved) { const p = JSON.parse(saved);
-  if(p.lang && GAME_I18N[p.lang]) { editorLang = p.lang; safeLangSet(editorLang); } if(p.title) $("inpTitle").value = p.title; if(p.bgDataUrl) { if($("inpBgUrl")) $("inpBgUrl").value = p.bgDataUrl; Editor.bgDataUrl = p.bgDataUrl; }
-  if(p.transparentBg !== undefined && $("chkTransparentBg")) $("chkTransparentBg").checked = !!p.transparentBg; 
-  if(p.machineVariant !== undefined && $("selMachineVariant")) { $("selMachineVariant").value = p.machineVariant; Editor.machineVariant = p.machineVariant; }
-  if(p.timer) { $("chkTimer").checked = !!p.timer.enabled; if(p.timer.seconds) $("inpSeconds").value = p.timer.seconds; } 
-  if(p.useLatex !== undefined && $("chkUseLatex")) $("chkUseLatex").checked = !!p.useLatex; if(p.instruction && p.instruction.text !== undefined) $("inpInstruction").value = p.instruction.text;
-  if(p.feedback && p.feedback.text !== undefined) $("inpFeedback").value = p.feedback.text; if(Array.isArray(p.questions)) { Editor.questions = p.questions.map(q => ({...q, id: uid()})); } if(Array.isArray(p.toys)) { Editor.toys = normalizeToys(p.toys); } } } catch(e) {}
-  Editor.title = $("inpTitle").value || "Игровой автомат";
-  Editor.transparentBg = $("chkTransparentBg") ? $("chkTransparentBg").checked : false; 
-  Editor.machineVariant = $("selMachineVariant") ? Number($("selMachineVariant").value) : 0;
-  Editor.timer.enabled = $("chkTimer").checked;
-  Editor.timer.seconds = Number($("inpSeconds").value || 30); if($("chkUseLatex")) Editor.useLatex = $("chkUseLatex").checked;
-  Editor.instruction.text = $("inpInstruction").value; Editor.feedback.text = $("inpFeedback").value;
-
-  applyEditorLang();
-  updateBgStatus();
-  updatePreview(false);
-})();
-</script>
-</body>
-</html>
+  $("inpSeconds").addEventListener("input", ()=>{ Editor.timer.seconds = Number($("inpSeconds").value || 30); debouncedPreview(); }); if($("chk
