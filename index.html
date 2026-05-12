@@ -517,19 +517,25 @@
       eraser: "Ластик",
       clear: "Очистить",
       footer: "Шкатулка математических интерактивов"
+    },
+    en: {
+      title: "Slot Machine",
+      instruction: "Insert a coin and control the claw.\nCatch a toy — solve the task.\nCorrect → toy is yours.\nWrong → toy drops back.\nYou have exactly 9 attempts!",
+      play: "▶ Play", emptyRow: "Empty row!", chooseOther: "Choose other", task: "Task", inputPlaceholder: "Answer...", ok: "OK", finishTitle: "Game Over!", collected: "Toys collected:", ofNine: "of 9", correct: "Right:", wrong: "Wrong:", playAgain: "↻ Play again", draft: "✏️ Draft", openDraft: "Open draft", closeDraft: "Close draft", color: "Color", thickness: "Thickness", eraser: "Eraser", clear: "Clear", footer: "Math Interactives"
     }
   };
 
-  function gameTr(lang){ return GAME_I18N.ru; }
+  function gameTr(lang){ return GAME_I18N[lang] || GAME_I18N.ru; }
   function isDefaultGameTitle(value){ return String(value || "") === GAME_I18N.ru.title; }
   function isDefaultGameInstruction(value){ return String(value || "") === GAME_I18N.ru.instruction; }
   function syncDefaultGameTextsForLang(lang){
-    const d = gameTr('ru');
-    if($("inpTitle") && isDefaultGameTitle(Editor.title)) { Editor.title = d.title; $("inpTitle").value = d.title; }
-    if($("inpInstruction") && Editor.instruction && isDefaultGameInstruction(Editor.instruction.text)) { Editor.instruction.text = d.instruction; $("inpInstruction").value = d.instruction; }
+    const d = gameTr(lang);
+    if($("inpTitle") && (isDefaultGameTitle(Editor.title) || Editor.title === GAME_I18N.en.title)) { Editor.title = d.title; $("inpTitle").value = d.title; }
+    if($("inpInstruction") && Editor.instruction && (isDefaultGameInstruction(Editor.instruction.text) || Editor.instruction.text === GAME_I18N.en.instruction)) { Editor.instruction.text = d.instruction; $("inpInstruction").value = d.instruction; }
   }
   function tr(key, vars){
-    let val = I18N.ru[key] ?? key;
+    let langDict = I18N[editorLang] || I18N.ru;
+    let val = langDict[key] ?? I18N.ru[key] ?? key;
     if(vars) Object.keys(vars).forEach(k => { val = val.replaceAll("{" + k + "}", String(vars[k])); });
     return val;
   }
@@ -733,7 +739,7 @@
         let currentCol = 1, tasks = [], globalTimer = null;
         function applyGameLanguage(rawCfg) {
             const lang = rawCfg.lang || 'ru';
-            const t = gameTr('ru');
+            const t = gameTr(lang);
             const setText = (id, value) => { const el = document.getElementById(id); if(el) el.textContent = value; };
             const setTitle = (id, value) => { const el = document.getElementById(id); if(el) el.title = value; };
             setText('playBtn', t.play);
@@ -1461,13 +1467,13 @@
   function updatePreview(previewWithDraft){
     const payload = buildPayload(previewWithDraft), data = encodeGameData(payload);
     if (!previewWithDraft && !document.body.classList.contains("gameOnly")) { try { localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(payload)); } catch(e) {} }
-    const useKey = data.length > 2500;
-    let urlParams = "?preview=1"; if (previewWithDraft) urlParams += "&autostart=1";
+    
+    window.__PREVIEW_PAYLOAD__ = payload; 
+    let urlParams = "?preview=1&useParentCfg=1"; 
+    if (previewWithDraft) urlParams += "&autostart=1";
     urlParams += "&_t=" + Date.now();
-    if(useKey){ const key = storePreviewCfg(payload);
-    if(key){ const src = selfPageUrl() + urlParams + "&cfgkey=" + encodeURIComponent(key) + "#cfgkey=" + encodeURIComponent(key); $("livePreview").src = src; return;
-    } }
-    $("livePreview").src = selfPageUrl() + urlParams + "&game=" + data;
+    
+    $("livePreview").src = selfPageUrl() + urlParams;
   }
 
   let _previewTid = null;
@@ -1640,6 +1646,11 @@
   const qp = parseQueryParams(); const hp = parseHashParams();
   
   // ЛОГИКА ЗАПУСКА ИЗ ОБЛАКА
+  if (qp.useParentCfg === "1" && window.parent && window.parent.__PREVIEW_PAYLOAD__) {
+      try { bootGameOnly(normalizeCfg(window.parent.__PREVIEW_PAYLOAD__)); } catch(e) { $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Ошибка предпросмотра</div>'; }
+      return;
+  }
+  
   const idParam = qp.id || hp.id;
   if(idParam) {
       $("gameRoot").innerHTML = '<div style="padding:20px;color:#fff;font-family:sans-serif;text-align:center;">Загрузка интерактива...</div>';
