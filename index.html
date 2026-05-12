@@ -70,7 +70,7 @@
     .preview-top .name{font-weight:950; letter-spacing:.2px} .preview-top .hint{color:var(--muted); font-size:12.5px}
     .preview .panel-body { flex: 1; display: flex; flex-direction: column; min-height: 0; padding-bottom: 0; }
     .preview-stage{ flex: 1; position:relative; border-radius:var(--radius2); border:1px solid rgba(255,255,255,.10); overflow:hidden; background:rgba(0,0,0,.18); box-shadow: var(--shadow2); }
-    .toast{ position:fixed; left:50%; bottom:16px; transform:translateX(-50%); background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.14); color:var(--text); padding:10px 12px; border-radius:14px; backdrop-filter: blur(10px); opacity:0; transition:0.2s; z-index:999999; pointer-events:none;}
+    .toast{ position:fixed; left:50%; bottom:16px; transform:translateX(-50%); background:rgba(0,0,0,.7); border:1px solid var(--neon-orange-base); color:#fff; padding:10px 12px; border-radius:14px; backdrop-filter: blur(10px); opacity:0; transition:0.2s; z-index:999999; pointer-events:none;}
     .toast.show{ opacity:1; transform:translateX(-50%) translateY(-4px) }
     .modal-backdrop{ position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.65); backdrop-filter: blur(8px); display: none; z-index: 999998; }
     .modal{ position: absolute; top: 15px; bottom: 15px; left: 15px; right: 15px; margin: auto; max-width: 820px; width: auto; display: flex; flex-direction: column; border-radius: 20px; border: 1px solid var(--neon-orange-base) !important; background: #16110c !important; box-shadow: var(--neon-box-shadow), 0 30px 80px rgba(0,0,0,.7) !important; overflow: hidden; }
@@ -142,7 +142,8 @@
           <div class="title">Оформление</div>
           <label>Фон игры</label>
           <div class="row" style="gap:10px; align-items:center; margin-top:6px">
-            <input id="inpBgUrl" type="text" style="display:none;" /> <div id="bgStatus" style="flex:1; font-size:12px; color:#aaa; font-weight:bold; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Стандартный фон</div>
+            <input id="inpBgUrl" type="text" style="display:none;" />
+            <div id="bgStatus" style="flex:1; font-size:12px; color:#aaa; font-weight:bold; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Стандартный фон</div>
             <input type="file" id="inpBgFile" accept="image/*" style="display:none">
             <button id="btnUploadBg" type="button" class="btn small" style="background:#0abde3;color:#000;border:none;">📁 Загрузить</button>
             <button id="btnResetBg" type="button" class="btn small danger" title="Удалить фон">✖</button>
@@ -299,7 +300,6 @@
       </div>
     </div>
   </div>
-
 
   <div class="modal-backdrop" id="toyBackdrop" aria-hidden="true">
     <div class="modal toy-modal" role="dialog" aria-modal="true">
@@ -477,6 +477,123 @@
       toyReset: "Игрушка сброшена",
       allToysReset: "Все игрушки сброшены",
       resetAllToysConfirm: "Сбросить все игрушки к стандартным?"
+    },
+    en: {
+      pageTitle: "Claw Machine — Editor",
+      langLabel: "Interface Language",
+      resetAllTitle: "Reset all settings",
+      resetAll: "🔄 Reset all",
+      copyIframe: "☁️ Save & Copy",
+      sectionTitle: "Title",
+      titleLabel: "Game Title",
+      sectionDesign: "Design",
+      bgLabel: "Game Background",
+      transparentBg: "Transparent Background",
+      transparentBgHelp: "If enabled, background will be transparent. Custom image is ignored.",
+      useLatex: "Use LaTeX",
+      latexHelp: "Enables math formulas support",
+      sectionTimer: "Answer Timer",
+      globalTimer: "Enable global timer",
+      globalTimerHelp: "If time is up, answer is considered incorrect.",
+      secondsDefault: "Seconds per question (default)",
+      startScreen: "Start Screen",
+      instructionLabel: "Instruction text",
+      finishScreen: "Finish Screen",
+      feedbackLabel: "Additional text",
+      feedbackPlaceholder: "e.g., Great job!",
+      questions: "Questions",
+      add: "➕ Add",
+      import: "📥 Import",
+      clear: "🧹 Clear",
+      templates: "🎨 Templates:",
+      standardDefault: "Standard (default)",
+      likeQuestion: "Like question #{n}",
+      applyAll: "🔄 Apply to all",
+      dragHint: "💡 You can drag questions (by ☰) to reorder them.",
+      strictNine: "Strictly <b>9 questions</b>.",
+      noQuestions: "No questions yet. Fill in all 9.",
+      preview: "Preview",
+      livePreview: "Updates instantly ✨",
+      modalAdd: "Add question",
+      modalEdit: "Edit question",
+      close: "Close",
+      questionType: "Question type",
+      choiceType: "Multiple choice",
+      textType: "Text input",
+      questionLabel: "Question",
+      questionPlaceholder: "Enter question...",
+      textDesign: "Text design",
+      fontLabel: "Font",
+      fontNeucha: "Neucha (Handwritten)",
+      fontCaveat: "Caveat (Handwritten 2)",
+      fontSize: "Font size (px)",
+      qTimerTitle: "Timer for this question",
+      qSecondsLabel: "Seconds (empty = default)",
+      qSecondsPlaceholder: "e.g. 20",
+      mediaLinks: "Media",
+      imageTitle: "Image",
+      audioTitle: "Audio",
+      answerOptions: "Answer options (check correct)",
+      correctInputAnswers: "Correct answers (input)",
+      addOption: "➕ Add option",
+      showPreview: "👁 Show in preview",
+      save: "💾 Save",
+      importTitle: "📥 Smart Import",
+      importPlaceholder: "Paste copied list... (each line is a new question)",
+      cancel: "Cancel",
+      recognizeAdd: "✨ Recognize & Add",
+      choiceSummary: "Choice",
+      inputSummary: "Input",
+      mediaSummary: " (+ media)",
+      emptyQuestion: "(empty)",
+      previewTitle: "Preview",
+      duplicateTitle: "Duplicate",
+      editTitle: "Edit",
+      deleteTitle: "Delete",
+      copied: "Copied",
+      copiedOk: "Link is ready and copied! ✅",
+      error: "Error",
+      deleted: "Deleted",
+      shownPreview: "Shown in preview",
+      copiedQuestion: "Question copied",
+      maxQuestions: "Maximum 9 questions!",
+      alreadyNine: "Already 9 questions 🙂",
+      cleared: "Cleared",
+      settingsApplied: "Settings applied!",
+      applyConfirm: "Apply settings to all questions?",
+      importLimit: "Import finished (limit 9 reached)",
+      imported: "Imported: {n}",
+      importFailed: "Failed to recognize text",
+      updated: "Question updated",
+      added: "Question added",
+      resetConfirm: "Are you sure you want to reset everything?",
+      validAnswer: "✅ Correct answer",
+      optionN: "Option {n}",
+      correctVariantN: "Correct variant {n}",
+      answerDefault: "Answer",
+      validateEmptyQuestion: "Empty question",
+      validatePrompt: "Enter text",
+      validateMinOptions: "Minimum 2 options",
+      validateCorrect: "Check correct answer",
+      validateQuestionTimer: "Timer: 3–600 seconds",
+      toysOpen: "🧸 Customize toys",
+      toysHelp: "Replace toys, move them, or change their size.",
+      toysModalTitle: "🧸 Toys customization",
+      toysGridHint: "Click a toy. Drag it or pull the corner to resize.",
+      toySelectedTitle: "Toy #{n}",
+      removeToyBg: "✨ Remove BG",
+      removingToyBg: "Removing...",
+      toyBgRemoved: "BG removed",
+      toyBgRemoveFailed: "Failed to remove BG.",
+      toyBgRemoveCors: "Site blocks image reading.",
+      centerToy: "Center",
+      resetThisToy: "Reset this",
+      resetAllToys: "Reset all",
+      toyTip: "Upload image from PC. Firebase will save it!",
+      toyCentered: "Toy centered",
+      toyReset: "Toy reset",
+      allToysReset: "All toys reset",
+      resetAllToysConfirm: "Reset all toys to default?"
     }
   };
   const GAME_I18N = {
@@ -503,18 +620,45 @@
       eraser: "Ластик",
       clear: "Очистить",
       footer: "Шкатулка математических интерактивов"
+    },
+    en: {
+      title: "Claw Machine",
+      instruction: "Insert a coin and control the claw.\nCatch a toy — solve the task.\nCorrect → keep the toy.\nWrong → the toy drops back.\nYou have exactly 9 attempts!",
+      play: "▶ Start Game",
+      emptyRow: "This row is empty!",
+      chooseOther: "Choose another",
+      task: "Task",
+      inputPlaceholder: "Enter your answer...",
+      ok: "OK",
+      finishTitle: "Game Over!",
+      collected: "Toys collected:",
+      ofNine: "out of 9",
+      correct: "Correct:",
+      wrong: "Mistakes:",
+      playAgain: "↻ Play Again",
+      draft: "✏️ Draft",
+      openDraft: "Open draft",
+      closeDraft: "Close draft",
+      color: "Color",
+      thickness: "Thickness",
+      eraser: "Eraser",
+      clear: "Clear",
+      footer: "Box of math interactives"
     }
   };
-  function gameTr(lang){ return GAME_I18N.ru; }
+  function gameTr(lang){ 
+      return GAME_I18N[lang] || GAME_I18N.en || GAME_I18N.ru; 
+  }
   function isDefaultGameTitle(value){ return String(value || "") === GAME_I18N.ru.title; }
   function isDefaultGameInstruction(value){ return String(value || "") === GAME_I18N.ru.instruction; }
   function syncDefaultGameTextsForLang(lang){
-    const d = gameTr('ru');
+    const d = gameTr(lang);
     if($("inpTitle") && isDefaultGameTitle(Editor.title)) { Editor.title = d.title; $("inpTitle").value = d.title; }
     if($("inpInstruction") && Editor.instruction && isDefaultGameInstruction(Editor.instruction.text)) { Editor.instruction.text = d.instruction; $("inpInstruction").value = d.instruction; }
   }
   function tr(key, vars){
-    let val = I18N.ru[key] ?? key;
+    const dict = I18N[editorLang] || I18N.en || I18N.ru;
+    let val = dict[key] ?? I18N.ru[key] ?? key;
     if(vars) Object.keys(vars).forEach(k => { val = val.replaceAll("{" + k + "}", String(vars[k])); });
     return val;
   }
@@ -524,7 +668,6 @@
   function setTitle(id, value){ const el = $(id); if(el) el.title = value; }
   
   function applyEditorLang(){
-    editorLang = "ru";
     document.title = tr("pageTitle");
     const langSel = $("selLang"); if(langSel) langSel.value = editorLang;
     setTxt("#lblLangSelect", tr("langLabel"));
@@ -712,7 +855,7 @@
         let currentCol = 1, tasks = [], globalTimer = null;
         function applyGameLanguage(rawCfg) {
             const lang = rawCfg.lang || 'ru';
-            const t = gameTr('ru');
+            const t = gameTr(lang);
             const setText = (id, value) => { const el = document.getElementById(id); if(el) el.textContent = value; };
             const setTitle = (id, value) => { const el = document.getElementById(id); if(el) el.title = value; };
             setText('playBtn', t.play);
@@ -1459,7 +1602,19 @@
   
   $("inpSeconds").addEventListener("input", ()=>{ Editor.timer.seconds = Number($("inpSeconds").value || 30); debouncedPreview(); }); if($("chkTransparentBg")) $("chkTransparentBg").addEventListener("change", ()=>{ Editor.transparentBg = $("chkTransparentBg").checked; updatePreview(false); });
   if($("selMachineVariant")) $("selMachineVariant").addEventListener("change", ()=>{ Editor.machineVariant = Number($("selMachineVariant").value); updatePreview(false); });
-  if($("selLang")) $("selLang").addEventListener("change", ()=>{ editorLang = $("selLang").value; safeLangSet(editorLang); syncDefaultGameTextsForLang(editorLang); applyEditorLang(); renderList(); if(Editor.draft){ if((Editor.draft.type || "choice") === "choice") renderChoiceUI(); else renderTextUI(); } updatePreview(false); });
+  
+  // ИСПРАВЛЕНО: ПРАВИЛЬНОЕ ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ
+  if($("selLang")) $("selLang").addEventListener("change", ()=>{ 
+      editorLang = $("selLang").value; 
+      safeLangSet(editorLang); 
+      syncDefaultGameTextsForLang(editorLang); 
+      applyEditorLang(); 
+      renderList(); 
+      if(Editor.draft){ 
+          if((Editor.draft.type || "choice") === "choice") renderChoiceUI(); else renderTextUI(); 
+      } 
+      updatePreview(false); 
+  });
   
   // КНОПКА СБРОСА ФОНА
   $("btnResetBg").addEventListener("click", ()=>{ 
