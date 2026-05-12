@@ -375,170 +375,59 @@
   
   const I18N = {
     ru: {
-      pageTitle: "Игровой автомат — Редактор",
-      langLabel: "Язык интерфейса",
-      resetAllTitle: "Сбросить все настройки и начать с чистого листа",
-      resetAll: "🔄 Сбросить всё",
-      copyIframe: "☁️ Сохранить и Скопировать",
-      sectionTitle: "Название",
-      titleLabel: "Заголовок в игре",
-      sectionDesign: "Оформление",
-      bgLabel: "Фон игры",
-      transparentBg: "Прозрачный фон",
-      transparentBgHelp: "Если включено, фон игры будет прозрачным. Своя картинка игнорируется.",
-      useLatex: "Использовать LaTeX",
-      latexHelp: "Включает поддержку математических формул",
-      sectionTimer: "Таймер на ответ",
-      globalTimer: "Включить глобальный таймер",
-      globalTimerHelp: "Если время вышло — ответ считается неверным.",
-      secondsDefault: "Секунд на вопрос (по умолчанию)",
-      startScreen: "Стартовый экран",
-      instructionLabel: "Текст инструкции",
-      finishScreen: "Финальный экран",
-      feedbackLabel: "Дополнительный текст",
-      feedbackPlaceholder: "Например: Отличная работа!",
-      questions: "Вопросы",
-      add: "➕ Добавить",
-      import: "📥 Импорт",
-      clear: "🧹 Очистить",
-      templates: "🎨 Шаблоны оформления:",
-      standardDefault: "Стандартные (по умолчанию)",
-      likeQuestion: "Как в вопросе #{n}",
-      applyAll: "🔄 Применить ко всем",
-      dragHint: "💡 Можно перетаскивать вопросы (за значок ☰), чтобы менять их порядок.",
-      strictNine: "Строго <b>9 вопросов</b>.",
-      noQuestions: "Пока нет вопросов. Заполните все 9.",
-      preview: "Просмотр",
-      livePreview: "Живое превью игры",
-      modalAdd: "Добавить вопрос",
-      modalEdit: "Редактировать вопрос",
-      close: "Закрыть",
-      questionType: "Тип вопроса",
-      choiceType: "С выбором ответа",
-      textType: "С вводом ответа",
-      questionLabel: "Вопрос",
-      questionPlaceholder: "Введите вопрос...",
-      textDesign: "Оформление текста",
-      fontLabel: "Шрифт (вопрос и ответы)",
-      fontNeucha: "Neucha (Рукописный)",
-      fontCaveat: "Caveat (Рукописный 2)",
-      fontSize: "Размер шрифта (px)",
-      qTimerTitle: "Таймер для этого вопроса",
-      qSecondsLabel: "Секунд на этот вопрос (пусто = по умолчанию)",
-      qSecondsPlaceholder: "например 20",
-      mediaLinks: "Медиа",
-      imageTitle: "Картинка",
-      audioTitle: "Аудио",
-      answerOptions: "Варианты ответа (отметь верные)",
-      correctInputAnswers: "Верные ответы (ввод)",
-      addOption: "➕ Добавить вариант",
-      showPreview: "👁 Показать в превью",
-      save: "💾 Сохранить",
-      importTitle: "📥 Умный Импорт",
-      importPlaceholder: "Вставьте скопированный список... (каждая строка — новый вопрос)",
-      cancel: "Отмена",
-      recognizeAdd: "✨ Распознать и добавить",
-      choiceSummary: "Выбор",
-      inputSummary: "Ввод",
-      mediaSummary: " (+ медиа)",
-      emptyQuestion: "(пусто)",
-      previewTitle: "В превью",
-      duplicateTitle: "Дублировать",
-      editTitle: "Редактировать",
-      deleteTitle: "Удалить",
-      copied: "Скопировано",
-      copiedOk: "Ссылка готова и скопирована! ✅",
-      error: "Ошибка",
-      deleted: "Удалено",
-      shownPreview: "Показано в превью",
-      copiedQuestion: "Вопрос скопирован",
-      maxQuestions: "Максимум 9 вопросов!",
-      alreadyNine: "Уже 9 вопросов 🙂",
-      cleared: "Очищено",
-      settingsApplied: "Настройки применены!",
-      applyConfirm: "Применить настройки (шрифт, размер, таймер, ТИП вопроса) ко всем вопросов?",
-      importLimit: "Импорт завершен (достигнут лимит 9)",
-      imported: "Импортировано: {n}",
-      importFailed: "Не удалось распознать текст",
-      updated: "Вопрос обновлён",
-      added: "Вопрос добавлен",
-      resetConfirm: "Вы уверены, что хотите удалить все вопросы и настройки, чтобы начать заново?",
-      validAnswer: "✅ Верный ответ",
-      optionN: "Вариант {n}",
-      correctVariantN: "Верный вариант {n}",
-      answerDefault: "Ответ",
-      validateEmptyQuestion: "Пустой вопрос",
-      validatePrompt: "Введите текст",
-      validateMinOptions: "Минимум 2 варианта",
-      validateCorrect: "Отметьте верный ответ",
-      validateQuestionTimer: "Таймер вопроса: 3–600 секунд",
-      toysOpen: "🧸 Настроить игрушки",
-      toysHelp: "Можно заменить одну или несколько игрушек, подвигать их внутри ячейки и изменить размер.",
-      toysModalTitle: "🧸 Настройка игрушек",
-      toysGridHint: "Кликните на игрушку. Перетащите её внутри ячейки или потяните за уголок, чтобы изменить размер.",
-      toySelectedTitle: "Игрушка #{n}",
-      removeToyBg: "✨ Удалить фон",
-      removingToyBg: "Удаляю фон...",
-      toyBgRemoved: "Фон удалён",
-      toyBgRemoveFailed: "Не удалось удалить фон.",
-      toyBgRemoveCors: "Сайт запрещает чтение изображения.",
-      centerToy: "По центру",
-      resetThisToy: "Сбросить эту",
-      resetAllToys: "Сбросить все",
-      toyTip: "Загрузите картинку с компьютера. Сервер Firebase всё сохранит автоматически!",
-      toyCentered: "Игрушка по центру",
-      toyReset: "Игрушка сброшена",
-      allToysReset: "Все игрушки сброшены",
-      resetAllToysConfirm: "Сбросить все игрушки к стандартным?"
+      pageTitle: "Игровой автомат — Редактор", langLabel: "Язык интерфейса", resetAllTitle: "Сбросить все настройки и начать с чистого листа", resetAll: "🔄 Сбросить всё", copyIframe: "☁️ Сохранить и Скопировать", sectionTitle: "Название", titleLabel: "Заголовок в игре", sectionDesign: "Оформление", bgLabel: "Фон игры", transparentBg: "Прозрачный фон", transparentBgHelp: "Если включено, фон игры будет прозрачным. Своя картинка игнорируется.", useLatex: "Использовать LaTeX", latexHelp: "Включает поддержку математических формул", sectionTimer: "Таймер на ответ", globalTimer: "Включить глобальный таймер", globalTimerHelp: "Если время вышло — ответ считается неверным.", secondsDefault: "Секунд на вопрос (по умолчанию)", startScreen: "Стартовый экран", instructionLabel: "Текст инструкции", finishScreen: "Финальный экран", feedbackLabel: "Дополнительный текст", feedbackPlaceholder: "Например: Отличная работа!", questions: "Вопросы", add: "➕ Добавить", import: "📥 Импорт", clear: "🧹 Очистить", templates: "🎨 Шаблоны оформления:", standardDefault: "Стандартные (по умолчанию)", likeQuestion: "Как в вопросе #{n}", applyAll: "🔄 Применить ко всем", dragHint: "💡 Можно перетаскивать вопросы (за значок ☰), чтобы менять их порядок.", strictNine: "Строго <b>9 вопросов</b>.", noQuestions: "Пока нет вопросов. Заполните все 9.", preview: "Просмотр", livePreview: "Живое превью игры", modalAdd: "Добавить вопрос", modalEdit: "Редактировать вопрос", close: "Закрыть", questionType: "Тип вопроса", choiceType: "С выбором ответа", textType: "С вводом ответа", questionLabel: "Вопрос", questionPlaceholder: "Введите вопрос...", textDesign: "Оформление текста", fontLabel: "Шрифт (вопрос и ответы)", fontNeucha: "Neucha (Рукописный)", fontCaveat: "Caveat (Рукописный 2)", fontSize: "Размер шрифта (px)", qTimerTitle: "Таймер для этого вопроса", qSecondsLabel: "Секунд на этот вопрос (пусто = по умолчанию)", qSecondsPlaceholder: "например 20", mediaLinks: "Медиа", imageTitle: "Картинка", audioTitle: "Аудио", answerOptions: "Варианты ответа (отметь верные)", correctInputAnswers: "Верные ответы (ввод)", addOption: "➕ Добавить вариант", showPreview: "👁 Показать в превью", save: "💾 Сохранить", importTitle: "📥 Умный Импорт", importPlaceholder: "Вставьте скопированный список... (каждая строка — новый вопрос)", cancel: "Отмена", recognizeAdd: "✨ Распознать и добавить", choiceSummary: "Выбор", inputSummary: "Ввод", mediaSummary: " (+ медиа)", emptyQuestion: "(пусто)", previewTitle: "В превью", duplicateTitle: "Дублировать", editTitle: "Редактировать", deleteTitle: "Удалить", copied: "Скопировано", copiedOk: "Ссылка готова и скопирована! ✅", error: "Ошибка", deleted: "Удалено", shownPreview: "Показано в превью", copiedQuestion: "Вопрос скопирован", maxQuestions: "Максимум 9 вопросов!", alreadyNine: "Уже 9 вопросов 🙂", cleared: "Очищено", settingsApplied: "Настройки применены!", applyConfirm: "Применить настройки (шрифт, размер, таймер, ТИП вопроса) ко всем вопросов?", importLimit: "Импорт завершен (достигнут лимит 9)", imported: "Импортировано: {n}", importFailed: "Не удалось распознать текст", updated: "Вопрос обновлён", added: "Вопрос добавлен", resetConfirm: "Вы уверены, что хотите удалить все вопросы и настройки, чтобы начать заново?", validAnswer: "✅ Верный ответ", optionN: "Вариант {n}", correctVariantN: "Верный вариант {n}", answerDefault: "Ответ", validateEmptyQuestion: "Пустой вопрос", validatePrompt: "Введите текст", validateMinOptions: "Минимум 2 варианта", validateCorrect: "Отметьте верный ответ", validateQuestionTimer: "Таймер вопроса: 3–600 секунд", toysOpen: "🧸 Настроить игрушки", toysHelp: "Можно заменить одну или несколько игрушек, подвигать их внутри ячейки и изменить размер.", toysModalTitle: "🧸 Настройка игрушек", toysGridHint: "Кликните на игрушку. Перетащите её внутри ячейки или потяните за уголок, чтобы изменить размер.", toySelectedTitle: "Игрушка #{n}", removeToyBg: "✨ Удалить фон", removingToyBg: "Удаляю фон...", toyBgRemoved: "Фон удалён", toyBgRemoveFailed: "Не удалось удалить фон.", toyBgRemoveCors: "Сайт запрещает чтение изображения.", centerToy: "По центру", resetThisToy: "Сбросить эту", resetAllToys: "Сбросить все", toyTip: "Загрузите картинку с компьютера. Сервер Firebase всё сохранит автоматически!", toyCentered: "Игрушка по центру", toyReset: "Игрушка сброшена", allToysReset: "Все игрушки сброшены", resetAllToysConfirm: "Сбросить все игрушки к стандартным?"
+    },
+    en: {
+      pageTitle: "Slot Machine — Editor", langLabel: "Interface Language", resetAllTitle: "Reset all settings", resetAll: "🔄 Reset All", copyIframe: "☁️ Save & Copy", sectionTitle: "Name", titleLabel: "Game Title", sectionDesign: "Design", bgLabel: "Game Background", transparentBg: "Transparent Background", transparentBgHelp: "If enabled, background is transparent.", useLatex: "Use LaTeX", latexHelp: "Enables math formulas", sectionTimer: "Timer", globalTimer: "Enable global timer", globalTimerHelp: "Time out = wrong answer.", secondsDefault: "Seconds per question", startScreen: "Start Screen", instructionLabel: "Instructions", finishScreen: "Finish Screen", feedbackLabel: "Feedback text", feedbackPlaceholder: "E.g.: Great job!", questions: "Questions", add: "➕ Add", import: "📥 Import", clear: "🧹 Clear", templates: "🎨 Templates:", standardDefault: "Standard", likeQuestion: "Like Q #{n}", applyAll: "🔄 Apply to all", dragHint: "💡 Drag to reorder.", strictNine: "Strictly <b>9 questions</b>.", noQuestions: "No questions. Fill all 9.", preview: "Preview", livePreview: "Live game preview", modalAdd: "Add Question", modalEdit: "Edit Question", close: "Close", questionType: "Type", choiceType: "Multiple Choice", textType: "Text Input", questionLabel: "Question", questionPlaceholder: "Enter question...", textDesign: "Text Design", fontLabel: "Font", fontNeucha: "Neucha", fontCaveat: "Caveat", fontSize: "Font size (px)", qTimerTitle: "Timer for this Q", qSecondsLabel: "Seconds (empty = default)", qSecondsPlaceholder: "e.g. 20", mediaLinks: "Media", imageTitle: "Image", audioTitle: "Audio", answerOptions: "Options (mark correct)", correctInputAnswers: "Correct answers", addOption: "➕ Add option", showPreview: "👁 Preview", save: "💾 Save", importTitle: "📥 Smart Import", importPlaceholder: "Paste list...", cancel: "Cancel", recognizeAdd: "✨ Add", choiceSummary: "Choice", inputSummary: "Input", mediaSummary: " (+ media)", emptyQuestion: "(empty)", previewTitle: "Preview", duplicateTitle: "Duplicate", editTitle: "Edit", deleteTitle: "Delete", copied: "Copied", copiedOk: "Link copied! ✅", error: "Error", deleted: "Deleted", shownPreview: "Shown in preview", copiedQuestion: "Copied", maxQuestions: "Max 9!", alreadyNine: "Already 9 🙂", cleared: "Cleared", settingsApplied: "Applied!", applyConfirm: "Apply to all?", importLimit: "Import done (limit 9)", imported: "Imported: {n}", importFailed: "Failed", updated: "Updated", added: "Added", resetConfirm: "Delete everything?", validAnswer: "✅ Correct", optionN: "Option {n}", correctVariantN: "Correct {n}", answerDefault: "Answer", validateEmptyQuestion: "Empty Q", validatePrompt: "Enter text", validateMinOptions: "Min 2 options", validateCorrect: "Select correct", validateQuestionTimer: "3–600 sec", toysOpen: "🧸 Toys", toysHelp: "Replace and move toys.", toysModalTitle: "🧸 Toy Settings", toysGridHint: "Click a toy to edit.", toySelectedTitle: "Toy #{n}", removeToyBg: "✨ Remove BG", removingToyBg: "Removing...", toyBgRemoved: "BG removed", toyBgRemoveFailed: "Failed", toyBgRemoveCors: "CORS error", centerToy: "Center", resetThisToy: "Reset this", resetAllToys: "Reset all", toyTip: "Upload image.", toyCentered: "Centered", toyReset: "Reset", allToysReset: "All reset", resetAllToysConfirm: "Reset all toys?"
+    },
+    de: {
+      pageTitle: "Spielautomat — Editor", langLabel: "Sprache", resetAllTitle: "Alles zurücksetzen", resetAll: "🔄 Zurücksetzen", copyIframe: "☁️ Speichern & Kopieren", sectionTitle: "Titel", titleLabel: "Spiel Titel", sectionDesign: "Design", bgLabel: "Hintergrund", transparentBg: "Transparenter Hintergrund", transparentBgHelp: "Wenn aktiviert, ist der Hintergrund transparent.", useLatex: "LaTeX nutzen", latexHelp: "Für Matheformeln", sectionTimer: "Timer", globalTimer: "Globaler Timer", globalTimerHelp: "Zeit abgelaufen = falsch.", secondsDefault: "Sekunden pro Frage", startScreen: "Startbildschirm", instructionLabel: "Anleitung", finishScreen: "Endbildschirm", feedbackLabel: "Feedback", feedbackPlaceholder: "Z.B.: Gut gemacht!", questions: "Fragen", add: "➕ Hinzufügen", import: "📥 Importieren", clear: "🧹 Leeren", templates: "🎨 Vorlagen:", standardDefault: "Standard", likeQuestion: "Wie Frage #{n}", applyAll: "🔄 Auf alle anwenden", dragHint: "💡 Ziehen zum Sortieren.", strictNine: "Genau <b>9 Fragen</b>.", noQuestions: "Keine Fragen.", preview: "Vorschau", livePreview: "Live-Vorschau", modalAdd: "Frage hinzufügen", modalEdit: "Frage bearbeiten", close: "Schließen", questionType: "Typ", choiceType: "Auswahl", textType: "Texteingabe", questionLabel: "Frage", questionPlaceholder: "Frage eingeben...", textDesign: "Textdesign", fontLabel: "Schriftart", fontNeucha: "Neucha", fontCaveat: "Caveat", fontSize: "Schriftgröße (px)", qTimerTitle: "Timer für diese Frage", qSecondsLabel: "Sekunden (leer = Standard)", qSecondsPlaceholder: "z.B. 20", mediaLinks: "Medien", imageTitle: "Bild", audioTitle: "Audio", answerOptions: "Antworten (richtige markieren)", correctInputAnswers: "Richtige Antworten", addOption: "➕ Option hinzufügen", showPreview: "👁 Vorschau", save: "💾 Speichern", importTitle: "📥 Smart Import", importPlaceholder: "Liste einfügen...", cancel: "Abbrechen", recognizeAdd: "✨ Hinzufügen", choiceSummary: "Auswahl", inputSummary: "Eingabe", mediaSummary: " (+ Medien)", emptyQuestion: "(leer)", previewTitle: "Vorschau", duplicateTitle: "Duplizieren", editTitle: "Bearbeiten", deleteTitle: "Löschen", copied: "Kopiert", copiedOk: "Link kopiert! ✅", error: "Fehler", deleted: "Gelöscht", shownPreview: "In Vorschau gezeigt", copiedQuestion: "Kopiert", maxQuestions: "Maximal 9!", alreadyNine: "Schon 9 🙂", cleared: "Geleert", settingsApplied: "Angewendet!", applyConfirm: "Auf alle anwenden?", importLimit: "Import fertig (Limit 9)", imported: "Importiert: {n}", importFailed: "Fehlgeschlagen", updated: "Aktualisiert", added: "Hinzugefügt", resetConfirm: "Alles löschen?", validAnswer: "✅ Richtig", optionN: "Option {n}", correctVariantN: "Richtig {n}", answerDefault: "Antwort", validateEmptyQuestion: "Leere Frage", validatePrompt: "Text eingeben", validateMinOptions: "Min. 2 Optionen", validateCorrect: "Richtig wählen", validateQuestionTimer: "3–600 Sek", toysOpen: "🧸 Spielzeuge", toysHelp: "Spielzeuge ersetzen.", toysModalTitle: "🧸 Spielzeug-Einstellungen", toysGridHint: "Klicken zum Bearbeiten.", toySelectedTitle: "Spielzeug #{n}", removeToyBg: "✨ HG entfernen", removingToyBg: "Entferne...", toyBgRemoved: "HG entfernt", toyBgRemoveFailed: "Fehler", toyBgRemoveCors: "CORS Fehler", centerToy: "Zentrieren", resetThisToy: "Dieses zurücksetzen", resetAllToys: "Alle zurücksetzen", toyTip: "Bild hochladen.", toyCentered: "Zentriert", toyReset: "Zurückgesetzt", allToysReset: "Alle zurückgesetzt", resetAllToysConfirm: "Alle zurücksetzen?"
+    },
+    zh: {
+      pageTitle: "抓娃娃机 — 编辑器", langLabel: "界面语言", resetAllTitle: "重置所有设置", resetAll: "🔄 全部重置", copyIframe: "☁️ 保存并复制", sectionTitle: "名称", titleLabel: "游戏标题", sectionDesign: "设计", bgLabel: "游戏背景", transparentBg: "透明背景", transparentBgHelp: "开启后背景透明", useLatex: "使用 LaTeX", latexHelp: "开启数学公式", sectionTimer: "计时器", globalTimer: "开启全局计时器", globalTimerHelp: "超时 = 错误回答", secondsDefault: "每题秒数", startScreen: "开始屏幕", instructionLabel: "说明文本", finishScreen: "结束屏幕", feedbackLabel: "反馈文本", feedbackPlaceholder: "例如：干得好！", questions: "问题", add: "➕ 添加", import: "📥 导入", clear: "🧹 清空", templates: "🎨 模板:", standardDefault: "标准", likeQuestion: "同问题 #{n}", applyAll: "🔄 应用到所有", dragHint: "💡 拖动排序", strictNine: "必须 <b>9个问题</b>.", noQuestions: "暂无问题", preview: "预览", livePreview: "实时预览", modalAdd: "添加问题", modalEdit: "编辑问题", close: "关闭", questionType: "类型", choiceType: "选择题", textType: "填空题", questionLabel: "问题", questionPlaceholder: "输入问题...", textDesign: "文本设计", fontLabel: "字体", fontNeucha: "Neucha", fontCaveat: "Caveat", fontSize: "字体大小 (px)", qTimerTitle: "本题计时器", qSecondsLabel: "秒 (留空=默认)", qSecondsPlaceholder: "例如 20", mediaLinks: "媒体", imageTitle: "图片", audioTitle: "音频", answerOptions: "选项 (勾选正确)", correctInputAnswers: "正确答案", addOption: "➕ 添加选项", showPreview: "👁 预览", save: "💾 保存", importTitle: "📥 智能导入", importPlaceholder: "粘贴列表...", cancel: "取消", recognizeAdd: "✨ 添加", choiceSummary: "选择", inputSummary: "输入", mediaSummary: " (+ 媒体)", emptyQuestion: "(空)", previewTitle: "预览", duplicateTitle: "复制", editTitle: "编辑", deleteTitle: "删除", copied: "已复制", copiedOk: "链接已复制！✅", error: "错误", deleted: "已删除", shownPreview: "已在预览显示", copiedQuestion: "已复制", maxQuestions: "最多9个！", alreadyNine: "已经9个了 🙂", cleared: "已清空", settingsApplied: "已应用！", applyConfirm: "应用到所有问题？", importLimit: "导入完成 (达上限9)", imported: "已导入: {n}", importFailed: "识别失败", updated: "已更新", added: "已添加", resetConfirm: "删除所有重新开始？", validAnswer: "✅ 正确", optionN: "选项 {n}", correctVariantN: "正确 {n}", answerDefault: "答案", validateEmptyQuestion: "空问题", validatePrompt: "请输入文本", validateMinOptions: "至少2个选项", validateCorrect: "请选择正确答案", validateQuestionTimer: "3–600秒", toysOpen: "🧸 玩具", toysHelp: "替换玩具", toysModalTitle: "🧸 玩具设置", toysGridHint: "点击修改", toySelectedTitle: "玩具 #{n}", removeToyBg: "✨ 抠图", removingToyBg: "处理中...", toyBgRemoved: "背景已移除", toyBgRemoveFailed: "失败", toyBgRemoveCors: "CORS 错误", centerToy: "居中", resetThisToy: "重置此项", resetAllToys: "全部重置", toyTip: "上传图片", toyCentered: "已居中", toyReset: "已重置", allToysReset: "全部重置", resetAllToysConfirm: "重置所有玩具？"
     }
   };
 
   const GAME_I18N = {
     ru: {
-      title: "Игровой автомат",
-      instruction: "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!",
-      play: "▶ Начать игру",
-      emptyRow: "В этом ряду пусто!",
-      chooseOther: "Выбрать другой",
-      task: "Задача",
-      inputPlaceholder: "Введите ответ...",
-      ok: "ОК",
-      finishTitle: "Игра окончена!",
-      collected: "Собрано игрушек:",
-      ofNine: "из 9",
-      correct: "Верно:",
-      wrong: "Ошибок:",
-      playAgain: "↻ Сыграть ещё раз",
-      draft: "✏️ Черновик",
-      openDraft: "Открыть черновик",
-      closeDraft: "Закрыть черновик",
-      color: "Цвет",
-      thickness: "Толщина",
-      eraser: "Ластик",
-      clear: "Очистить",
-      footer: "Шкатулка математических интерактивов"
+      title: "Игровой автомат", instruction: "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!", play: "▶ Начать игру", emptyRow: "В этом ряду пусто!", chooseOther: "Выбрать другой", task: "Задача", inputPlaceholder: "Введите ответ...", ok: "ОК", finishTitle: "Игра окончена!", collected: "Собрано игрушек:", ofNine: "из 9", correct: "Верно:", wrong: "Ошибок:", playAgain: "↻ Сыграть ещё раз", draft: "✏️ Черновик", openDraft: "Открыть черновик", closeDraft: "Закрыть черновик", color: "Цвет", thickness: "Толщина", eraser: "Ластик", clear: "Очистить", footer: "Шкатулка математических интерактивов"
     },
     en: {
-      title: "Slot Machine",
-      instruction: "Insert a coin and control the claw.\nCatch a toy — solve the task.\nCorrect → toy is yours.\nWrong → toy drops back.\nYou have exactly 9 attempts!",
-      play: "▶ Play", emptyRow: "Empty row!", chooseOther: "Choose other", task: "Task", inputPlaceholder: "Answer...", ok: "OK", finishTitle: "Game Over!", collected: "Toys collected:", ofNine: "of 9", correct: "Right:", wrong: "Wrong:", playAgain: "↻ Play again", draft: "✏️ Draft", openDraft: "Open draft", closeDraft: "Close draft", color: "Color", thickness: "Thickness", eraser: "Eraser", clear: "Clear", footer: "Math Interactives"
+      title: "Slot Machine", instruction: "Insert a coin and control the claw.\nCatch a toy — solve the task.\nCorrect → toy is yours.\nWrong → toy drops back.\nYou have exactly 9 attempts!", play: "▶ Play", emptyRow: "Empty row!", chooseOther: "Choose other", task: "Task", inputPlaceholder: "Answer...", ok: "OK", finishTitle: "Game Over!", collected: "Toys collected:", ofNine: "of 9", correct: "Right:", wrong: "Wrong:", playAgain: "↻ Play again", draft: "✏️ Draft", openDraft: "Open draft", closeDraft: "Close draft", color: "Color", thickness: "Thickness", eraser: "Eraser", clear: "Clear", footer: "Math Interactives"
+    },
+    de: {
+      title: "Spielautomat", instruction: "Wirf eine Münze ein und steuere den Greifer.\nFange ein Spielzeug — löse die Aufgabe.\nRichtig → Das Spielzeug gehört dir.\nFalsch → Das Spielzeug fällt zurück.\nDu hast genau 9 Versuche!", play: "▶ Spielen", emptyRow: "Diese Reihe ist leer!", chooseOther: "Andere wählen", task: "Aufgabe", inputPlaceholder: "Antwort eingeben...", ok: "OK", finishTitle: "Spiel vorbei!", collected: "Gesammelte Spielzeuge:", ofNine: "von 9", correct: "Richtig:", wrong: "Falsch:", playAgain: "↻ Noch einmal spielen", draft: "✏️ Entwurf", openDraft: "Entwurf öffnen", closeDraft: "Entwurf schließen", color: "Farbe", thickness: "Dicke", eraser: "Radiergummi", clear: "Löschen", footer: "Mathe Interaktiv"
+    },
+    zh: {
+      title: "抓娃娃机", instruction: "投入硬币并控制爪子。\n抓住玩具 — 解决问题。\n正确 → 玩具是你的。\n错误 → 玩具掉回去。\n你正好有 9 次机会！", play: "▶ 开始游戏", emptyRow: "这一排是空的！", chooseOther: "选择其他", task: "任务", inputPlaceholder: "输入答案...", ok: "确定", finishTitle: "游戏结束！", collected: "收集到的玩具：", ofNine: "/ 9", correct: "正确：", wrong: "错误：", playAgain: "↻ 再玩一次", draft: "✏️ 草稿", openDraft: "打开草稿", closeDraft: "关闭草稿", color: "颜色", thickness: "粗细", eraser: "橡皮擦", clear: "清除", footer: "数学互动"
     }
   };
 
   function gameTr(lang){ return GAME_I18N[lang] || GAME_I18N.ru; }
-  function isDefaultGameTitle(value){ return String(value || "") === GAME_I18N.ru.title; }
-  function isDefaultGameInstruction(value){ return String(value || "") === GAME_I18N.ru.instruction; }
+  
+  function isDefaultGameTitle(value){ 
+    const v = String(value || "");
+    return v === GAME_I18N.ru.title || v === GAME_I18N.en.title || v === GAME_I18N.de.title || v === GAME_I18N.zh.title; 
+  }
+  
+  function isDefaultGameInstruction(value){ 
+    const v = String(value || "");
+    return v === GAME_I18N.ru.instruction || v === GAME_I18N.en.instruction || v === GAME_I18N.de.instruction || v === GAME_I18N.zh.instruction; 
+  }
+  
   function syncDefaultGameTextsForLang(lang){
     const d = gameTr(lang);
-    if($("inpTitle") && (isDefaultGameTitle(Editor.title) || Editor.title === GAME_I18N.en.title)) { Editor.title = d.title; $("inpTitle").value = d.title; }
-    if($("inpInstruction") && Editor.instruction && (isDefaultGameInstruction(Editor.instruction.text) || Editor.instruction.text === GAME_I18N.en.instruction)) { Editor.instruction.text = d.instruction; $("inpInstruction").value = d.instruction; }
+    if($("inpTitle") && isDefaultGameTitle(Editor.title)) { Editor.title = d.title; $("inpTitle").value = d.title; }
+    if($("inpInstruction") && Editor.instruction && isDefaultGameInstruction(Editor.instruction.text)) { Editor.instruction.text = d.instruction; $("inpInstruction").value = d.instruction; }
   }
+  
   function tr(key, vars){
     let langDict = I18N[editorLang] || I18N.ru;
     let val = langDict[key] ?? I18N.ru[key] ?? key;
     if(vars) Object.keys(vars).forEach(k => { val = val.replaceAll("{" + k + "}", String(vars[k])); });
     return val;
   }
+  
   function setTxt(selector, value){ const el = document.querySelector(selector); if(el) el.textContent = value; }
   function setHtml(selector, value){ const el = document.querySelector(selector); if(el) el.innerHTML = value; }
   function setPlaceholder(id, value){ const el = $(id); if(el) el.placeholder = value; }
@@ -737,6 +626,7 @@
         let gameState = 'start_screen', collectedToysCount = 0, currentQuestionIndex = 0, correctCount = 0, wrongCount = 0, selectedToyElement = null, grabbedToyOffsetY = 0, timerInterval = null;
         const clawPositionsX = [41.55, 47.65, 53.45], clawStartTop = 20.14, clawWidth = 3.90, clawHeight = 12.16;
         let currentCol = 1, tasks = [], globalTimer = null;
+        
         function applyGameLanguage(rawCfg) {
             const lang = rawCfg.lang || 'ru';
             const t = gameTr(lang);
