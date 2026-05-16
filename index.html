@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title>
-  
-  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=gaH9-R-VFbT2mHlSNps9koRzJlEIUng3TFcst-YNrWW1N70hqEEBH9X7FKIUNyO2QHjSvL6pxuyViIIfQ7_gseqtxvPKLiFS8y5Uq1pcNgtoZNKLxsd0Rq5xja-tZOWThaxY7Bl99zMiS2-PuKPrpVLDyEQPekO5xDTnCNRNIoOpAIFcBxDnoX1yvAXsqQyfuNHjnLuTyr20Fv65iy5WIRGpXPi9BLAY_WxEoNEYstj7hkVBq1sZuiC3uH-6t6ssGKy407lTqk8dsuxy1TexNg" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=E3Fi1Z0Tmdi4bDEDz2aAWOmoci7tBtava5b4zG3OFDYDARH1XRWggm3Tf9M0TTRBYQ1uG7rZNRrvz19zZu_VTknOg5B5dH7xnvrETnZhp1lMdwIXiZOECvMUmKilieNsW2yeiwIaDyFafnn1AT8b0e5vLJMpP2ZNQVAewq3pc-OYDsrTzfHj1HInyRD3ddvG0ZLpDvijpI15eOrQD90OcMIun_ZagYo4hp6wCocAqTeE02OcLuiTWn8c81KDkOc8m-xV_NcGwJDe-xw4aE_AzQ" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=l5AXMnd11Cog51SGKoEBd7pb6Y6UYrHq_KU87n5-B9Id4GsZvkRzXnHT4sTrRJjhpYRGZQ9IaG8T0D_9damdfMIwhjxku8MR3ZdCG-BzCn5jFZwqB8crY5x4vDDt9JD6RCxMbSIPa3v6uinNSjjjIRbkpCte6kzwTNx5c2xM9kYMKzIv-lqxRa86_p680YyrYNAkqY4RYXriD-Vax72xNMluZaZ_Jzp5BxxtiOLoLcAOiE2rMEADwoBsmgenreVZbc0Ag2VXp5tK6ylGRa-iXw" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -31,6 +29,8 @@
     *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
     body{ color:var(--text); background: radial-gradient(1100px 700px at 12% 18%, rgba(35,82,200,.28) 0%, rgba(5,8,22,0) 58%), radial-gradient(900px 640px at 88% 16%, rgba(20,160,255,.18) 0%, rgba(5,8,22,0) 62%), radial-gradient(1000px 780px at 55% 112%, rgba(214,177,74,.14) 0%, rgba(5,8,22,0) 58%), linear-gradient(180deg, rgba(4,10,32,.92), rgba(3,6,18,1)); }
     body.gameOnly{background:transparent}
+    html:has(body.gameOnly), body.gameOnly { min-height: 100vh; min-height: 100dvh; overflow: hidden; touch-action: manipulation; }
+    body.gameOnly #gameRoot { min-height: 100vh; min-height: 100dvh; width: 100%; overflow: hidden; }
     .app{ display:grid; grid-template-columns: 460px 1fr; gap:14px; padding:14px; max-width: 1540px; margin: 0 auto; height: 100%; }
     @media (max-width: 1020px){ .app { display: flex; flex-direction: column; overflow-y: auto; } .settings, .preview { height: auto !important; flex: none; min-height: 600px; } }
     .panel{ background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04)); border:1px solid var(--border); border-radius:var(--radius2); box-shadow:var(--shadow2); backdrop-filter: blur(10px); overflow:hidden; position:relative; }
@@ -586,7 +586,7 @@
         <div id="drop-area"></div><div id="progress-area"></div>
         <div id="error-modal" class="game-modal">
             <h2 style="color: #ff4757; text-shadow: none;">В этом ряду пусто!</h2>
-            <button id="errorCloseBtn" class="play-btn" style="font-size: 18px; padding: 12px 25px; margin-top:10px;">Выбрать другой</button>
+            <button class="play-btn" style="font-size: 18px; padding: 12px 25px; margin-top:10px;" onclick="document.getElementById('error-modal').classList.remove('active'); gameState='playing';">Выбрать другой</button>
         </div>
         <div id="task-modal" class="game-modal">
             <div class="modal-top-bar">
@@ -807,10 +807,6 @@
 
         addTap(document.getElementById('playBtn'), () => { document.getElementById('start').style.display = 'none'; setTimeout(() => { updateClawPosition(clawPositionsX[1], clawStartTop); }, 100); gameState = 'waiting_coin'; });
         addTap(document.getElementById('restartBtn'), () => location.reload());
-        addTap(document.getElementById('errorCloseBtn'), () => {
-            document.getElementById('error-modal').classList.remove('active');
-            gameState = 'playing';
-        });
         
         addTap(coin, () => {
             if (gameState !== 'waiting_coin') return;
@@ -1539,7 +1535,7 @@
         });
         
         const shortUrl = selfPageUrl() + "?id=" + uniqueId;
-        const iframeCode = `<iframe src="${shortUrl}" style="width:100%;height:100%;border:0;border-radius:18px;overflow:hidden;background:transparent" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>`; 
+        const iframeCode = `<iframe title="Игровой автомат" src="${shortUrl}" style="display:block;width:100%;height:100svh;min-height:620px;border:0;border-radius:18px;overflow:hidden;background:transparent" allow="autoplay; fullscreen" allowfullscreen scrolling="no"></iframe>`; 
         
         const ok = await copyToClipboard(iframeCode); 
         toast(ok ? tr("copiedOk") : tr("error"));
@@ -1554,33 +1550,65 @@
   
   if ($("btnResetAll")) { $("btnResetAll").addEventListener("click", ()=>{ if(confirm(tr("resetConfirm"))) { localStorage.removeItem(AUTOSAVE_KEY); location.reload(); } }); }
 
-  function bootGameOnly(cfg){ document.body.setAttribute("data-mode","game"); document.body.classList.add("gameOnly"); $("editorRoot").style.display = "none"; $("modalBackdrop").style.display = "none"; $("gameRoot").style.display = "block"; injectCanvasGame(cfg); }
+  function showGameMessage(message, color){
+    const root = $("gameRoot");
+    if(!root) return;
+    root.style.display = "flex";
+    root.style.alignItems = "center";
+    root.style.justifyContent = "center";
+    root.style.minHeight = "100dvh";
+    root.style.width = "100%";
+    root.innerHTML = '<div style="box-sizing:border-box;width:min(92vw,560px);padding:22px 18px;border-radius:18px;background:rgba(0,0,0,.62);border:1px solid rgba(255,255,255,.18);color:' + (color || '#fff') + ';font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;text-align:center;font-weight:800;line-height:1.45;box-shadow:0 16px 48px rgba(0,0,0,.35)">' + message + '</div>';
+  }
+
+  function bootGameOnly(cfg){
+    document.documentElement.style.minHeight = "100dvh";
+    document.body.setAttribute("data-mode","game");
+    document.body.classList.add("gameOnly");
+    const editor = $("editorRoot"), modal = $("modalBackdrop"), game = $("gameRoot");
+    if(editor) editor.style.display = "none";
+    if(modal) modal.style.display = "none";
+    if(game){ game.style.display = "block"; game.style.minHeight = "100dvh"; game.style.width = "100%"; }
+    try { window.scrollTo(0, 0); } catch(e) {}
+    injectCanvasGame(normalizeCfg(cfg));
+  }
   const qp = parseQueryParams(); const hp = parseHashParams();
   
   // ЛОГИКА ЗАПУСКА ИЗ ОБЛАКА
   if (qp.useParentCfg === "1" && window.parent && window.parent.__PREVIEW_PAYLOAD__) {
-      try { bootGameOnly(normalizeCfg(window.parent.__PREVIEW_PAYLOAD__)); } catch(e) { $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Ошибка предпросмотра</div>'; }
+      try { bootGameOnly(window.parent.__PREVIEW_PAYLOAD__); } catch(e) { showGameMessage("Ошибка предпросмотра", "#ffd6d6"); }
       return;
   }
   
   const idParam = qp.id || hp.id;
   if(idParam) {
-      $("gameRoot").innerHTML = '<div style="padding:20px;color:#fff;font-family:sans-serif;text-align:center;">Загрузка интерактива...</div>';
-      $("gameRoot").style.display = "block";
       document.body.classList.add("gameOnly");
-      $("editorRoot").style.display = "none";
-      $("modalBackdrop").style.display = "none";
+      const editor = $("editorRoot"), modal = $("modalBackdrop");
+      if(editor) editor.style.display = "none";
+      if(modal) modal.style.display = "none";
+      showGameMessage("Загрузка интерактива…", "#fff");
       
-      db.ref('games/' + idParam).once('value').then(snap => {
-          if(snap.exists()) {
-              const data = snap.val().d;
+      const timeoutMs = 18000;
+      const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeoutMs));
+      const loadFromFirebase = () => {
+        if(!window.firebase || !db) throw new Error("firebase-not-ready");
+        return db.ref('games/' + idParam).once('value');
+      };
+
+      Promise.race([loadFromFirebase(), timeout]).then(snap => {
+          if(snap && snap.exists()) {
+              const node = snap.val() || {};
+              const data = node.d || node.data || "";
+              if(!data) throw new Error("empty-game-data");
               const raw = decodeGameData(data);
               bootGameOnly(raw);
           } else {
-              $("gameRoot").innerHTML = '<div style="padding:20px;color:#ff6b6b;font-family:sans-serif;text-align:center;">Игра не найдена или удалена :(</div>';
+              showGameMessage("Игра не найдена или удалена 😕", "#ffb3b3");
           }
       }).catch(err => {
-          $("gameRoot").innerHTML = '<div style="padding:20px;color:#ff6b6b;font-family:sans-serif;text-align:center;">Ошибка подключения к базе данных.</div>';
+          console.error("Firebase game load error:", err);
+          const isTimeout = err && err.message === "timeout";
+          showGameMessage(isTimeout ? "Не удалось быстро загрузить игру. Проверьте интернет на телефоне и обновите страницу." : "Ошибка подключения к базе данных. Попробуйте обновить страницу.", "#ffb3b3");
       });
       return;
   }
