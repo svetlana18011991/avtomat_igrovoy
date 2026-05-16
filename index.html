@@ -19,6 +19,13 @@
       appId: "1:1090190974514:web:b4e017ec633d6c9057262b"
     };
     firebase.initializeApp(firebaseConfig);
+    try {
+      // На мобильных сетях/браузерах WebSocket Firebase иногда блокируется.
+      // Long polling медленнее, но заметно стабильнее для встроенных iframe.
+      if (firebase.database && firebase.database.INTERNAL && firebase.database.INTERNAL.forceLongPolling) {
+        firebase.database.INTERNAL.forceLongPolling();
+      }
+    } catch(e) {}
     const db = firebase.database();
   </script>
 
@@ -1561,6 +1568,38 @@
     root.innerHTML = '<div style="box-sizing:border-box;width:min(92vw,560px);padding:22px 18px;border-radius:18px;background:rgba(0,0,0,.62);border:1px solid rgba(255,255,255,.18);color:' + (color || '#fff') + ';font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;text-align:center;font-weight:800;line-height:1.45;box-shadow:0 16px 48px rgba(0,0,0,.35)">' + message + '</div>';
   }
 
+  function firebaseRestUrl(id){
+    const base = (firebaseConfig && firebaseConfig.databaseURL ? firebaseConfig.databaseURL : "https://shkatulka-games-default-rtdb.firebaseio.com").replace(/\/$/, "");
+    return base + "/games/" + encodeURIComponent(id) + ".json?ts=" + Date.now();
+  }
+
+  async function fetchWithTimeout(url, ms){
+    const controller = (typeof AbortController !== "undefined") ? new AbortController() : null;
+    const timer = setTimeout(() => { try { controller && controller.abort(); } catch(e) {} }, ms);
+    try {
+      const res = await fetch(url, { cache: "no-store", signal: controller ? controller.signal : undefined });
+      if(!res.ok) throw new Error("rest-http-" + res.status);
+      return await res.json();
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  async function loadGameNodeById(id){
+    // REST-запрос не использует WebSocket, поэтому часто надёжнее на телефонах и внутри iframe.
+    try {
+      if(typeof fetch === "function") {
+        return await fetchWithTimeout(firebaseRestUrl(id), 45000);
+      }
+    } catch(restErr) {
+      console.warn("Firebase REST load failed, trying SDK fallback:", restErr);
+    }
+
+    if(!window.firebase || !db) throw new Error("firebase-not-ready");
+    const snap = await db.ref('games/' + id).once('value');
+    return snap && snap.exists() ? snap.val() : null;
+  }
+
   function bootGameOnly(cfg){
     document.documentElement.style.minHeight = "100dvh";
     document.body.setAttribute("data-mode","game");
@@ -1587,17 +1626,18 @@
       if(editor) editor.style.display = "none";
       if(modal) modal.style.display = "none";
       showGameMessage("Загрузка интерактива…", "#fff");
-      
-      const timeoutMs = 18000;
-      const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeoutMs));
-      const loadFromFirebase = () => {
-        if(!window.firebase || !db) throw new Error("firebase-not-ready");
-        return db.ref('games/' + idParam).once('value');
-      };
 
-      Promise.race([loadFromFirebase(), timeout]).then(snap => {
-          if(snap && snap.exists()) {
-              const node = snap.val() || {};
+      let stillLoading1 = setTimeout(() => {
+        showGameMessage("Загружаю данные игры… На телефоне это может занять чуть дольше.", "#fff");
+      }, 12000);
+      let stillLoading2 = setTimeout(() => {
+        showGameMessage("Сервер отвечает медленнее обычного, но загрузка продолжается…", "#ffe4a3");
+      }, 28000);
+
+      loadGameNodeById(idParam).then(node => {
+          clearTimeout(stillLoading1);
+          clearTimeout(stillLoading2);
+          if(node) {
               const data = node.d || node.data || "";
               if(!data) throw new Error("empty-game-data");
               const raw = decodeGameData(data);
@@ -1606,9 +1646,10 @@
               showGameMessage("Игра не найдена или удалена 😕", "#ffb3b3");
           }
       }).catch(err => {
+          clearTimeout(stillLoading1);
+          clearTimeout(stillLoading2);
           console.error("Firebase game load error:", err);
-          const isTimeout = err && err.message === "timeout";
-          showGameMessage(isTimeout ? "Не удалось быстро загрузить игру. Проверьте интернет на телефоне и обновите страницу." : "Ошибка подключения к базе данных. Попробуйте обновить страницу.", "#ffb3b3");
+          showGameMessage("Не удалось получить данные игры с сервера. Обновите страницу. Если ошибка повторится, откройте ссылку не внутри мессенджера, а в Safari/Chrome.", "#ffb3b3");
       });
       return;
   }
