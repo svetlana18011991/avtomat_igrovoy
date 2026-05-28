@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=RuqLaDIwrFsC1-9cdC-otZIyHMtnLpTeg3kT2RPeXGiyjYOxrVNdeDj4EaWQ_rW5xVxF3gFRfUCfPwYUpl1QiFyghLi5reVgVbmMT3yFXB34HyaA35fz2Q_s21fSJYRSdX0LSZtJGByjT0Kdud_Zi0Q6pcdyoaUCWW9oM5xDFHVFCdq5-fGCgoAFaYzj1jRZY8gj9USDz3cVqmpw3WZpAgoHI-8EIZoFktWl7QR6t1cUzrkR5b0wvSC382-fEAUhH5eErmg67iZwFx1RsvkXnA" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=jRVX9x-HSEYWxUmfg7esbzKOmSKePS48E2tVNHobRKU4GqDgVljc6lz04LB7ucNBWoP7sajS0G51UJgHQO8PC-_FqiaSiGxfYWzoKqxnhWkSpAYzOSyRl4T5kpP7HQBP_3SEnukpFD3JQt_NChOsxViQcha9Sg-vmFNAtljtPoufZDaBbJzaqeMm0sYWZrgmCKl6f-BMHWt5YlWKhkTb6si45Nqy5kPlzk_MM0gDYIuGHRAECAamRvCX3lnr749s625qXb0_8znQgGTKnvDqTIc-218tsN18UMdDKqkvXWK61DlVQJAQ1E457DjR-FSjP7jHxGgod1U_ZaH4WwLDlnrS0btLmLLx1WKxGxeKdj4" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -228,8 +228,8 @@
         <div class="section">
           <div class="title"><span>Вопросы</span> <span class="pill" id="pillCount">0 / 9</span></div>
           <div class="row" style="margin-bottom:12px; align-items: center;">
-            <button class="btn primary" id="btnAddQ" type="button">➕ Добавить</button>
-            <button class="btn primary" id="btnImportQ" type="button" style="background: linear-gradient(90deg, #33d17a, #28a745); border-color: #28a745;">📥 Импорт</button>
+            <button class="btn primary" id="btnAddQ" type="button" style="background: linear-gradient(90deg, #33d17a, #28a745); border-color: #28a745; flex: 2;">✏️ Заполнить задания</button>
+            <button class="btn primary" id="btnImportQ" type="button" style="display:none; background: linear-gradient(90deg, #33d17a, #28a745); border-color: #28a745;">📥 Импорт</button>
             <button class="btn" id="btnClearQs" type="button">🧹 Очистить</button>
           </div>
           <div style="background: rgba(214, 177, 74, 0.1); padding: 10px; border-radius: 12px; border: 1px solid rgba(214,177,74,.4); margin-bottom: 12px;">
@@ -365,13 +365,58 @@
 
   <div class="modal-backdrop" id="importBackdrop" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true">
-      <div class="modal-head"><div class="h" style="color:#33d17a;">📥 Умный Импорт</div><button class="btn small danger" onclick="closeImport()" type="button">Закрыть</button></div>
+      <div class="modal-head"><div class="h" style="color:#33d17a;">✏️ Заполнить задания</div><button class="btn small danger" onclick="closeImport()" type="button">Закрыть</button></div>
       <div class="modal-body">
-        <textarea id="importText" style="height:250px; font-family:'Courier New', monospace; font-size:14px;" placeholder="Вставьте скопированный список... (каждая строка — новый вопрос)"></textarea>
+        <div class="choiceBlock" style="margin-top:0; border-color:rgba(51,209,122,.35);">
+          <div style="font-weight:950; color:#33d17a; margin-bottom:8px;">Быстрая вставка и ручное редактирование в одном месте</div>
+          <div class="muted" style="font-size:13px;">Вставьте задания списком — игра сама создаст карточки. Потом каждую карточку можно открыть карандашом ✏️ и добавить картинку, аудио, изменить шрифт, таймер или ответы.</div>
+        </div>
+        <div class="row" style="margin-top:10px; align-items:stretch;">
+          <div style="flex:2; min-width:280px;">
+            <label style="margin-top:0;">Вставьте задания</label>
+            <textarea id="importText" style="height:300px; font-family:'Courier New', monospace; font-size:14px;" placeholder="Примеры:
+
+5 + 7 = ? | 12
+Столица Франции? | Париж / париж
+
+Сколько будет 6 × 7?
+A) 36
+B) 42 *
+C) 48
+D) 54
+
+Вопрос: Рассмотри рисунок и найди периметр.
+Тип: ввод
+Ответ: 24
+Картинка: https://site.ru/image.png
+Таймер: 60"></textarea>
+          </div>
+          <div style="min-width:260px; flex:1;">
+            <div class="choiceBlock" style="margin-top:0; height:100%;">
+              <div style="font-weight:900; margin-bottom:8px;">Поддерживаемые форматы</div>
+              <div class="muted" style="line-height:1.55;">
+                <b>Ввод ответа:</b><br>
+                Вопрос | Ответ<br><br>
+                <b>Несколько верных:</b><br>
+                Вопрос | Ответ 1 / Ответ 2<br><br>
+                <b>Выбор ответа:</b><br>
+                A) вариант<br>
+                B) правильный *<br><br>
+                <b>Дополнительно:</b><br>
+                Картинка: ссылка<br>
+                Аудио: ссылка<br>
+                Таймер: 45<br>
+                Размер: 34
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-foot">
         <button class="btn" onclick="closeImport()" type="button">Отмена</button>
-        <button class="btn primary" style="background: linear-gradient(90deg, #33d17a, #28a745); border-color: #28a745;" onclick="processImport()" type="button">✨ Распознать и добавить</button>
+        <button class="btn" onclick="addEmptyQuestionFromFiller()" type="button">➕ Пустая карточка</button>
+        <button class="btn" onclick="pasteImportExample()" type="button">📋 Вставить пример</button>
+        <button class="btn primary" style="background: linear-gradient(90deg, #33d17a, #28a745); border-color: #28a745;" onclick="processImport()" type="button">✨ Создать карточки</button>
       </div>
     </div>
   </div>
@@ -392,7 +437,7 @@
   
   const I18N = {
     ru: {
-      pageTitle: "Игровой автомат — Редактор", langLabel: "Язык интерфейса", resetAllTitle: "Сбросить все настройки и начать с чистого листа", resetAll: "🔄 Сбросить всё", copyIframe: "☁️ Сохранить и Скопировать", sectionTitle: "Название", titleLabel: "Заголовок в игре", sectionDesign: "Оформление", bgLabel: "Фон игры", transparentBg: "Прозрачный фон", transparentBgHelp: "Если включено, фон игры будет прозрачным. Своя картинка игнорируется.", useLatex: "Использовать LaTeX", latexHelp: "Включает поддержку математических формул", sectionTimer: "Таймер на ответ", globalTimer: "Включить глобальный таймер", globalTimerHelp: "Если время вышло — ответ считается неверным.", secondsDefault: "Секунд на вопрос (по умолчанию)", startScreen: "Стартовый экран", instructionLabel: "Текст инструкции", finishScreen: "Финальный экран", feedbackLabel: "Дополнительный текст", feedbackPlaceholder: "Например: Отличная работа!", questions: "Вопросы", add: "➕ Добавить", import: "📥 Импорт", clear: "🧹 Очистить", templates: "🎨 Шаблоны оформления:", standardDefault: "Стандартные (по умолчанию)", likeQuestion: "Как в вопросе #{n}", applyAll: "🔄 Применить ко всем", dragHint: "💡 Можно перетаскивать вопросы (за значок ☰), чтобы менять их порядок.", strictNine: "Строго <b>9 вопросов</b>.", noQuestions: "Пока нет вопросов. Заполните все 9.", preview: "Просмотр", livePreview: "Живое превью игры", modalAdd: "Добавить вопрос", modalEdit: "Редактировать вопрос", close: "Закрыть", questionType: "Тип вопроса", choiceType: "С выбором ответа", textType: "С вводом ответа", questionLabel: "Вопрос", questionPlaceholder: "Введите вопрос...", textDesign: "Оформление текста", fontLabel: "Шрифт (вопрос и ответы)", fontNeucha: "Neucha (Рукописный)", fontCaveat: "Caveat (Рукописный 2)", fontSize: "Размер шрифта (px)", qTimerTitle: "Таймер для этого вопроса", qSecondsLabel: "Секунд на этот вопрос (пусто = по умолчанию)", qSecondsPlaceholder: "например 20", mediaLinks: "Медиа", imageTitle: "Картинка", audioTitle: "Аудио", answerOptions: "Варианты ответа (отметь верные)", correctInputAnswers: "Верные ответы (ввод)", addOption: "➕ Добавить вариант", showPreview: "👁 Показать в превью", save: "💾 Сохранить", importTitle: "📥 Умный Импорт", importPlaceholder: "Вставьте скопированный список... (каждая строка — новый вопрос)", cancel: "Отмена", recognizeAdd: "✨ Распознать и добавить", choiceSummary: "Выбор", inputSummary: "Ввод", mediaSummary: " (+ медиа)", emptyQuestion: "(пусто)", previewTitle: "В превью", duplicateTitle: "Дублировать", editTitle: "Редактировать", deleteTitle: "Удалить", copied: "Скопировано", copiedOk: "Ссылка готова и скопирована! ✅", error: "Ошибка", deleted: "Удалено", shownPreview: "Показано в превью", copiedQuestion: "Вопрос скопирован", maxQuestions: "Максимум 9 вопросов!", alreadyNine: "Уже 9 вопросов 🙂", cleared: "Очищено", settingsApplied: "Настройки применены!", applyConfirm: "Применить настройки (шрифт, размер, таймер, ТИП вопроса) ко всем вопросов?", importLimit: "Импорт завершен (достигнут лимит 9)", imported: "Импортировано: {n}", importFailed: "Не удалось распознать текст", updated: "Вопрос обновлён", added: "Вопрос добавлен", resetConfirm: "Вы уверены, что хотите удалить все вопросы и настройки, чтобы начать заново?", validAnswer: "✅ Верный ответ", optionN: "Вариант {n}", correctVariantN: "Верный вариант {n}", answerDefault: "Ответ", validateEmptyQuestion: "Пустой вопрос", validatePrompt: "Введите текст", validateMinOptions: "Минимум 2 варианта", validateCorrect: "Отметьте верный ответ", validateQuestionTimer: "Таймер вопроса: 3–600 секунд", toysOpen: "🧸 Настроить игрушки", toysHelp: "Можно заменить одну или несколько игрушек, подвигать их внутри ячейки и изменить размер.", toysModalTitle: "🧸 Настройка игрушек", toysGridHint: "Кликните на игрушку. Перетащите её внутри ячейки или потяните за уголок, чтобы изменить размер.", toySelectedTitle: "Игрушка #{n}", removeToyBg: "✨ Удалить фон", removingToyBg: "Удаляю фон...", toyBgRemoved: "Фон удалён", toyBgRemoveFailed: "Не удалось удалить фон.", toyBgRemoveCors: "Сайт запрещает чтение изображения.", centerToy: "По центру", resetThisToy: "Сбросить эту", resetAllToys: "Сбросить все", toyTip: "Загрузите картинку с компьютера. Сервер Firebase всё сохранит автоматически!", toyCentered: "Игрушка по центру", toyReset: "Игрушка сброшена", allToysReset: "Все игрушки сброшены", resetAllToysConfirm: "Сбросить все игрушки к стандартным?"
+      pageTitle: "Игровой автомат — Редактор", langLabel: "Язык интерфейса", resetAllTitle: "Сбросить все настройки и начать с чистого листа", resetAll: "🔄 Сбросить всё", copyIframe: "☁️ Сохранить и Скопировать", sectionTitle: "Название", titleLabel: "Заголовок в игре", sectionDesign: "Оформление", bgLabel: "Фон игры", transparentBg: "Прозрачный фон", transparentBgHelp: "Если включено, фон игры будет прозрачным. Своя картинка игнорируется.", useLatex: "Использовать LaTeX", latexHelp: "Включает поддержку математических формул", sectionTimer: "Таймер на ответ", globalTimer: "Включить глобальный таймер", globalTimerHelp: "Если время вышло — ответ считается неверным.", secondsDefault: "Секунд на вопрос (по умолчанию)", startScreen: "Стартовый экран", instructionLabel: "Текст инструкции", finishScreen: "Финальный экран", feedbackLabel: "Дополнительный текст", feedbackPlaceholder: "Например: Отличная работа!", questions: "Вопросы", add: "✏️ Заполнить задания", import: "📥 Импорт", clear: "🧹 Очистить", templates: "🎨 Шаблоны оформления:", standardDefault: "Стандартные (по умолчанию)", likeQuestion: "Как в вопросе #{n}", applyAll: "🔄 Применить ко всем", dragHint: "💡 Можно перетаскивать вопросы (за значок ☰), чтобы менять их порядок.", strictNine: "Строго <b>9 вопросов</b>.", noQuestions: "Пока нет вопросов. Заполните все 9.", preview: "Просмотр", livePreview: "Живое превью игры", modalAdd: "Добавить вопрос", modalEdit: "Редактировать вопрос", close: "Закрыть", questionType: "Тип вопроса", choiceType: "С выбором ответа", textType: "С вводом ответа", questionLabel: "Вопрос", questionPlaceholder: "Введите вопрос...", textDesign: "Оформление текста", fontLabel: "Шрифт (вопрос и ответы)", fontNeucha: "Neucha (Рукописный)", fontCaveat: "Caveat (Рукописный 2)", fontSize: "Размер шрифта (px)", qTimerTitle: "Таймер для этого вопроса", qSecondsLabel: "Секунд на этот вопрос (пусто = по умолчанию)", qSecondsPlaceholder: "например 20", mediaLinks: "Медиа", imageTitle: "Картинка", audioTitle: "Аудио", answerOptions: "Варианты ответа (отметь верные)", correctInputAnswers: "Верные ответы (ввод)", addOption: "➕ Добавить вариант", showPreview: "👁 Показать в превью", save: "💾 Сохранить", importTitle: "✏️ Заполнить задания", importPlaceholder: "Вставьте задания списком или нажмите «Вставить пример»", cancel: "Отмена", recognizeAdd: "➕ Пустая карточка", choiceSummary: "Выбор", inputSummary: "Ввод", mediaSummary: " (+ медиа)", emptyQuestion: "(пусто)", previewTitle: "В превью", duplicateTitle: "Дублировать", editTitle: "Редактировать", deleteTitle: "Удалить", copied: "Скопировано", copiedOk: "Ссылка готова и скопирована! ✅", error: "Ошибка", deleted: "Удалено", shownPreview: "Показано в превью", copiedQuestion: "Вопрос скопирован", maxQuestions: "Максимум 9 вопросов!", alreadyNine: "Уже 9 вопросов 🙂", cleared: "Очищено", settingsApplied: "Настройки применены!", applyConfirm: "Применить настройки (шрифт, размер, таймер, ТИП вопроса) ко всем вопросов?", importLimit: "Импорт завершен (достигнут лимит 9)", imported: "Импортировано: {n}", importFailed: "Не удалось распознать текст", updated: "Вопрос обновлён", added: "Вопрос добавлен", resetConfirm: "Вы уверены, что хотите удалить все вопросы и настройки, чтобы начать заново?", validAnswer: "✅ Верный ответ", optionN: "Вариант {n}", correctVariantN: "Верный вариант {n}", answerDefault: "Ответ", validateEmptyQuestion: "Пустой вопрос", validatePrompt: "Введите текст", validateMinOptions: "Минимум 2 варианта", validateCorrect: "Отметьте верный ответ", validateQuestionTimer: "Таймер вопроса: 3–600 секунд", toysOpen: "🧸 Настроить игрушки", toysHelp: "Можно заменить одну или несколько игрушек, подвигать их внутри ячейки и изменить размер.", toysModalTitle: "🧸 Настройка игрушек", toysGridHint: "Кликните на игрушку. Перетащите её внутри ячейки или потяните за уголок, чтобы изменить размер.", toySelectedTitle: "Игрушка #{n}", removeToyBg: "✨ Удалить фон", removingToyBg: "Удаляю фон...", toyBgRemoved: "Фон удалён", toyBgRemoveFailed: "Не удалось удалить фон.", toyBgRemoveCors: "Сайт запрещает чтение изображения.", centerToy: "По центру", resetThisToy: "Сбросить эту", resetAllToys: "Сбросить все", toyTip: "Загрузите картинку с компьютера. Сервер Firebase всё сохранит автоматически!", toyCentered: "Игрушка по центру", toyReset: "Игрушка сброшена", allToysReset: "Все игрушки сброшены", resetAllToysConfirm: "Сбросить все игрушки к стандартным?"
     },
     en: {
       pageTitle: "Slot Machine — Editor", langLabel: "Interface Language", resetAllTitle: "Reset all settings", resetAll: "🔄 Reset All", copyIframe: "☁️ Save & Copy", sectionTitle: "Name", titleLabel: "Game Title", sectionDesign: "Design", bgLabel: "Game Background", transparentBg: "Transparent Background", transparentBgHelp: "If enabled, background is transparent.", useLatex: "Use LaTeX", latexHelp: "Enables math formulas", sectionTimer: "Timer", globalTimer: "Enable global timer", globalTimerHelp: "Time out = wrong answer.", secondsDefault: "Seconds per question", startScreen: "Start Screen", instructionLabel: "Instructions", finishScreen: "Finish Screen", feedbackLabel: "Feedback text", feedbackPlaceholder: "E.g.: Great job!", questions: "Questions", add: "➕ Add", import: "📥 Import", clear: "🧹 Clear", templates: "🎨 Templates:", standardDefault: "Standard", likeQuestion: "Like Q #{n}", applyAll: "🔄 Apply to all", dragHint: "💡 Drag to reorder.", strictNine: "Strictly <b>9 questions</b>.", noQuestions: "No questions. Fill all 9.", preview: "Preview", livePreview: "Live game preview", modalAdd: "Add Question", modalEdit: "Edit Question", close: "Close", questionType: "Type", choiceType: "Multiple Choice", textType: "Text Input", questionLabel: "Question", questionPlaceholder: "Enter question...", textDesign: "Text Design", fontLabel: "Font", fontNeucha: "Neucha", fontCaveat: "Caveat", fontSize: "Font size (px)", qTimerTitle: "Timer for this Q", qSecondsLabel: "Seconds (empty = default)", qSecondsPlaceholder: "e.g. 20", mediaLinks: "Media", imageTitle: "Image", audioTitle: "Audio", answerOptions: "Options (mark correct)", correctInputAnswers: "Correct answers", addOption: "➕ Add option", showPreview: "👁 Preview", save: "💾 Save", importTitle: "📥 Smart Import", importPlaceholder: "Paste list...", cancel: "Cancel", recognizeAdd: "✨ Add", choiceSummary: "Choice", inputSummary: "Input", mediaSummary: " (+ media)", emptyQuestion: "(empty)", previewTitle: "Preview", duplicateTitle: "Duplicate", editTitle: "Edit", deleteTitle: "Delete", copied: "Copied", copiedOk: "Link copied! ✅", error: "Error", deleted: "Deleted", shownPreview: "Shown in preview", copiedQuestion: "Copied", maxQuestions: "Max 9!", alreadyNine: "Already 9 🙂", cleared: "Cleared", settingsApplied: "Applied!", applyConfirm: "Apply to all?", importLimit: "Import done (limit 9)", imported: "Imported: {n}", importFailed: "Failed", updated: "Updated", added: "Added", resetConfirm: "Delete everything?", validAnswer: "✅ Correct", optionN: "Option {n}", correctVariantN: "Correct {n}", answerDefault: "Answer", validateEmptyQuestion: "Empty Q", validatePrompt: "Enter text", validateMinOptions: "Min 2 options", validateCorrect: "Select correct", validateQuestionTimer: "3–600 sec", toysOpen: "🧸 Toys", toysHelp: "Replace and move toys.", toysModalTitle: "🧸 Toy Settings", toysGridHint: "Click a toy to edit.", toySelectedTitle: "Toy #{n}", removeToyBg: "✨ Remove BG", removingToyBg: "Removing...", toyBgRemoved: "BG removed", toyBgRemoveFailed: "Failed", toyBgRemoveCors: "CORS error", centerToy: "Center", resetThisToy: "Reset this", resetAllToys: "Reset all", toyTip: "Upload image.", toyCentered: "Centered", toyReset: "Reset", allToysReset: "All reset", resetAllToysConfirm: "Reset all toys?"
@@ -531,7 +576,9 @@
     setPlaceholder("importText", tr("importPlaceholder"));
     const importFootBtns = document.querySelectorAll("#importBackdrop .modal-foot button");
     if(importFootBtns[0]) importFootBtns[0].textContent = tr("cancel");
-    if(importFootBtns[1]) importFootBtns[1].textContent = tr("recognizeAdd");
+    if(importFootBtns[1]) importFootBtns[1].textContent = "➕ Пустая карточка";
+    if(importFootBtns[2]) importFootBtns[2].textContent = "📋 Вставить пример";
+    if(importFootBtns[3]) importFootBtns[3].textContent = "✨ Создать карточки";
     const toastEl = $("toast");
     if(toastEl && toastEl.textContent === I18N.ru.copied) toastEl.textContent = tr("copied");
     refreshTemplateSelect();
@@ -1421,7 +1468,8 @@
   if($("selLang")) $("selLang").addEventListener("change", ()=>{ editorLang = $("selLang").value; safeLangSet(editorLang); syncDefaultGameTextsForLang(editorLang); applyEditorLang(); renderList(); if(Editor.draft){ if((Editor.draft.type || "choice") === "choice") renderChoiceUI(); else renderTextUI(); } updatePreview(false); });
   $("btnResetBg").addEventListener("click", ()=>{ Editor.bgDataUrl = ""; Editor.transparentBg = false; $("inpBgUrl").value = ""; if($("chkTransparentBg")) $("chkTransparentBg").checked = false; updateBgStatus(); updatePreview(false); });
   if($("chkUseLatex")) $("chkUseLatex").addEventListener("change", ()=>{ Editor.useLatex = $("chkUseLatex").checked; updatePreview(false); }); $("chkTimer").addEventListener("change", ()=>{ Editor.timer.enabled = $("chkTimer").checked; updatePreview(false); });
-  $("btnAddQ").addEventListener("click", ()=>{ if(Editor.questions.length >= 9){ toast(tr("alreadyNine")); return; } openModal(null); }); $("btnClearQs").addEventListener("click", ()=>{ Editor.questions = []; renderList(); updatePreview(false); toast(tr("cleared")); });
+  function openTaskFiller(){ if(Editor.questions.length >= 9){ toast(tr("alreadyNine")); return; } $("importBackdrop").style.display = "block"; $("importBackdrop").setAttribute("aria-hidden","false"); }
+  $("btnAddQ").addEventListener("click", openTaskFiller); $("btnClearQs").addEventListener("click", ()=>{ Editor.questions = []; renderList(); updatePreview(false); toast(tr("cleared")); });
   $("btnCloseModal").addEventListener("click", ()=>{ Editor.draft=null; Editor.editingId=null; hideModal(); }); $("modalBackdrop").addEventListener("click", (e)=>{ if(e.target === $("modalBackdrop")){ Editor.draft=null; Editor.editingId=null; hideModal(); } });
 
   if($("btnOpenToys")) $("btnOpenToys").addEventListener("click", openToyModal);
@@ -1497,19 +1545,165 @@
       });
   }
 
-  window.closeImport = () => { $("importBackdrop").style.display = "none"; $("importBackdrop").setAttribute("aria-hidden","true"); $("importText").value = ''; };
-  if ($("btnImportQ")) { $("btnImportQ").addEventListener("click", () => { if(Editor.questions.length >= 9) { toast(tr("alreadyNine")); return; } $("importBackdrop").style.display = "block"; $("importBackdrop").setAttribute("aria-hidden","false"); }); }
+  window.closeImport = () => { $("importBackdrop").style.display = "none"; $("importBackdrop").setAttribute("aria-hidden","true"); };
+  if ($("btnImportQ")) { $("btnImportQ").addEventListener("click", openTaskFiller); }
+
+  function getBaseQuestionSettings(){
+      const tplIdx = parseInt(document.getElementById('newQTemplate').value);
+      let baseQ = { font: "", fontSize: 32, seconds: null, image: "", audio: "" };
+      if (tplIdx >= 0 && Editor.questions[tplIdx]) {
+          const tq = Editor.questions[tplIdx];
+          baseQ = { font: tq.font || "", fontSize: tq.fontSize || 32, seconds: tq.seconds || null, image: "", audio: "" };
+      }
+      return baseQ;
+  }
+
+  function cleanImportedText(s){
+      return String(s || "").replace(/^\s*(?:\d+[\).:-]|[•\-])\s*/, "").trim();
+  }
+
+  function splitAnswers(s){
+      return String(s || "")
+          .split(/\s*(?:\/|;|,\s*или\s*)\s*/i)
+          .map(x => x.trim())
+          .filter(Boolean);
+  }
+
+  function parseQuestionBlock(block, baseQ){
+      const rawLines = String(block || "").split(/\n+/).map(x => x.trim()).filter(Boolean);
+      if (!rawLines.length) return null;
+
+      let meta = { prompt: "", type: "", answer: "", image: "", audio: "", seconds: null, font: baseQ.font || "", fontSize: baseQ.fontSize || 32 };
+      let promptLines = [];
+      let options = [];
+      let correctIndices = [];
+
+      if (rawLines.length === 1 && rawLines[0].includes("|")) {
+          const parts = rawLines[0].split("|");
+          const prompt = cleanImportedText(parts.shift());
+          const answers = splitAnswers(parts.join("|")).length ? splitAnswers(parts.join("|")) : [tr('answerDefault')];
+          return { id: uid(), ...baseQ, type: "text", prompt, accepts: answers };
+      }
+
+      rawLines.forEach(line => {
+          let m;
+          if ((m = line.match(/^\s*(?:вопрос|задание|prompt|question)\s*:\s*(.+)$/i))) { promptLines.push(m[1].trim()); return; }
+          if ((m = line.match(/^\s*(?:тип|type)\s*:\s*(.+)$/i))) { meta.type = m[1].trim().toLowerCase(); return; }
+          if ((m = line.match(/^\s*(?:ответ|ответы|верный ответ|correct|answer)\s*:\s*(.+)$/i))) { meta.answer = m[1].trim(); return; }
+          if ((m = line.match(/^\s*(?:картинка|изображение|image|img)\s*:\s*(.+)$/i))) { meta.image = m[1].trim(); return; }
+          if ((m = line.match(/^\s*(?:аудио|audio|звук)\s*:\s*(.+)$/i))) { meta.audio = m[1].trim(); return; }
+          if ((m = line.match(/^\s*(?:таймер|время|seconds|time)\s*:\s*(\d+)/i))) { meta.seconds = Math.max(3, Math.min(600, Number(m[1]))); return; }
+          if ((m = line.match(/^\s*(?:размер|fontSize|font-size)\s*:\s*(\d+)/i))) { meta.fontSize = Math.max(12, Math.min(60, Number(m[1]))); return; }
+          if ((m = line.match(/^\s*(?:шрифт|font)\s*:\s*(.+)$/i))) {
+              const f = m[1].trim().toLowerCase();
+              if (f.includes("caveat")) meta.font = "'Caveat', cursive, sans-serif";
+              else if (f.includes("neucha")) meta.font = "'Neucha', cursive, sans-serif";
+              else if (f.includes("arial")) meta.font = "Arial, sans-serif";
+              else if (f.includes("verdana")) meta.font = "Verdana, sans-serif";
+              else if (f.includes("times")) meta.font = "'Times New Roman', serif";
+              else meta.font = m[1].trim();
+              return;
+          }
+
+          const opt = line.match(/^\s*(?:([A-Za-zА-Яа-я])\)|([A-Za-zА-Яа-я])\.|[-•])\s*(.+)$/);
+          if (opt) {
+              let value = opt[3].trim();
+              let isCorrect = /(?:\*|✅|✔|\+)$/.test(value) || /(?:\*|✅|✔)/.test(value);
+              value = value.replace(/(?:\*|✅|✔|\+)\s*$/g, "").replace(/(?:\*|✅|✔)/g, "").trim();
+              if(value){
+                  const idx = options.length;
+                  options.push(value);
+                  if(isCorrect) correctIndices.push(idx);
+              }
+              return;
+          }
+
+          if (line.includes("|")) {
+              const parts = line.split("|");
+              const p = cleanImportedText(parts.shift());
+              if (p) promptLines.push(p);
+              meta.answer = parts.join("|").trim();
+              return;
+          }
+
+          promptLines.push(cleanImportedText(line));
+      });
+
+      const prompt = promptLines.join("\n").trim();
+      if (!prompt && !options.length) return null;
+
+      const answer = meta.answer.trim();
+      if (options.length >= 2 || meta.type.includes("выбор") || meta.type.includes("choice") || meta.type.includes("test")) {
+          if (correctIndices.length === 0 && answer) {
+              const ans = answer.trim();
+              const letter = ans.match(/^[A-Za-zА-Яа-я]$/);
+              if (letter) {
+                  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZАБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩ";
+                  const idx = letters.indexOf(letter[0].toUpperCase());
+                  if (idx >= 0 && idx < options.length) correctIndices.push(idx);
+              }
+              if (correctIndices.length === 0) {
+                  const idx = options.findIndex(o => o.trim().toLowerCase() === ans.toLowerCase());
+                  if (idx >= 0) correctIndices.push(idx);
+              }
+          }
+          if (correctIndices.length === 0) correctIndices = [0];
+          return { id: uid(), ...baseQ, type: "choice", prompt, options, correctIndices, image: meta.image || baseQ.image || "", audio: meta.audio || baseQ.audio || "", seconds: meta.seconds || baseQ.seconds || null, font: meta.font || baseQ.font || "", fontSize: meta.fontSize || baseQ.fontSize || 32 };
+      }
+
+      const accepts = answer ? splitAnswers(answer) : [tr('answerDefault')];
+      return { id: uid(), ...baseQ, type: "text", prompt, accepts, image: meta.image || baseQ.image || "", audio: meta.audio || baseQ.audio || "", seconds: meta.seconds || baseQ.seconds || null, font: meta.font || baseQ.font || "", fontSize: meta.fontSize || baseQ.fontSize || 32 };
+  }
+
+  function parseImportedQuestions(txt, baseQ){
+      const text = String(txt || "").trim();
+      if(!text) return [];
+      let blocks = text.split(/\n\s*\n+/).map(x => x.trim()).filter(Boolean);
+      if (blocks.length === 1) {
+          const lines = blocks[0].split(/\n+/).map(x => x.trim()).filter(Boolean);
+          const hasChoiceLines = lines.some(l => /^\s*(?:[A-Za-zА-Яа-я]\)|[A-Za-zА-Яа-я]\.|[-•])\s+/.test(l));
+          const hasMeta = lines.some(l => /^\s*(?:вопрос|задание|тип|ответ|картинка|аудио|таймер|размер|шрифт)\s*:/i.test(l));
+          if (!hasChoiceLines && !hasMeta && lines.length > 1) blocks = lines;
+      }
+      return blocks.map(b => parseQuestionBlock(b, baseQ)).filter(Boolean);
+  }
+
+  window.pasteImportExample = () => {
+      const ex = `5 + 7 = ? | 12
+Столица Франции? | Париж / париж
+
+Сколько будет 6 × 7?
+A) 36
+B) 42 *
+C) 48
+D) 54
+
+Вопрос: Рассмотри рисунок и найди периметр.
+Тип: ввод
+Ответ: 24
+Картинка: https://site.ru/image.png
+Таймер: 60
+Размер: 34`;
+      $("importText").value = ex;
+  };
+
+  window.addEmptyQuestionFromFiller = () => {
+      if(Editor.questions.length >= 9){ toast(tr("alreadyNine")); return; }
+      closeImport();
+      openModal(null);
+  };
 
   window.processImport = () => {
-      const txt = document.getElementById('importText').value.trim(); if (!txt) return closeImport();
-      const tplIdx = parseInt(document.getElementById('newQTemplate').value); let baseQ = { font: "", fontSize: 32, seconds: null, image: "", audio: "" };
-      if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; baseQ = { font: tq.font, fontSize: tq.fontSize, seconds: tq.seconds }; }
+      const txt = document.getElementById('importText').value.trim();
+      if (!txt) { toast("Вставьте задания или нажмите «Пустая карточка»"); return; }
+      const baseQ = getBaseQuestionSettings();
+      const parsed = parseImportedQuestions(txt, baseQ);
+      if(!parsed.length){ toast(tr("importFailed")); return; }
       let addedCount = 0;
-      const lines = txt.split('\n');
-      for(let line of lines) { 
-          if (Editor.questions.length >= 9) break;
-          const trimmed = line.trim();
-          if (trimmed) { Editor.questions.push({ id: uid(), ...baseQ, type: 'text', prompt: trimmed, accepts: [tr('answerDefault')] }); addedCount++; } 
+      for(const q of parsed){
+          if(Editor.questions.length >= 9) break;
+          Editor.questions.push(q);
+          addedCount++;
       }
       closeImport();
       renderList(); updatePreview(false);
