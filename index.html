@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=8nzfbtUA1P0E-DuUkiHeitzut_anNs0Gdc1nJZinRgEtfxr7YFQ8ABJaFglBlj8ic8RjLrpmahPlPzH_BgKsSPbVu0Z2uif-Y8LJssL2vlleEtT2k51-g49r8gNriIpFEJfisjk7n2vdCmWv-2qD3-ubPsZZIVZAo3_UYxiwQxZ5mii0C3cT4PXSvaNVgqZGV81TXHnpwRJxMvAFnW1Cr8QgBgon_xWdpJSwvynqhb1MB3YHj0e5uy3TxX__diB60NkinfqEqzCMigDIz8S7lky4ruHENKyjdyora6aqMldS7avJf4ryRVj6K7HDOcLn1DvuZv-40Hck92FHXyH_YIbRsTZ2aUsAOFTd3NJCvsFw1oyvFIrI6FpQkyz9JvQj" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=GPP76kyY7_t7MaNgiK8i3MtPdfOPmYY6IL47QATyGGWq4fAd6WW5hCPcHZtd-qpMgSEnMzZZxH2-HWWiWnQ4HNpx-KKMXwyLWrfJKtfnibJdPkXqf06m8CqkXiPBzrXqHDZtJ1OCa_EGA2D7QX2IlId7Ar23v8iv4u34USDN3xsIXjuj9sXC-8PQ_jrAxyIozPvR4lrIaq80kZF4dyUGUQLdCT-kdWIJiw9fIT9uH4thIsufUL3H_IzKMV3vDuxt5GYY48I0EUP5Pw7mWB2tUNuE_A8qDPhqhpYz2vREJLqY-jMJui_z61irkxqh1DwLyLDawUmD_qQF79YQiTIJ15fmS197ypebP1IH_yfUH2Q" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=8nzfbtUA1P0E-DuUkiHeitzut_anNs0Gdc1nJZinRgEtfxr7YFQ8ABJaFglBlj8ic8RjLrpmahPlPzH_BgKsSPbVu0Z2uif-Y8LJssL2vlleEtT2k51-g49r8gNriIpFEJfisjk7n2vdCmWv-2qD3-ubPsZZIVZAo3_UYxiwQxZ5mii0C3cT4PXSvaNVgqZGV81TXHnpwRJxMvAFnW1Cr8QgBgon_xWdpJSwvynqhb1MB3YHj0e5uy3TxX__diB60NkinfqEqzCMigDIz8S7lky4ruHENKyjdyora6aqMldS7avJf4ryRVj6K7HDOcLn1DvuZv-40Hck92FHXyH_YIbRsTZ2aUsAOFTd3NJCvsFw1oyvFIrI6FpQkyz9JvQj" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -296,8 +296,11 @@
           </div>
           <div class="answerRow">
             <span style="font-size:20px; line-height:1; cursor:help;" title="Аудио">🎵</span>
-            <input id="inpQAudio" type="text" placeholder="Ссылка на аудио (.mp3)..." />
-            <button class="btn small danger" id="btnClearAudio" type="button">✖</button>
+            <input id="inpQAudio" type="text" style="display:none;" />
+            <div id="qAudioStatus" style="flex:1; font-size:12px; color:#aaa; font-weight:bold; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">❌ Нет аудио</div>
+            <input type="file" id="inpQAudioFile" accept="audio/*" style="display:none">
+            <button class="btn small" id="btnUploadQAudio" type="button" title="Загрузить аудио" style="background:#0abde3;color:#000;border:none;flex-shrink:0;">📁 Загрузить</button>
+            <button class="btn small danger" id="btnClearAudio" type="button" title="Удалить аудио">✖</button>
           </div>
         </div>
         <div id="choiceWrap" class="choiceBlock">
@@ -361,7 +364,7 @@
           Ввод ответа: <code>Вопрос | верный ответ</code><br>
           Несколько верных: <code>Вопрос | ответ1 / ответ2</code><br>
           Выбор ответа: <code>Вопрос | вариант | *правильный вариант | вариант</code><br>
-          Каждый новый вопрос — с новой строки. Картинку, аудио и шрифт можно добавить потом через карандаш.
+          Каждый новый вопрос — с новой строки. Картинку, аудио, шрифт и таймер можно добавить потом через карандаш.
         </div>
       </div>
       <div class="modal-foot">
@@ -1051,6 +1054,19 @@
     });
   };
 
+  // ЧТЕНИЕ АУДИОФАЙЛА С КОМПЬЮТЕРА В DATA URL
+  window.readAudioFileAsDataUrl = function(file, maxBytes = 12 * 1024 * 1024) {
+    return new Promise((resolve, reject) => {
+      if(!file) return reject(new Error("no-file"));
+      if(!String(file.type || "").startsWith("audio/")) return reject(new Error("not-audio"));
+      if(file.size > maxBytes) return reject(new Error("audio-too-large"));
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error || new Error("file-read-error"));
+      reader.readAsDataURL(file);
+    });
+  };
+
   const TOY_BASE_URL = "https://raw.githubusercontent.com/svetlana18011991/avtomat_igrovoy/main/";
   const TOY_IDS = [1,4,6,5,3,2,9,8,7];
   const TOY_CELL_BASE_SIZE = 62;
@@ -1347,7 +1363,13 @@
             $("qImageStatus").style.color = Editor.draft.image ? "#1dd1a1" : "#aaa";
         }
     } 
-    if($("inpQAudio")) $("inpQAudio").value = Editor.draft.audio;
+    if($("inpQAudio")) {
+        $("inpQAudio").value = Editor.draft.audio;
+        if($("qAudioStatus")) {
+            $("qAudioStatus").textContent = Editor.draft.audio ? "✅ Аудио загружено" : "❌ Нет аудио";
+            $("qAudioStatus").style.color = Editor.draft.audio ? "#1dd1a1" : "#aaa";
+        }
+    }
     syncModalType(); if($("selType").value === "choice") renderChoiceUI(); else renderTextUI();
     showModal(); setTimeout(()=>$("inpPrompt").focus(), 40);
   }
@@ -1489,6 +1511,36 @@
       });
   }
 
+  // ЛОГИКА ЗАГРУЗКИ С КОМПА - АУДИО К ВОПРОСУ
+  if($("btnUploadQAudio")) {
+      $("btnUploadQAudio").addEventListener("click", () => $("inpQAudioFile").click());
+      $("inpQAudioFile").addEventListener("change", async (e) => {
+          const file = e.target.files[0];
+          if(!file) return;
+          const oldText = $("btnUploadQAudio").textContent;
+          $("btnUploadQAudio").textContent = "⏳...";
+          $("btnUploadQAudio").disabled = true;
+          try {
+              const dataUrl = await window.readAudioFileAsDataUrl(file);
+              $("inpQAudio").value = dataUrl;
+              if($("qAudioStatus")) {
+                  const sizeMb = Math.max(0.1, file.size / 1024 / 1024).toFixed(1);
+                  $("qAudioStatus").textContent = "✅ " + (file.name || "Аудио") + " (" + sizeMb + " МБ)";
+                  $("qAudioStatus").style.color = "#1dd1a1";
+              }
+              toast("Аудио загружено!");
+          } catch(err) {
+              const msg = String(err && (err.message || err.name) || err);
+              if(msg.includes("audio-too-large")) toast("Аудио слишком большое. Выберите файл до 12 МБ.");
+              else if(msg.includes("not-audio")) toast("Выберите аудиофайл.");
+              else toast("Ошибка загрузки аудио!");
+          }
+          $("btnUploadQAudio").textContent = oldText;
+          $("btnUploadQAudio").disabled = false;
+          $("inpQAudioFile").value = "";
+      });
+  }
+
   window.closeImport = () => { $("importBackdrop").style.display = "none"; $("importBackdrop").setAttribute("aria-hidden","true"); $("importText").value = ''; };
   if ($("btnImportQ")) { $("btnImportQ").addEventListener("click", () => { if(Editor.questions.length >= 9) { toast(tr("alreadyNine")); return; } $("importBackdrop").style.display = "block"; $("importBackdrop").setAttribute("aria-hidden","false"); }); }
 
@@ -1581,7 +1633,13 @@
           }
       });
   }
-  if($("btnClearAudio")) $("btnClearAudio").addEventListener("click", () => { $("inpQAudio").value = ""; });
+  if($("btnClearAudio")) $("btnClearAudio").addEventListener("click", () => {
+      $("inpQAudio").value = "";
+      if($("qAudioStatus")) {
+          $("qAudioStatus").textContent = "❌ Нет аудио";
+          $("qAudioStatus").style.color = "#aaa";
+      }
+  });
   $("btnAddChoice").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.options = q.options || ["",""]; q.options.push(""); renderChoiceUI(); });
   $("btnAddText").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.accepts = q.accepts || [""]; q.accepts.push(""); renderTextUI(); });
   $("btnPreviewDraft").addEventListener("click", ()=>{ getDraftFromModal(); updatePreview(true); toast(tr("shownPreview")); });
