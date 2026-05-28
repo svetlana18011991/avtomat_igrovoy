@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=H6-uPNTyxyUWWcnr2Bu7U0v7MThvWLP7_V8m9QiffSRX3GfqZ_wdb-4peJvaNscHbqq3D500aBaWngl99A7J6fgQxSqeajbja5zYxKSRUrMvFnqJqBA2d9YT-Wy3ikNlrNvw3J4XwyhCkoBPFXoXcOR26TEafZnO2rP01eqP--lLUNKitZl_ThmzmIez2Pw5PdM4yRejKPzX0aigR8swwH0EGevRZprzt4kP6eqMM2L-dskFU9aNlrVjRhHc4yj8naPJ8Q7-jo3GamNht3dOMYTjBwb_NRCZhpYA88wAVd6eAojxG_PboqE6XHR2y6GbKT4dfHhSiumFjoYXOz8janIRJjbVTkxtbHlQeGd-gBlPnlUQzaBrXSTdwBASt7hj" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=4T-Ly_ikBOFgzk3ALLRFO6_nfw0oQekqcxC_jgg6Rw9doA_Cvmxn68lILgjlS4BAX-8fR2v7zxf2oipH9-rSMsRCdf055cKYvu2TVuJz77B9Lfr9ryX687h18gveeAWB5nxMJDphuDvibgITeFdEoMil4zmI8sLAyS8XXeXYXmWHyBJh99kcKbSQ7FptIZv6Woa0EZJs0Bw5hSCmIRo4_2rdeCrk3LbXIIVvuUiWFiSXBnf1tVreV0uuE7bxue4G2BfkZdYcmtxaWUaJooeusKywTgt_HniC7DgHT-GqrCHRj1bJDOh6vuCqanq1wQ_Cf9-4dqfKhqnbdMVXQVuRUisWzejn6uTsb44KSgo4fFs" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -183,17 +183,16 @@
               <option value="1">Неоновый</option>
               <option value="2">Винтажный</option>
               <option value="3">Ретро</option>
-              <option value="4">Автомат f1</option>
-              <option value="5">Автомат f2</option>
-              <option value="6">Автомат f3</option>
-              <option value="7">Автомат f4</option>
-              <option value="8">Автомат f5</option>
-              <option value="9">Автомат f6</option>
-              <option value="10">Автомат f7</option>
-              <option value="11">Автомат f8</option>
-              <option value="12">Автомат f9</option>
-              <option value="13">Автомат f10</option>
-              <option value="14">Автомат f11</option>
+              <option value="4">Магическая академия</option>
+              <option value="5">Хоррор-школа</option>
+              <option value="6">Лаборатория безумного учёного</option>
+              <option value="7">Космический автомат</option>
+              <option value="8">Пиратский сундук-автомат</option>
+              <option value="9">Сладкий автомат</option>
+              <option value="10">Цирк / Карнавал</option>
+              <option value="11">Детективный автомат</option>
+              <option value="12">Зимний автомат</option>
+              <option value="13">Автомат «Школьный»</option>
             </select>
           </div>
 
@@ -771,7 +770,7 @@
                 if(rawCfg.bgDataUrl) gameContainer.style.backgroundImage = 'url(' + rawCfg.bgDataUrl + ')';
             }
             applyToyCustomizations(rawCfg);
-            const mVariants = ['avtomat.png', 'avtomat1.png', 'avtomat2.png', 'avtomat3.png', 'f1.png', 'f2.png', 'f3.png', 'f4.png', 'f5.png', 'f6.png', 'f7.png', 'f8.png', 'f9.png', 'f10.png', 'f11.png'];
+            const mVariants = ['avtomat.png', 'avtomat1.png', 'avtomat2.png', 'avtomat3.png', 'f2.png', 'f3.png', 'f4.png', 'f5.png', 'f6.png', 'f7.png', 'f8.png', 'f9.png', 'f10.png', 'f11.png'];
             const mIdx = rawCfg.machineVariant || 0;
             const machineImg = document.getElementById('machine-no-claw');
             if (machineImg && mVariants[mIdx]) {
