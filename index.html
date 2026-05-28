@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=hrzjacR92gbtt982KfcapNJ04puv03li1U-Nt6dlYWiYZMqPwxdGPfccRmbhiIqnkJ7ZUMgsCgGvz0uzbu60e660pVVxjjK0xs7b6KwAQQotuo2ARvSkSWmWZxluGv4FRZk77T5w1XX79kERqsySbKwEh8ZHczAa5OXMedTkoNXunaHTTFI2EjNSa3mA1VMFnZqjAQwMirgr6pqibX7Ay9Jn6Q7el9avq5PvIqmN9mGOjv-HyvCY8d3ME8q0-FrgSUI6QWSJyyEzphi_L0nqy-D55JjON--vz0FoUKKEKCP0OpoypLKGyzNhWkJAi4oKO2emChKp1NAmsEIjTwTVrEzdM452SKC8vxN9DvJlTws" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -183,6 +183,17 @@
               <option value="1">Неоновый</option>
               <option value="2">Винтажный</option>
               <option value="3">Ретро</option>
+              <option value="4">Автомат f1</option>
+              <option value="5">Автомат f2</option>
+              <option value="6">Автомат f3</option>
+              <option value="7">Автомат f4</option>
+              <option value="8">Автомат f5</option>
+              <option value="9">Автомат f6</option>
+              <option value="10">Автомат f7</option>
+              <option value="11">Автомат f8</option>
+              <option value="12">Автомат f9</option>
+              <option value="13">Автомат f10</option>
+              <option value="14">Автомат f11</option>
             </select>
           </div>
 
@@ -760,7 +771,7 @@
                 if(rawCfg.bgDataUrl) gameContainer.style.backgroundImage = 'url(' + rawCfg.bgDataUrl + ')';
             }
             applyToyCustomizations(rawCfg);
-            const mVariants = ['avtomat.png', 'avtomat1.png', 'avtomat2.png', 'avtomat3.png'];
+            const mVariants = ['avtomat.png', 'avtomat1.png', 'avtomat2.png', 'avtomat3.png', 'f1.png', 'f2.png', 'f3.png', 'f4.png', 'f5.png', 'f6.png', 'f7.png', 'f8.png', 'f9.png', 'f10.png', 'f11.png'];
             const mIdx = rawCfg.machineVariant || 0;
             const machineImg = document.getElementById('machine-no-claw');
             if (machineImg && mVariants[mIdx]) {
