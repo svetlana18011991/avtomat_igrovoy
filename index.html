@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=U45r_tGpKL-lqe0_qzyoI7INRYyb_Paj_YxaFugWVR8M8KkdvG0CYwYNQw3f10z468eudlM5kCxYlC9_CMMQ4-BE7x8x0y4wL-sQipWMcBAPqc5w9VvTxZuDORnLMzZ6AQYb8CpUZnnftqEeiwxCmFckEUZQ-eH56mSbQi7_c5zGb5Pe5AEitBYsDs_PrV_9mbo7muFCiTMDLbluf4mc3N_hj6riRSe_WG_jxwli54KibG_U86pDP_qOUrGcupQSRp4MVfKEH_Q0aAyNJUTrNfWH38YwXUPqTCUD638ljarMCdOF5HUocgmaUuE7g5GbouKOSHXcDTOIrMByTQT5k6v97JNrCp57sTL_MwS_Gys" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=8nzfbtUA1P0E-DuUkiHeitzut_anNs0Gdc1nJZinRgEtfxr7YFQ8ABJaFglBlj8ic8RjLrpmahPlPzH_BgKsSPbVu0Z2uif-Y8LJssL2vlleEtT2k51-g49r8gNriIpFEJfisjk7n2vdCmWv-2qD3-ubPsZZIVZAo3_UYxiwQxZ5mii0C3cT4PXSvaNVgqZGV81TXHnpwRJxMvAFnW1Cr8QgBgon_xWdpJSwvynqhb1MB3YHj0e5uy3TxX__diB60NkinfqEqzCMigDIz8S7lky4ruHENKyjdyora6aqMldS7avJf4ryRVj6K7HDOcLn1DvuZv-40Hck92FHXyH_YIbRsTZ2aUsAOFTd3NJCvsFw1oyvFIrI6FpQkyz9JvQj" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=CJ-oMINGFbDsbvubvOAofv2szwihVd9mZpARQfQE6CejhuVSXp9cuhcA1y4qbV7XNKAseBijqk4uEmk5a4-kGAbZ_wJET6NWSPqz3BPeJ1jfW_fUI3hyYky94CwUcS9LeW7f69dWXs2KmagFHETYSLAXDjWDzqJ5Lq5F7vMAU8skoogff7PaJi0_hNHJFSiPaZEVCcEj5X34TE2RcmwO9RaciHxe71R3KShmz3NjUUR-Xy3SpuuCg42cXqLA4IKfMKr9vbnEnvrejMZm67crM0iZ3ZwIKytpXKG0lKWkD5ilymk6SX1nUIXIotJ62YkhbePTlQPbWNBHeiDMEksdYLGY6fzkpujpgT7c0g6b-wQ" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=8nzfbtUA1P0E-DuUkiHeitzut_anNs0Gdc1nJZinRgEtfxr7YFQ8ABJaFglBlj8ic8RjLrpmahPlPzH_BgKsSPbVu0Z2uif-Y8LJssL2vlleEtT2k51-g49r8gNriIpFEJfisjk7n2vdCmWv-2qD3-ubPsZZIVZAo3_UYxiwQxZ5mii0C3cT4PXSvaNVgqZGV81TXHnpwRJxMvAFnW1Cr8QgBgon_xWdpJSwvynqhb1MB3YHj0e5uy3TxX__diB60NkinfqEqzCMigDIz8S7lky4ruHENKyjdyora6aqMldS7avJf4ryRVj6K7HDOcLn1DvuZv-40Hck92FHXyH_YIbRsTZ2aUsAOFTd3NJCvsFw1oyvFIrI6FpQkyz9JvQj" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -786,7 +786,7 @@
             progressArea.innerHTML = '';
             if (rawCfg.useLatex && !document.getElementById('mathjax-script')) {
                 window.MathJax = { tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }, startup: { typeset: false } };
-                const script = document.createElement('script'); script.id = 'mathjax-script'; script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"; script.onload = () => typesetMathWhenReady(document.getElementById('task-modal')); document.head.appendChild(script);
+                const script = document.createElement('script'); script.id = 'mathjax-script'; script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"; document.head.appendChild(script);
             }
         }
 
@@ -816,80 +816,69 @@
             return { left: ((rect.left - containerRect.left) / containerRect.width) * 100, top: ((rect.top - containerRect.top) / containerRect.height) * 100, width: (rect.width / containerRect.width) * 100, height: (rect.height / containerRect.height) * 100 };
         }
         function normalizeAnswer(s){ return String(s||"").trim().toLowerCase(); }
-        const addTap = (el, fn) => { 
-            if(!el) return;
-            let busy = false;
-            const handler = (e) => {
-                if(e && e.cancelable) e.preventDefault();
-                if(e && e.stopPropagation) e.stopPropagation();
-                if(busy) return;
-                busy = true;
-                setTimeout(() => { busy = false; }, 250);
-                fn(e);
-            };
-            el.addEventListener('pointerdown', handler);
-            el.addEventListener('click', handler);
-            el.addEventListener('touchstart', handler, { passive:false });
-        };
 
-        function typesetMathWhenReady(root, attempt) {
-            if(!(window.__CFG && window.__CFG.useLatex)) return;
-            attempt = attempt || 0;
-            if(window.MathJax && window.MathJax.typesetPromise) {
-                window.MathJax.typesetPromise([root || document.getElementById('task-modal')]).catch(()=>{});
-            } else if(attempt < 40) {
-                setTimeout(() => typesetMathWhenReady(root, attempt + 1), 150);
-            }
-        }
-
-
-        function escapeHtmlForGame(s) {
+        function escapeHtmlGame(s){
             return String(s || "")
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;");
         }
 
-        // Удобный режим LaTeX: можно писать как правильно через $...$,
-        // а самые частые команды из шпаргалки редактор попробует показать и без $.
-        function renderLatexText(raw) {
-            const original = String(raw || "");
-            let out = escapeHtmlForGame(original);
-            const latexOn = !!(window.__CFG && window.__CFG.useLatex);
-            if (!latexOn) return out.replace(/\n/g, "<br>");
-            if (out.indexOf("$") !== -1) return out.replace(/\n/g, "<br>");
+        // Если LaTeX включён: можно писать как правильно через $...$,
+        // а самые частые команды из шпаргалки редактор обернёт в $...$ сам.
+        function renderMathText(raw){
+            let out = escapeHtmlGame(raw).replace(/\n/g, "<br>");
+            if(!(window.__CFG && window.__CFG.useLatex)) return out;
+            if(out.indexOf("$") !== -1) return out;
+            const patterns = [
+                /\\begin\{cases\}[\s\S]*?\\end\{cases\}/g,
+                /\\frac\{[^{}]+\}\{[^{}]+\}/g,
+                /\\sqrt(?:\[[^\]]+\])?\{[^{}]+\}/g,
+                /\\overline\{[^{}]+\}/g,
+                /\\(?:triangle|angle)\s+[A-Za-zА-Яа-яЁё0-9]+/g,
+                /[A-Za-zА-Яа-яЁё0-9]+\s+\\(?:parallel|perp)\s+[A-Za-zА-Яа-яЁё0-9]+/g,
+                /[0-9]+\s*\^\s*\\circ/g,
+                /\\(?:times|cdot|div|pm|neq|leq|geq|infty|pi|approx)(?![A-Za-zА-Яа-яЁё])/g,
+                /[A-Za-zА-Яа-яЁё0-9]+\^\{[^{}]+\}/g,
+                /[A-Za-zА-Яа-яЁё0-9]+_\{[^{}]+\}/g,
+                /[A-Za-zА-Яа-яЁё0-9]+\^[A-Za-zА-Яа-яЁё0-9]+/g,
+                /[A-Za-zА-Яа-яЁё0-9]+_[A-Za-zА-Яа-яЁё0-9]+/g
+            ];
+            patterns.forEach(re => {
+                out = out.replace(re, (m) => {
+                    if(/^\$.*\$$/.test(m)) return m;
+                    return "$" + m + "$";
+                });
+            });
+            return out;
+        }
 
-            const BSL = "\\";
-            const slashPattern = BSL + BSL;
-            const CARET = String.fromCharCode(94);
-
-            function wrap(re) {
-                out = out.replace(re, (m) => "$" + m + "$" );
+        function typesetMathWhenReady(root, attempt){
+            if(!(window.__CFG && window.__CFG.useLatex)) return;
+            attempt = attempt || 0;
+            if(window.MathJax && window.MathJax.typesetPromise){
+                window.MathJax.typesetPromise([root || document.getElementById('task-modal')]).catch(()=>{});
+            } else if(attempt < 40) {
+                setTimeout(() => typesetMathWhenReady(root, attempt + 1), 150);
             }
-
-            try {
-                wrap(new RegExp(slashPattern + "begin[{]cases[}][\\s\\S]*?" + slashPattern + "end[{]cases[}]", "g"));
-                wrap(new RegExp(slashPattern + "frac[{][^{}]+[}][{][^{}]+[}]", "g"));
-                wrap(new RegExp(slashPattern + "sqrt[{][^{}]+[}]", "g"));
-                wrap(new RegExp(slashPattern + "sqrt\\[[^\\]]+\\][{][^{}]+[}]", "g"));
-                wrap(new RegExp(slashPattern + "overline[{][^{}]+[}]", "g"));
-                wrap(new RegExp(slashPattern + "(?:triangle|angle) +[A-Za-zА-Яа-яЁё0-9]+", "g"));
-                wrap(new RegExp("[A-Za-zА-Яа-яЁё0-9]+ +" + slashPattern + "(?:parallel|perp) +[A-Za-zА-Яа-яЁё0-9]+", "g"));
-                wrap(new RegExp("[0-9]+[" + BSL + CARET + "]" + slashPattern + "circ", "g"));
-                wrap(new RegExp(slashPattern + "(?:times|cdot|div|pm|neq|leq|geq|infty|pi|approx)(?![A-Za-zА-Яа-яЁё])", "g"));
-            } catch(e) {}
-
-            return out.replace(/\n/g, "<br>");
         }
 
-        function startGameFromButton() {
-            const startLayer = document.getElementById('start');
-            if(startLayer) startLayer.style.display = 'none';
-            setTimeout(() => { updateClawPosition(clawPositionsX[1], clawStartTop); }, 100);
-            gameState = 'waiting_coin';
-        }
+        const addTap = (el, fn) => {
+            if(!el) return;
+            let last = 0;
+            const handler = (e) => {
+                const now = Date.now();
+                if(now - last < 250) return;
+                last = now;
+                if(e && e.cancelable) e.preventDefault();
+                if(e && e.stopPropagation) e.stopPropagation();
+                fn(e);
+            };
+            el.addEventListener('pointerdown', handler);
+            el.addEventListener('click', handler);
+        };
 
-        addTap(document.getElementById('playBtn'), startGameFromButton);
+        addTap(document.getElementById('playBtn'), () => { document.getElementById('start').style.display = 'none'; setTimeout(() => { updateClawPosition(clawPositionsX[1], clawStartTop); }, 100); gameState = 'waiting_coin'; });
         addTap(document.getElementById('restartBtn'), () => location.reload());
         
         addTap(coin, () => {
@@ -925,7 +914,7 @@
             const q = tasks[currentQuestionIndex];
             document.getElementById('gDraftWrap').classList.remove('open'); document.getElementById('task-modal').classList.remove('draft-open');
             if(window.ctxScratch) { window.ctxScratch.save(); window.ctxScratch.setTransform(1,0,0,1,0,0); window.ctxScratch.clearRect(0,0,window.canvasScratch.width, window.canvasScratch.height); window.ctxScratch.restore(); }
-            const txtEl = document.getElementById('task-text'); txtEl.innerHTML = renderLatexText(q.prompt || "Вопрос");
+            const txtEl = document.getElementById('task-text'); txtEl.innerHTML = renderMathText(q.prompt || "Вопрос");
             const fontToApply = q.font || "'Neucha', cursive, sans-serif"; txtEl.style.setProperty('font-family', fontToApply, 'important'); txtEl.style.fontSize = q.fontSize ? q.fontSize + "px" : "32px";
             const qImg = document.getElementById('qImg'), qAudio = document.getElementById('qAudio'); document.getElementById('qMedia').style.display = 'none'; qImg.style.display = 'none';
             qAudio.style.display = 'none'; try{ qAudio.pause(); }catch(e){}
@@ -941,7 +930,7 @@
                 inputRow.style.display = 'none'; const shuffledOpts = [...q.options];
                 for (let i = shuffledOpts.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));
                 [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]]; }
-                shuffledOpts.forEach(opt => { const btn = document.createElement('div'); btn.className = 'task-option'; btn.style.setProperty('font-family', fontToApply, 'important'); btn.style.fontSize = q.fontSize ? (q.fontSize * 0.8) + "px" : "26px"; btn.innerHTML = renderLatexText(opt); btn.onclick = () => checkAnswer(opt, btn); optionsDiv.appendChild(btn); });
+                shuffledOpts.forEach(opt => { const btn = document.createElement('div'); btn.className = 'task-option'; btn.style.setProperty('font-family', fontToApply, 'important'); btn.style.fontSize = q.fontSize ? (q.fontSize * 0.8) + "px" : "26px"; btn.innerHTML = renderMathText(opt); btn.onclick = () => checkAnswer(opt, btn); optionsDiv.appendChild(btn); });
             } else { optionsDiv.style.display = 'none'; inputRow.style.display = 'flex'; ansInput.value = ''; document.getElementById('submitBtn').onclick = () => checkAnswer(ansInput.value, null); }
             document.getElementById('task-modal').classList.add('active'); startTimer(q);
             typesetMathWhenReady(document.getElementById("task-modal"));
