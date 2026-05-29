@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=BYToPAPuXHmhuhYJIrByzVmk3WGUbKUA2RsH1H1DHCtMPK0xhFNGGF67vpj_HReePgTDiDYj0pyHRtGF4CRaotoFGXuI6jgqkrBymiu-B1t-lQ_Wv5t2XKNM1d7iWvhPhJmqB7gcQXkt5DDu42cqk-uxO6GplWZ5yU4EN2T3d_rqoArNdPvB1NnKuLbFLXVkwRHCk7dAti5by1zfJFk9Fz8sNLXU6W_ct-SqLJMf65Jl981mSKoFR2J98rDKEGXJqrNmMdSsgM0ZsTES-OQSe-1Ffbp513RVV7I09GRKRJBEYjV3eOR1lKPkNdfGpy7iXZNxQSGlhlTOkCd2uqOTI54bth5q3AftCAmB6vXOrCY" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=2T1bVh1ESAGGIo8rvPpCLS3Ogl1yD5B6EfqJirVo7_53vp_Q6IzwH5OxyKF3aovbQfJceSgu-ccDcBlU_TSoLaPvzsTFHJpI7gLshek2Sxk5QLhyMgCh3I1Z9WhDi6T2NkGLnJoBR2CwJdgr6TqOA2CA5mFmqydsEwSY-XW-jadtyERX5VRC7qoVK8nqaHqgtIkMTdEwDG_B3f-hd__eGniQVJMbpCjO0ILxhloEUtCExdsOmV32Tr06Hs961PWG17wSaSTXn-xvZZz26Lt-RL2qvEGkxCD2IRh9M3q68sslBlcIVAobz1IOpzmwDt7NOMhJZKVYI-yRHRFyUZz11UE1ObE5MJNJCnHrdvsbHOA" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -129,6 +129,27 @@
 #qMedia{
   text-align:center;
 }
+
+  
+.task-audio-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin:8px auto 12px;
+  padding:12px 22px;
+  border-radius:18px;
+  border:3px solid #10ac84;
+  background:#1dd1a1;
+  color:#063226;
+  font-weight:950;
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 6px 0 #10ac84, 0 8px 18px rgba(0,0,0,.18);
+  user-select:none;
+}
+.task-audio-btn:active{transform:translateY(3px);box-shadow:0 3px 0 #10ac84;}
+.game-modal.active.draft-open .task-audio-btn{font-size:18px;padding:10px 18px;}
 
   </style>
 </head>
@@ -879,18 +900,41 @@
             qAudio.style.display = 'none';
             qAudio.removeAttribute('src');
             try{ qAudio.pause(); qAudio.currentTime = 0; }catch(e){}
+            const oldAudioBtn = document.getElementById('taskAudioBtn');
+            if(oldAudioBtn) oldAudioBtn.remove();
             if (q.image || q.audio) {
                 qMedia.style.display = 'block';
+                if(q.audio) {
+                    const audioBtn = document.createElement('button');
+                    audioBtn.type = 'button';
+                    audioBtn.id = 'taskAudioBtn';
+                    audioBtn.className = 'task-audio-btn';
+                    audioBtn.innerHTML = '🔊 Прослушать звук';
+                    audioBtn.onclick = (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        try {
+                            qAudio.pause();
+                            qAudio.currentTime = 0;
+                            qAudio.controls = true;
+                            qAudio.preload = 'auto';
+                            qAudio.src = q.audio;
+                            qAudio.style.display = 'block';
+                            qAudio.load();
+                            const playPromise = qAudio.play();
+                            if(playPromise && playPromise.catch) playPromise.catch(()=>{});
+                        } catch(err) {}
+                    };
+                    qMedia.insertBefore(audioBtn, qMedia.firstChild);
+                    qAudio.controls = true;
+                    qAudio.preload = "auto";
+                    qAudio.src = q.audio;
+                    qAudio.style.display = 'none';
+                    try { qAudio.load(); } catch(e) {}
+                }
                 if(q.image) {
                     qImg.src = q.image;
                     qImg.style.display = 'block';
-                }
-                if(q.audio) {
-                    qAudio.controls = true;
-                    qAudio.preload = "metadata";
-                    qAudio.src = q.audio;
-                    qAudio.style.display = 'block';
-                    try { qAudio.load(); } catch(e) {}
                 }
             }
             const optionsDiv = document.getElementById('task-options'), inputRow = document.getElementById('inputRow'), ansInput = document.getElementById('ansInput');
