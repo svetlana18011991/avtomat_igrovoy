@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=sVv3A66FmyiKju52Umxu_gBfisPawUmvsmTjc8BOx_VLJrk4evJthA6aH9LjPgUBjeD-Uw9_VryTSm21u2p7KcRixt8bAuZtWi0M3ihtd6wBjacj_Qpvmq1HysJ7lO3NQm3OG_XoGk2J13vLR41Rv36PrBIzHT8YYIPISSLLWBwLSa_WmTkc_PlcV9qm9BXKg4MS2UO6s7aROZZzZTi7ULMh3PCxMIanulQVC_9UC9xDXMMWp82J2KDdU7fbi41iUvfgjo1XrR5OX-es4X7IzTnr1Un1kt1PUvd8AjII6abSsPtmQAykv8XDycC4V4PG9NJv8_xztGIukFAR1nGKBUN3UVcBmNBw9FVMkkPxj7w" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=kQ6aGc26kYtZN-8DYsW7EK0Q-Ae7zkIjLmfdX3j-b2WeZBdRqJZJVQNz0KNukAwDaUZ4MPCQmtEsrFH4fCNMyzSNhSMYCXG4K8XMzfkFq01aNcMtJQXXdq0bEqoA4Ja1yLRC9qjVqtzJK5RH3uC2qayo_iPxWRH2vivQoU4ixajge3BBlsovjBOv55tF5nE4FCI76XhDuh3kWxom8-OzbWtfq367Z3jERpUzCFRawlGlLkbAe6j_0euSVibsMFGbkjLCEKUmKcgoXtcPxP4BUGkjZTbTrrqNJjjmoSfjD3SUUlp3BA-Xt_JpF019zF96DfjSpTGsD_jdQC-cckSxkfh2B4g8LRAJkINaGflupe8" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -189,7 +189,7 @@
       border-radius:16px;
       box-shadow:0 12px 30px rgba(0,0,0,.35);
     }
-    .mathHelperPanel.open{ display:block; }
+    .mathHelperPanel.open{ display:block; } /* legacy */
     .mathHelperTop{
       display:flex;
       justify-content:space-between;
@@ -259,6 +259,68 @@
       padding:6px 9px;
       cursor:pointer;
       font-weight:900;
+    }
+
+  
+    /* Правая статичная математическая панель */
+    .mathSidePanel{
+      position:fixed;
+      z-index:10050;
+      top:132px;
+      right:28px;
+      width:360px;
+      max-height:calc(100vh - 190px);
+      overflow:auto;
+      display:none;
+      padding:12px;
+      border:1px solid rgba(255,181,0,.65);
+      background:rgba(8,10,18,.96);
+      border-radius:18px;
+      box-shadow:0 0 0 1px rgba(255,255,255,.06), 0 20px 45px rgba(0,0,0,.42);
+    }
+    .mathSidePanel.open{ display:block; }
+    .mathSideGrid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:8px;
+    }
+    .mathSidePanel .mathChip{
+      min-height:38px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.07);
+      color:#fff;
+      border-radius:12px;
+      padding:8px 7px;
+      cursor:pointer;
+      font-size:12.5px;
+      font-weight:950;
+      font-family:Arial, sans-serif;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      transition:.1s ease;
+      white-space:normal;
+      line-height:1.1;
+    }
+    .mathSidePanel .mathChip:hover{
+      background:rgba(255,203,97,.20);
+      border-color:rgba(255,203,97,.75);
+      transform:translateY(-1px);
+    }
+    .mathSidePanel .mathChip.wide{
+      grid-column:span 2;
+    }
+    .mathMagicBtn.active{
+      background:linear-gradient(135deg, rgba(255,203,97,.38), rgba(9,148,255,.30));
+      border-color:rgba(255,203,97,.95);
+    }
+    @media (max-width:1250px){
+      .mathSidePanel{
+        right:16px;
+        width:300px;
+      }
+      .mathSideGrid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
     }
 
   </style>
@@ -389,6 +451,54 @@
       </div>
     </div>
   </div>
+  
+  <div class="mathSidePanel" id="mathHelperPanel" aria-hidden="true">
+    <div class="mathSideGrid">
+      <button class="mathChip" type="button" data-math="$\frac{a}{b}$">Дробь</button>
+      <button class="mathChip" type="button" data-math="$x^2$">x²</button>
+      <button class="mathChip" type="button" data-math="$x^{10}$">x¹⁰</button>
+      <button class="mathChip" type="button" data-math="$a_n$">aₙ</button>
+      <button class="mathChip" type="button" data-math="$a_{n+1}$">aₙ₊₁</button>
+      <button class="mathChip" type="button" data-math="$\sqrt{x}$">√x</button>
+      <button class="mathChip" type="button" data-math="$\sqrt[n]{a}$">ⁿ√a</button>
+      <button class="mathChip" type="button" data-math="$\left( \frac{a}{b} \right)$">( )</button>
+      <button class="mathChip" type="button" data-math="$\left|x\right|$">|x|</button>
+
+      <button class="mathChip" type="button" data-math="$\times$">×</button>
+      <button class="mathChip" type="button" data-math="$\cdot$">·</button>
+      <button class="mathChip" type="button" data-math="$\div$">÷</button>
+      <button class="mathChip" type="button" data-math="$\pm$">±</button>
+      <button class="mathChip" type="button" data-math="$\neq$">≠</button>
+      <button class="mathChip" type="button" data-math="$\leq$">≤</button>
+      <button class="mathChip" type="button" data-math="$\geq$">≥</button>
+      <button class="mathChip" type="button" data-math="$\approx$">≈</button>
+      <button class="mathChip" type="button" data-math="$\infty$">∞</button>
+      <button class="mathChip" type="button" data-math="$\pi$">π</button>
+      <button class="mathChip" type="button" data-math="$25\%$">%</button>
+
+      <button class="mathChip" type="button" data-math="$\angle ABC$">∠ABC</button>
+      <button class="mathChip" type="button" data-math="$90^\circ$">90°</button>
+      <button class="mathChip" type="button" data-math="$\triangle ABC$">△ABC</button>
+      <button class="mathChip" type="button" data-math="$a \parallel b$">a ∥ b</button>
+      <button class="mathChip" type="button" data-math="$a \perp b$">a ⊥ b</button>
+      <button class="mathChip" type="button" data-math="$\overline{AB}$">AB̅</button>
+
+      <button class="mathChip wide" type="button" data-math="$ax^2+bx+c=0$">ax²+bx+c=0</button>
+      <button class="mathChip wide" type="button" data-math="$\frac{-b \pm \sqrt{b^2-4ac}}{2a}$">корни кв. ур.</button>
+      <button class="mathChip" type="button" data-math="$S=ab$">S=ab</button>
+      <button class="mathChip" type="button" data-math="$P=2(a+b)$">P</button>
+      <button class="mathChip" type="button" data-math="$V=abc$">V</button>
+      <button class="mathChip wide" type="button" data-math="$$\begin{cases}
+x+y=5 \\
+x-y=1
+\end{cases}$$">система</button>
+
+      <button class="mathChip wide" type="button" data-math="$S=24\,\text{см}^2$">см²</button>
+      <button class="mathChip wide" type="button" data-math="$v=60\,\text{км/ч}$">км/ч</button>
+      <button class="mathChip" type="button" data-math="$t=3\,\text{ч}$">ч</button>
+    </div>
+  </div>
+
   <div id="gameRoot" style="display:none; width: 100%; height: 100%;"></div>
 
   <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
@@ -400,78 +510,6 @@
         <div class="mathPromptHead">
           <label>Вопрос</label>
           <button class="mathMagicBtn" id="btnMathHelper" type="button" title="Вставить математическую запись">🧮 Математика</button>
-        </div>
-        <div class="mathHelperPanel" id="mathHelperPanel" aria-hidden="true">
-          <div class="mathHelperTop">
-            <div>Быстрая вставка формул</div>
-            <button class="mathCloseBtn" id="btnMathHelperClose" type="button">✖</button>
-          </div>
-          <div class="mathHelperHint">Кликните по заготовке — она вставится в поле вопроса. Знаки $...$ уже добавлены.</div>
-
-          <div class="mathGroup">
-            <div class="mathGroupTitle">Базовые записи</div>
-            <div class="mathChips">
-              <button class="mathChip" type="button" data-math="$\\frac{a}{b}$">Дробь <code>a/b</code></button>
-              <button class="mathChip" type="button" data-math="$x^2$">Степень <code>x²</code></button>
-              <button class="mathChip" type="button" data-math="$x^{10}$">Степень 10</button>
-              <button class="mathChip" type="button" data-math="$a_n$">Индекс <code>aₙ</code></button>
-              <button class="mathChip" type="button" data-math="$a_{n+1}$">Индекс n+1</button>
-              <button class="mathChip" type="button" data-math="$\\sqrt{x}$">Корень</button>
-              <button class="mathChip" type="button" data-math="$\\sqrt[n]{a}$">Корень n-й</button>
-            </div>
-          </div>
-
-          <div class="mathGroup">
-            <div class="mathGroupTitle">Знаки и операторы</div>
-            <div class="mathChips">
-              <button class="mathChip" type="button" data-math="$\\times$">×</button>
-              <button class="mathChip" type="button" data-math="$\\cdot$">·</button>
-              <button class="mathChip" type="button" data-math="$\\div$">÷</button>
-              <button class="mathChip" type="button" data-math="$\\pm$">±</button>
-              <button class="mathChip" type="button" data-math="$\\neq$">≠</button>
-              <button class="mathChip" type="button" data-math="$\\leq$">≤</button>
-              <button class="mathChip" type="button" data-math="$\\geq$">≥</button>
-              <button class="mathChip" type="button" data-math="$\\approx$">≈</button>
-              <button class="mathChip" type="button" data-math="$\\infty$">∞</button>
-              <button class="mathChip" type="button" data-math="$\\pi$">π</button>
-              <button class="mathChip" type="button" data-math="$25\\%$">25%</button>
-            </div>
-          </div>
-
-          <div class="mathGroup">
-            <div class="mathGroupTitle">Геометрия</div>
-            <div class="mathChips">
-              <button class="mathChip" type="button" data-math="$\\angle ABC$">Угол ABC</button>
-              <button class="mathChip" type="button" data-math="$90^\\circ$">90°</button>
-              <button class="mathChip" type="button" data-math="$\\triangle ABC$">Треугольник ABC</button>
-              <button class="mathChip" type="button" data-math="$a \\parallel b$">a ∥ b</button>
-              <button class="mathChip" type="button" data-math="$a \\perp b$">a ⊥ b</button>
-              <button class="mathChip" type="button" data-math="$\\overline{AB}$">Отрезок AB</button>
-            </div>
-          </div>
-
-          <div class="mathGroup">
-            <div class="mathGroupTitle">Частые шаблоны</div>
-            <div class="mathChips">
-              <button class="mathChip" type="button" data-math="$ax^2+bx+c=0$">Квадратное уравнение</button>
-              <button class="mathChip" type="button" data-math="$\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$">Корни квадратного</button>
-              <button class="mathChip" type="button" data-math="$S=ab$">Площадь</button>
-              <button class="mathChip" type="button" data-math="$P=2(a+b)$">Периметр</button>
-              <button class="mathChip" type="button" data-math="$V=abc$">Объём</button>
-              <button class="mathChip" type="button" data-math="$\\sum_{i=1}^{n} i$">Сумма</button>
-              <button class="mathChip" type="button" data-math="$\\lim_{x \\to 0} f(x)$">Предел</button>
-              <button class="mathChip" type="button" data-math="$$\\begin{cases}\nx+y=5 \\\\ \nx-y=1\n\\end{cases}$$">Система</button>
-            </div>
-          </div>
-
-          <div class="mathGroup">
-            <div class="mathGroupTitle">Единицы измерения</div>
-            <div class="mathChips">
-              <button class="mathChip" type="button" data-math="$S=24\\,\\text{см}^2$">см²</button>
-              <button class="mathChip" type="button" data-math="$v=60\\,\\text{км/ч}$">км/ч</button>
-              <button class="mathChip" type="button" data-math="$t=3\\,\\text{ч}$">часы</button>
-            </div>
-          </div>
         </div>
         <textarea id="inpPrompt" placeholder="Введите вопрос..."></textarea>
         <div class="choiceBlock" style="margin-top:10px">
@@ -1877,15 +1915,25 @@
   }
 
 
-  // МАТЕМАТИЧЕСКАЯ ПАНЕЛЬ: вставка готовых LaTeX-шаблонов
+
+  // МАТЕМАТИЧЕСКАЯ ПАНЕЛЬ СПРАВА: вставка в поле, где стоит курсор
   (function(){
     let lastMathTarget = null;
 
+    function isTextTarget(el){
+      if(!el) return false;
+      if(!(el.tagName === "TEXTAREA" || el.tagName === "INPUT")) return false;
+      if(el.type === "checkbox" || el.type === "file" || el.type === "number" || el.type === "color") return false;
+      return !!(el.closest && el.closest("#modalBackdrop"));
+    }
+
+    function rememberTarget(el){
+      if(isTextTarget(el)) lastMathTarget = el;
+    }
+
     function getMathTarget(){
-      const active = document.activeElement;
-      if(active && active.closest && active.closest("#modalBackdrop") && (active.tagName === "TEXTAREA" || active.tagName === "INPUT")) {
-        if(active.type !== "checkbox" && active.type !== "file" && active.type !== "number") return active;
-      }
+      if(isTextTarget(document.activeElement)) return document.activeElement;
+      if(isTextTarget(lastMathTarget)) return lastMathTarget;
       return $("inpPrompt");
     }
 
@@ -1903,43 +1951,43 @@
       const pos = before.length + insert.length;
       el.setSelectionRange(pos, pos);
       el.dispatchEvent(new Event("input", {bubbles:true}));
+      rememberTarget(el);
     }
 
-    document.addEventListener("focusin", (e) => {
-      const t = e.target;
-      if(t && t.closest && t.closest("#modalBackdrop") && (t.tagName === "TEXTAREA" || t.tagName === "INPUT")) {
-        if(t.type !== "checkbox" && t.type !== "file" && t.type !== "number") lastMathTarget = t;
-      }
+    document.addEventListener("focusin", (e) => rememberTarget(e.target));
+    document.addEventListener("click", (e) => {
+      if(isTextTarget(e.target)) rememberTarget(e.target);
     });
+
+    function setMathPanel(open){
+      const panel = $("mathHelperPanel");
+      const btn = $("btnMathHelper");
+      if(!panel) return;
+      panel.classList.toggle("open", open);
+      panel.setAttribute("aria-hidden", open ? "false" : "true");
+      if(btn) btn.classList.toggle("active", open);
+    }
 
     if($("btnMathHelper")) {
       $("btnMathHelper").addEventListener("click", () => {
         const panel = $("mathHelperPanel");
-        if(!panel) return;
-        panel.classList.toggle("open");
-        panel.setAttribute("aria-hidden", panel.classList.contains("open") ? "false" : "true");
-        lastMathTarget = getMathTarget();
+        const willOpen = !(panel && panel.classList.contains("open"));
+        rememberTarget(document.activeElement);
+        setMathPanel(willOpen);
       });
     }
 
-    if($("btnMathHelperClose")) {
-      $("btnMathHelperClose").addEventListener("click", () => {
-        const panel = $("mathHelperPanel");
-        if(panel) {
-          panel.classList.remove("open");
-          panel.setAttribute("aria-hidden", "true");
-        }
-      });
-    }
-
-    document.querySelectorAll(".mathChip").forEach(btn => {
+    document.querySelectorAll("#mathHelperPanel .mathChip").forEach(btn => {
+      btn.addEventListener("mousedown", (e) => e.preventDefault());
       btn.addEventListener("click", () => {
         const code = btn.getAttribute("data-math") || "";
-        const target = lastMathTarget || $("inpPrompt");
-        insertTextAtCursor(target, code);
-        toast("Формула вставлена");
+        insertTextAtCursor(getMathTarget(), code);
       });
     });
+
+    if($("btnCloseModal")) {
+      $("btnCloseModal").addEventListener("click", () => setMathPanel(false));
+    }
   })();
 
 
