@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=kLQXVk_g-oukr_wdvUPnZ-D1gmN7viwnLW6bql9vcrVuunykBmuRfqSXGbbdLSD-M0DNXc6LVax394A_883ytcNHdQBzoQWHW1ysfQrXSB8eKWQPOfMCogZnEOsEwjhrr526DqH30JaPyFfyP6oG1lMU3MlmkvjPfMMDzSRy52g44WfqDu2dT6mt3gUj8_DB14alPnkxWWu5bHsx3oXID3giE6liSJEzwmVeSvaE4TVc0aLn_ljMEXbAXqSv2hsyge7VmPDxmNIAP8GdwKaO4YcsNJvNcl-rpSGsSP6QFY8aQ1nKvbdBtoV0WMXqnoZ_c4N3tsZyzI_r2xZOstWrW6u79UOEw4KeK1amQNBm2ds" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=rF2r2QV7gV4exR4R02KG72Du1AkQch4RiC8TvqL4AyKNpLNkDPupB0Bb1eQ3pyvgMezcLYLhz9i2To0bR4Htm2K9fpl2X1j-xVOHi_dhAD0bQyF9IQOR_z5JFqCW_JKx37Q-zPKiX4liGKXqPQ3TSPAQWJ5osFytrHTorAOT161ZkNJua8p3OX3HcfhKL0YMjCE8zLvRnUCiiJ5waMXbf_CacZGJontnZ6cuXYC9ENVCF-I8SzNpUpqRhDgcYYZn1lx-KF7QsESuxAGKIQ0oyXPKD7xQmGFPI9qJEJCgZZrnC15YptX71yzEVH4zrpx_4isHm6LsHIAe5YnrkdqOja0rDR5f1Xd0J2dlJCvVrTg" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -333,6 +333,35 @@
       pointer-events:auto !important;
     }
 
+  
+    .mathSideClose{
+      position:sticky;
+      top:0;
+      float:right;
+      z-index:2;
+      width:30px;
+      height:30px;
+      margin:-4px -4px 8px 8px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.10);
+      color:#fff;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:950;
+      font-size:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 4px 14px rgba(0,0,0,.25);
+    }
+    .mathSideClose:hover{
+      background:rgba(255,80,80,.22);
+      border-color:rgba(255,120,120,.65);
+    }
+    .mathSidePanel .mathSideGrid{
+      clear:both;
+    }
+
   </style>
 </head>
 <body>
@@ -463,6 +492,7 @@
   </div>
   
   <div class="mathSidePanel" id="mathHelperPanel" aria-hidden="true">
+    <button class="mathSideClose" id="btnMathSideClose" type="button" title="Закрыть">✖</button>
     <div class="mathSideGrid">
       <button class="mathChip" type="button" data-math="$\frac{a}{b}$">Дробь</button>
       <button class="mathChip" type="button" data-math="$x^2$">x²</button>
@@ -1987,6 +2017,10 @@ x-y=1
       });
     }
 
+    if($("btnMathSideClose")) {
+      $("btnMathSideClose").addEventListener("click", () => setMathPanel(false));
+    }
+
     document.querySelectorAll("#mathHelperPanel .mathChip").forEach(btn => {
       btn.addEventListener("mousedown", (e) => e.preventDefault());
       btn.addEventListener("click", () => {
@@ -1998,6 +2032,21 @@ x-y=1
     if($("btnCloseModal")) {
       $("btnCloseModal").addEventListener("click", () => setMathPanel(false));
     }
+
+    if($("modalBackdrop")) {
+      const hideMathIfModalClosed = () => {
+        setTimeout(() => {
+          const mb = $("modalBackdrop");
+          if(!mb || mb.getAttribute("aria-hidden") === "true" || !mb.classList.contains("show")) {
+            setMathPanel(false);
+          }
+        }, 0);
+      };
+      $("modalBackdrop").addEventListener("click", (e) => {
+        if(e.target === $("modalBackdrop")) hideMathIfModalClosed();
+      });
+    }
+
   })();
 
 
