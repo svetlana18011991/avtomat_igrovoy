@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=dFN1Gn8mtDQDAJVHh6wh9Jz4zKXO3HbvDooGuSeqEpwF-0R5h7OVD4FqU6tLG7iJ3EnIW0uxshwMYgS7seNLmMd5xwg3heZfnhBKl_vKS_HIzlUhyEDB5jMDzFN2RKvZdRV8UlS7IRdVZpLpaRF0d32NOuBwPieQThKBspt960dsHEGUmbdcOdjr3nT4Jaa2S5U3U2SOWuKnzBdpciM2093wuJfugud13NnmpDUtqO8JGg7152ywA0Db0idehWaneKyhnxi3pmM7LUZvcV3Z5DNHmZqUR7xae573Wuj3TVfcmfNEiPHsxbTqMiv-9OktYZo-CLOpmzF2y3n66bLYqHaXa6ru-smIdt805GGALxE" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=D362BB3F1oBB7ycxjRjRgvNkqu5VProtg6mtTneCnrbpXW7z29x_Qrn0MaYAaZdjQvx-Nof7JBBa2apN1YHwI7rcnR5GFJFDIgJXCwuiEKBv83i8OFotnxL_sTyueNvCXQ-b1iBHwScmIK8ypnBaizOLdkPpL6BOP2SwatCwMwpRwt_UpFfSTcHT3tOTyGF6pzF9C1J4uWJkYtCzfAfbGcbqc2lkEpWrTbGLEUSLd7ubZhGVumV07mhRs76SU--2HpgP7dLzEi3DmReIZTzat4LepfSZde7SwnDFdl-U_n_J_Qw5vMBa7PMcnKGCT3tF2FJCbqqAstEBmd4oOSUKy6-Xu4XdUMfJGy7WQfx1xcA" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -119,10 +119,10 @@
   
 #qMedia audio,
 #qAudio{
-  width:min(520px, 92%);
-  max-width:92%;
-  height:42px;
-  margin:10px auto 8px;
+  width:min(520px, 92%) !important;
+  max-width:92% !important;
+  height:42px !important;
+  margin:10px auto 8px !important;
   display:block;
   border-radius:12px;
 }
@@ -314,7 +314,9 @@
             <div id="qAudioStatus" style="flex:1; font-size:12px; color:#aaa; font-weight:bold; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">❌ Нет аудио</div>
             <input type="file" id="inpQAudioFile" accept="audio/*" style="display:none">
             <button class="btn small" id="btnUploadQAudio" type="button" title="Загрузить аудио" style="background:#0abde3;color:#000;border:none;flex-shrink:0;">📁 Загрузить</button>
+            <button class="btn small" id="btnTestQAudio" type="button" title="Проверить звук" style="display:none;background:#33d17a;color:#000;border:none;flex-shrink:0;">▶ Проверить</button>
             <button class="btn small danger" id="btnClearAudio" type="button" title="Удалить аудио">✖</button>
+            <audio id="qAudioPreview" controls style="display:none;width:100%;margin-top:8px;"></audio>
           </div>
         </div>
         <div id="choiceWrap" class="choiceBlock">
@@ -1055,11 +1057,29 @@
       if(!String(file.type || "").startsWith("audio/")) return reject(new Error("Выберите аудиофайл"));
       if(file.size > maxMb * 1024 * 1024) return reject(new Error("Аудио слишком большое. Максимум " + maxMb + " МБ."));
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
+      reader.onload = () => resolve(String(reader.result || ""));
       reader.onerror = () => reject(new Error("Не удалось прочитать аудио"));
       reader.readAsDataURL(file);
     });
   };
+
+  function refreshQAudioStatus(){
+    const value = $("inpQAudio") ? $("inpQAudio").value : "";
+    if($("qAudioStatus")) {
+      $("qAudioStatus").textContent = value ? "✅ Загружено аудио" : "❌ Нет аудио";
+      $("qAudioStatus").style.color = value ? "#1dd1a1" : "#aaa";
+    }
+    if($("btnTestQAudio")) $("btnTestQAudio").style.display = value ? "inline-flex" : "none";
+    if($("qAudioPreview")) {
+      if(value) {
+        $("qAudioPreview").src = value;
+      } else {
+        try { $("qAudioPreview").pause(); } catch(e) {}
+        $("qAudioPreview").removeAttribute("src");
+        $("qAudioPreview").style.display = "none";
+      }
+    }
+  }
 
   function uid(){ return "q_" + Math.random().toString(36).slice(2,9) + "_" + Date.now().toString(36); }
   function deepClone(obj){ return JSON.parse(JSON.stringify(obj)); }
@@ -1396,10 +1416,7 @@
     } 
     if($("inpQAudio")) {
       $("inpQAudio").value = Editor.draft.audio || "";
-      if($("qAudioStatus")) {
-        $("qAudioStatus").textContent = Editor.draft.audio ? "✅ Загружено аудио" : "❌ Нет аудио";
-        $("qAudioStatus").style.color = Editor.draft.audio ? "#1dd1a1" : "#aaa";
-      }
+      refreshQAudioStatus();
     }
     syncModalType(); if($("selType").value === "choice") renderChoiceUI(); else renderTextUI();
     showModal(); setTimeout(()=>$("inpPrompt").focus(), 40);
@@ -1554,13 +1571,11 @@
           $("btnUploadQAudio").disabled = true;
           try {
               const dataUrl = await window.readAudioAsDataUrl(file, 12);
+              if(!dataUrl || !dataUrl.startsWith("data:audio/")) throw new Error("Не удалось подготовить аудио");
               $("inpQAudio").value = dataUrl;
               if(Editor.draft) Editor.draft.audio = dataUrl;
-              if($("qAudioStatus")) {
-                  $("qAudioStatus").textContent = "✅ Загружено аудио";
-                  $("qAudioStatus").style.color = "#1dd1a1";
-              }
-              toast("Аудио загружено!");
+              refreshQAudioStatus();
+              toast("Аудио загружено. Нажмите ▶ Проверить.");
           }
           catch(err) {
               toast((err && err.message) ? err.message : "Ошибка аудио!");
@@ -1568,6 +1583,23 @@
           $("btnUploadQAudio").textContent = oldText;
           $("btnUploadQAudio").disabled = false;
           $("inpQAudioFile").value = "";
+      });
+  }
+
+  if($("btnTestQAudio")) {
+      $("btnTestQAudio").addEventListener("click", async () => {
+          const value = $("inpQAudio") ? $("inpQAudio").value : "";
+          if(!value) return toast("Сначала загрузите аудио");
+          const player = $("qAudioPreview");
+          if(!player) return;
+          player.style.display = "block";
+          player.src = value;
+          player.controls = true;
+          try {
+              await player.play();
+          } catch(e) {
+              toast("Браузер не запустил звук. Нажмите play на плеере.");
+          }
       });
   }
 
@@ -1664,12 +1696,9 @@
       });
   }
   if($("btnClearAudio")) $("btnClearAudio").addEventListener("click", () => {
-      $("inpQAudio").value = "";
+      if($("inpQAudio")) $("inpQAudio").value = "";
       if(Editor.draft) Editor.draft.audio = "";
-      if($("qAudioStatus")) {
-          $("qAudioStatus").textContent = "❌ Нет аудио";
-          $("qAudioStatus").style.color = "#aaa";
-      }
+      refreshQAudioStatus();
   });
   $("btnAddChoice").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.options = q.options || ["",""]; q.options.push(""); renderChoiceUI(); });
   $("btnAddText").addEventListener("click", ()=>{ const q = Editor.draft; if(!q) return; q.accepts = q.accepts || [""]; q.accepts.push(""); renderTextUI(); });
