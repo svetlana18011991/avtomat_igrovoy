@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=kQ6aGc26kYtZN-8DYsW7EK0Q-Ae7zkIjLmfdX3j-b2WeZBdRqJZJVQNz0KNukAwDaUZ4MPCQmtEsrFH4fCNMyzSNhSMYCXG4K8XMzfkFq01aNcMtJQXXdq0bEqoA4Ja1yLRC9qjVqtzJK5RH3uC2qayo_iPxWRH2vivQoU4ixajge3BBlsovjBOv55tF5nE4FCI76XhDuh3kWxom8-OzbWtfq367Z3jERpUzCFRawlGlLkbAe6j_0euSVibsMFGbkjLCEKUmKcgoXtcPxP4BUGkjZTbTrrqNJjjmoSfjD3SUUlp3BA-Xt_JpF019zF96DfjSpTGsD_jdQC-cckSxkfh2B4g8LRAJkINaGflupe8" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=kLQXVk_g-oukr_wdvUPnZ-D1gmN7viwnLW6bql9vcrVuunykBmuRfqSXGbbdLSD-M0DNXc6LVax394A_883ytcNHdQBzoQWHW1ysfQrXSB8eKWQPOfMCogZnEOsEwjhrr526DqH30JaPyFfyP6oG1lMU3MlmkvjPfMMDzSRy52g44WfqDu2dT6mt3gUj8_DB14alPnkxWWu5bHsx3oXID3giE6liSJEzwmVeSvaE4TVc0aLn_ljMEXbAXqSv2hsyge7VmPDxmNIAP8GdwKaO4YcsNJvNcl-rpSGsSP6QFY8aQ1nKvbdBtoV0WMXqnoZ_c4N3tsZyzI_r2xZOstWrW6u79UOEw4KeK1amQNBm2ds" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -185,7 +185,7 @@
       margin:8px 0 10px;
       padding:12px;
       border:1px solid rgba(255,181,0,.5);
-      background:rgba(8,10,18,.96);
+      background:rgba(8,10,18,.99);
       border-radius:16px;
       box-shadow:0 12px 30px rgba(0,0,0,.35);
     }
@@ -265,18 +265,18 @@
     /* Правая статичная математическая панель */
     .mathSidePanel{
       position:fixed;
-      z-index:10050;
-      top:132px;
-      right:28px;
+      z-index:999999;
+      top:118px;
+      right:34px;
       width:360px;
       max-height:calc(100vh - 190px);
       overflow:auto;
       display:none;
       padding:12px;
       border:1px solid rgba(255,181,0,.65);
-      background:rgba(8,10,18,.96);
+      background:rgba(8,10,18,.99);
       border-radius:18px;
-      box-shadow:0 0 0 1px rgba(255,255,255,.06), 0 20px 45px rgba(0,0,0,.42);
+      box-shadow:0 0 0 2px rgba(255,181,0,.45), 0 20px 45px rgba(0,0,0,.55);
     }
     .mathSidePanel.open{ display:block; }
     .mathSideGrid{
@@ -321,6 +321,16 @@
         width:300px;
       }
       .mathSideGrid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    }
+
+  
+    #mathHelperPanel.mathSidePanel.open{
+      display:block !important;
+      z-index:999999 !important;
+      filter:none !important;
+      backdrop-filter:none !important;
+      opacity:1 !important;
+      pointer-events:auto !important;
     }
 
   </style>
