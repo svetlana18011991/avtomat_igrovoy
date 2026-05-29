@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=CJ-oMINGFbDsbvubvOAofv2szwihVd9mZpARQfQE6CejhuVSXp9cuhcA1y4qbV7XNKAseBijqk4uEmk5a4-kGAbZ_wJET6NWSPqz3BPeJ1jfW_fUI3hyYky94CwUcS9LeW7f69dWXs2KmagFHETYSLAXDjWDzqJ5Lq5F7vMAU8skoogff7PaJi0_hNHJFSiPaZEVCcEj5X34TE2RcmwO9RaciHxe71R3KShmz3NjUUR-Xy3SpuuCg42cXqLA4IKfMKr9vbnEnvrejMZm67crM0iZ3ZwIKytpXKG0lKWkD5ilymk6SX1nUIXIotJ62YkhbePTlQPbWNBHeiDMEksdYLGY6fzkpujpgT7c0g6b-wQ" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=8nzfbtUA1P0E-DuUkiHeitzut_anNs0Gdc1nJZinRgEtfxr7YFQ8ABJaFglBlj8ic8RjLrpmahPlPzH_BgKsSPbVu0Z2uif-Y8LJssL2vlleEtT2k51-g49r8gNriIpFEJfisjk7n2vdCmWv-2qD3-ubPsZZIVZAo3_UYxiwQxZ5mii0C3cT4PXSvaNVgqZGV81TXHnpwRJxMvAFnW1Cr8QgBgon_xWdpJSwvynqhb1MB3YHj0e5uy3TxX__diB60NkinfqEqzCMigDIz8S7lky4ruHENKyjdyora6aqMldS7avJf4ryRVj6K7HDOcLn1DvuZv-40Hck92FHXyH_YIbRsTZ2aUsAOFTd3NJCvsFw1oyvFIrI6FpQkyz9JvQj" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=qW6xHdBpkNknUAeaMRu_aA0Ooiv5q7_owU6iaj15htG_Wuv0FcDtOmJob-lnVKB9TaYoEI5jZzjHrqV9YYGMQMGU7m2oLK7VTxkmiQ25a7zNdgd3J8OHFa7PAy-Ih5kFQpL1rIsqcWq1HQHlMbj1NG4zgbX8niElRMAZdQ7EIEBP2RvuD1ef0inqjY1zNGCggNA5ocfEQ-IoSfEGkBC0BqH1uLKYmI_uE4ZEEBlArv891AdXhLP9Xf9lYWb0GxVnDzzIOZ40tawHrLncmqzEVbB7SEBQWqUCW8TcNnF8TOAcUtgdQyhV3XtwgYBszQXMO6O-my9l7QEs6vxHBWo58deZjKnHHPAXuQ5CuwovxRI" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -297,7 +297,7 @@
           <div class="answerRow">
             <span style="font-size:20px; line-height:1; cursor:help;" title="Аудио">🎵</span>
             <input id="inpQAudio" type="text" style="display:none;" />
-            <div id="qAudioStatus" style="flex:1; font-size:12px; color:#aaa; font-weight:bold; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">❌ Нет аудио</div>
+            <div id="qAudioStatus" style="flex:1; font-size:12px; color:#aaa; font-weight:bold; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">❌ Нет аудио</div>
             <input type="file" id="inpQAudioFile" accept="audio/*" style="display:none">
             <button class="btn small" id="btnUploadQAudio" type="button" title="Загрузить аудио" style="background:#0abde3;color:#000;border:none;flex-shrink:0;">📁 Загрузить</button>
             <button class="btn small danger" id="btnClearAudio" type="button" title="Удалить аудио">✖</button>
@@ -364,7 +364,7 @@
           Ввод ответа: <code>Вопрос | верный ответ</code><br>
           Несколько верных: <code>Вопрос | ответ1 / ответ2</code><br>
           Выбор ответа: <code>Вопрос | вариант | *правильный вариант | вариант</code><br>
-          Каждый новый вопрос — с новой строки. Картинку, аудио, шрифт и таймер можно добавить потом через карандаш.
+          Каждый новый вопрос — с новой строки. Картинку, аудио и шрифт можно добавить потом через карандаш.
         </div>
       </div>
       <div class="modal-foot">
@@ -785,7 +785,7 @@
             if (tasks.length === 0) tasks.push({ type: "choice", prompt: "Пример вопроса", options: ["1", "2"], answers: ["1"] });
             progressArea.innerHTML = '';
             if (rawCfg.useLatex && !document.getElementById('mathjax-script')) {
-                window.MathJax = { tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }, startup: { typeset: false } };
+                window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\\\(', '\\\\)']], displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']] }, startup: { typeset: false } };
                 const script = document.createElement('script'); script.id = 'mathjax-script'; script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"; document.head.appendChild(script);
             }
         }
@@ -816,67 +816,34 @@
             return { left: ((rect.left - containerRect.left) / containerRect.width) * 100, top: ((rect.top - containerRect.top) / containerRect.height) * 100, width: (rect.width / containerRect.width) * 100, height: (rect.height / containerRect.height) * 100 };
         }
         function normalizeAnswer(s){ return String(s||"").trim().toLowerCase(); }
-
-        function escapeHtmlGame(s){
-            return String(s || "")
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;");
+        function autoLatexText(value) {
+            let s = String(value || "");
+            if(!window.__CFG || !window.__CFG.useLatex) return s.replace(/\n/g, "<br>");
+            if(s.includes("$")) return s.replace(/\n/g, "<br>");
+            const replacements = [];
+            function put(m){ const key = "%%MATH" + replacements.length + "%%"; replacements.push([key, "$" + m + "$"]); return key; }
+            s = s.replace(/\\frac\{[^{}]+\}\{[^{}]+\}/g, put);
+            s = s.replace(/\\sqrt(?:\[[^\]]+\])?\{[^{}]+\}/g, put);
+            s = s.replace(/\\overline\{[^{}]+\}/g, put);
+            s = s.replace(/\\(?:angle|triangle)\s*[A-Za-zА-Яа-я0-9]+/g, put);
+            s = s.replace(/\d+\s*\^\\circ/g, put);
+            s = s.replace(/[A-Za-zА-Яа-я0-9]+\s*\\(?:parallel|perp)\s*[A-Za-zА-Яа-я0-9]+/g, put);
+            s = s.replace(/\\(?:times|cdot|div|pm|neq|leq|geq|infty|pi|approx)\b/g, put);
+            s = s.replace(/[A-Za-zА-Яа-я]\s*\^\{?[-+A-Za-zА-Яа-я0-9]+\}?/g, put);
+            s = s.replace(/[A-Za-zА-Яа-я]\s*_\{?[-+A-Za-zА-Яа-я0-9]+\}?/g, put);
+            replacements.forEach(pair => { s = s.replaceAll(pair[0], pair[1]); });
+            return s.replace(/\n/g, "<br>");
         }
-
-        // Если LaTeX включён: можно писать как правильно через $...$,
-        // а самые частые команды из шпаргалки редактор обернёт в $...$ сам.
-        function renderMathText(raw){
-            let out = escapeHtmlGame(raw).replace(/\n/g, "<br>");
-            if(!(window.__CFG && window.__CFG.useLatex)) return out;
-            if(out.indexOf("$") !== -1) return out;
-            const patterns = [
-                /\\begin\{cases\}[\s\S]*?\\end\{cases\}/g,
-                /\\frac\{[^{}]+\}\{[^{}]+\}/g,
-                /\\sqrt(?:\[[^\]]+\])?\{[^{}]+\}/g,
-                /\\overline\{[^{}]+\}/g,
-                /\\(?:triangle|angle)\s+[A-Za-zА-Яа-яЁё0-9]+/g,
-                /[A-Za-zА-Яа-яЁё0-9]+\s+\\(?:parallel|perp)\s+[A-Za-zА-Яа-яЁё0-9]+/g,
-                /[0-9]+\s*\^\s*\\circ/g,
-                /\\(?:times|cdot|div|pm|neq|leq|geq|infty|pi|approx)(?![A-Za-zА-Яа-яЁё])/g,
-                /[A-Za-zА-Яа-яЁё0-9]+\^\{[^{}]+\}/g,
-                /[A-Za-zА-Яа-яЁё0-9]+_\{[^{}]+\}/g,
-                /[A-Za-zА-Яа-яЁё0-9]+\^[A-Za-zА-Яа-яЁё0-9]+/g,
-                /[A-Za-zА-Яа-яЁё0-9]+_[A-Za-zА-Яа-яЁё0-9]+/g
-            ];
-            patterns.forEach(re => {
-                out = out.replace(re, (m) => {
-                    if(/^\$.*\$$/.test(m)) return m;
-                    return "$" + m + "$";
-                });
-            });
-            return out;
-        }
-
-        function typesetMathWhenReady(root, attempt){
-            if(!(window.__CFG && window.__CFG.useLatex)) return;
-            attempt = attempt || 0;
-            if(window.MathJax && window.MathJax.typesetPromise){
-                window.MathJax.typesetPromise([root || document.getElementById('task-modal')]).catch(()=>{});
-            } else if(attempt < 40) {
-                setTimeout(() => typesetMathWhenReady(root, attempt + 1), 150);
+        function typesetTaskModalSoon(){
+            if(!window.__CFG || !window.__CFG.useLatex) return;
+            const modal = document.getElementById("task-modal");
+            if(window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([modal]).catch(()=>{});
+            } else {
+                setTimeout(typesetTaskModalSoon, 200);
             }
         }
-
-        const addTap = (el, fn) => {
-            if(!el) return;
-            let last = 0;
-            const handler = (e) => {
-                const now = Date.now();
-                if(now - last < 250) return;
-                last = now;
-                if(e && e.cancelable) e.preventDefault();
-                if(e && e.stopPropagation) e.stopPropagation();
-                fn(e);
-            };
-            el.addEventListener('pointerdown', handler);
-            el.addEventListener('click', handler);
-        };
+        const addTap = (el, fn) => { if(el){ el.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); fn(e); }); el.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); fn(e); }); } };
 
         addTap(document.getElementById('playBtn'), () => { document.getElementById('start').style.display = 'none'; setTimeout(() => { updateClawPosition(clawPositionsX[1], clawStartTop); }, 100); gameState = 'waiting_coin'; });
         addTap(document.getElementById('restartBtn'), () => location.reload());
@@ -914,7 +881,7 @@
             const q = tasks[currentQuestionIndex];
             document.getElementById('gDraftWrap').classList.remove('open'); document.getElementById('task-modal').classList.remove('draft-open');
             if(window.ctxScratch) { window.ctxScratch.save(); window.ctxScratch.setTransform(1,0,0,1,0,0); window.ctxScratch.clearRect(0,0,window.canvasScratch.width, window.canvasScratch.height); window.ctxScratch.restore(); }
-            const txtEl = document.getElementById('task-text'); txtEl.innerHTML = renderMathText(q.prompt || "Вопрос");
+            const txtEl = document.getElementById('task-text'); txtEl.innerHTML = autoLatexText(q.prompt || "Вопрос");
             const fontToApply = q.font || "'Neucha', cursive, sans-serif"; txtEl.style.setProperty('font-family', fontToApply, 'important'); txtEl.style.fontSize = q.fontSize ? q.fontSize + "px" : "32px";
             const qImg = document.getElementById('qImg'), qAudio = document.getElementById('qAudio'); document.getElementById('qMedia').style.display = 'none'; qImg.style.display = 'none';
             qAudio.style.display = 'none'; try{ qAudio.pause(); }catch(e){}
@@ -930,10 +897,10 @@
                 inputRow.style.display = 'none'; const shuffledOpts = [...q.options];
                 for (let i = shuffledOpts.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));
                 [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]]; }
-                shuffledOpts.forEach(opt => { const btn = document.createElement('div'); btn.className = 'task-option'; btn.style.setProperty('font-family', fontToApply, 'important'); btn.style.fontSize = q.fontSize ? (q.fontSize * 0.8) + "px" : "26px"; btn.innerHTML = renderMathText(opt); btn.onclick = () => checkAnswer(opt, btn); optionsDiv.appendChild(btn); });
+                shuffledOpts.forEach(opt => { const btn = document.createElement('div'); btn.className = 'task-option'; btn.style.setProperty('font-family', fontToApply, 'important'); btn.style.fontSize = q.fontSize ? (q.fontSize * 0.8) + "px" : "26px"; btn.innerHTML = autoLatexText(opt); btn.onclick = () => checkAnswer(opt, btn); optionsDiv.appendChild(btn); });
             } else { optionsDiv.style.display = 'none'; inputRow.style.display = 'flex'; ansInput.value = ''; document.getElementById('submitBtn').onclick = () => checkAnswer(ansInput.value, null); }
             document.getElementById('task-modal').classList.add('active'); startTimer(q);
-            typesetMathWhenReady(document.getElementById("task-modal"));
+            typesetTaskModalSoon();
         }
         
         function startTimer(q) {
@@ -1077,6 +1044,20 @@
         } }catch(e){} }
   }
 
+
+  // ЧТЕНИЕ АУДИО С КОМПЬЮТЕРА
+  window.readAudioAsDataUrl = function(file, maxMb = 12) {
+    return new Promise((resolve, reject) => {
+      if(!file) return reject(new Error("Файл не выбран"));
+      if(!String(file.type || "").startsWith("audio/")) return reject(new Error("Выберите аудиофайл"));
+      if(file.size > maxMb * 1024 * 1024) return reject(new Error("Аудио слишком большое. Максимум " + maxMb + " МБ."));
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(new Error("Не удалось прочитать аудио"));
+      reader.readAsDataURL(file);
+    });
+  };
+
   function uid(){ return "q_" + Math.random().toString(36).slice(2,9) + "_" + Date.now().toString(36); }
   function deepClone(obj){ return JSON.parse(JSON.stringify(obj)); }
   function toast(msg){ const tEl = $("toast"); if (!tEl) return; tEl.textContent = msg; tEl.classList.add("show"); setTimeout(()=>tEl.classList.remove("show"), 1400); }
@@ -1111,19 +1092,6 @@
         img.onerror = reject;
       };
       reader.onerror = reject;
-    });
-  };
-
-  // ЧТЕНИЕ АУДИОФАЙЛА С КОМПЬЮТЕРА В DATA URL
-  window.readAudioFileAsDataUrl = function(file, maxBytes = 12 * 1024 * 1024) {
-    return new Promise((resolve, reject) => {
-      if(!file) return reject(new Error("no-file"));
-      if(!String(file.type || "").startsWith("audio/")) return reject(new Error("not-audio"));
-      if(file.size > maxBytes) return reject(new Error("audio-too-large"));
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = () => reject(reader.error || new Error("file-read-error"));
-      reader.readAsDataURL(file);
     });
   };
 
@@ -1424,11 +1392,11 @@
         }
     } 
     if($("inpQAudio")) {
-        $("inpQAudio").value = Editor.draft.audio;
-        if($("qAudioStatus")) {
-            $("qAudioStatus").textContent = Editor.draft.audio ? "✅ Аудио загружено" : "❌ Нет аудио";
-            $("qAudioStatus").style.color = Editor.draft.audio ? "#1dd1a1" : "#aaa";
-        }
+      $("inpQAudio").value = Editor.draft.audio;
+      if($("qAudioStatus")) {
+        $("qAudioStatus").textContent = Editor.draft.audio ? "✅ Загружено аудио" : "❌ Нет аудио";
+        $("qAudioStatus").style.color = Editor.draft.audio ? "#1dd1a1" : "#aaa";
+      }
     }
     syncModalType(); if($("selType").value === "choice") renderChoiceUI(); else renderTextUI();
     showModal(); setTimeout(()=>$("inpPrompt").focus(), 40);
@@ -1571,7 +1539,8 @@
       });
   }
 
-  // ЛОГИКА ЗАГРУЗКИ С КОМПА - АУДИО К ВОПРОСУ
+
+  // ЛОГИКА ЗАГРУЗКИ С КОМПА - АУДИО ВОПРОСА
   if($("btnUploadQAudio")) {
       $("btnUploadQAudio").addEventListener("click", () => $("inpQAudioFile").click());
       $("inpQAudioFile").addEventListener("change", async (e) => {
@@ -1581,19 +1550,16 @@
           $("btnUploadQAudio").textContent = "⏳...";
           $("btnUploadQAudio").disabled = true;
           try {
-              const dataUrl = await window.readAudioFileAsDataUrl(file);
+              const dataUrl = await window.readAudioAsDataUrl(file, 12);
               $("inpQAudio").value = dataUrl;
               if($("qAudioStatus")) {
-                  const sizeMb = Math.max(0.1, file.size / 1024 / 1024).toFixed(1);
-                  $("qAudioStatus").textContent = "✅ " + (file.name || "Аудио") + " (" + sizeMb + " МБ)";
+                  $("qAudioStatus").textContent = "✅ Загружено: " + (file.name || "аудио");
                   $("qAudioStatus").style.color = "#1dd1a1";
               }
               toast("Аудио загружено!");
-          } catch(err) {
-              const msg = String(err && (err.message || err.name) || err);
-              if(msg.includes("audio-too-large")) toast("Аудио слишком большое. Выберите файл до 12 МБ.");
-              else if(msg.includes("not-audio")) toast("Выберите аудиофайл.");
-              else toast("Ошибка загрузки аудио!");
+          }
+          catch(err) {
+              toast((err && err.message) ? err.message : "Ошибка аудио!");
           }
           $("btnUploadQAudio").textContent = oldText;
           $("btnUploadQAudio").disabled = false;
