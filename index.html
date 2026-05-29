@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=D362BB3F1oBB7ycxjRjRgvNkqu5VProtg6mtTneCnrbpXW7z29x_Qrn0MaYAaZdjQvx-Nof7JBBa2apN1YHwI7rcnR5GFJFDIgJXCwuiEKBv83i8OFotnxL_sTyueNvCXQ-b1iBHwScmIK8ypnBaizOLdkPpL6BOP2SwatCwMwpRwt_UpFfSTcHT3tOTyGF6pzF9C1J4uWJkYtCzfAfbGcbqc2lkEpWrTbGLEUSLd7ubZhGVumV07mhRs76SU--2HpgP7dLzEi3DmReIZTzat4LepfSZde7SwnDFdl-U_n_J_Qw5vMBa7PMcnKGCT3tF2FJCbqqAstEBmd4oOSUKy6-Xu4XdUMfJGy7WQfx1xcA" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=BYToPAPuXHmhuhYJIrByzVmk3WGUbKUA2RsH1H1DHCtMPK0xhFNGGF67vpj_HReePgTDiDYj0pyHRtGF4CRaotoFGXuI6jgqkrBymiu-B1t-lQ_Wv5t2XKNM1d7iWvhPhJmqB7gcQXkt5DDu42cqk-uxO6GplWZ5yU4EN2T3d_rqoArNdPvB1NnKuLbFLXVkwRHCk7dAti5by1zfJFk9Fz8sNLXU6W_ct-SqLJMf65Jl981mSKoFR2J98rDKEGXJqrNmMdSsgM0ZsTES-OQSe-1Ffbp513RVV7I09GRKRJBEYjV3eOR1lKPkNdfGpy7iXZNxQSGlhlTOkCd2uqOTI54bth5q3AftCAmB6vXOrCY" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -1599,6 +1599,50 @@
               await player.play();
           } catch(e) {
               toast("Браузер не запустил звук. Нажмите play на плеере.");
+          }
+      });
+  }
+
+
+  // ПРОВЕРКА ЗВУКА В РЕДАКТОРЕ + ЗАГРУЗКА АУДИО С КОМПЬЮТЕРА
+  if($("btnUploadQAudio")) {
+      $("btnUploadQAudio").addEventListener("click", () => $("inpQAudioFile").click());
+      $("inpQAudioFile").addEventListener("change", async (e) => {
+          const file = e.target.files[0];
+          if(!file) return;
+          const oldText = $("btnUploadQAudio").textContent;
+          $("btnUploadQAudio").textContent = "⏳...";
+          $("btnUploadQAudio").disabled = true;
+          try {
+              const dataUrl = await window.readAudioAsDataUrl(file, 12);
+              if(!dataUrl || !dataUrl.startsWith("data:audio/")) throw new Error("Не удалось подготовить аудио");
+              $("inpQAudio").value = dataUrl;
+              if(Editor.draft) Editor.draft.audio = dataUrl;
+              refreshQAudioStatus();
+              toast("Аудио загружено. Нажмите ▶ Проверить звук.");
+          }
+          catch(err) {
+              toast((err && err.message) ? err.message : "Ошибка аудио!");
+          }
+          $("btnUploadQAudio").textContent = oldText;
+          $("btnUploadQAudio").disabled = false;
+          $("inpQAudioFile").value = "";
+      });
+  }
+
+  if($("btnTestQAudio")) {
+      $("btnTestQAudio").addEventListener("click", async () => {
+          const value = $("inpQAudio") ? $("inpQAudio").value : "";
+          if(!value) return toast("Сначала загрузите аудио");
+          const player = $("qAudioPreview");
+          if(!player) return;
+          player.style.display = "block";
+          player.src = value;
+          player.controls = true;
+          try {
+              await player.play();
+          } catch(e) {
+              toast("Нажмите play на появившемся плеере.");
           }
       });
   }
