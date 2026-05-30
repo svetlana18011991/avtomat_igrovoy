@@ -8,7 +8,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
   <script>
-    // Твои ключи от сервера Google
     const firebaseConfig = {
       apiKey: "AIzaSyCgdd6XECishFQr8at6csp-pVeLsruDfK4",
       authDomain: "shkatulka-games.firebaseapp.com",
@@ -20,8 +19,6 @@
     };
     firebase.initializeApp(firebaseConfig);
     try {
-      // На мобильных сетях/браузерах WebSocket Firebase иногда блокируется.
-      // Long polling медленнее, но заметно стабильнее для встроенных iframe.
       if (firebase.database && firebase.database.INTERNAL && firebase.database.INTERNAL.forceLongPolling) {
         firebase.database.INTERNAL.forceLongPolling();
       }
@@ -130,7 +127,6 @@
   text-align:center;
 }
 
-  
 .task-audio-btn{
   display:inline-flex;
   align-items:center;
@@ -151,7 +147,6 @@
 .task-audio-btn:active{transform:translateY(3px);box-shadow:0 3px 0 #10ac84;}
 .game-modal.active.draft-open .task-audio-btn{font-size:18px;padding:10px 18px;}
 
-  
     /* Математическая вспомогательная панель */
     .mathPromptHead{
       display:flex;
@@ -189,7 +184,7 @@
       border-radius:16px;
       box-shadow:0 12px 30px rgba(0,0,0,.35);
     }
-    .mathHelperPanel.open{ display:block; } /* legacy */
+    .mathHelperPanel.open{ display:block; }
     .mathHelperTop{
       display:flex;
       justify-content:space-between;
@@ -261,7 +256,6 @@
       font-weight:900;
     }
 
-  
     /* Правая статичная математическая панель */
     .mathSidePanel{
       position:fixed;
@@ -323,7 +317,6 @@
       .mathSideGrid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
     }
 
-  
     #mathHelperPanel.mathSidePanel.open{
       display:block !important;
       z-index:999999 !important;
@@ -333,7 +326,6 @@
       pointer-events:auto !important;
     }
 
-  
     .mathSideClose{
       position:sticky;
       top:0;
@@ -361,7 +353,6 @@
     .mathSidePanel .mathSideGrid{
       clear:both;
     }
-
   </style>
 </head>
 <body>
@@ -1161,7 +1152,7 @@ x-y=1
             const q = tasks[currentQuestionIndex];
             document.getElementById('gDraftWrap').classList.remove('open'); document.getElementById('task-modal').classList.remove('draft-open');
             if(window.ctxScratch) { window.ctxScratch.save(); window.ctxScratch.setTransform(1,0,0,1,0,0); window.ctxScratch.clearRect(0,0,window.canvasScratch.width, window.canvasScratch.height); window.ctxScratch.restore(); }
-            const txtEl = document.getElementById('task-text'); txtEl.innerHTML = (q.prompt || "Вопрос").replace(/\n/g, '<br>');
+            const txtEl = document.getElementById('task-text'); txtEl.innerHTML = (q.prompt || "Вопрос").replace(/\\n/g, '<br>');
             const fontToApply = q.font || "'Neucha', cursive, sans-serif"; txtEl.style.setProperty('font-family', fontToApply, 'important'); txtEl.style.fontSize = q.fontSize ? q.fontSize + "px" : "32px";
             const qImg = document.getElementById('qImg'), qAudio = document.getElementById('qAudio'), qMedia = document.getElementById('qMedia');
             qMedia.style.display = 'none';
