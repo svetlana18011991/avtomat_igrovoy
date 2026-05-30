@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=oZ5NkmWH0i4FvgDKHGBK485Yg6pM-DVyTrxYuyUU-4D0JJTby8ieXbdqA6tHSCzaEN2o7Dr86JqQZ4m0-yVmq1B2spGmfoNqq-SEARDDu6tPbrqvLCqP_5finCPdc_qyKGR6bqJnU9ypOUhhHRgSAGvd7Y9oBGQ7VzNv0gtvp_ox9AMVq2O48HbhMACs5kf-xDLxEqmszxdKdI1r9i9W4dhPylb-t_DPPykkptnyC5tqdePkbwlb01cwVUJYY2M0xNvKy2UFeVBvMlkt2prqTyQyZmw7Egjq0P3LVMj_svKfchoonH1Tg9l1P9I0Bh4CtNjay9cMDvM-Rn3igIXBllkFCdUXMPHGYoYrwYzXJLc" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=wKuhPaI_LzZ5-MHuW2aY_3gCFFfOBZSPcKHQvf_xMZdcZSn0B_rKd0OuCoZrPZkIy-2j5KrhPmZUMW4aJv2iQiFhMTSg_MpTEhbnoFjQnOhwU3E2dVX8_rAaUM5iAgOIxT2wVhx53vKhcn6W_f3G-SreYV-I0lOCodshqLlaby5WVQkT0TDOZONwa-Y566Y_lyxV0yQEqrAJLOib_9MHAAuadGuIMeqbvSoZgn7i0PIvAIb29qIG5gSKLzEurf3gnuaBiXhJaPoIzrrm5q0Hx9oOHpXMIXAqdgpgCGwji0auziv0x4Z4KMDVk4cMvtq5SD8OQDk3D-S84Wo6VhSdPDU8Ng70ZVe_RH0zyTakfhE" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=jNYQtdpXC0rDK5sslzXeS6IucbY3OGBWum1BNjoxmnZc1yxCNXzCWknz5JgssBxrmaj2dlh_u6kzzcRFulH4_U9KkWYpNvoI7rtWCWkzuetkN5C0_gCyrqVMrvDvo74hTQsqaZrhGnB1qsy0_OiAq5DhUB57JpE1--_ISytcRXgvS8pKIfHEaXa6JzwqGTtCRkm8xm2IEH1G1a83VixBbIIM3YHphVS9HyQNdCw584IEyVfpK712GQEEvhlBnwwhW1Q6aSrk8QxxBB-zu_kk7fWdLXh3VAIUnEtE-TlXJS1QmgHv46IQiQBKt9jDhrjxYPA_eEFZyOc8ff_vQVwZjJnE3dvHsi_AqMMtv-1OWLY" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -1129,9 +1129,29 @@ x-y=1
             // Теперь Enter в поле вопроса отображается как новая строка в игре.
             el.innerHTML = escapeHtml(text || "Вопрос").replace(/\r?\n/g, "<br>");
         }
-        const addTap = (el, fn) => { if(el){ el.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); fn(e); }); } };
+        const addTap = (el, fn) => {
+            if(!el) return;
+            let lastRun = 0;
+            const run = (e) => {
+                if(e){ e.preventDefault(); e.stopPropagation(); }
+                const now = Date.now();
+                if(now - lastRun < 250) return;
+                lastRun = now;
+                fn(e);
+            };
+            el.addEventListener('pointerdown', run, { passive:false });
+            el.addEventListener('click', run, { passive:false });
+            el.addEventListener('touchend', run, { passive:false });
+        };
 
-        addTap(document.getElementById('playBtn'), () => { document.getElementById('start').style.display = 'none'; setTimeout(() => { updateClawPosition(clawPositionsX[1], clawStartTop); }, 100); gameState = 'waiting_coin'; });
+        function beginGame(){
+            const startScreen = document.getElementById('start');
+            if(startScreen) startScreen.style.display = 'none';
+            setTimeout(() => { updateClawPosition(clawPositionsX[1], clawStartTop); }, 100);
+            gameState = 'waiting_coin';
+        }
+
+        addTap(document.getElementById('playBtn'), beginGame);
         addTap(document.getElementById('restartBtn'), () => location.reload());
         
         addTap(coin, () => {
@@ -1376,7 +1396,7 @@ x-y=1
     if(!window.__CLAW_GAME_RAN__){ window.__CLAW_GAME_RAN__ = true; try{ eval(__GAME_JS__);
         }catch(e){ showErr(e?.stack || e?.message || String(e)); }
     } else { try{ if(typeof initGameData === 'function') initGameData();
-        const startLayer = document.getElementById("start"); if(startLayer) startLayer.style.display="flex"; const qp = new URLSearchParams(location.search); if(qp.get("autostart")==="1"){ const pBtn = document.getElementById("playBtn"); if(pBtn) pBtn.click();
+        const startLayer = document.getElementById("start"); if(startLayer) startLayer.style.display="flex"; const qp = new URLSearchParams(location.search); if(qp.get("autostart")==="1"){ if(typeof beginGame === "function") beginGame();
         } }catch(e){} }
   }
 
