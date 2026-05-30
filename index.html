@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=wKuhPaI_LzZ5-MHuW2aY_3gCFFfOBZSPcKHQvf_xMZdcZSn0B_rKd0OuCoZrPZkIy-2j5KrhPmZUMW4aJv2iQiFhMTSg_MpTEhbnoFjQnOhwU3E2dVX8_rAaUM5iAgOIxT2wVhx53vKhcn6W_f3G-SreYV-I0lOCodshqLlaby5WVQkT0TDOZONwa-Y566Y_lyxV0yQEqrAJLOib_9MHAAuadGuIMeqbvSoZgn7i0PIvAIb29qIG5gSKLzEurf3gnuaBiXhJaPoIzrrm5q0Hx9oOHpXMIXAqdgpgCGwji0auziv0x4Z4KMDVk4cMvtq5SD8OQDk3D-S84Wo6VhSdPDU8Ng70ZVe_RH0zyTakfhE" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=oZ5NkmWH0i4FvgDKHGBK485Yg6pM-DVyTrxYuyUU-4D0JJTby8ieXbdqA6tHSCzaEN2o7Dr86JqQZ4m0-yVmq1B2spGmfoNqq-SEARDDu6tPbrqvLCqP_5finCPdc_qyKGR6bqJnU9ypOUhhHRgSAGvd7Y9oBGQ7VzNv0gtvp_ox9AMVq2O48HbhMACs5kf-xDLxEqmszxdKdI1r9i9W4dhPylb-t_DPPykkptnyC5tqdePkbwlb01cwVUJYY2M0xNvKy2UFeVBvMlkt2prqTyQyZmw7Egjq0P3LVMj_svKfchoonH1Tg9l1P9I0Bh4CtNjay9cMDvM-Rn3igIXBllkFCdUXMPHGYoYrwYzXJLc" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=wKuhPaI_LzZ5-MHuW2aY_3gCFFfOBZSPcKHQvf_xMZdcZSn0B_rKd0OuCoZrPZkIy-2j5KrhPmZUMW4aJv2iQiFhMTSg_MpTEhbnoFjQnOhwU3E2dVX8_rAaUM5iAgOIxT2wVhx53vKhcn6W_f3G-SreYV-I0lOCodshqLlaby5WVQkT0TDOZONwa-Y566Y_lyxV0yQEqrAJLOib_9MHAAuadGuIMeqbvSoZgn7i0PIvAIb29qIG5gSKLzEurf3gnuaBiXhJaPoIzrrm5q0Hx9oOHpXMIXAqdgpgCGwji0auziv0x4Z4KMDVk4cMvtq5SD8OQDk3D-S84Wo6VhSdPDU8Ng70ZVe_RH0zyTakfhE" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -1116,6 +1116,19 @@ x-y=1
             return { left: ((rect.left - containerRect.left) / containerRect.width) * 100, top: ((rect.top - containerRect.top) / containerRect.height) * 100, width: (rect.width / containerRect.width) * 100, height: (rect.height / containerRect.height) * 100 };
         }
         function normalizeAnswer(s){ return String(s||"").trim().toLowerCase(); }
+        function escapeHtml(s){
+            return String(s || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+        function setQuestionText(el, text){
+            // Сохраняем переносы строк из редактора вопроса.
+            // Теперь Enter в поле вопроса отображается как новая строка в игре.
+            el.innerHTML = escapeHtml(text || "Вопрос").replace(/\r?\n/g, "<br>");
+        }
         const addTap = (el, fn) => { if(el){ el.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); fn(e); }); } };
 
         addTap(document.getElementById('playBtn'), () => { document.getElementById('start').style.display = 'none'; setTimeout(() => { updateClawPosition(clawPositionsX[1], clawStartTop); }, 100); gameState = 'waiting_coin'; });
@@ -1135,7 +1148,11 @@ x-y=1
             selectedToyElement = toysInCol[Math.floor(Math.random() * toysInCol.length)];
             const toyPos = getPercentPositionFromRect(selectedToyElement), clawCenterX = clawPositionsX[currentCol] + clawWidth / 2;
  
-            const targetClawTop = toyPos.top - (clawHeight * 0.5); grabbedToyOffsetY = clawHeight * 0.5;
+            // Опускаем клешню чуть ниже к игрушке, чтобы не было ощущения,
+            // будто игрушка висит в воздухе до захвата.
+            const grabOffsetY = clawHeight * 0.35;
+            const targetClawTop = toyPos.top - grabOffsetY;
+            grabbedToyOffsetY = grabOffsetY;
             updateClawPosition(clawPositionsX[currentCol], targetClawTop);
             setTimeout(() => {
                 clawImg.src = baseUrl + '10.png';
@@ -1161,7 +1178,7 @@ x-y=1
             const q = tasks[currentQuestionIndex];
             document.getElementById('gDraftWrap').classList.remove('open'); document.getElementById('task-modal').classList.remove('draft-open');
             if(window.ctxScratch) { window.ctxScratch.save(); window.ctxScratch.setTransform(1,0,0,1,0,0); window.ctxScratch.clearRect(0,0,window.canvasScratch.width, window.canvasScratch.height); window.ctxScratch.restore(); }
-            const txtEl = document.getElementById('task-text'); txtEl.innerHTML = q.prompt || "Вопрос";
+            const txtEl = document.getElementById('task-text'); setQuestionText(txtEl, q.prompt);
             const fontToApply = q.font || "'Neucha', cursive, sans-serif"; txtEl.style.setProperty('font-family', fontToApply, 'important'); txtEl.style.fontSize = q.fontSize ? q.fontSize + "px" : "32px";
             const qImg = document.getElementById('qImg'), qAudio = document.getElementById('qAudio'), qMedia = document.getElementById('qMedia');
             qMedia.style.display = 'none';
