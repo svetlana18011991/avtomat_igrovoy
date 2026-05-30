@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=jNYQtdpXC0rDK5sslzXeS6IucbY3OGBWum1BNjoxmnZc1yxCNXzCWknz5JgssBxrmaj2dlh_u6kzzcRFulH4_U9KkWYpNvoI7rtWCWkzuetkN5C0_gCyrqVMrvDvo74hTQsqaZrhGnB1qsy0_OiAq5DhUB57JpE1--_ISytcRXgvS8pKIfHEaXa6JzwqGTtCRkm8xm2IEH1G1a83VixBbIIM3YHphVS9HyQNdCw584IEyVfpK712GQEEvhlBnwwhW1Q6aSrk8QxxBB-zu_kk7fWdLXh3VAIUnEtE-TlXJS1QmgHv46IQiQBKt9jDhrjxYPA_eEFZyOc8ff_vQVwZjJnE3dvHsi_AqMMtv-1OWLY" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=I4TrdnahPOH48msRsO4oeIh2pmv7VNSvv1_DK0D1Ip--qbF0SYsbM2DCmVGfQ-_nNuykWPlAbZwDcok5JA1YeeIP220yjHVtNgs5wqLliS61HQVLttXutURHOZn3vwa3ocYeghArAtEX0jzP0MV5h8NkZG1GtE4Mima7umL5Nk1qJ3zOsIGvoG-7U7QyQk5pZIMnjxK9zk4wsKYXWQQAFsjMl4pIv1ZXPQEMsRwwwXYpZmUl5RnT8vLpyB4B0H3WqqasKmSnoWBfiDGf9KioGQlq-G5hqLfxf4FSN4qOJkzjv85CVmLKzZlefyhQtgKpfHlnJg3C2QcNF7dSUmdcjJMAnl1PCftomvaTTVF8pZzqCYYsKXbSOOAGuTrwLcfE" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -1393,11 +1393,16 @@ x-y=1
     if(!st){ st = document.createElement("style"); st.id="__claw_game_style"; st.textContent = __GAME_CSS__; document.head.appendChild(st); }
     window.__CFG = { title: cfg.title || gameTr(cfg.lang || editorLang).title, lang: cfg.lang || editorLang || "ru", questions: cfg.questions || [], useLatex: !!cfg.useLatex, bgDataUrl: cfg.bgDataUrl || "", transparentBg: !!cfg.transparentBg, machineVariant: cfg.machineVariant || 0, toys: normalizeToys(cfg.toys), timer: cfg.timer, instruction: cfg.instruction, feedback: cfg.feedback };
     
-    if(!window.__CLAW_GAME_RAN__){ window.__CLAW_GAME_RAN__ = true; try{ eval(__GAME_JS__);
-        }catch(e){ showErr(e?.stack || e?.message || String(e)); }
-    } else { try{ if(typeof initGameData === 'function') initGameData();
-        const startLayer = document.getElementById("start"); if(startLayer) startLayer.style.display="flex"; const qp = new URLSearchParams(location.search); if(qp.get("autostart")==="1"){ if(typeof beginGame === "function") beginGame();
-        } }catch(e){} }
+    // ВАЖНО: превью в редакторе полностью пересоздаёт HTML игры при каждом изменении.
+    // Поэтому обработчики кнопок надо навешивать заново каждый раз, а не только при первом запуске.
+    // Старый вариант с window.__CLAW_GAME_RAN__ оставлял новую кнопку «Начать игру» без обработчика.
+    try {
+      eval(__GAME_JS__);
+      const qp = new URLSearchParams(location.search);
+      if (qp.get("autostart") === "1" && typeof beginGame === "function") beginGame();
+    } catch(e) {
+      showErr(e?.stack || e?.message || String(e));
+    }
   }
 
 
