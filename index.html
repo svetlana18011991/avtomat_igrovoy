@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=I4TrdnahPOH48msRsO4oeIh2pmv7VNSvv1_DK0D1Ip--qbF0SYsbM2DCmVGfQ-_nNuykWPlAbZwDcok5JA1YeeIP220yjHVtNgs5wqLliS61HQVLttXutURHOZn3vwa3ocYeghArAtEX0jzP0MV5h8NkZG1GtE4Mima7umL5Nk1qJ3zOsIGvoG-7U7QyQk5pZIMnjxK9zk4wsKYXWQQAFsjMl4pIv1ZXPQEMsRwwwXYpZmUl5RnT8vLpyB4B0H3WqqasKmSnoWBfiDGf9KioGQlq-G5hqLfxf4FSN4qOJkzjv85CVmLKzZlefyhQtgKpfHlnJg3C2QcNF7dSUmdcjJMAnl1PCftomvaTTVF8pZzqCYYsKXbSOOAGuTrwLcfE" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=8x7_RI4HdNe9W9xWI6bLK3ls9bi0voQqNqf2LCcjYuz7u2eOP8P7GaPX8rdh0YJsuA8chmqQ6DFO65QUzL7fz3CR_ie9DEWxC_Z2fO18DGqS7M0fto1kA_FamlH1nNB59UP8mfv-vu0uZcHwl2t4dKD1AHluPal1TJYZSJbq-MmYeeCe04zuTUF9MHmY5NuDujF6zqH3O2jPyPn67gaDMTbTLsFGg78aKz7P0JHt1fbZrVYzRS10KwJJIp3xzUuK_8ZZavYVdxe-_WjUeGv6EIav7iuWm9locldxTNT6R3XL7pH1zpWGqvwOJIIBoF8xRZEHNngrMpAzr3dgY4OSy-fgUZf1VourfH-WXRzky7If4KJC4KVQ2twa2xMggpQj7q1gDqxzpy3_zD1YRzz8RA" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -1116,42 +1116,23 @@ x-y=1
             return { left: ((rect.left - containerRect.left) / containerRect.width) * 100, top: ((rect.top - containerRect.top) / containerRect.height) * 100, width: (rect.width / containerRect.width) * 100, height: (rect.height / containerRect.height) * 100 };
         }
         function normalizeAnswer(s){ return String(s||"").trim().toLowerCase(); }
-        function escapeHtml(s){
-            return String(s || "")
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
-        function setQuestionText(el, text){
-            // Сохраняем переносы строк из редактора вопроса.
-            // Теперь Enter в поле вопроса отображается как новая строка в игре.
-            el.innerHTML = escapeHtml(text || "Вопрос").replace(/\r?\n/g, "<br>");
-        }
         const addTap = (el, fn) => {
             if(!el) return;
-            let lastRun = 0;
+            let firedAt = 0;
             const run = (e) => {
-                if(e){ e.preventDefault(); e.stopPropagation(); }
                 const now = Date.now();
-                if(now - lastRun < 250) return;
-                lastRun = now;
+                if(now - firedAt < 250) return;
+                firedAt = now;
+                if(e && e.cancelable) e.preventDefault();
+                if(e) e.stopPropagation();
                 fn(e);
             };
-            el.addEventListener('pointerdown', run, { passive:false });
-            el.addEventListener('click', run, { passive:false });
-            el.addEventListener('touchend', run, { passive:false });
+            el.addEventListener('pointerdown', run, {passive:false});
+            el.addEventListener('click', run);
+            el.addEventListener('touchend', run, {passive:false});
         };
 
-        function beginGame(){
-            const startScreen = document.getElementById('start');
-            if(startScreen) startScreen.style.display = 'none';
-            setTimeout(() => { updateClawPosition(clawPositionsX[1], clawStartTop); }, 100);
-            gameState = 'waiting_coin';
-        }
-
-        addTap(document.getElementById('playBtn'), beginGame);
+        addTap(document.getElementById('playBtn'), () => { document.getElementById('start').style.display = 'none'; setTimeout(() => { updateClawPosition(clawPositionsX[1], clawStartTop); }, 100); gameState = 'waiting_coin'; });
         addTap(document.getElementById('restartBtn'), () => location.reload());
         
         addTap(coin, () => {
@@ -1168,11 +1149,9 @@ x-y=1
             selectedToyElement = toysInCol[Math.floor(Math.random() * toysInCol.length)];
             const toyPos = getPercentPositionFromRect(selectedToyElement), clawCenterX = clawPositionsX[currentCol] + clawWidth / 2;
  
-            // Опускаем клешню чуть ниже к игрушке, чтобы не было ощущения,
-            // будто игрушка висит в воздухе до захвата.
-            const grabOffsetY = clawHeight * 0.35;
-            const targetClawTop = toyPos.top - grabOffsetY;
-            grabbedToyOffsetY = grabOffsetY;
+            // Опускаем клешню чуть ниже, чтобы она визуально доходила до игрушки,
+            // а не зависала над ней.
+            const targetClawTop = toyPos.top - (clawHeight * 0.25); grabbedToyOffsetY = clawHeight * 0.62;
             updateClawPosition(clawPositionsX[currentCol], targetClawTop);
             setTimeout(() => {
                 clawImg.src = baseUrl + '10.png';
@@ -1198,7 +1177,7 @@ x-y=1
             const q = tasks[currentQuestionIndex];
             document.getElementById('gDraftWrap').classList.remove('open'); document.getElementById('task-modal').classList.remove('draft-open');
             if(window.ctxScratch) { window.ctxScratch.save(); window.ctxScratch.setTransform(1,0,0,1,0,0); window.ctxScratch.clearRect(0,0,window.canvasScratch.width, window.canvasScratch.height); window.ctxScratch.restore(); }
-            const txtEl = document.getElementById('task-text'); setQuestionText(txtEl, q.prompt);
+            const txtEl = document.getElementById('task-text'); txtEl.innerHTML = String(q.prompt || "Вопрос").replace(/\n/g, "<br/>");
             const fontToApply = q.font || "'Neucha', cursive, sans-serif"; txtEl.style.setProperty('font-family', fontToApply, 'important'); txtEl.style.fontSize = q.fontSize ? q.fontSize + "px" : "32px";
             const qImg = document.getElementById('qImg'), qAudio = document.getElementById('qAudio'), qMedia = document.getElementById('qMedia');
             qMedia.style.display = 'none';
@@ -1393,16 +1372,11 @@ x-y=1
     if(!st){ st = document.createElement("style"); st.id="__claw_game_style"; st.textContent = __GAME_CSS__; document.head.appendChild(st); }
     window.__CFG = { title: cfg.title || gameTr(cfg.lang || editorLang).title, lang: cfg.lang || editorLang || "ru", questions: cfg.questions || [], useLatex: !!cfg.useLatex, bgDataUrl: cfg.bgDataUrl || "", transparentBg: !!cfg.transparentBg, machineVariant: cfg.machineVariant || 0, toys: normalizeToys(cfg.toys), timer: cfg.timer, instruction: cfg.instruction, feedback: cfg.feedback };
     
-    // ВАЖНО: превью в редакторе полностью пересоздаёт HTML игры при каждом изменении.
-    // Поэтому обработчики кнопок надо навешивать заново каждый раз, а не только при первом запуске.
-    // Старый вариант с window.__CLAW_GAME_RAN__ оставлял новую кнопку «Начать игру» без обработчика.
-    try {
-      eval(__GAME_JS__);
-      const qp = new URLSearchParams(location.search);
-      if (qp.get("autostart") === "1" && typeof beginGame === "function") beginGame();
-    } catch(e) {
-      showErr(e?.stack || e?.message || String(e));
-    }
+    if(!window.__CLAW_GAME_RAN__){ window.__CLAW_GAME_RAN__ = true; try{ eval(__GAME_JS__);
+        }catch(e){ showErr(e?.stack || e?.message || String(e)); }
+    } else { try{ if(typeof initGameData === 'function') initGameData();
+        const startLayer = document.getElementById("start"); if(startLayer) startLayer.style.display="flex"; const qp = new URLSearchParams(location.search); if(qp.get("autostart")==="1"){ const pBtn = document.getElementById("playBtn"); if(pBtn) pBtn.click();
+        } }catch(e){} }
   }
 
 
@@ -1808,14 +1782,25 @@ x-y=1
   function storePreviewCfg(cfg){ try{ localStorage.setItem(PREVIEW_CFGKEY, JSON.stringify(cfg)); return PREVIEW_CFGKEY; } catch(e){ return ""; } }
 
   function updatePreview(previewWithDraft){
-    const payload = buildPayload(previewWithDraft), data = encodeGameData(payload);
+    const payload = buildPayload(previewWithDraft);
     if (!previewWithDraft && !document.body.classList.contains("gameOnly")) { try { localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(payload)); } catch(e) {} }
-    
-    window.__PREVIEW_PAYLOAD__ = payload; 
-    let urlParams = "?preview=1&useParentCfg=1"; 
+
+    // ВАЖНО: превью должно брать именно текущие настройки редактора
+    // (свой фон, выбранный автомат, игрушки, вопросы). Через window.parent
+    // в некоторых браузерах/iframe это не передавалось, поэтому храним конфиг
+    // в localStorage этого же сайта и открываем превью по ключу.
+    let key = "";
+    try {
+      localStorage.setItem(PREVIEW_CFGKEY, JSON.stringify(payload));
+      key = PREVIEW_CFGKEY;
+    } catch(e) {
+      window.__PREVIEW_PAYLOAD__ = payload;
+    }
+
+    let urlParams = key ? ("?preview=1&cfgkey=" + encodeURIComponent(key)) : "?preview=1&useParentCfg=1";
     if (previewWithDraft) urlParams += "&autostart=1";
     urlParams += "&_t=" + Date.now();
-    
+
     $("livePreview").src = selfPageUrl() + urlParams;
   }
 
@@ -2335,7 +2320,7 @@ x-y=1
   const gameParam = qp.game || hp.game; const cfgKeyParam = qp.cfgkey || hp.cfgkey;
   if (window.__EMBEDDED_CFG__) { try{ bootGameOnly(normalizeCfg(window.__EMBEDDED_CFG__)); } catch(e){ $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Не удалось прочитать конфиг</div>'; } return; }
   if(gameParam){ try{ const raw = decodeGameData(gameParam); bootGameOnly(raw); } catch(e){ $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Ошибка iframe</div>'; } return; }
-  if(cfgKeyParam){ try{ const rawStr = localStorage.getItem(cfgKeyParam) || sessionStorage.getItem(cfgKeyParam); if(!rawStr) throw new Error("cfgkey not found"); const raw = JSON.parse(rawStr); bootGameOnly(normalizeCfg(raw)); }catch(e){ $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Ошибка (cfgkey)</div>'; } return; }
+  if(cfgKeyParam){ try{ const rawStr = localStorage.getItem(cfgKeyParam) || sessionStorage.getItem(cfgKeyParam); if(!rawStr) throw new Error("cfgkey not found"); const raw = JSON.parse(rawStr); bootGameOnly(normalizeCfg(raw)); }catch(e){ document.body.classList.add("gameOnly"); if($("editorRoot")) $("editorRoot").style.display="none"; if($("gameRoot")) { $("gameRoot").style.display="block"; $("gameRoot").innerHTML = '<div style="padding:16px;color:#ffd6d6;font-weight:900">Ошибка (cfgkey)</div>'; } } return; }
 
   try { const saved = localStorage.getItem(AUTOSAVE_KEY); if (saved) { const p = JSON.parse(saved);
   if(p.lang && GAME_I18N[p.lang]) { editorLang = p.lang; safeLangSet(editorLang); } if(p.title) $("inpTitle").value = p.title; if(p.bgDataUrl) { $("inpBgUrl").value = p.bgDataUrl; Editor.bgDataUrl = p.bgDataUrl; }
