@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=FRULwxSIW-ebObLABC4UWPi73CVsc5y9HgRXWc8VEoOo3jyuBrV4KUJIduq3WA3V43HO99wb_mLy33Uuz93g34XgeqXLbo1S8qk6lWajRDqwTWJOD0UIID__t3P0_utCQIZYA0tyNpth1d2-TVJpABra04LyVLeUVDo_bnm2UUahwh61CUyBZjlC4X-lRGX7_5w8xQCIWqn5vAd63onAdINfZB1efuD4zHWQBfW2jK6zRJhQkdc5SV1mblb8tPWV8g_SWEIlSfuXQDyirUQNX0lERdhR6v4fRYAcz4uufvcXlYg0ThAEOJkqay2oLOih5Vtudlkk-p1kA9vUSDY9VQ" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=wKuhPaI_LzZ5-MHuW2aY_3gCFFfOBZSPcKHQvf_xMZdcZSn0B_rKd0OuCoZrPZkIy-2j5KrhPmZUMW4aJv2iQiFhMTSg_MpTEhbnoFjQnOhwU3E2dVX8_rAaUM5iAgOIxT2wVhx53vKhcn6W_f3G-SreYV-I0lOCodshqLlaby5WVQkT0TDOZONwa-Y566Y_lyxV0yQEqrAJLOib_9MHAAuadGuIMeqbvSoZgn7i0PIvAIb29qIG5gSKLzEurf3gnuaBiXhJaPoIzrrm5q0Hx9oOHpXMIXAqdgpgCGwji0auziv0x4Z4KMDVk4cMvtq5SD8OQDk3D-S84Wo6VhSdPDU8Ng70ZVe_RH0zyTakfhE" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=hy3LEw8k23xyNlPK3QdoLIRLyFLMz3LmmT7GrSPM0a7aUfQvTbidjRRr_CIcHrCBKhP34YekI7wRwNKmT6bk813VmaNlc4ulrAd6wZ3XbdHhmWZ_dQxm46r_HEAEVYzcU9o11bcJOPWIPhYGFOwhiaR-2ac_EbfFPsKtoTbYkvdCO2Ci-3pug5lS0G-KCmEwDs249Na6Uq_OschmMnYidzUvczSr1mhgbHygzWc1EbBehbf7vxHPCQ5R_PHeP7zs0TnZcnNq2NY4v61G7aoqUs4l_Kk2f6HuVy-zj-406NF2OIeDjv1UrIGPTdBZ7p6OKbyI4ZBQ2dBgc9sszOIqdeTJoK73WtlCM71Fab85Nvk" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=wKuhPaI_LzZ5-MHuW2aY_3gCFFfOBZSPcKHQvf_xMZdcZSn0B_rKd0OuCoZrPZkIy-2j5KrhPmZUMW4aJv2iQiFhMTSg_MpTEhbnoFjQnOhwU3E2dVX8_rAaUM5iAgOIxT2wVhx53vKhcn6W_f3G-SreYV-I0lOCodshqLlaby5WVQkT0TDOZONwa-Y566Y_lyxV0yQEqrAJLOib_9MHAAuadGuIMeqbvSoZgn7i0PIvAIb29qIG5gSKLzEurf3gnuaBiXhJaPoIzrrm5q0Hx9oOHpXMIXAqdgpgCGwji0auziv0x4Z4KMDVk4cMvtq5SD8OQDk3D-S84Wo6VhSdPDU8Ng70ZVe_RH0zyTakfhE" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -890,7 +890,7 @@ x-y=1
         <div id="drop-area"></div><div id="progress-area"></div>
         <div id="error-modal" class="game-modal">
             <h2 style="color: #ff4757; text-shadow: none;">В этом ряду пусто!</h2>
-            <button class="play-btn" style="font-size: 18px; padding: 12px 25px; margin-top:10px;" onclick="document.getElementById('error-modal').classList.remove('active'); gameState='playing';">Выбрать другой</button>
+            <button id="chooseOtherBtn" class="play-btn" style="font-size: 18px; padding: 12px 25px; margin-top:10px;" type="button">Выбрать другой</button>
         </div>
         <div id="task-modal" class="game-modal">
             <div class="modal-top-bar">
@@ -1117,6 +1117,20 @@ x-y=1
             playCoinDrop(); 
             gameState = 'playing'; coin.classList.remove('blinking'); coin.style.opacity = '0'; controls.forEach(c => c.classList.add('active'));
         });
+
+        // Если выбранный ряд пустой, показываем подсказку «Выбрать другой».
+        // Важно: обработчик стоит здесь, внутри игрового скрипта, чтобы он менял именно внутреннюю переменную gameState.
+        // Раньше это было в inline-onclick, и при локальном запуске/в iframe состояние игры могло не возвращаться в playing,
+        // поэтому клешня после закрытия подсказки не двигалась влево и вправо.
+        addTap(document.getElementById('chooseOtherBtn'), () => {
+            document.getElementById('error-modal').classList.remove('active');
+            gameContainer.classList.remove('claw-active');
+            gameState = 'playing';
+            coin.classList.remove('blinking');
+            coin.style.opacity = '0';
+            controls.forEach(c => c.classList.add('active'));
+        });
+
         addTap(document.getElementById('btn-left'), () => { if (gameState === 'playing' && currentCol > 0) { currentCol--; updateClawPosition(clawPositionsX[currentCol], clawStartTop); } });
         addTap(document.getElementById('btn-right'), () => { if (gameState === 'playing' && currentCol < 2) { currentCol++; updateClawPosition(clawPositionsX[currentCol], clawStartTop); } });
         addTap(document.getElementById('btn-action'), () => {
