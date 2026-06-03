@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=wKuhPaI_LzZ5-MHuW2aY_3gCFFfOBZSPcKHQvf_xMZdcZSn0B_rKd0OuCoZrPZkIy-2j5KrhPmZUMW4aJv2iQiFhMTSg_MpTEhbnoFjQnOhwU3E2dVX8_rAaUM5iAgOIxT2wVhx53vKhcn6W_f3G-SreYV-I0lOCodshqLlaby5WVQkT0TDOZONwa-Y566Y_lyxV0yQEqrAJLOib_9MHAAuadGuIMeqbvSoZgn7i0PIvAIb29qIG5gSKLzEurf3gnuaBiXhJaPoIzrrm5q0Hx9oOHpXMIXAqdgpgCGwji0auziv0x4Z4KMDVk4cMvtq5SD8OQDk3D-S84Wo6VhSdPDU8Ng70ZVe_RH0zyTakfhE" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=FRULwxSIW-ebObLABC4UWPi73CVsc5y9HgRXWc8VEoOo3jyuBrV4KUJIduq3WA3V43HO99wb_mLy33Uuz93g34XgeqXLbo1S8qk6lWajRDqwTWJOD0UIID__t3P0_utCQIZYA0tyNpth1d2-TVJpABra04LyVLeUVDo_bnm2UUahwh61CUyBZjlC4X-lRGX7_5w8xQCIWqn5vAd63onAdINfZB1efuD4zHWQBfW2jK6zRJhQkdc5SV1mblb8tPWV8g_SWEIlSfuXQDyirUQNX0lERdhR6v4fRYAcz4uufvcXlYg0ThAEOJkqay2oLOih5Vtudlkk-p1kA9vUSDY9VQ" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=wKuhPaI_LzZ5-MHuW2aY_3gCFFfOBZSPcKHQvf_xMZdcZSn0B_rKd0OuCoZrPZkIy-2j5KrhPmZUMW4aJv2iQiFhMTSg_MpTEhbnoFjQnOhwU3E2dVX8_rAaUM5iAgOIxT2wVhx53vKhcn6W_f3G-SreYV-I0lOCodshqLlaby5WVQkT0TDOZONwa-Y566Y_lyxV0yQEqrAJLOib_9MHAAuadGuIMeqbvSoZgn7i0PIvAIb29qIG5gSKLzEurf3gnuaBiXhJaPoIzrrm5q0Hx9oOHpXMIXAqdgpgCGwji0auziv0x4Z4KMDVk4cMvtq5SD8OQDk3D-S84Wo6VhSdPDU8Ng70ZVe_RH0zyTakfhE" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -1258,9 +1258,21 @@ x-y=1
             }
         }
 
+        function getDroppedToyTop() {
+            // В нестандартных корпусах нижняя полка/лоток визуально расположен чуть ниже,
+            // поэтому опускаем пойманную игрушку, чтобы она не висела в воздухе.
+            const variant = Number(window.__CFG && window.__CFG.machineVariant || 0);
+            return variant > 0 ? '73.90%' : '71.76%';
+        }
+
         function dropToy() {
             gameContainer.appendChild(selectedToyElement);
-            selectedToyElement.style.transform = 'none'; selectedToyElement.style.left = '45.16%'; selectedToyElement.style.top = '71.76%'; selectedToyElement.style.width = '5.58%'; selectedToyElement.style.height = '11.22%'; selectedToyElement.style.zIndex = '30';
+            selectedToyElement.style.transform = 'none';
+            selectedToyElement.style.left = '45.16%';
+            selectedToyElement.style.top = getDroppedToyTop();
+            selectedToyElement.style.width = '5.58%';
+            selectedToyElement.style.height = '11.22%';
+            selectedToyElement.style.zIndex = '30';
             selectedToyElement.style.pointerEvents = 'auto'; selectedToyElement.classList.add('collected');
             selectedToyElement.dataset.progressLocked = '0';
             resetClawToStartPosition();
@@ -1350,7 +1362,7 @@ x-y=1
     if(!window.__CLAW_GAME_RAN__){ window.__CLAW_GAME_RAN__ = true; try{ eval(__GAME_JS__);
         }catch(e){ showErr(e?.stack || e?.message || String(e)); }
     } else { try{ if(typeof initGameData === 'function') initGameData();
-        const startLayer = document.getElementById("start"); if(startLayer) startLayer.style.display="flex"; const qp = new URLSearchParams(location.search); if(qp.get("autostart")==="1"){ const pBtn = document.getElementById("playBtn"); if(pBtn) pBtn.click();
+        const startLayer = document.getElementById("start"); if(startLayer) startLayer.style.display="flex"; const qp = new URLSearchParams(location.search); if(qp.get("autostart")==="1" || window.__LOCAL_PREVIEW_AUTOSTART__ === 1){ const pBtn = document.getElementById("playBtn"); if(pBtn) pBtn.click();
         } }catch(e){} }
   }
 
@@ -1756,16 +1768,37 @@ x-y=1
   const AUTOSAVE_KEY = "__CLAW_editor_autosave__";
   function storePreviewCfg(cfg){ try{ localStorage.setItem(PREVIEW_CFGKEY, JSON.stringify(cfg)); return PREVIEW_CFGKEY; } catch(e){ return ""; } }
 
+  const LOCAL_PREVIEW_HTML = document.documentElement.outerHTML;
+  function makeLocalPreviewHtml(payload, previewWithDraft){
+    const safeCfg = JSON.stringify(payload).replace(/</g, "\u003c");
+    const boot = `<script>window.__EMBEDDED_CFG__=${safeCfg};window.__LOCAL_PREVIEW_AUTOSTART__=${previewWithDraft ? 1 : 0};<\/script>`;
+    return LOCAL_PREVIEW_HTML.replace("<head>", "<head>" + boot);
+  }
+
   function updatePreview(previewWithDraft){
     const payload = buildPayload(previewWithDraft), data = encodeGameData(payload);
     if (!previewWithDraft && !document.body.classList.contains("gameOnly")) { try { localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(payload)); } catch(e) {} }
     
-    window.__PREVIEW_PAYLOAD__ = payload; 
+    window.__PREVIEW_PAYLOAD__ = payload;
+    const frame = $("livePreview");
+
+    // Локальный запуск через file://: чтобы справа был нормальный предпросмотр игры,
+    // а не повторная копия редактора. Конфиг передаётся прямо внутрь iframe.
+    if (location.protocol === "file:") {
+      try {
+        frame.removeAttribute("src");
+        frame.srcdoc = makeLocalPreviewHtml(payload, previewWithDraft);
+        return;
+      } catch(e) {
+        console.warn("local srcdoc preview failed, fallback to URL preview", e);
+      }
+    }
+
+    frame.removeAttribute("srcdoc");
     let urlParams = "?preview=1&useParentCfg=1"; 
     if (previewWithDraft) urlParams += "&autostart=1";
     urlParams += "&_t=" + Date.now();
-    
-    $("livePreview").src = selfPageUrl() + urlParams;
+    frame.src = selfPageUrl() + urlParams;
   }
 
   let _previewTid = null;
@@ -2241,6 +2274,11 @@ x-y=1
   const qp = parseQueryParams(); const hp = parseHashParams();
   
   // ЛОГИКА ЗАПУСКА ИЗ ОБЛАКА
+  if (window.__EMBEDDED_CFG__) {
+      try { bootGameOnly(normalizeCfg(window.__EMBEDDED_CFG__)); } catch(e) { showGameMessage("Не удалось прочитать конфиг предпросмотра", "#ffd6d6"); }
+      return;
+  }
+
   if (qp.useParentCfg === "1" && window.parent && window.parent.__PREVIEW_PAYLOAD__) {
       try { bootGameOnly(window.parent.__PREVIEW_PAYLOAD__); } catch(e) { showGameMessage("Ошибка предпросмотра", "#ffd6d6"); }
       return;
