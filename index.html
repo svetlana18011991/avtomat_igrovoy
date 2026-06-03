@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=hy3LEw8k23xyNlPK3QdoLIRLyFLMz3LmmT7GrSPM0a7aUfQvTbidjRRr_CIcHrCBKhP34YekI7wRwNKmT6bk813VmaNlc4ulrAd6wZ3XbdHhmWZ_dQxm46r_HEAEVYzcU9o11bcJOPWIPhYGFOwhiaR-2ac_EbfFPsKtoTbYkvdCO2Ci-3pug5lS0G-KCmEwDs249Na6Uq_OschmMnYidzUvczSr1mhgbHygzWc1EbBehbf7vxHPCQ5R_PHeP7zs0TnZcnNq2NY4v61G7aoqUs4l_Kk2f6HuVy-zj-406NF2OIeDjv1UrIGPTdBZ7p6OKbyI4ZBQ2dBgc9sszOIqdeTJoK73WtlCM71Fab85Nvk" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=wKuhPaI_LzZ5-MHuW2aY_3gCFFfOBZSPcKHQvf_xMZdcZSn0B_rKd0OuCoZrPZkIy-2j5KrhPmZUMW4aJv2iQiFhMTSg_MpTEhbnoFjQnOhwU3E2dVX8_rAaUM5iAgOIxT2wVhx53vKhcn6W_f3G-SreYV-I0lOCodshqLlaby5WVQkT0TDOZONwa-Y566Y_lyxV0yQEqrAJLOib_9MHAAuadGuIMeqbvSoZgn7i0PIvAIb29qIG5gSKLzEurf3gnuaBiXhJaPoIzrrm5q0Hx9oOHpXMIXAqdgpgCGwji0auziv0x4Z4KMDVk4cMvtq5SD8OQDk3D-S84Wo6VhSdPDU8Ng70ZVe_RH0zyTakfhE" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+  <title>Игровой автомат — Редактор</title><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ESWduBvdIVpwKUFU0U-knknTblXPoYFCRoddouBtj2ljNt--WGDRVDyv4HGfLUvzaoABd06ESgAv-Gsq_MlmMEo4YVl3VWQoR2QCG6wt59byG5667-anLoRjqXDk6VmnC7U6C7tgU3HMmwoYMKRp4QwAJKEXWS-8AnHVaXo8Ca2TRXA6yZqR3q19-ddQKUj8B-oulMBn4GG1_BsesqIHxEAv2fmKSGDh59-UGwSnFat2m1aOKeINj0D19McV24Re6dEvU2GBmLPQfsbRvxGZNxwj8OqHarlLKzUXZF6lyPf82um2wq-Rv_QWn2tW1Q-OJIYpBNkyWW1Y6FyA5hTVzpCNvswuLA5q0yuoyXMs1Zk" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=wKuhPaI_LzZ5-MHuW2aY_3gCFFfOBZSPcKHQvf_xMZdcZSn0B_rKd0OuCoZrPZkIy-2j5KrhPmZUMW4aJv2iQiFhMTSg_MpTEhbnoFjQnOhwU3E2dVX8_rAaUM5iAgOIxT2wVhx53vKhcn6W_f3G-SreYV-I0lOCodshqLlaby5WVQkT0TDOZONwa-Y566Y_lyxV0yQEqrAJLOib_9MHAAuadGuIMeqbvSoZgn7i0PIvAIb29qIG5gSKLzEurf3gnuaBiXhJaPoIzrrm5q0Hx9oOHpXMIXAqdgpgCGwji0auziv0x4Z4KMDVk4cMvtq5SD8OQDk3D-S84Wo6VhSdPDU8Ng70ZVe_RH0zyTakfhE" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
   
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database-compat.js"></script>
@@ -1419,7 +1419,17 @@ x-y=1
     } }catch(e){} try{ const ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.left = "0";
     ta.style.top = "0"; ta.style.opacity = "0"; ta.style.width = "1px"; ta.style.height = "1px"; ta.style.pointerEvents = "none"; ta.style.zIndex = "-1"; document.body.appendChild(ta); ta.focus();
     ta.select(); ta.setSelectionRange(0, ta.value.length); const ok = document.execCommand("copy"); document.body.removeChild(ta); return ok; }catch(e){ return false; } }
-  function selfPageUrl(){ let p = location.pathname || "/"; if(p.endsWith("/")) p += "index.html"; return location.origin + p; }
+  // Публичный адрес игры для вставки в Genially.
+  // ВАЖНО: когда редактор открыт локально через file://, Genially не сможет открыть путь вида C:/Users/...
+  // Поэтому код для вставки всегда получает интернет-адрес игры, а локальный режим остаётся только для предпросмотра редактора.
+  const PUBLIC_GAME_URL = "https://svetlana18011991.github.io/automat_igrovoy/";
+  function selfPageUrl(){
+    const isLocal = location.protocol === "file:" || location.hostname === "localhost" || location.hostname === "127.0.0.1";
+    if(isLocal) return PUBLIC_GAME_URL;
+    let p = location.pathname || "/";
+    if(p.endsWith("/")) p += "index.html";
+    return location.origin + p;
+  }
   function parseQueryParams(){ const q = {}; const s = window.location.search.replace(/^\?/, "");
     s.split("&").filter(Boolean).forEach(pair=>{ const [k,v] = pair.split("="); if(k) q[decodeURIComponent(k)] = decodeURIComponent(v||""); }); return q; }
   function parseHashParams(){ const h = (location.hash || "").replace(/^#/, ""); const out = {};
