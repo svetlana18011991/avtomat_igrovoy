@@ -1425,6 +1425,33 @@ x-y=1
   function uid(){ return "q_" + Math.random().toString(36).slice(2,9) + "_" + Date.now().toString(36); }
   function deepClone(obj){ return JSON.parse(JSON.stringify(obj)); }
   function toast(msg){ const tEl = $("toast"); if (!tEl) return; tEl.textContent = msg; tEl.classList.add("show"); setTimeout(()=>tEl.classList.remove("show"), 1400); }
+  function customConfirm(msg, onYes) {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-backdrop';
+    overlay.style.display = 'block';
+    overlay.style.zIndex = '9999999';
+    const box = document.createElement('div');
+    box.className = 'modal';
+    box.style.position = 'absolute';
+    box.style.top = '50%';
+    box.style.left = '50%';
+    box.style.transform = 'translate(-50%, -50%)';
+    box.style.bottom = 'auto';
+    box.style.right = 'auto';
+    box.style.width = '320px';
+    box.style.height = 'auto';
+    box.innerHTML = `
+      <div class="modal-body" style="padding: 25px 20px; text-align: center; font-size: 15px; color: #fff; font-weight: 600;">${msg}</div>
+      <div class="modal-foot" style="justify-content: center; gap: 15px; border-top: 1px solid rgba(255,255,255,.1);">
+        <button class="btn" id="cc-no">Отмена</button>
+        <button class="btn primary danger" id="cc-yes">ОК</button>
+      </div>
+    `;
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+    document.getElementById('cc-no').onclick = () => document.body.removeChild(overlay);
+    document.getElementById('cc-yes').onclick = () => { document.body.removeChild(overlay); onYes(); };
+  }
   async function copyToClipboard(text){ try{ if (navigator.clipboard && window.isSecureContext){ await navigator.clipboard.writeText(text); return true;
     } }catch(e){} try{ const ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.left = "0";
     ta.style.top = "0"; ta.style.opacity = "0"; ta.style.width = "1px"; ta.style.height = "1px"; ta.style.pointerEvents = "none"; ta.style.zIndex = "-1"; document.body.appendChild(ta); ta.focus();
@@ -1728,11 +1755,13 @@ x-y=1
 
   window.applyTemplateToAll = () => {
     if(Editor.questions.length === 0) return;
-    const tplIdx = parseInt($("newQTemplate").value); if(!confirm(tr("applyConfirm"))) return;
-    let baseQ = { font: "", fontSize: 32, seconds: null, type: "choice" };
-    if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; baseQ = { font: tq.font, fontSize: tq.fontSize, seconds: tq.seconds, type: tq.type }; }
-    Editor.questions.forEach(q => { q.font = baseQ.font; q.fontSize = baseQ.fontSize; q.seconds = baseQ.seconds; if (q.type !== baseQ.type) { q.type = baseQ.type; if (q.type === 'choice') { let ans = (q.accepts && q.accepts.length > 0) ? q.accepts[0] : ""; q.options = [ans, "Вариант 2"]; q.correctIndices = [0]; delete q.accepts; } else { let ans = ""; if (q.options && q.correctIndices && q.correctIndices.length > 0) ans = q.options[q.correctIndices[0]] || ""; q.accepts = [ans]; delete q.options; delete q.correctIndices; } } });
-    renderList(); updatePreview(false); toast(tr("settingsApplied"));
+    customConfirm(tr("applyConfirm"), () => {
+      const tplIdx = parseInt($("newQTemplate").value);
+      let baseQ = { font: "", fontSize: 32, seconds: null, type: "choice" };
+      if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; baseQ = { font: tq.font, fontSize: tq.fontSize, seconds: tq.seconds, type: tq.type }; }
+      Editor.questions.forEach(q => { q.font = baseQ.font; q.fontSize = baseQ.fontSize; q.seconds = baseQ.seconds; if (q.type !== baseQ.type) { q.type = baseQ.type; if (q.type === 'choice') { let ans = (q.accepts && q.accepts.length > 0) ? q.accepts[0] : ""; q.options = [ans, "Вариант 2"]; q.correctIndices = [0]; delete q.accepts; } else { let ans = ""; if (q.options && q.correctIndices && q.correctIndices.length > 0) ans = q.options[q.correctIndices[0]] || ""; q.accepts = [ans]; delete q.options; delete q.correctIndices; } } });
+      renderList(); updatePreview(false); toast(tr("settingsApplied"));
+    });
   };
 
   function showModal(){ $("modalBackdrop").style.display = "block"; $("modalBackdrop").setAttribute("aria-hidden","false"); }
@@ -1865,7 +1894,7 @@ x-y=1
   if($("btnRemoveToyBg")) $("btnRemoveToyBg").addEventListener("click", removeSelectedToyBackground);
   if($("btnCenterToy")) $("btnCenterToy").addEventListener("click", ()=>{ const t = Editor.toys[selectedToyIdx] || defaultToySettings(); t.offsetX = 0; t.offsetY = 0; Editor.toys[selectedToyIdx] = normalizeToySettings(t); renderToyGrid(); updatePreview(false); toast(tr("toyCentered")); });
   if($("btnResetToy")) $("btnResetToy").addEventListener("click", ()=>{ Editor.toys[selectedToyIdx] = defaultToySettings(); renderToyGrid(); updatePreview(false); toast(tr("toyReset")); });
-  if($("btnResetAllToys")) $("btnResetAllToys").addEventListener("click", ()=>{ if(confirm(tr("resetAllToysConfirm"))){ Editor.toys = normalizeToys([]); renderToyGrid(); updatePreview(false); toast(tr("allToysReset")); } });
+  if($("btnResetAllToys")) $("btnResetAllToys").addEventListener("click", ()=>{ customConfirm(tr("resetAllToysConfirm"), ()=>{ Editor.toys = normalizeToys([]); renderToyGrid(); updatePreview(false); toast(tr("allToysReset")); }); });
   
   // ЛОГИКА ЗАГРУЗКИ С КОМПА - ФОН ИГРЫ
   if($("btnUploadBg")) {
@@ -2249,7 +2278,7 @@ x-y=1
     btn.disabled = false;
   });
   
-  if ($("btnResetAll")) { $("btnResetAll").addEventListener("click", ()=>{ if(confirm(tr("resetConfirm"))) { localStorage.removeItem(AUTOSAVE_KEY); location.reload(); } }); }
+  if ($("btnResetAll")) { $("btnResetAll").addEventListener("click", ()=>{ customConfirm(tr("resetConfirm"), ()=>{ localStorage.removeItem(AUTOSAVE_KEY); location.reload(); }); }); }
 
   function showGameMessage(message, color){
     const root = $("gameRoot");
