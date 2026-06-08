@@ -930,7 +930,8 @@ x-y=1
         const progressArea = document.getElementById('progress-area'), controls = [document.getElementById('btn-left'), document.getElementById('btn-right'), document.getElementById('btn-action')];
 
         let gameState = 'start_screen', collectedToysCount = 0, currentQuestionIndex = 0, correctCount = 0, wrongCount = 0, selectedToyElement = null, grabbedToyOffsetY = 0, timerInterval = null;
-        const clawPositionsX = [41.55, 47.65, 53.45], clawStartTop = 24.0, clawWidth = 3.90, clawHeight = 12.16, clawCordStartTop = 24.2;
+        const clawPositionsX = [41.55, 47.65, 53.45], clawWidth = 3.90, clawHeight = 12.16;
+        let clawStartTop = 24.0, clawCordStartTop = 24.2;
         let currentCol = 1, tasks = [], globalTimer = null;
         
         function applyGameLanguage(rawCfg) {
@@ -1059,6 +1060,15 @@ x-y=1
             applyToyCustomizations(rawCfg);
             const mVariants = ['avtomat.png', 'avtomat1.png', 'avtomat2.png', 'avtomat3.png', 'f2.png', 'f3.png', 'f4.png', 'f5.png', 'f6.png', 'f7.png', 'f8.png', 'f9.png', 'f10.png', 'f11.png'];
             const mIdx = rawCfg.machineVariant || 0;
+            
+            if (mIdx === 1) {
+                clawStartTop = 21.5;
+                clawCordStartTop = 21.7;
+            } else {
+                clawStartTop = 24.0;
+                clawCordStartTop = 24.2;
+            }
+
             const machineImg = document.getElementById('machine-no-claw');
             if (machineImg && mVariants[mIdx]) {
                 machineImg.src = './' + mVariants[mIdx];
