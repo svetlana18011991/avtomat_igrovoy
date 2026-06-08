@@ -1062,7 +1062,7 @@ x-y=1
             const machineImg = document.getElementById('machine-no-claw');
             if (machineImg && mVariants[mIdx]) {
                 machineImg.src = './' + mVariants[mIdx];
-                machineImg.style.bottom = mIdx === 1 ? '3.5%' : (mIdx > 0 ? '1.5%' : '0');
+                machineImg.style.bottom = mIdx === 1 ? '0.5%' : (mIdx > 0 ? '1.5%' : '0');
             }
             document.getElementById('startTitle').textContent = rawCfg.title || gameText.title;
             document.getElementById('startText').innerHTML = (rawCfg.instruction?.text || gameText.instruction).replace(/\\n/g, "<br/>");
