@@ -34,8 +34,9 @@
     body.gameOnly{background:transparent}
     html:has(body.gameOnly), body.gameOnly { min-height: 100vh; min-height: 100dvh; overflow: hidden; touch-action: manipulation; }
     body.gameOnly #gameRoot { min-height: 100vh; min-height: 100dvh; width: 100%; overflow: hidden; }
-    .app{ display:grid; grid-template-columns: 460px 1fr; gap:14px; padding:14px; max-width: 1540px; margin: 0 auto; height: 100%; }
-    @media (max-width: 1020px){ .app { display: flex; flex-direction: column; overflow-y: auto; } .settings, .preview { height: auto !important; flex: none; min-height: 600px; } }
+   .app { display: grid; grid-template-columns: 460px 1fr; gap: 14px; padding: 14px; max-width: 1540px; margin: 0 auto; height: 100vh; max-height: 100vh; overflow: hidden; box-sizing: border-box; }
+    @media (max-width: 1020px) { .app { grid-template-columns: 380px 1fr; } }
+    @media (max-width: 800px) { .app { display: flex; flex-direction: column; overflow-y: auto; height: auto; max-height: none; } .settings, .preview { height: auto !important; flex: none; min-height: 600px; } }
     .panel{ background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04)); border:1px solid var(--border); border-radius:var(--radius2); box-shadow:var(--shadow2); backdrop-filter: blur(10px); overflow:hidden; position:relative; }
     .panel-header{ padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.10); display:flex;align-items:center;justify-content:space-between;gap:10px; }
     .panel-header .h{font-weight:950;letter-spacing:.2px; display:flex; align-items:center; gap:10px;}
