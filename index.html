@@ -50,7 +50,7 @@
     .muted{color:var(--muted); font-size:12.5px; line-height:1.35}
     label{ display:block; font-size:12.5px; color:rgba(255,255,255,.86); margin:10px 0 6px }
     input[type="text"], input[type="number"], textarea, select{ width:100%; border-radius:14px; padding:10px 11px; border:1px solid rgba(255,255,255,.14); background:rgba(0,0,0,.25); color:var(--text); outline:none; }
-    textarea{min-height:84px; resize:vertical}
+    textarea{min-height:84px; resize:vertical} option {background: #16110c; color: #eaf0ff;}
     input[type="color"] { width:100%; height:40px; border-radius:14px; padding:2px; border:1px solid rgba(255,255,255,.14); background:rgba(0,0,0,.25); cursor:pointer; }
     .row{display:flex; gap:10px; flex-wrap:wrap} .row > *{flex:1; min-width:170px}
     .toggle{ display:flex; align-items:center; gap:10px; padding:10px 10px; border-radius:14px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); margin-top:8px; }
@@ -1785,7 +1785,7 @@ x-y=1
     } else { Editor.draft = { id: uid(), type: "choice", prompt: "", options: ["",""], correctIndices: [0], seconds: null, image: "", audio: "", font: "", fontSize: 32 }; Editor.editingId = null; $("modalTitle").textContent = tr("modalAdd"); const tplIdx = parseInt($("newQTemplate") ? $("newQTemplate").value : "-1");
     if (tplIdx >= 0 && Editor.questions[tplIdx]) { const tq = Editor.questions[tplIdx]; Editor.draft.font = tq.font; Editor.draft.fontSize = tq.fontSize; Editor.draft.seconds = tq.seconds; Editor.draft.type = tq.type; if (tq.type === 'choice') { Editor.draft.options = ["",""]; Editor.draft.correctIndices = [0]; delete Editor.draft.accepts; } else { Editor.draft.accepts = [""]; delete Editor.draft.options; delete Editor.draft.correctIndices; } } }
     $("selType").value = Editor.draft.type || "choice"; $("inpPrompt").value = Editor.draft.prompt || "";
-    if(!("font" in Editor.draft)) Editor.draft.font = ""; if($("inpQFont")) $("inpQFont").value = Editor.draft.font;
+   if(!("font" in Editor.draft) || Editor.draft.font === "") Editor.draft.font = "'Neucha', cursive, sans-serif"; if($("inpQFont")) $("inpQFont").value = Editor.draft.font;
     if(!("fontSize" in Editor.draft)) Editor.draft.fontSize = 32; if($("inpQFontSize")) $("inpQFontSize").value = Editor.draft.fontSize || 32; if(!("seconds" in Editor.draft)) Editor.draft.seconds = null;
     if($("inpQSeconds")) $("inpQSeconds").value = (Editor.draft.seconds ?? ""); if(!("image" in Editor.draft)) Editor.draft.image = ""; if(!("audio" in Editor.draft)) Editor.draft.audio = "";
     if($("inpQImage")) { $("inpQImage").value = Editor.draft.image; 
