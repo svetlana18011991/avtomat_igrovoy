@@ -1177,7 +1177,7 @@ x-y=1
             document.getElementById('gDraftWrap').classList.remove('open'); document.getElementById('task-modal').classList.remove('draft-open');
             if(window.ctxScratch) { window.ctxScratch.save(); window.ctxScratch.setTransform(1,0,0,1,0,0); window.ctxScratch.clearRect(0,0,window.canvasScratch.width, window.canvasScratch.height); window.ctxScratch.restore(); }
             const txtEl = document.getElementById('task-text'); txtEl.innerHTML = (q.prompt || "Вопрос").replace(/\\n/g, '<br>');
-            const fontToApply = q.font || "'Neucha', cursive, sans-serif"; txtEl.style.setProperty('font-family', fontToApply, 'important'); txtEl.style.fontSize = q.fontSize ? q.fontSize + "px" : "32px";
+            const fontToApply = q.font || "'Neucha', cursive, sans-serif"; txtEl.style.fontFamily = fontToApply; txtEl.style.fontSize = q.fontSize ? q.fontSize + "px" : "32px";
             const qImg = document.getElementById('qImg'), qAudio = document.getElementById('qAudio'), qMedia = document.getElementById('qMedia');
             qMedia.style.display = 'none';
             qImg.style.display = 'none';
@@ -1224,14 +1224,14 @@ x-y=1
             }
             const optionsDiv = document.getElementById('task-options'), inputRow = document.getElementById('inputRow'), ansInput = document.getElementById('ansInput');
             optionsDiv.innerHTML = '';
-            ansInput.style.setProperty('font-family', fontToApply, 'important'); ansInput.style.fontSize = q.fontSize ? (q.fontSize * 0.8) + "px" : "26px";
+            ansInput.style.fontFamily = fontToApply; ansInput.style.fontSize = q.fontSize ? (q.fontSize * 0.8) + "px" : "26px";
             ansInput.classList.remove('correct', 'incorrect');
             if (q.type === "choice") {
                 optionsDiv.style.display = 'flex';
                 inputRow.style.display = 'none'; const shuffledOpts = [...q.options];
                 for (let i = shuffledOpts.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));
                 [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]]; }
-                shuffledOpts.forEach(opt => { const btn = document.createElement('div'); btn.className = 'task-option'; btn.style.setProperty('font-family', fontToApply, 'important'); btn.style.fontSize = q.fontSize ? (q.fontSize * 0.8) + "px" : "26px"; btn.textContent = opt; btn.onclick = () => checkAnswer(opt, btn); optionsDiv.appendChild(btn); });
+                shuffledOpts.forEach(opt => { const btn = document.createElement('div'); btn.className = 'task-option'; btn.style.fontFamily = fontToApply; btn.style.fontSize = q.fontSize ? (q.fontSize * 0.8) + "px" : "26px"; btn.textContent = opt; btn.onclick = () => checkAnswer(opt, btn); optionsDiv.appendChild(btn); });
             } else { optionsDiv.style.display = 'none'; inputRow.style.display = 'flex'; ansInput.value = ''; document.getElementById('submitBtn').onclick = () => checkAnswer(ansInput.value, null); }
             document.getElementById('task-modal').classList.add('active'); startTimer(q);
             if (window.__CFG?.useLatex && window.MathJax && window.MathJax.typesetPromise) window.MathJax.typesetPromise([document.getElementById("task-modal")]).catch(()=>{});
