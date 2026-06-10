@@ -1087,7 +1087,7 @@ x-y=1
             progressArea.innerHTML = '';
             if (rawCfg.useLatex && !document.getElementById('mathjax-script')) {
                 window.MathJax = { tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }, startup: { typeset: false } };
-                const script = document.createElement('script'); script.id = 'mathjax-script'; script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"; document.head.appendChild(script);
+                const script = document.createElement('script'); script.id = 'mathjax-script'; script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"; document.head.appendChild(script);
             }
         }
 
