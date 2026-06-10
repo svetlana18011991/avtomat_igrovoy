@@ -1234,7 +1234,15 @@ x-y=1
                 shuffledOpts.forEach(opt => { const btn = document.createElement('div'); btn.className = 'task-option'; btn.style.fontFamily = fontToApply; btn.style.fontSize = q.fontSize ? (q.fontSize * 0.8) + "px" : "26px"; btn.textContent = opt; btn.onclick = () => checkAnswer(opt, btn); optionsDiv.appendChild(btn); });
             } else { optionsDiv.style.display = 'none'; inputRow.style.display = 'flex'; ansInput.value = ''; document.getElementById('submitBtn').onclick = () => checkAnswer(ansInput.value, null); }
             document.getElementById('task-modal').classList.add('active'); startTimer(q);
-            if (window.__CFG?.useLatex && window.MathJax && window.MathJax.typesetPromise) window.MathJax.typesetPromise([document.getElementById("task-modal")]).catch(()=>{});
+            if (window.__CFG?.useLatex) {
+                const renderLatex = () => {
+                    if (window.MathJax && window.MathJax.typesetPromise) {
+                        try { window.MathJax.typesetClear([document.getElementById("task-modal")]); } catch(e) {}
+                        window.MathJax.typesetPromise([document.getElementById("task-modal")]).catch(()=>{});
+                    } else { setTimeout(renderLatex, 100); }
+                };
+                renderLatex();
+            }
         }
         
         function startTimer(q) {
