@@ -1461,10 +1461,127 @@ x-y=1
     document.getElementById('cc-no').onclick = () => document.body.removeChild(overlay);
     document.getElementById('cc-yes').onclick = () => { document.body.removeChild(overlay); onYes(); };
   }
-  async function copyToClipboard(text){ try{ if (navigator.clipboard && window.isSecureContext){ await navigator.clipboard.writeText(text); return true;
-    } }catch(e){} try{ const ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.left = "0";
-    ta.style.top = "0"; ta.style.opacity = "0"; ta.style.width = "1px"; ta.style.height = "1px"; ta.style.pointerEvents = "none"; ta.style.zIndex = "-1"; document.body.appendChild(ta); ta.focus();
-    ta.select(); ta.setSelectionRange(0, ta.value.length); const ok = document.execCommand("copy"); document.body.removeChild(ta); return ok; }catch(e){ return false; } }
+  async function copyToClipboard(text){
+    // Важно: автоматическое копирование часто блокируется браузером,
+    // если оно происходит не прямо в момент пользовательского клика.
+    try{
+      if (navigator.clipboard && window.isSecureContext){
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    }catch(e){}
+    try{
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.left = "0";
+      ta.style.top = "0";
+      ta.style.opacity = "0";
+      ta.style.width = "1px";
+      ta.style.height = "1px";
+      ta.style.pointerEvents = "none";
+      ta.style.zIndex = "-1";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, ta.value.length);
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return !!ok;
+    }catch(e){
+      return false;
+    }
+  }
+
+  function openManualCopyModal(iframeCode, shortUrl){
+    const old = document.getElementById("manualCopyBackdrop");
+    if(old) old.remove();
+
+    const isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent || "");
+    const hotkey = isMac ? "⌘C" : "Ctrl+C";
+
+    const overlay = document.createElement("div");
+    overlay.id = "manualCopyBackdrop";
+    overlay.style.cssText = "position:fixed;inset:0;z-index:10000000;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;";
+
+    const box = document.createElement("div");
+    box.style.cssText = "width:min(760px,96vw);max-height:92vh;overflow:auto;border-radius:22px;border:1px solid rgba(255,174,0,.7);background:#16110c;color:#fff;box-shadow:0 24px 80px rgba(0,0,0,.65),0 0 18px rgba(255,136,0,.35);padding:18px;";
+
+    const title = document.createElement("div");
+    title.textContent = "Код готов ✅";
+    title.style.cssText = "font-weight:950;font-size:22px;margin-bottom:8px;color:#ffcc66;";
+
+    const info = document.createElement("div");
+    info.textContent = "Браузер заблокировал автокопирование. Нажмите кнопку ниже. Если снова не скопируется — выделенный код можно скопировать вручную: " + hotkey + ".";
+    info.style.cssText = "font-size:14px;line-height:1.45;color:rgba(255,255,255,.86);margin-bottom:12px;";
+
+    const urlLabel = document.createElement("label");
+    urlLabel.textContent = "Ссылка на игру";
+    urlLabel.style.cssText = "display:block;margin:10px 0 6px;font-size:12.5px;color:rgba(255,255,255,.76);font-weight:900;";
+
+    const urlInput = document.createElement("input");
+    urlInput.value = shortUrl || "";
+    urlInput.readOnly = true;
+    urlInput.style.cssText = "width:100%;box-sizing:border-box;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.32);color:#fff;padding:10px 12px;margin-bottom:10px;";
+
+    const codeLabel = document.createElement("label");
+    codeLabel.textContent = "Код для вставки";
+    codeLabel.style.cssText = "display:block;margin:10px 0 6px;font-size:12.5px;color:rgba(255,255,255,.76);font-weight:900;";
+
+    const ta = document.createElement("textarea");
+    ta.value = iframeCode;
+    ta.readOnly = true;
+    ta.style.cssText = "width:100%;min-height:170px;box-sizing:border-box;border-radius:16px;border:1px solid rgba(255,174,0,.45);background:rgba(0,0,0,.35);color:#fff;padding:12px;font-family:Courier New,monospace;font-size:13px;line-height:1.35;resize:vertical;";
+
+    const row = document.createElement("div");
+    row.style.cssText = "display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px;";
+
+    const btnCopy = document.createElement("button");
+    btnCopy.type = "button";
+    btnCopy.className = "btn primary";
+    btnCopy.textContent = "📋 Скопировать код";
+    btnCopy.style.cssText = "background:linear-gradient(90deg,#33d17a,#28a745);border-color:#28a745;color:#061b0d;";
+
+    const btnClose = document.createElement("button");
+    btnClose.type = "button";
+    btnClose.className = "btn";
+    btnClose.textContent = "Закрыть";
+
+    btnCopy.addEventListener("click", async ()=>{
+      const ok = await copyToClipboard(iframeCode);
+      if(ok){
+        toast(tr("copiedOk"));
+        overlay.remove();
+      }else{
+        ta.focus();
+        ta.select();
+        ta.setSelectionRange(0, ta.value.length);
+        toast("Код выделен. Нажмите " + hotkey);
+      }
+    });
+
+    btnClose.addEventListener("click", ()=> overlay.remove());
+    overlay.addEventListener("click", (e)=>{ if(e.target === overlay) overlay.remove(); });
+
+    row.appendChild(btnCopy);
+    row.appendChild(btnClose);
+    box.appendChild(title);
+    box.appendChild(info);
+    box.appendChild(urlLabel);
+    box.appendChild(urlInput);
+    box.appendChild(codeLabel);
+    box.appendChild(ta);
+    box.appendChild(row);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+
+    setTimeout(()=>{
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, ta.value.length);
+    }, 80);
+  }
   // Публичный адрес игры для вставки в Genially.
   // ВАЖНО: когда редактор открыт локально через file://, Genially не сможет открыть путь вида C:/Users/...
   // Поэтому код для вставки всегда получает интернет-адрес игры, а локальный режим остаётся только для предпросмотра редактора.
@@ -2276,8 +2393,13 @@ x-y=1
         const shortUrl = selfPageUrl() + "?id=" + uniqueId;
         const iframeCode = `<iframe title="Игровой автомат" src="${shortUrl}" style="display:block;width:100%;height:100svh;min-height:620px;border:0;border-radius:18px;overflow:hidden;background:transparent" allow="autoplay; fullscreen" allowfullscreen scrolling="no"></iframe>`; 
         
-        const ok = await copyToClipboard(iframeCode); 
-        toast(ok ? tr("copiedOk") : tr("error"));
+        const ok = await copyToClipboard(iframeCode);
+        if(ok){
+            toast(tr("copiedOk"));
+        }else{
+            openManualCopyModal(iframeCode, shortUrl);
+            toast("Код готов. Нажмите «Скопировать код» в окне.");
+        }
     } catch(err) {
         console.error(err);
         toast("Ошибка при сохранении на сервер Firebase!");
