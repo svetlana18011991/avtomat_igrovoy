@@ -1461,37 +1461,53 @@ x-y=1
     document.getElementById('cc-no').onclick = () => document.body.removeChild(overlay);
     document.getElementById('cc-yes').onclick = () => { document.body.removeChild(overlay); onYes(); };
   }
-  async function copyToClipboard(text){
-    // Важно: автоматическое копирование часто блокируется браузером,
-    // если оно происходит не прямо в момент пользовательского клика.
+  function legacyCopyNow(text){
+    // Этот способ выполняется синхронно — прямо внутри пользовательского клика.
+    // Он нужен для браузеров и встроенных окон, где Clipboard API ограничен.
+    let ta = null;
     try{
-      if (navigator.clipboard && window.isSecureContext){
-        await navigator.clipboard.writeText(text);
-        return true;
-      }
-    }catch(e){}
-    try{
-      const ta = document.createElement("textarea");
+      ta = document.createElement("textarea");
       ta.value = text;
       ta.setAttribute("readonly", "");
+      ta.setAttribute("aria-hidden", "true");
       ta.style.position = "fixed";
       ta.style.left = "0";
       ta.style.top = "0";
-      ta.style.opacity = "0";
+      ta.style.opacity = "0.01";
       ta.style.width = "1px";
       ta.style.height = "1px";
+      ta.style.fontSize = "16px";
       ta.style.pointerEvents = "none";
       ta.style.zIndex = "-1";
       document.body.appendChild(ta);
       ta.focus();
       ta.select();
       ta.setSelectionRange(0, ta.value.length);
-      const ok = document.execCommand("copy");
-      document.body.removeChild(ta);
-      return !!ok;
+      return !!document.execCommand("copy");
     }catch(e){
       return false;
+    }finally{
+      if(ta && ta.parentNode) ta.parentNode.removeChild(ta);
     }
+  }
+
+  function copyToClipboard(text){
+    // Обе попытки запускаются сразу, пока браузер ещё видит пользовательский жест.
+    // Никакого сетевого await перед копированием быть не должно.
+    let modernAttempt = null;
+    try{
+      if (navigator.clipboard && window.isSecureContext){
+        modernAttempt = navigator.clipboard.writeText(text)
+          .then(()=>true)
+          .catch(()=>false);
+      }
+    }catch(e){
+      modernAttempt = null;
+    }
+
+    const legacyOk = legacyCopyNow(text);
+    if(legacyOk) return Promise.resolve(true);
+    return modernAttempt || Promise.resolve(false);
   }
 
   function openManualCopyModal(iframeCode, shortUrl){
@@ -2384,29 +2400,33 @@ x-y=1
         const payload = buildPayload(false);
         const compressedData = encodeGameData(payload);
         const uniqueId = "g_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 4);
+
+        // ID создаётся на компьютере, поэтому ссылку и iframe-код можно подготовить
+        // ДО сетевого запроса. Копирование запускаем немедленно внутри клика.
+        const shortUrl = selfPageUrl() + "?id=" + uniqueId;
+        const iframeCode = `<iframe title="Игровой автомат" src="${shortUrl}" style="display:block;width:100%;height:100svh;min-height:620px;border:0;border-radius:18px;overflow:hidden;background:transparent" allow="autoplay; fullscreen" allowfullscreen scrolling="no"></iframe>`;
+        const copyPromise = copyToClipboard(iframeCode);
         
+        // Только после запуска копирования выполняем долгий сетевой запрос.
         await db.ref('games/' + uniqueId).set({
             d: compressedData,
             t: Date.now()
         });
-        
-        const shortUrl = selfPageUrl() + "?id=" + uniqueId;
-        const iframeCode = `<iframe title="Игровой автомат" src="${shortUrl}" style="display:block;width:100%;height:100svh;min-height:620px;border:0;border-radius:18px;overflow:hidden;background:transparent" allow="autoplay; fullscreen" allowfullscreen scrolling="no"></iframe>`; 
-        
-        const ok = await copyToClipboard(iframeCode);
+
+        const ok = await copyPromise;
         if(ok){
             toast(tr("copiedOk"));
         }else{
             openManualCopyModal(iframeCode, shortUrl);
-            toast("Код готов. Нажмите «Скопировать код» в окне.");
+            toast("Код сохранён. Нажмите «Скопировать код» в окне.");
         }
     } catch(err) {
         console.error(err);
-        toast("Ошибка при сохранении на сервер Firebase!");
+        toast("Не удалось сохранить игру. Скопированную ссылку пока не используйте.");
+    } finally {
+        btn.textContent = originalText;
+        btn.disabled = false;
     }
-    
-    btn.textContent = originalText;
-    btn.disabled = false;
   });
   
   if ($("btnResetAll")) { $("btnResetAll").addEventListener("click", ()=>{ customConfirm(tr("resetConfirm"), ()=>{ localStorage.removeItem(AUTOSAVE_KEY); location.reload(); }); }); }
