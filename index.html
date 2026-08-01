@@ -62,6 +62,11 @@
     .btn.primary{ background:linear-gradient(90deg, rgba(214,177,74,.35), rgba(242,211,122,.22)); border-color:rgba(214,177,74,.40); box-shadow: 0 10px 26px rgba(214,177,74,.18); }
     .btn.danger{border-color:rgba(255,77,77,.35); background:rgba(255,77,77,.08)}
     .btn.small{padding:8px 10px; font-size:12.5px; border-radius:12px}
+    .btn.compact{min-height:36px; padding:8px 9px; font-size:11.5px; line-height:1.15; white-space:normal; text-align:center; border-radius:11px}
+    .top-actions{flex:1 1 100%; width:100%; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px}
+    .top-actions .btn.blue{background:linear-gradient(180deg,#66e0ff,#22bde8) !important; color:#062231 !important; border-color:#22bde8 !important}
+    .top-actions .btn.green{background:linear-gradient(180deg,#65e5a0,#27bd70) !important; color:#052719 !important; border-color:#27bd70 !important}
+    @media (max-width:520px){.top-actions{grid-template-columns:1fr}}
     .q-list{display:flex; flex-direction:column; gap:10px;}
     .q-item{ padding:10px 10px; border-radius:14px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); display:flex; gap:10px; align-items:center; justify-content:space-between; transition: border-color 0.2s, transform 0.2s; }
     .q-item.drag-over { border-color: var(--neon); background: rgba(214, 177, 74, 0.15); transform: scale(1.02); }
@@ -380,7 +385,13 @@
              </select>
           </div>
           <button class="btn" id="btnResetAll" type="button" title="Сбросить все настройки и начать с чистого листа">🔄 Сбросить всё</button>
-          <button class="btn primary" id="btnCopyCode" type="button" style="background: linear-gradient(90deg, #48dbfb, #0abde3); border-color: #0abde3;">☁️ Сохранить и Скопировать</button>
+        </div>
+        <div class="top-actions">
+          <button class="btn compact blue" id="btnCopyCode" type="button">🔗 Скопировать код для Genially</button>
+          <button class="btn compact primary" id="btnDownloadHtml" type="button">⬇ Скачать HTML</button>
+          <button class="btn compact green" id="btnSaveProjectFile" type="button">💾 Скачать файл</button>
+          <button class="btn compact" id="btnLoadProjectFile" type="button">📂 Загрузить файл</button>
+          <input type="file" id="projectFileInput" accept=".json,application/json" hidden />
         </div>
       </div>
       <div class="errbar" id="errbar"></div>
@@ -695,6 +706,21 @@ x-y=1
     }
   };
 
+  const TOP_ACTION_I18N = {
+    ru: { copy:"🔗 Скопировать код для Genially", html:"⬇ Скачать HTML", save:"💾 Скачать файл", load:"📂 Загрузить файл" },
+    en: { copy:"🔗 Copy code for Genially", html:"⬇ Download HTML", save:"💾 Download project file", load:"📂 Load project file" },
+    de: { copy:"🔗 Code für Genially kopieren", html:"⬇ HTML herunterladen", save:"💾 Projektdatei herunterladen", load:"📂 Projektdatei laden" },
+    zh: { copy:"🔗 复制 Genially 代码", html:"⬇ 下载 HTML", save:"💾 下载项目文件", load:"📂 加载项目文件" }
+  };
+
+  function updateTopActionLabels(){
+    const d = TOP_ACTION_I18N[editorLang] || TOP_ACTION_I18N.ru;
+    if($("btnCopyCode") && !$("btnCopyCode").disabled) $("btnCopyCode").textContent = d.copy;
+    if($("btnDownloadHtml") && !$("btnDownloadHtml").disabled) $("btnDownloadHtml").textContent = d.html;
+    if($("btnSaveProjectFile") && !$("btnSaveProjectFile").disabled) $("btnSaveProjectFile").textContent = d.save;
+    if($("btnLoadProjectFile") && !$("btnLoadProjectFile").disabled) $("btnLoadProjectFile").textContent = d.load;
+  }
+
   const GAME_I18N = {
     ru: {
       title: "Игровой автомат", instruction: "Вставь монетку и управляй клешней.\nПоймал игрушку — реши задачу.\nВерно → игрушка твоя.\nНеверно → игрушка упадет обратно.\nУ тебя ровно 9 попыток!", play: "▶ Начать игру", emptyRow: "В этом ряду пусто!", chooseOther: "Выбрать другой", task: "Задача", inputPlaceholder: "Введите ответ...", ok: "ОК", finishTitle: "Игра окончена!", collected: "Собрано игрушек:", ofNine: "из 9", correct: "Верно:", wrong: "Ошибок:", playAgain: "↻ Сыграть ещё раз", draft: "✏️ Черновик", openDraft: "Открыть черновик", closeDraft: "Закрыть черновик", color: "Цвет", thickness: "Толщина", eraser: "Ластик", clear: "Очистить", footer: "Шкатулка математических интерактивов"
@@ -747,7 +773,7 @@ x-y=1
     setTxt("#lblLangSelect", tr("langLabel"));
     setTitle("btnResetAll", tr("resetAllTitle"));
     if($("btnResetAll")) $("btnResetAll").textContent = tr("resetAll");
-    if($("btnCopyCode")) $("btnCopyCode").textContent = tr("copyIframe");
+    updateTopActionLabels();
     const sections = document.querySelectorAll(".settings .section");
     if(sections[0]) { setTxtSection(sections[0], tr("sectionTitle"), [tr("titleLabel")]); }
     if(sections[1]) { setTxtSection(sections[1], tr("startScreen"), [tr("instructionLabel")]); }
@@ -1461,53 +1487,37 @@ x-y=1
     document.getElementById('cc-no').onclick = () => document.body.removeChild(overlay);
     document.getElementById('cc-yes').onclick = () => { document.body.removeChild(overlay); onYes(); };
   }
-  function legacyCopyNow(text){
-    // Этот способ выполняется синхронно — прямо внутри пользовательского клика.
-    // Он нужен для браузеров и встроенных окон, где Clipboard API ограничен.
-    let ta = null;
+  async function copyToClipboard(text){
+    // Важно: автоматическое копирование часто блокируется браузером,
+    // если оно происходит не прямо в момент пользовательского клика.
     try{
-      ta = document.createElement("textarea");
+      if (navigator.clipboard && window.isSecureContext){
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    }catch(e){}
+    try{
+      const ta = document.createElement("textarea");
       ta.value = text;
       ta.setAttribute("readonly", "");
-      ta.setAttribute("aria-hidden", "true");
       ta.style.position = "fixed";
       ta.style.left = "0";
       ta.style.top = "0";
-      ta.style.opacity = "0.01";
+      ta.style.opacity = "0";
       ta.style.width = "1px";
       ta.style.height = "1px";
-      ta.style.fontSize = "16px";
       ta.style.pointerEvents = "none";
       ta.style.zIndex = "-1";
       document.body.appendChild(ta);
       ta.focus();
       ta.select();
       ta.setSelectionRange(0, ta.value.length);
-      return !!document.execCommand("copy");
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return !!ok;
     }catch(e){
       return false;
-    }finally{
-      if(ta && ta.parentNode) ta.parentNode.removeChild(ta);
     }
-  }
-
-  function copyToClipboard(text){
-    // Обе попытки запускаются сразу, пока браузер ещё видит пользовательский жест.
-    // Никакого сетевого await перед копированием быть не должно.
-    let modernAttempt = null;
-    try{
-      if (navigator.clipboard && window.isSecureContext){
-        modernAttempt = navigator.clipboard.writeText(text)
-          .then(()=>true)
-          .catch(()=>false);
-      }
-    }catch(e){
-      modernAttempt = null;
-    }
-
-    const legacyOk = legacyCopyNow(text);
-    if(legacyOk) return Promise.resolve(true);
-    return modernAttempt || Promise.resolve(false);
   }
 
   function openManualCopyModal(iframeCode, shortUrl){
@@ -2389,6 +2399,211 @@ x-y=1
   
   $("btnSaveQ").addEventListener("click", ()=>{ const q = getDraftFromModal(); const err = validateQuestion(q); if(err){ toast(err); return; } if(Editor.editingId){ const idx = Editor.questions.findIndex(x=>x.id === Editor.editingId); if(idx >= 0){ q.id = Editor.editingId; Editor.questions[idx] = q; toast(tr("updated")); } else { Editor.questions.push(q); toast(tr("added")); } } else { Editor.questions.push(q); toast(tr("added")); } Editor.draft=null; Editor.editingId=null; hideModal(); renderList(); updatePreview(false); });
   
+  // ЧЕТЫРЕ ВЕРХНИЕ КНОПКИ: проект и автономный HTML.
+  // Логика копирования ниже сохранена без изменений.
+  const PROJECT_FILE_KIND = "claw-machine-project";
+  const PROJECT_FILE_VERSION = 1;
+  const MACHINE_VARIANT_FILES = ["avtomat.png", "avtomat1.png", "avtomat2.png", "avtomat3.png", "f2.png", "f3.png", "f4.png", "f5.png", "f6.png", "f7.png", "f8.png", "f9.png", "f10.png", "f11.png", "f12.png"];
+
+  function safeDownloadName(value, fallback){
+    const cleaned = String(value || fallback || "igrovoi-avtomat").trim().replace(/[<>:"/\\|?*\u0000-\u001f]+/g, "-").replace(/\s+/g, " ").slice(0, 80);
+    return cleaned || fallback || "igrovoi-avtomat";
+  }
+
+  function downloadBlob(blob, fileName){
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 2500);
+  }
+
+  function applyProjectConfig(rawConfig){
+    const cfg = normalizeCfg(rawConfig);
+    editorLang = cfg.lang;
+    safeLangSet(editorLang);
+
+    Editor.title = cfg.title;
+    Editor.bgDataUrl = cfg.bgDataUrl;
+    Editor.transparentBg = cfg.transparentBg;
+    Editor.machineVariant = cfg.machineVariant;
+    Editor.toys = normalizeToys(cfg.toys);
+    Editor.timer = { enabled:false, seconds:30 };
+    Editor.useLatex = cfg.useLatex;
+    Editor.instruction = { text: cfg.instruction.text };
+    Editor.feedback = { text: cfg.feedback.text };
+    Editor.questions = cfg.questions.map(q => ({...deepClone(q), id:uid()}));
+    Editor.draft = null;
+    Editor.editingId = null;
+
+    $("selLang").value = editorLang;
+    $("inpTitle").value = Editor.title;
+    $("inpBgUrl").value = Editor.bgDataUrl;
+    if($("chkTransparentBg")) $("chkTransparentBg").checked = Editor.transparentBg;
+    if($("selMachineVariant")) $("selMachineVariant").value = String(Editor.machineVariant);
+    if($("chkUseLatex")) $("chkUseLatex").checked = Editor.useLatex;
+    $("inpInstruction").value = Editor.instruction.text;
+    $("inpFeedback").value = Editor.feedback.text;
+
+    hideModal();
+    applyEditorLang();
+    updateBgStatus();
+    renderList();
+    if(typeof renderToyGrid === "function") renderToyGrid();
+    updatePreview(false);
+  }
+
+  function buildProjectFilePayload(){
+    return {
+      kind: PROJECT_FILE_KIND,
+      version: PROJECT_FILE_VERSION,
+      savedAt: new Date().toISOString(),
+      config: deepClone(buildPayload(false))
+    };
+  }
+
+  function blobToDataUrl(blob){
+    return new Promise((resolve, reject)=>{
+      const reader = new FileReader();
+      reader.onload = ()=>resolve(String(reader.result || ""));
+      reader.onerror = ()=>reject(new Error("Не удалось прочитать ресурс"));
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function fetchAssetDataUrl(fileName){
+    try{
+      const response = await fetch(new URL(fileName, document.baseURI));
+      if(!response.ok) throw new Error(String(response.status));
+      return await blobToDataUrl(await response.blob());
+    }catch(error){
+      console.warn("Standalone asset was not embedded:", fileName, error);
+      return "";
+    }
+  }
+
+  async function buildStandaloneAssetMap(payload){
+    const needed = new Set(["10.png", "клешня.png", "монета.png"]);
+    const machineFile = MACHINE_VARIANT_FILES[Number(payload.machineVariant) || 0] || MACHINE_VARIANT_FILES[0];
+    needed.add(machineFile);
+    normalizeToys(payload.toys).forEach((toy, index)=>{ if(!toy.src) needed.add((index + 1) + ".png"); });
+    const entries = await Promise.all([...needed].map(async name => [name, await fetchAssetDataUrl(name)]));
+    return Object.fromEntries(entries.filter(([, dataUrl]) => !!dataUrl));
+  }
+
+  async function makeStandaloneGameHtml(payload){
+    const assetMap = await buildStandaloneAssetMap(payload);
+    const standalonePayload = deepClone(payload);
+    standalonePayload.toys = normalizeToys(standalonePayload.toys).map((toy, index)=>({
+      ...toy,
+      src: toy.src || assetMap[(index + 1) + ".png"] || ""
+    }));
+
+    const safeCfg = JSON.stringify(standalonePayload).replace(/</g, "\\u003c");
+    const safeAssets = JSON.stringify(assetMap).replace(/</g, "\\u003c");
+    const boot = `<script>window.__EMBEDDED_CFG__=${safeCfg};window.__STANDALONE_ASSETS__=${safeAssets};<\/script>`;
+    let html = LOCAL_PREVIEW_HTML.replace("<head>", "<head>" + boot);
+
+    // В автономном HTML игровые картинки берутся из встроенной карты ресурсов.
+    html = html.replace(
+      "        const baseUrl = './';",
+      "        const baseUrl = './'; const standaloneAssets = window.__STANDALONE_ASSETS__ || {}; const assetUrl = name => standaloneAssets[name] || (baseUrl + name);"
+    );
+    html = html.replace(
+      "                el.src = (cfg.src && String(cfg.src).trim()) ? String(cfg.src).trim() : (baseUrl + id + '.png');",
+      "                el.src = (cfg.src && String(cfg.src).trim()) ? String(cfg.src).trim() : assetUrl(id + '.png');"
+    );
+    html = html.replace(
+      "                machineImg.src = './' + mVariants[mIdx];",
+      "                machineImg.src = assetUrl(mVariants[mIdx]);"
+    );
+    html = html.replace(
+      "            document.getElementById('startTitle').textContent = rawCfg.title || gameText.title;",
+      "            if(clawImg) clawImg.src = assetUrl('клешня.png'); if(coin) coin.src = assetUrl('монета.png'); document.getElementById('startTitle').textContent = rawCfg.title || gameText.title;"
+    );
+    html = html.replace("                clawImg.src = baseUrl + '10.png';", "                clawImg.src = assetUrl('10.png');");
+    html = html.replace("                    clawImg.src = baseUrl + 'клешня.png';", "                    clawImg.src = assetUrl('клешня.png');");
+
+    // Для автономной игры облачные библиотеки редактора не нужны: это ускоряет открытие файла.
+    html = html.replace(/\s*<script src="https:\/\/cdnjs\.cloudflare\.com\/ajax\/libs\/lz-string\/1\.5\.0\/lz-string\.min\.js"><\/script>/, "");
+    html = html.replace(/\s*<script src="https:\/\/www\.gstatic\.com\/firebasejs\/10\.11\.1\/firebase-app-compat\.js"><\/script>/, "");
+    html = html.replace(/\s*<script src="https:\/\/www\.gstatic\.com\/firebasejs\/10\.11\.1\/firebase-database-compat\.js"><\/script>/, "");
+    html = html.replace(/\s*<script>\s*const firebaseConfig = \{[\s\S]*?const db = firebase\.database\(\);\s*<\/script>/, "");
+    return html;
+  }
+
+  if($("btnSaveProjectFile")) $("btnSaveProjectFile").addEventListener("click", ()=>{
+    const button = $("btnSaveProjectFile");
+    button.disabled = true;
+    button.textContent = "⏳ Подготавливаю файл…";
+    try{
+      const data = JSON.stringify(buildProjectFilePayload());
+      downloadBlob(new Blob([data], {type:"application/json;charset=utf-8"}), safeDownloadName(Editor.title, "igrovoi-avtomat") + "-proekt.json");
+      toast("Файл проекта скачан");
+    }catch(error){
+      console.error(error);
+      toast("Не удалось скачать файл проекта");
+    }finally{
+      button.disabled = false;
+      updateTopActionLabels();
+    }
+  });
+
+  if($("btnLoadProjectFile")) $("btnLoadProjectFile").addEventListener("click", ()=>$("projectFileInput").click());
+  if($("projectFileInput")) $("projectFileInput").addEventListener("change", async event=>{
+    const input = event.target;
+    const file = input.files && input.files[0];
+    if(!file) return;
+    const button = $("btnLoadProjectFile");
+    button.disabled = true;
+    button.textContent = "⏳ Загружаю файл…";
+    try{
+      if(file.size > 30 * 1024 * 1024) throw new Error("Файл слишком большой. Максимум 30 МБ.");
+      const parsed = JSON.parse(await file.text());
+      let rawConfig;
+      if(parsed && parsed.kind === PROJECT_FILE_KIND && parsed.config) rawConfig = parsed.config;
+      else if(parsed && typeof parsed === "object" && !Array.isArray(parsed)) rawConfig = parsed;
+      else throw new Error("Это не файл проекта игрового автомата.");
+
+      customConfirm("Текущие настройки и вопросы будут заменены данными из файла. Продолжить?", ()=>{
+        try{
+          applyProjectConfig(rawConfig);
+          toast("Файл проекта загружен");
+        }catch(error){
+          console.error(error);
+          toast("Не удалось применить данные файла");
+        }
+      });
+    }catch(error){
+      console.error(error);
+      toast(error instanceof SyntaxError ? "Файл повреждён или имеет неверный формат" : (error.message || "Не удалось загрузить файл"));
+    }finally{
+      input.value = "";
+      button.disabled = false;
+      updateTopActionLabels();
+    }
+  });
+
+  if($("btnDownloadHtml")) $("btnDownloadHtml").addEventListener("click", async ()=>{
+    const button = $("btnDownloadHtml");
+    button.disabled = true;
+    button.textContent = "⏳ Подготавливаю HTML…";
+    try{
+      const html = await makeStandaloneGameHtml(buildPayload(false));
+      downloadBlob(new Blob([html], {type:"text/html;charset=utf-8"}), safeDownloadName(Editor.title, "igrovoi-avtomat") + ".html");
+      toast("Готовый HTML скачан");
+    }catch(error){
+      console.error(error);
+      toast("Не удалось скачать HTML");
+    }finally{
+      button.disabled = false;
+      updateTopActionLabels();
+    }
+  });
+
   // СОХРАНЕНИЕ В FIREBASE И КОПИРОВАНИЕ
   $("btnCopyCode").addEventListener("click", async ()=>{ 
     const btn = $("btnCopyCode");
@@ -2400,33 +2615,29 @@ x-y=1
         const payload = buildPayload(false);
         const compressedData = encodeGameData(payload);
         const uniqueId = "g_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 4);
-
-        // ID создаётся на компьютере, поэтому ссылку и iframe-код можно подготовить
-        // ДО сетевого запроса. Копирование запускаем немедленно внутри клика.
-        const shortUrl = selfPageUrl() + "?id=" + uniqueId;
-        const iframeCode = `<iframe title="Игровой автомат" src="${shortUrl}" style="display:block;width:100%;height:100svh;min-height:620px;border:0;border-radius:18px;overflow:hidden;background:transparent" allow="autoplay; fullscreen" allowfullscreen scrolling="no"></iframe>`;
-        const copyPromise = copyToClipboard(iframeCode);
         
-        // Только после запуска копирования выполняем долгий сетевой запрос.
         await db.ref('games/' + uniqueId).set({
             d: compressedData,
             t: Date.now()
         });
-
-        const ok = await copyPromise;
+        
+        const shortUrl = selfPageUrl() + "?id=" + uniqueId;
+        const iframeCode = `<iframe title="Игровой автомат" src="${shortUrl}" style="display:block;width:100%;height:100svh;min-height:620px;border:0;border-radius:18px;overflow:hidden;background:transparent" allow="autoplay; fullscreen" allowfullscreen scrolling="no"></iframe>`; 
+        
+        const ok = await copyToClipboard(iframeCode);
         if(ok){
             toast(tr("copiedOk"));
         }else{
             openManualCopyModal(iframeCode, shortUrl);
-            toast("Код сохранён. Нажмите «Скопировать код» в окне.");
+            toast("Код готов. Нажмите «Скопировать код» в окне.");
         }
     } catch(err) {
         console.error(err);
-        toast("Не удалось сохранить игру. Скопированную ссылку пока не используйте.");
-    } finally {
-        btn.textContent = originalText;
-        btn.disabled = false;
+        toast("Ошибка при сохранении на сервер Firebase!");
     }
+    
+    btn.textContent = originalText;
+    btn.disabled = false;
   });
   
   if ($("btnResetAll")) { $("btnResetAll").addEventListener("click", ()=>{ customConfirm(tr("resetConfirm"), ()=>{ localStorage.removeItem(AUTOSAVE_KEY); location.reload(); }); }); }
